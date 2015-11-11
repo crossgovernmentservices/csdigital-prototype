@@ -3,15 +3,14 @@
 
   {% include "_logout.html" %}
 
-  <section class="user-details">
+  <header class="user-details">
     <p>Signed in as:</p>
     <h1 class="heading-large">{{current_user.full_name}}</h1>
     <p>Email: {{current_user.email}}</p>
     <p class="font-xsmall"><a href="#">Add another email</a></p>
-  <section>
+  </header>
 
   <section class="actions">
-
     <div>
       <h2 class="heading-medium">1. Tell us about yourself</h2>
       <p>Help use to personalise blah blah ...</p>

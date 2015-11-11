@@ -1,26 +1,79 @@
 {% extends "base.html" %}
+
+
+
 {% block body_content %}
 
   <div class="grid-row">
-
     <div class="column-two-thirds">
-    <div id="global-breadcrumb" class="header-context">
-      <ol role="breadcrumbs" class="group">
-        <li><a href="/profile">Profile</a></li>
-        <li>Performance review</li>
-      </ol>
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/profile">Profile</a></li>
+          <li>Performance review</li>
+        </ol>
+      </div>
+      </div>
+      <div class="column-third">
+        {% include "_logout.html" %}
+      </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large">Performance overview</h1>
     </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <section>
+        <h2 class="heading-medium">Objectives</h2>
+        <ul>
+
+          <li class="objective">
+            <span class="objective-heading">This is an ojective</span>
+            <a href="#">Show</a>
+            <a href="#" style="display: none;">Hide</a>
+            <div class="details" style="display: none;">
+              <p>This will be some blurb about how and some evidence</p>
+            </div>
+          </li>
+
+          <li class="objective">
+            <span class="objective-heading">This is another super dooper objective</span>
+            <a href="#">Show</a>
+            <a href="#" style="display: none;">Hide</a>
+            <div class="details" style="display: none;">
+              <p>OH NOES! I can't do it!</p>
+            </div>
+          </li>
+
+        </ul>
+      </section>
     </div>
 
-    <div class="column-third">
-      {% include "_logout.html" %}
+   <div class="column-third">
+      <section class="status">
+        <h2 class="heading-small">Started</h2>
+        <p>12th October 2015</p>
+        <h2 class="heading-small">Due</h2>
+        <p>25th December 2015</p>
+        <h2 class="heading-small">Status</h2>
+        <p>In progress</p>
+      </section>
+
+      <section class="competencies">
+        <h2 class="heading-small">Competency framework</h2>
+        <p>Something here</p>
+      </section>
     </div>
+  </div>
 
-</div>
 
+{% endblock %}
 
-  <h1>Some stuff here</h1>
-
-  </section>
-
+{% block body_end %}
+  <script type="text/javascript" src="static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="static/javascripts/app.js"></script>
 {% endblock %}
