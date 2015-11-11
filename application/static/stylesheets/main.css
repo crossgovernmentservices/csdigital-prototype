@@ -1,0 +1,27 @@
+section {
+    margin: 35px 0px;
+}
+
+.sign-out {
+    float: right;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.user-details h1 {
+    margin-top: 0px;
+}
+
+.user-details p {
+    margin-bottom: 10px;
+}
+
+.user-name {
+    margin-right: 10px;
+}
+
+.actions {
+    border-top: 2px #bfc1c3 solid;
+    padding: 30px 0px;
+}
+

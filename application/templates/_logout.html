@@ -1,0 +1,9 @@
+{% if current_user.is_authenticated() %}
+ <div class="sign-out">
+    {% if request.path!="/profile" %}
+      <span class="user-name">{{current_user.full_name}}</span>
+    {% endif %}
+    <a href="{{url_for('security.logout')}}">Sign out</a></p>
+  </div>
+
+{% endif %}

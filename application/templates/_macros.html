@@ -1,0 +1,22 @@
+{% macro render_field(field) %}
+    <div class="form-group">
+        {{ field.label(class_="form-label") }}
+        {% if not kwargs['class_'] %}
+          {{ field(class_="form-control", **kwargs)|safe }}
+        {% else %}
+          {{ field(**kwargs)|safe }}
+        {% endif %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <span class="error">{{error}}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+
+{% macro render_hidden(field) %}
+    <div style="display:none;">
+        {{ field(type="hidden") }}
+   </div>
+{% endmacro %}

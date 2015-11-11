@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+{% block body_content %}
+
+{% include "_messages.html" %}
+
+{% from "_macros.html" import render_field, render_hidden %}
+
+  <h1 class="heading-medium">Sign in</h1>
+  <p>Sign in to access your government services</p>
+  <div class="panel-indent panel-indent-info">
+    <p>
+      If this is your first time here you will need to log in using your government email address.
+    </p>
+  </div>
+  <form action="/" method="post" class="form">
+    {{ render_field(form.email) }}
+    <div class="form-group">
+      <button class="button">Sign in</button>
+    </div>
+    {{ render_hidden(form.csrf_token) }}
+  </form>
+
+{% endblock %}
+
+
+

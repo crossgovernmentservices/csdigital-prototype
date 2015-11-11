@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+  {% include "_logout.html" %}
+
+  <section class="user-details">
+    <p>Signed in as:</p>
+    <h1 class="heading-large">{{current_user.full_name}}</h1>
+    <p>Email: {{current_user.email}}</p>
+    <p class="font-xsmall"><a href="#">Add another email</a></p>
+  <section>
+
+  <section class="actions">
+
+    <div>
+      <h2 class="heading-medium">1. Tell us about yourself</h2>
+      <p>Help use to personalise blah blah ...</p>
+      <a class="button button-start" href="#" role="button" disabled="disabled">Start now</a>
+    </div>
+
+    <div>
+      <h2 class="heading-medium">2. Complete your performance review</h2>
+      <p>Like is says on the tin (copy please)</p>
+      <a class="button button-start" href="{{url_for('frontend.performance_review')}}" role="button">Start now</a>
+    </div>
+
+  </section>
+
+{% endblock %}
