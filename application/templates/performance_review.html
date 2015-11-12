@@ -28,26 +28,20 @@
     <div class="column-two-thirds">
       <section>
         <h2 class="heading-medium">Objectives</h2>
+        {% if not objectives %}
+          <p>No objectives set up yet</p>
+        {% endif %}
         <ul>
-
-          <li class="objective">
-            <span class="objective-heading">This is an ojective</span>
-            <a href="#">Show</a>
-            <a href="#" style="display: none;">Hide</a>
-            <div class="details" style="display: none;">
-              <p>This will be some blurb about how and some evidence</p>
-            </div>
-          </li>
-
-          <li class="objective">
-            <span class="objective-heading">This is another super dooper objective</span>
-            <a href="#">Show</a>
-            <a href="#" style="display: none;">Hide</a>
-            <div class="details" style="display: none;">
-              <p>OH NOES! I can't do it!</p>
-            </div>
-          </li>
-
+          {% for objective in objectives.objectives %}
+            <li class="objective">
+              <span class="objective-heading">{{objective.what}}</span>
+              <a href="#">Show</a>
+              <a href="#" style="display: none;">Hide</a>
+              <div class="details" style="display: none;">
+                <p>{{objective.how}}</p>
+              </div>
+            </li>
+          {% endfor %}
         </ul>
       </section>
     </div>
@@ -55,11 +49,11 @@
    <div class="column-third">
       <section class="status">
         <h2 class="heading-small">Started</h2>
-        <p>12th October 2015</p>
+        <p>{{objectives.started_on}}</p>
         <h2 class="heading-small">Due</h2>
-        <p>25th December 2015</p>
+        <p>{{objectives.due_by}}</p>
         <h2 class="heading-small">Status</h2>
-        <p>In progress</p>
+        <p>{{objectives.status}}</p>
       </section>
 
       <section class="competencies">

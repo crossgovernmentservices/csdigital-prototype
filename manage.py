@@ -16,7 +16,9 @@ from flask.ext.security.utils import encrypt_password, verify_password
 
 from application.models import (
     User,
-    Role
+    Role,
+    Objectives,
+    Objective
 )
 
 from application import app
@@ -54,14 +56,51 @@ class MakeUserAdminCommand(Command):
         email = prompt('email')
         admin_role = user_datastore.find_or_create_role('ADMIN')
         user = User.objects.filter(email=email).first()
-        if not User.objects.filter(email=email).first():
+        if not user:
             print("No user found for email:", email)
         else:
             user_datastore.add_role_to_user(user, admin_role)
 
 
+class StartObjectivesForUser(Command):
+    """
+        Starts objectives for current year for user
+    """
+    def run(self):
+        email = prompt('user email')
+        user = User.objects.filter(email=email).first()
+        if user:
+            objectives = Objectives()
+            objectives.owner = user
+            objectives.save()
+        else:
+            print("No user found for email:", email)
+
+
+class AddUserObjective(Command):
+    """
+        Adds one objective for user
+    """
+    def run(self):
+        email = prompt('user email')
+        user = User.objects.filter(email=email).first()
+        if not user:
+            print("No user found for email:", email)
+            return
+        user_objectives = Objectives.objects.filter(owner=user).first()
+        what = prompt('what will you do')
+        how = prompt('how will you do it')
+        objective = Objective(what=what, how=how)
+        user_objectives.objectives.append(objective)
+        objective.save()
+        user_objectives.save()
+
+
 manager.add_command('create-user', CreateUser())
 manager.add_command('make-user-admin', MakeUserAdminCommand())
+manager.add_command('start-objectives-for-user', StartObjectivesForUser())
+manager.add_command('add-user-objective', AddUserObjective())
+
 
 if __name__ == '__main__':
     manager.run()

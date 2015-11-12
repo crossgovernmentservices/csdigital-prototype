@@ -12,6 +12,10 @@ from flask.ext.security.utils import login_user
 from flask.ext.login import current_user
 
 from application.frontend.forms import LoginForm
+from application.models import (
+    User,
+    Objectives
+)
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
 
@@ -42,5 +46,12 @@ def profile():
 @frontend.route('/performance-review')
 @login_required
 def performance_review():
-    return render_template('performance_review.html')
+    # why can't i just use current_user - is it just cause it's a proxy
+    # and doesn't have object id?
+    user = User.objects.filter(email=current_user.email).first()
+
+    #this should be search for current objective - for this year or
+    # status in progress?
+    objectives = Objectives.objects.filter(owner=user).first()
+    return render_template('performance_review.html', objectives=objectives)
 
