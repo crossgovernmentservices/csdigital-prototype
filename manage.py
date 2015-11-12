@@ -69,13 +69,14 @@ class StartObjectivesForUser(Command):
     def run(self):
         email = prompt('user email')
         user = User.objects.filter(email=email).first()
-        if user:
-            objectives = Objectives()
-            objectives.owner = user
-            objectives.save()
-        else:
+        if not user:
             print("No user found for email:", email)
-
+            return
+        if not user.objectives:
+            print("Already started objectives for this year. You need to add specific items now. Use add-user-objective")
+            return
+        user.objectives = Objectives()
+        user.save(cascade=True)
 
 class AddUserObjective(Command):
     """

@@ -46,12 +46,5 @@ def profile():
 @frontend.route('/performance-review')
 @login_required
 def performance_review():
-    # why can't i just use current_user - is it just cause it's a proxy
-    # and doesn't have object id?
-    user = User.objects.filter(email=current_user.email).first()
-
-    #this should be search for current objective - for this year or
-    # status in progress?
-    objectives = Objectives.objects.filter(owner=user).first()
-    return render_template('performance_review.html', objectives=objectives)
+    return render_template('performance_review.html')
 

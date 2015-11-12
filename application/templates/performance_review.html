@@ -26,11 +26,11 @@
     <div class="column-two-thirds">
       <section>
         <h2 class="heading-medium">Objectives</h2>
-        {% if not objectives %}
+        {% if not current_user.objectives %}
           <p>No objectives set up yet</p>
         {% endif %}
         <ul>
-          {% for objective in objectives.objectives %}
+          {% for objective in current_user.objectives.objectives %}
             <li class="objective">
               <span class="objective-heading">{{objective.what}}</span>
               <a href="#">Show</a>
@@ -47,11 +47,23 @@
    <div class="column-third">
       <section class="status">
         <h2 class="heading-small">Started</h2>
-        <p>{{objectives.started_on | format_date}}</p>
+        <p>
+          {% if current_user.objectives %}
+            {{current_user.objectives.started_on | format_date}}
+          {% endif %}
+        </p>
         <h2 class="heading-small">Due</h2>
-        <p>{{objectives.due_by  | format_date}}</p>
+        <p>
+          {% if current_user.objectives %}
+            {{current_user.objectives.due_by | format_date}}
+          {% endif %}
+        </p>
         <h2 class="heading-small">Status</h2>
-        <p>{{objectives.status}}</p>
+        <p>
+          {% if current_user.objectives %}
+          {{current_user.objectives.status}}
+          {% endif %}
+        </p>
       </section>
 
       <section class="competencies">

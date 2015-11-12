@@ -8,13 +8,10 @@
 
   {% include "_messages.html" %}
 
-  <h2>Create users and add objectives</h2>
-  <p><a href="{{url_for('hatch.add_user')}}">Add a user</a></p>
-  <p>Start this years objectives for user</p>
-  <p>Add an objective for a user (for this year)</p>
+  <h2>Create users or add objectives for user (including yourself)</h2>
+  <p><a href="{{url_for('hatch.manage_user')}}">Do stuffs for users</a></p>
 
-  <h2>Edit user stuffs</h2>
-  <p>List users</p>
-  <p>Edit user</p>
+  <h2>Edit your objectives</h2>
+  <p><a href="{{url_for('hatch.your_stuff')}}">Do stuffs for yourself</a></p>
 </body>
 </html>
