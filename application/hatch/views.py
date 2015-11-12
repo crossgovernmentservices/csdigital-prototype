@@ -9,6 +9,8 @@ from flask import (
 )
 
 from flask.ext.security.decorators import roles_required
+from flask.ext.security.utils import encrypt_password
+
 from flask.ext.login import current_user
 
 from application.models import (
@@ -21,21 +23,30 @@ hatch = Blueprint('hatch', __name__, url_prefix='/the-hatch')
 
 @hatch.route("/open")
 @roles_required('ADMIN')
-def hatch_open():
+def open():
     return render_template('hatch/hatch.html')
 
 
-@hatch.route("/manage-user")
+@hatch.route("/manage-users")
 @roles_required('ADMIN')
-def manage_user():
+def manage_users():
     users = User.objects
-    return render_template('hatch/manage_user.html', users=users)
+    return render_template('hatch/manage_users.html', users=users)
 
 
-@hatch.route("/your-stuff")
+@hatch.route("/add-user", methods=['POST'])
 @roles_required('ADMIN')
-def your_stuff():
-    return render_template('hatch/your_stuff.html')
+def add_user():
+    email = request.form['email']
+    full_name = request.form['full-name']
+    user_datastore = current_app.extensions['user_datastore']
+    if not User.objects.filter(email=email).first():
+        user = user_datastore.create_user(email=email, password=encrypt_password('password'), full_name=full_name)
+        user_role = user_datastore.find_or_create_role('USER')
+        user_datastore.add_role_to_user(user, user_role)
+
+    flash("Saved user " + email)
+    return redirect(url_for('hatch.open'))
 
 
 @hatch.route("/<email>/start-objectives")
@@ -48,7 +59,7 @@ def start_objectives(email):
     user.save()
     message = "Objectives started with start date %s" % user.objectives.started_on
     flash(message)
-    return redirect(url_for('hatch.manage_user'))
+    return redirect(url_for('hatch.manage_users'))
 
 
 @hatch.route("/add-objective", methods=['POST'])

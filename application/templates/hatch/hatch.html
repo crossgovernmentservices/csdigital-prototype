@@ -2,16 +2,35 @@
 <html>
 <head>
   <title>This is for people with knowledge, power and skill</title>
+  <style type="text/css">
+    input[type='text'],
+    input[type='email']{
+      line-height: 18px;
+      font-size: 16px;
+      width: 350px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Greetings we have been waiting for you. You are one of the chosen.</h1>
+  <h1>This is where the plumbing lives</h1>
 
   {% include "_messages.html" %}
 
-  <h2>Create users or add objectives for user (including yourself)</h2>
-  <p><a href="{{url_for('hatch.manage_user')}}">Do stuffs for users</a></p>
+  <h2>Create user account</h2>
 
-  <h2>Edit your objectives</h2>
-  <p><a href="{{url_for('hatch.your_stuff')}}">Do stuffs for yourself</a></p>
+  <form action="/the-hatch/add-user" method="POST">
+    <label for="email">Email
+      <input type="email" name="email" id="email" required>
+    </label>
+
+    <label for="full-name">Full name
+      <input type="text" name="full-name" id="full-name" required>
+    </label>
+    <input type='submit' value='GO'>
+  </form>
+
+  <h2>Start or add bjectives for existing users (including yourself)</h2>
+  <p><a href="{{url_for('hatch.manage_users')}}">Start or add objectives</a></p>
+
 </body>
 </html>
