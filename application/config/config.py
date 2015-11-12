@@ -10,9 +10,11 @@ class Config(object):
     SECURITY_PASSWORD_HASH = os.environ.get('SECURITY_PASSWORD_HASH')
     SECURITY_POST_LOGIN_VIEW = os.environ.get('SECURITY_POST_LOGIN_VIEW')
     SECURITY_LOGIN_URL='/'
-    MONGODB_DB = os.environ.get('MONGODB_DB', 'xgs_performance_reviews')
+    MONGODB_DATABASE = os.environ.get('MONGODB_DATABASE', 'xgs_performance_reviews')
     MONGODB_HOST = os.environ.get('MONGODB_HOST', 'localhost')
     MONGODB_PORT = int(os.environ.get('MONGODB_PORT', 27017))
+    MONGODB_USERNAME = os.environ.get('MONGODB_USERNAME','')
+    MONGODB_PASSWORD = os.environ.get('MONGODB_PASSWORD','')
 
 class DevelopmentConfig(Config):
     DEBUG = True
