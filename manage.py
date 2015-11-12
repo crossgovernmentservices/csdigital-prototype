@@ -44,8 +44,35 @@ class CreateUser(Command):
             user = user_datastore.create_user(email=email, password=encrypt_password(password), full_name=full_name)
             user_role = user_datastore.find_or_create_role('USER')
             user_datastore.add_role_to_user(user, user_role)
+            user.objectives = Objectives()
+            user.save(cascade=True)
         else:
             print("User with email:", email, "already exists")
+
+
+class CreateXgsUsersCommand(Command):
+    """
+        Adds the users found in users.txt
+    """
+    def run(self):
+        password = prompt_pass('password') # toy password for all users for now
+        with open('./users.txt') as users_file:
+            users = users_file.readlines()
+            for user_details in users:
+                email, name = user_details.strip().split(',')
+                user = User.objects.filter(email=email).first()
+                if not user:
+                    print("No user found for email:", email, "so create")
+                    user = user_datastore.create_user(email=email, password=encrypt_password(password), full_name=name)
+                    admin_role = user_datastore.find_or_create_role('ADMIN')
+                    user_datastore.add_role_to_user(user, admin_role)
+                    objectives = Objectives()
+                    user.objectives = objectives
+                    user.objectives.save()
+                    user.save()
+
+                else:
+                    print("User with email:", email, "already created")
 
 
 class MakeUserAdminCommand(Command):
@@ -62,22 +89,6 @@ class MakeUserAdminCommand(Command):
             user_datastore.add_role_to_user(user, admin_role)
 
 
-class StartObjectivesForUser(Command):
-    """
-        Starts objectives for current year for user
-    """
-    def run(self):
-        email = prompt('user email')
-        user = User.objects.filter(email=email).first()
-        if not user:
-            print("No user found for email:", email)
-            return
-        if not user.objectives:
-            print("Already started objectives for this year. You need to add specific items now. Use add-user-objective")
-            return
-        user.objectives = Objectives()
-        user.save(cascade=True)
-
 class AddUserObjective(Command):
     """
         Adds one objective for user
@@ -92,15 +103,15 @@ class AddUserObjective(Command):
         what = prompt('what will you do')
         how = prompt('how will you do it')
         objective = Objective(what=what, how=how)
-        user_objectives.objectives.append(objective)
-        objective.save()
+        user_objectives.add(objective)
         user_objectives.save()
+
 
 
 manager.add_command('create-user', CreateUser())
 manager.add_command('make-user-admin', MakeUserAdminCommand())
-manager.add_command('start-objectives-for-user', StartObjectivesForUser())
 manager.add_command('add-user-objective', AddUserObjective())
+manager.add_command('create-xgs-users', CreateXgsUsersCommand())
 
 
 if __name__ == '__main__':

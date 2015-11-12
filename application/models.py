@@ -16,7 +16,7 @@ def _a_year_from_now():
     return now + a_year_from_now
 
 
-class Objective(db.Document):
+class Objective(db.EmbeddedDocument):
     what = db.StringField()
     how = db.StringField()
 
@@ -25,11 +25,14 @@ class Objectives(db.Document):
     started_on = db.DateTimeField(default=datetime.datetime.utcnow)
     due_by = db.DateTimeField(default=_a_year_from_now)
     status = db.StringField(default='In progress') # ? something else I think
-    objectives = db.ListField(db.ReferenceField(Objective), default=[])
-
+    objectives = db.ListField(db.EmbeddedDocumentField(Objective), default=[])
 
     def add(self, objective):
         self.objectives.append(objective)
+        self.save()
+
+    def remove(self, objective):
+        Objectives.objects(id=self.id).update_one(pull__objectives__id=objective.id)
         self.save()
 
 
@@ -45,7 +48,9 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
     full_name = db.StringField()
-    objectives = db.ReferenceField(Objectives) # only one set (current year for the moment)
+    objectives = db.ReferenceField(Objectives)
+    # only one set (current year for the moment)
+    # change this one current and list of past ones?
 
 
 

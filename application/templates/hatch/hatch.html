@@ -16,21 +16,21 @@
 
   {% include "_messages.html" %}
 
-  <h2>Create user account</h2>
-
+  <h2>Create ordinary user accounts for research</h2>
   <form action="/the-hatch/add-user" method="POST">
     <label for="email">Email
       <input type="email" name="email" id="email" required>
     </label>
-
     <label for="full-name">Full name
       <input type="text" name="full-name" id="full-name" required>
     </label>
     <input type='submit' value='GO'>
   </form>
 
-  <h2>Start or add bjectives for existing users (including yourself)</h2>
-  <p><a href="{{url_for('hatch.manage_users')}}">Start or add objectives</a></p>
+  <p>Once created you can start adding objectives for the user using the link below</p>
+
+  <h2>Add objectives for existing users (including yourself)</h2>
+  <p><a href="{{url_for('hatch.manage_users')}}">Add objectives</a></p>
 
 </body>
 </html>

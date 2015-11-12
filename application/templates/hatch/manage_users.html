@@ -64,17 +64,15 @@
 
   <p><a href="{{url_for('hatch.open')}}">The hatch</a></p>
 
+  {% include "_messages.html" %}
   <div id="message"></div>
 
   {% for user in users %}
     <div class="user-account">
       <p>User email: {{user.email}}</p>
       <p>Full name: {{user.full_name}}</p>
-      {% if user.objectives %}
-        <p><a href="" class="show-objective-form">Add an objective</a></p>
-      {% else %}
-        <a href="{{url_for('hatch.start_objectives', email=user.email)}}" class="start-objectives">start objectives</a>
-      {% endif %}
+      <p><a href="#" class="show-objective-form">Add an objective</a></p>
+      <p><a href="/the-hatch/delete-objectives/{{user.email}}">Remove all objectives</a></p>
     </div>
   {% endfor %}
 

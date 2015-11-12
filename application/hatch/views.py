@@ -21,7 +21,7 @@ from application.models import (
 
 hatch = Blueprint('hatch', __name__, url_prefix='/the-hatch')
 
-@hatch.route("/open")
+@hatch.route("/")
 @roles_required('ADMIN')
 def open():
     return render_template('hatch/hatch.html')
@@ -49,26 +49,22 @@ def add_user():
     return redirect(url_for('hatch.open'))
 
 
-@hatch.route("/<email>/start-objectives")
-@roles_required('ADMIN')
-def start_objectives(email):
-    user= User.objects.filter(email=email).first()
-    objectives = Objectives()
-    objectives.save()
-    user.objectives = objectives
-    user.save()
-    message = "Objectives started with start date %s" % user.objectives.started_on
-    flash(message)
-    return redirect(url_for('hatch.manage_users'))
-
-
 @hatch.route("/add-objective", methods=['POST'])
 @roles_required('ADMIN')
 def add_objective():
     what = request.form['what']
     how = request.form['how']
     objective = Objective(what=what, how=how)
-    objective.save()
     current_user.objectives.add(objective)
     return 'Created objective for ' + current_user.email
+
+
+@hatch.route("/delete-objectives/<email>")
+@roles_required('ADMIN')
+def delete_objectives(email):
+    user = User.objects.filter(email=email).first()
+    user.objectives.objectives = []
+    user.objectives.save()
+    return redirect(url_for('hatch.manage_users'))
+
 
