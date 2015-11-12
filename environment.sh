@@ -3,6 +3,5 @@ export SASS_PATH='.'
 export SECRET_KEY='local-dev-not-secret'
 export SECURITY_PASSWORD_HASH='bcrypt'
 export SECURITY_POST_LOGIN_VIEW='/profile'
-export MONGODB_DATABASE='xgs_performance_reviews'
-export MONGODB_HOST='localhost'
-export MONGODB_PORT=27017
+export MONGO_URI='mongodb://localhost:27017/xgs_performance_reviews'
+
