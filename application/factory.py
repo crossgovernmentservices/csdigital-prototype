@@ -25,6 +25,7 @@ def create_app(config_filename):
     register_blueprints(app)
     app.context_processor(asset_path_context_processor)
     register_extensions(app)
+    register_filters(app)
     return app
 
 def register_errorhandlers(app):
@@ -55,3 +56,13 @@ def register_extensions(app):
     user_datastore = MongoEngineUserDatastore(db, User, Role)
     security = Security(app, user_datastore)
     app.extensions['user_datastore'] = user_datastore
+
+def register_filters(app):
+    def format_date(d):
+        try:
+            return d.strftime('%-d %B %Y')
+        except Exception as e:
+            return type(d)
+
+    app.jinja_env.filters['format_date'] = format_date
+

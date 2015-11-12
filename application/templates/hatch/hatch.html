@@ -1,1 +1,20 @@
-You should be an admin
+<!DOCTYPE html>
+<html>
+<head>
+  <title>This is for people with knowledge, power and skill</title>
+</head>
+<body>
+  <h1>Greetings we have been waiting for you. You are one of the chosen.</h1>
+
+  {% include "_messages.html" %}
+
+  <h2>Create users and add objectives</h2>
+  <p><a href="{{url_for('hatch.add_user')}}">Add a user</a></p>
+  <p>Start this years objectives for user</p>
+  <p>Add an objective for a user (for this year)</p>
+
+  <h2>Edit user stuffs</h2>
+  <p>List users</p>
+  <p>Edit user</p>
+</body>
+</html>

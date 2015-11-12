@@ -47,9 +47,9 @@
    <div class="column-third">
       <section class="status">
         <h2 class="heading-small">Started</h2>
-        <p>{{objectives.started_on}}</p>
+        <p>{{objectives.started_on | format_date}}</p>
         <h2 class="heading-small">Due</h2>
-        <p>{{objectives.due_by}}</p>
+        <p>{{objectives.due_by  | format_date}}</p>
         <h2 class="heading-small">Status</h2>
         <p>{{objectives.status}}</p>
       </section>
