@@ -40,6 +40,9 @@ def register_blueprints(app):
     from application.frontend.views import frontend
     app.register_blueprint(frontend)
 
+    from application.hatch.views import hatch
+    app.register_blueprint(hatch)
+
 def register_extensions(app):
     from application.assets import env
     env.init_app(app)
