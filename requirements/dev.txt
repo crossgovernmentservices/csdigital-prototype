@@ -2,4 +2,3 @@
 -r prod.txt
 
 pytest
-Flask-Script
