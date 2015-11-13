@@ -48,3 +48,10 @@ def profile():
 def performance_review():
     return render_template('performance_review.html')
 
+@frontend.route('/performance-review/feedback')
+@login_required
+def feedback():
+    return render_template('feedback.html')
+
+
+

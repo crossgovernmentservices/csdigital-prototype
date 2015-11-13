@@ -32,11 +32,10 @@
         <ul>
           {% for objective in current_user.objectives.objectives %}
             <li class="objective">
-              <span class="objective-heading">{{objective.what}}</span>
-              <a href="#">Show</a>
-              <a href="#" style="display: none;">Hide</a>
+              <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
               <div class="details" style="display: none;">
                 <p>{{objective.how}}</p>
+                <a href="{{url_for('frontend.feedback')}}">Request feedback</a>
               </div>
             </li>
           {% endfor %}

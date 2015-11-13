@@ -1,13 +1,14 @@
 var toggleObjective = function(event){
-    var objective = event.currentTarget,
-        link = $(objective).find('a'),
-        details = $(objective).find('.details');
+    console.log('here');
+    var clicked = event.currentTarget,
+        details = $(clicked).next(),
+        toggle = $(clicked).find('.toggle a');
     event.preventDefault();
     details.toggle();
-    link.toggle();
+    toggle.toggle();
 
 };
 
 $(document).ready(function(){
-    $('.objective').click(toggleObjective);
+    $('.objective-header').click(toggleObjective);
 });

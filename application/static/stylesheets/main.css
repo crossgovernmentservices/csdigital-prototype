@@ -30,10 +30,18 @@ section {
 
 .objective {
   border: 1px #bfc1c3 solid !important;
-  padding: 20px 10px;
   margin: 10px 0px;
 }
 
-.objective a {
+.objective-header {
+  padding: 10px;
+}
+
+.toggle {
   float: right;
+}
+
+.details {
+  border-top: 1px #bfc1c3 solid;
+  padding: 10px;
 }
