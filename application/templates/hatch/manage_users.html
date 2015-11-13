@@ -36,7 +36,11 @@
             <p>User email: {{user.email}}</p>
             <p>Full name: {{user.full_name}}</p>
             <p><a href="#" class="show-objective-form">Add an objective</a></p>
-            <p><a href="/the-hatch/delete-objectives/{{user.email}}">Remove all objectives</a></p>
+
+            {% if user.objectives.objectives|count > 0 %}
+              <p><a href="/the-hatch/delete-objectives/{{user.email}}">Remove all objectives</a></p>
+            {% endif %}
+
           </div>
         {% endfor %}
       </div>
