@@ -3,6 +3,11 @@ xgs_performance_prototype
 ===============================
 
 
+Requirements
+------------
+python 3
+mongodb
+
 Quickstart
 ----------
 
