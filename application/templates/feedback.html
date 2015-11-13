@@ -19,14 +19,32 @@
 
   <div class="grid-row">
     <div class="column-two-thirds">
-      <p>This will be the feedback page</p>
+      <heading>
+        <h1 class="heading-large">Request feedback</h1>
+        <p>Something something something...</p>
+      </heading>
+    </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div class="feedback">
+        <h2 class="heading-medium">Template</h2>
+        <span class="edit-controls">
+          <a href="#">Edit</a>
+          <a href="#" style="display:none">Save</a>
+        </span>
+        <div class="feedback-template" contenteditable="true">
+          <p>This is some blurb about whatever you want.</p>
+        </div>
+      </div>
     </div>
   </div>
 
 {% endblock %}
 
 {% block body_end %}
-  <script type="text/javascript" src="static/javascripts/vendor/jquery/jquery.min.js">
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
   </script>
-  <script type="text/javascript" src="static/javascripts/app.js"></script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
 {% endblock %}
