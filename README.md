@@ -40,11 +40,23 @@ Deployment
 In your production environment, make sure the ``SETTINGS`` environment variable is set to ``config.Config``.
 
 
-Shell
------
+Adding data - a.k.a. management commands
+----------------------------------------
 
-To open the interactive shell, run ::
+Create all xgs users
+```
+python manage.py create-xgs-users
+```
+Type in any old password it isn't used at the moment
 
+Create an ordinary (non admin user)
 ```
-python manage.py shell
+python manage.py create-user
 ```
+Answer prompts - (note password not used yet)
+
+Add an objective for a user
+```
+python manage.py add-user-objective
+```
+Answer prompt for email of user to add objective for.
