@@ -15,22 +15,24 @@
         <h1 class="heading-large">This is where the plumbing lives</h1>
         {% include "_messages.html" %}
 
-        <h2 class="heading-small">Create ordinary user accounts for research</h2>
-        <form action="/the-hatch/add-user" method="POST">
-          <div class="form-group">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-control" id="email" name="email" type="email">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="full-name">Full name</label>
-            <input class="form-control" id="full-name" name="full-name" type="text">
-          </div>
-          <input class="button" type="submit" value="Save and continue">
-        </form>
-
-
-        <h2 class="heading-small">Once created you can add objectives for existing users (including yourself)</h2>
-        <p><a href="{{url_for('hatch.manage_users')}}">Add objectives</a></p>
+        <section>
+          <h2 class="heading-small">Create ordinary user accounts for research</h2>
+          <form action="/the-hatch/add-user" method="POST">
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-control" id="email" name="email" type="email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="full-name">Full name</label>
+              <input class="form-control" id="full-name" name="full-name" type="text">
+            </div>
+            <input class="button" type="submit" value="Save and continue">
+          </form>
+        </section>
+        <section>
+          <h2 class="heading-small">Once created you can add objectives for existing users (including yourself)</h2>
+          <p><a href="{{url_for('hatch.manage_users')}}">Add objectives</a></p>
+        </section>
       </div>
     </div>
   </main>
