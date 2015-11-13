@@ -7,4 +7,4 @@ clara.teoh@digital.cabinet-office.gov.uk,Clara Teoh
 david.heath@digital.cabinet-office.gov.uk,David Heath
 colm.britton@digital.cabinet-office.gov.uk,Colm Britton
 adam.shimali@digital.cabinet-office.gov.uk,Adam Shimali
-mikael.allison@digital.cabinet-office.gov.uk
+mikael.allison@digital.cabinet-office.gov.uk,Mikael Allison
