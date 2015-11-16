@@ -11,14 +11,15 @@ var toggleObjective = function(event){
 var templateEditable = function(event){
     event.preventDefault();
     var editLink = event.currentTarget
-        editableSection = $(editLink).next();
+        editableContainer = $(editLink).next(),
+            editableSection = $(editableContainer).find('textarea');
 
-    if( $(editLink).attr('contenteditable') == 'true'){
-        $(editableSection).attr('contenteditable', 'false');
-        $(editableSection).blur();
-    } else {
-        $(editableSection).attr('contenteditable', 'true');
+    if( $(editableSection).attr('disabled') ){
+        $(editableSection).removeAttr('disabled');
         $(editableSection).focus();
+    } else {
+        $(editableSection).attr('disabled', 'true');
+        $(editableSection).blur();
     }
     $('.edit-controls a').toggle();
 };
