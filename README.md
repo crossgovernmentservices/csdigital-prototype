@@ -49,6 +49,12 @@ In your production environment, make sure the ``SETTINGS`` environment variable 
 Adding data - a.k.a. management commands
 ----------------------------------------
 
+To run any of these locall first source environment.sh
+
+```
+source environment.sh
+```
+
 Create all xgs users
 ```
 python manage.py create-xgs-users
