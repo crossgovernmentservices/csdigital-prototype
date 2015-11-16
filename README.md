@@ -30,8 +30,14 @@ export SETTINGS='config.DevelopmentConfig'
 
 Once that this all done you can:
 
+Start mongo:
 ```
-python manage.py server
+mongod
+```
+
+Then run app
+```
+./run.sh
 ```
 
 Deployment
