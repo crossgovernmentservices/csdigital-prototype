@@ -36,6 +36,10 @@ class Objectives(db.Document):
         self.save()
 
 
+class FeedbackRequest(db.EmbeddedDocument):
+    recipient_email = db.StringField(max_length=255)
+    status = db.StringField(default='Requested') # How do I do mongo enums?
+
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
@@ -49,8 +53,17 @@ class User(db.Document, UserMixin):
     roles = db.ListField(db.ReferenceField(Role), default=[])
     full_name = db.StringField()
     objectives = db.ReferenceField(Objectives)
+    feedback_requests = db.ListField(db.EmbeddedDocumentField(FeedbackRequest), default=[])
     # only one set (current year for the moment)
     # change this one current and list of past ones?
+
+    def add_request_if_not_present(self, feedback_request):
+        for feedback in self.feedback_requests:
+            if feedback.recipient_email == feedback_request.recipient_email:
+                return
+        else:
+            self.feedback_requests.append(feedback_request)
+
 
 
 

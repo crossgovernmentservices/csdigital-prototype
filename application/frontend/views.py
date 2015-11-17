@@ -6,7 +6,8 @@ from flask import (
     current_app,
     flash,
     request,
-    jsonify
+    jsonify,
+    json
 )
 
 from flask.ext.security import login_required
@@ -16,7 +17,8 @@ from flask.ext.login import current_user
 from application.frontend.forms import LoginForm
 from application.models import (
     User,
-    Objectives
+    Objectives,
+    FeedbackRequest
 )
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
@@ -66,8 +68,14 @@ def users():
     return jsonify({'users': users})
 
 
-@frontend.route('/feedback-request.json', methods=['POST'])
+@frontend.route('/performance-review/feedback-request', methods=['POST'])
 @login_required
 def feedback_request():
     current_app.logger.info(request.json)
-    return 'OK'
+    recipients = request.json['recipients']
+    #TODO send email to each of the recipients
+    for recipient in recipients:
+        feedback_request = FeedbackRequest(recipient_email=recipient)
+        current_user.add_request_if_not_present(feedback_request)
+        current_user.save()
+    return 'OK', 200

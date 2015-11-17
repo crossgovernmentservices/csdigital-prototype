@@ -5,7 +5,7 @@
  <script id="recipient-template" type="text/x-jsrender">
     {% raw %}
     <li>
-      {{:userEmail}}<a href="#">remove</a>
+      <span class="recipient-email">{{:userEmail}}</span><a href="#">Remove</a>
     </li>
     {% endraw %}
   </script>
@@ -63,6 +63,9 @@
           <input class="search-button submit" type="submit" value="Search">
         </form>
         <ul id="recipient-list">
+          {% for existing_request in current_user.feedback_requests %}
+           <li><span class="recipient-email">{{existing_request.recipient_email}}</span><span class="request-status">{{existing_request.status}}</span></li>
+          {% endfor %}
         </ul>
       </section>
     </div>

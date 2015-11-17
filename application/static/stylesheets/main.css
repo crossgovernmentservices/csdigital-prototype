@@ -98,3 +98,8 @@ section {
   background: #000 no-repeat center url(/static/icons/icon-search.png);
   cursor: pointer;
 }
+
+/* line 85, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_main.scss */
+.request-status {
+  float: right;
+}
