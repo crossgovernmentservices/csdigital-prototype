@@ -49,17 +49,31 @@ var renderRecipients = function(users) {
         'userEmail': user.email
     });
     $('#recipient-list').append(html);
-    $('#recipient-list li').click(removeRecipient);
+    $('#recipient-list li a').click(removeRecipient);
   });
 };
 
 var removeRecipient = function(event) {
   event.preventDefault();
   var toRemove = event.currentTarget;
-  $(toRemove).remove();
-
+  $(toRemove).parent().remove();
 };
 
+var submitRequest = function(event) {
+  console.log('do it');
+  $.ajax({
+    type: 'POST',
+    url: '/feedback-request.json',
+    contentType: 'application/json',
+    success: function(data) {
+      console.log('ok then');
+    },
+    error: function(xhr, options, error) {
+      console.log(error);
+      $('.message').text('No results');
+    }
+  });
+};
 
 $(document).ready(function() {
   $('.objective-header').click(toggleObjective);
