@@ -64,5 +64,5 @@ var removeRecipient = function(event) {
 $(document).ready(function() {
   $('.objective-header').click(toggleObjective);
   $('.edit-controls').click(templateEditable);
-  $('.search-button').click(emailLookup);
+  $('.search-form').submit(emailLookup);
 });
