@@ -5,16 +5,19 @@ xgs_performance_prototype
 
 Requirements
 ------------
-python 3
-mongodb
+- python 3
+- mongodb
+- sass (for flask assets)
 
 Quickstart
 ----------
 
+Checkout this repo.
+
 Then run the following commands to bootstrap your environment.
 
 ```
-mkvirtualenv --python=/path/to/required/python/version [appname]
+mkvirtualenv --python=/path/to/python3 [appname]
 ```
 
 Install python requirements.
@@ -22,11 +25,7 @@ Install python requirements.
 pip install -r requirements/dev.txt
 ```
 
-Set some environment variables. The following is required. Add as needed.
-
-```
-export SETTINGS='config.DevelopmentConfig'
-```
+Environment variables for running application locally are in environment.sh
 
 Once that this all done you can:
 
@@ -49,7 +48,7 @@ In your production environment, make sure the ``SETTINGS`` environment variable 
 Adding data - a.k.a. management commands
 ----------------------------------------
 
-To run any of these locall first source environment.sh
+To run any of these locally first source environment.sh
 
 ```
 source environment.sh
