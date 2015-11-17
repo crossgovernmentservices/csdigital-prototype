@@ -1,0 +1,52 @@
+section {
+  border-top: 10px $yellow solid;
+}
+
+.sign-out {
+  float: right;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.user-details {
+  margin: 20px 0px;
+}
+
+.user-details h1 {
+  margin-top: 0;
+}
+
+.user-details p {
+  margin-bottom: 10px;
+}
+
+.user-name {
+  margin-right: 10px;
+}
+
+.status {
+  padding-top: 30px;
+}
+
+.objective {
+  border: 1px #bfc1c3 solid !important;
+  margin: 10px 0px;
+}
+
+.objective-header {
+  padding: 10px;
+}
+
+.toggle {
+  float: right;
+}
+
+.details {
+  border-top: 1px #bfc1c3 solid;
+  padding: 10px;
+}
+
+.edit-controls {
+  float: right;
+  margin-top: -25px;
+}

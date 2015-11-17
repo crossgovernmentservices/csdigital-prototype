@@ -1,53 +1,64 @@
+/* line 1, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 section {
-  border-top: 2px #bfc1c3 solid;
+  border-top: 10px #ffbf47 solid;
 }
 
+/* line 5, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .sign-out {
   float: right;
   margin-top: 10px;
   font-size: 16px;
 }
 
+/* line 11, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .user-details {
   margin: 20px 0px;
 }
 
+/* line 15, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .user-details h1 {
   margin-top: 0;
 }
 
+/* line 19, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .user-details p {
   margin-bottom: 10px;
 }
 
+/* line 23, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .user-name {
   margin-right: 10px;
 }
 
+/* line 27, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .status {
   padding-top: 30px;
 }
 
+/* line 31, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .objective {
   border: 1px #bfc1c3 solid !important;
   margin: 10px 0px;
 }
 
+/* line 36, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .objective-header {
   padding: 10px;
 }
 
+/* line 40, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .toggle {
   float: right;
 }
 
+/* line 44, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .details {
   border-top: 1px #bfc1c3 solid;
   padding: 10px;
 }
 
+/* line 49, /Users/adam/repos/crossgov/xgs-performance-prototype/application/static/sass/main/_test.scss */
 .edit-controls {
   float: right;
   margin-top: -25px;
 }
-

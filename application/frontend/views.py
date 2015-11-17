@@ -4,7 +4,9 @@ from flask import (
     redirect,
     url_for,
     current_app,
-    flash
+    flash,
+    request,
+    jsonify
 )
 
 from flask.ext.security import login_required
@@ -43,10 +45,12 @@ def index():
 def profile():
     return render_template('profile.html')
 
+
 @frontend.route('/performance-review')
 @login_required
 def performance_review():
     return render_template('performance_review.html')
+
 
 @frontend.route('/performance-review/feedback')
 @login_required
@@ -54,4 +58,9 @@ def feedback():
     return render_template('feedback.html')
 
 
-
+@frontend.route('/users.json')
+@login_required
+def users():
+    q = request.args['q']
+    users = User.objects.only('email').filter(email__icontains=q)
+    return jsonify({'users': users})
