@@ -2,6 +2,7 @@
 {% extends "govuk_template/views/layouts/govuk_template.html" %}
 
 {% block head %}
+
   <!-- gov uk elements stylesheet -->
   {% assets "css_govuk_elements" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}">
@@ -11,9 +12,18 @@
   {% assets "css_main" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}">
   {% endassets %}
+
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/vendor/jsrender.min.js"></script>
+
+  {% block endhead %}
+  {% endblock %}
+
 {% endblock %}
 
-{%block content %}
+
+{% block content %}
   <main id="wrapper" role="main">
     <div id="content">
       <div class="inner-block">

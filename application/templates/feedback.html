@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block endhead %}
+
+ <script id="user-template" type="text/x-jsrender">
+    {% raw %}
+    <li>
+      {{:userEmail}}
+    </li>
+    {% endraw %}
+  </script>
+
+{% endblock %}
+
 {% block body_content %}
 
   <div class="grid-row">
@@ -48,8 +60,10 @@
         <form id="user-search">
          <label for="search">Find email</label>
           <input type="search" name="q" id="search" title="Search" class="js-search-focus">
-          <input class="submit" type="submit" value="Search">
+          <input id="user-lookup" type="submit" value="Search">
         </form>
+        <ul id="users">
+        </ul>
       </section>
     </div>
   </div>
@@ -57,7 +71,5 @@
 {% endblock %}
 
 {% block body_end %}
-  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
-  </script>
   <script type="text/javascript" src="/static/javascripts/app.js"></script>
 {% endblock %}
