@@ -24,8 +24,7 @@ var templateEditable = function(event) {
   $('.edit-controls a').toggle();
 };
 
-
-var userLookup = function(event) {
+var emailLookup = function(event) {
   event.preventDefault();
   var input = $("input[name='q']"),
       searchValue = input.val().trim();
@@ -34,7 +33,7 @@ var userLookup = function(event) {
     url: '/users.json?q='+searchValue,
     contentType: 'application/json',
     success: function(data) {
-        renderUsers(data.users);
+        renderRecipients(data.users);
     },
     error: function(xhr, options, error) {
       console.log(error);
@@ -43,20 +42,27 @@ var userLookup = function(event) {
   });
 };
 
-
-var renderUsers = function(users) {
+var renderRecipients = function(users) {
   $.each(users, function(index, user) {
-    var template = $.templates("#user-template"),
+    var template = $.templates("#recipient-template"),
       html = template.render({
         'userEmail': user.email
     });
-    $('#users').append(html);
+    $('#recipient-list').append(html);
+    $('#recipient-list li').click(removeRecipient);
   });
+};
+
+var removeRecipient = function(event) {
+  event.preventDefault();
+  var toRemove = event.currentTarget;
+  $(toRemove).remove();
+
 };
 
 
 $(document).ready(function() {
   $('.objective-header').click(toggleObjective);
   $('.edit-controls').click(templateEditable);
-  $('#user-lookup').click(userLookup);
+  $('.search-button').click(emailLookup);
 });

@@ -50,3 +50,34 @@ section {
   float: right;
   margin-top: -25px;
 }
+
+.recipients ul {
+  margin: 20px 0px;
+}
+
+.recipients li {
+  background: $grey-4;
+  border: 1px solid $grey-2;
+  padding: 15px;
+  margin-bottom: 5px;
+}
+
+.recipients li:hover {
+  border: 1px solid #000;
+}
+
+.recipients li a {
+  float: right;
+}
+
+.search-button {
+  padding-top: 6px;
+  margin-left: -4px;
+  width: 45px;
+  height: 38px;
+  border: none;
+  overflow: hidden;
+  text-indent: -5000px;
+  background: #000 no-repeat center url(/static/icons/icon-search.png);
+  cursor: pointer;
+}

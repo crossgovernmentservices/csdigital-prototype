@@ -2,10 +2,10 @@
 
 {% block endhead %}
 
- <script id="user-template" type="text/x-jsrender">
+ <script id="recipient-template" type="text/x-jsrender">
     {% raw %}
     <li>
-      {{:userEmail}}
+      {{:userEmail}}<a href="#">remove</a>
     </li>
     {% endraw %}
   </script>
@@ -57,12 +57,10 @@
     <div class="column-two-thirds">
       <section class="recipients">
         <h2 class="heading-medium">Who to send it to</h2>
-        <form id="user-search">
-         <label for="search">Find email</label>
-          <input type="search" name="q" id="search" title="Search" class="js-search-focus">
-          <input id="user-lookup" type="submit" value="Search">
-        </form>
-        <ul id="users">
+          <label for="search" class="form-label" >Find email</label>
+          <input class="form-control" type="search" name="q" id="search" title="Search">
+          <button class="search-button" type="submit" value="Search">Search</button>
+        <ul id="recipient-list">
         </ul>
       </section>
     </div>
