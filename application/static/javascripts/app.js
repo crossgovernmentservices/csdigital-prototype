@@ -89,7 +89,8 @@ var submitRequest = function(event) {
       $('#submit-request').hide();
       $('#recipient-list li').each(function() {
         $(this).find('a').remove();
-        if(!$(this).find('.request-status')){
+        debugger;
+        if($(this).find('.request-status').text() != "Requested"){
           $(this).append('<span class="request-status">Requested</span>');
         }
         $("input[name='q']").val('');
