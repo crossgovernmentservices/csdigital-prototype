@@ -64,3 +64,10 @@ def users():
     q = request.args['q']
     users = User.objects.only('email').filter(email__icontains=q)
     return jsonify({'users': users})
+
+
+@frontend.route('/feedback-request.json', methods=['POST'])
+@login_required
+def feedback_request():
+    current_app.logger.info(request.json)
+    return 'OK'

@@ -51,16 +51,25 @@ var renderRecipients = function(users) {
     $('#recipient-list').append(html);
     $('#recipient-list li a').click(removeRecipient);
   });
+  if( $('#recipient-list li').length > 0 ) {
+    $('#submit-request').show();
+  }
 };
 
 var removeRecipient = function(event) {
   event.preventDefault();
   var toRemove = event.currentTarget;
   $(toRemove).parent().remove();
+  debugger;
+  if( $('#recipient-list li').length == 0 ) {
+    $('#submit-request').hide();
+  }
 };
 
 var submitRequest = function(event) {
   console.log('do it');
+  var recipients = $('#recipient-list');
+  debugger;
   $.ajax({
     type: 'POST',
     url: '/feedback-request.json',
