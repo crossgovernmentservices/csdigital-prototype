@@ -14,6 +14,14 @@ Quickstart
 
 Checkout this repo.
 
+```
+* If you don't have Python3 installed, then go to python.org/downloads and get the latest version.
+* If you don't have mongodb running, you will need "Brew" set up to install it. Go to http://brew.sh/, open a terminal window and type in the shell command there.
+* Now open a new Terminal window and type "brew install mongodb"
+* Start mongoDB  with the command at the end of the install. "launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist" - this window won't return to the command prompt - it's now running mongoDB until you ctrl-C it.
+* In your other window type "sudo gem install sass"
+```
+
 Then run the following commands to bootstrap your environment.
 
 ```
