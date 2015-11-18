@@ -85,3 +85,15 @@ section {
 .request-status {
   float: right;
 }
+
+.feedback-footer {
+  @extend %site-width-container;
+  padding: $gutter-half 0;
+  font-size: 16px;
+
+  a,
+  a:hover,
+  a:visited {
+    color: $secondary-text-colour;
+  }
+}
