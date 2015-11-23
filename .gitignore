@@ -44,3 +44,6 @@ docs/_build
 .webassets-cache
 .sass-cache
 
+# sass generated css
+main.css
+govuk_elements.css
