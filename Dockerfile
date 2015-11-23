@@ -6,9 +6,7 @@ RUN gem install sass:3.4.19
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY requirements/* /usr/src/app/requirements/
 COPY requirements.txt /usr/src/app/
-#RUN pip install -r requirements/dev.txt
 
 COPY . /usr/src/app
 
