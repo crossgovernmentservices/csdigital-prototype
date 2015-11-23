@@ -6,8 +6,18 @@
   <header class="user-details">
     <p>Signed in as:</p>
     <h1 class="heading-large">{{current_user.full_name}}</h1>
-    <p>Email: {{current_user.email}}</p>
-    <p><a href="#">Add another email</a></p>
+    {% if current_user.other_email %}
+      <h2 class="heading-small">Emails:</h2>
+      <ul class="user-email">
+        <li class="bold-small">{{current_user.email}}</li>
+        {% for email in current_user.other_email %}
+          <li>{{email}} <a href="#" class="remove-email">remove</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Email: {{current_user.email}}</p>
+    {% endif %}
+    <p><a href="{{url_for('frontend.add_email')}}">Add another email</a></p>
     <!-- Colm what is the disclosure-triangle class? -->
     <details>
       <summary class="font-xsmall">Why do I need another email address?</summary>

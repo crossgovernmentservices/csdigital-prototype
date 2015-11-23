@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+  {% include "_logout.html" %}
+
+  {% from "_macros.html" import render_field, render_hidden %}
+
+  <form action="{{url_for('frontend.add_email')}}" method="post" class="form">
+  {{ render_field(form.email) }}
+  <div class="form-group">
+    <button class="button">Add email</button>
+  </div>
+  {{ render_hidden(form.csrf_token) }}
+  </form>
+
+
+{% endblock %}

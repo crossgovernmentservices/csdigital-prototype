@@ -5,3 +5,6 @@ from wtforms.validators import Required
 
 class LoginForm(Form):
     email = EmailField('Email address', validators=[Required()])
+
+class EmailForm(Form):
+    email = EmailField('Email address', validators=[Required()])

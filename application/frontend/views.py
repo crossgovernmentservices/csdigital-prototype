@@ -14,7 +14,11 @@ from flask.ext.security import login_required
 from flask.ext.security.utils import login_user
 from flask.ext.login import current_user
 
-from application.frontend.forms import LoginForm
+from application.frontend.forms import (
+    LoginForm,
+    EmailForm
+)
+
 from application.models import (
     User,
     Objectives,
@@ -79,3 +83,18 @@ def feedback_request():
         current_user.add_request_if_not_present(feedback_request)
         current_user.save()
     return 'OK', 200
+
+
+@frontend.route('/profile/add-email', methods=['GET','POST'])
+@login_required
+def add_email():
+    form = EmailForm()
+    if form.validate_on_submit():
+        email = form.data['email'].strip()
+        current_user.other_email.append(email)
+        current_user.save()
+        message = "Sucessfully added email %s" % email
+        flash(message)
+        return redirect('/profile')
+    else:
+        return render_template('add-email.html', form=form)
