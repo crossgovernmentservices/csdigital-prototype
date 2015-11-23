@@ -26,7 +26,7 @@ class DevelopmentConfig(Config):
 class DockerConfig(DevelopmentConfig):
     # is this guaranteed to be up yet cause it's linked?
     host = os.environ.get('DB_PORT_27017_TCP_ADDR')
-    port = int(os.environ.get('DB_PORT_27017_TCP_PORT'))
+    port = int(os.environ.get('DB_PORT_27017_TCP_PORT', 27017))
     MONGODB_SETTINGS = {
         'host': host,
         'db': 'xgs_performance_reviews',
