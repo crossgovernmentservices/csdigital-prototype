@@ -56,6 +56,7 @@ class User(db.Document, UserMixin):
     feedback_requests = db.ListField(db.EmbeddedDocumentField(FeedbackRequest), default=[])
     # only one set (current year for the moment)
     # change this one current and list of past ones?
+    other_email = db.ListField(default=[])
 
     def add_request_if_not_present(self, feedback_request):
         for feedback in self.feedback_requests:
