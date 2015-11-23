@@ -23,5 +23,16 @@ class DevelopmentConfig(Config):
     WTF_CSRF_ENABLED = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'local-dev-not-secret')
 
-class TestConfig(Config):
+class DockerConfig(DevelopmentConfig):
+    # is this guaranteed to be up yet cause it's linked?
+    host = os.environ.get('DB_PORT_27017_TCP_ADDR')
+    port = int(os.environ.get('DB_PORT_27017_TCP_PORT'))
+    MONGODB_SETTINGS = {
+        'host': host,
+        'db': 'xgs_performance_reviews',
+        'port': port
+    }
+
+
+class TestConfig(DockerConfig):
     TESTING = True
