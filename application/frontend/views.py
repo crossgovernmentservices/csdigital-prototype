@@ -55,7 +55,7 @@ def profile():
 @frontend.route('/performance-review')
 @login_required
 def performance_review():
-    return render_template('performance_review.html')
+    return render_template('performance-review.html')
 
 
 @frontend.route('/performance-review/feedback')
