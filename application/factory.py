@@ -57,6 +57,11 @@ def register_extensions(app):
     security = Security(app, user_datastore)
     app.extensions['user_datastore'] = user_datastore
 
+    # flask markdown
+    from flaskext.markdown import Markdown
+    Markdown(app)
+
+
 def register_filters(app):
     def format_date(d):
         try:

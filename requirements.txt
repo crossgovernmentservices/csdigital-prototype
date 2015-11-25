@@ -9,3 +9,4 @@ flask-mongoengine
 Flask-Security
 Flask-Login>=0.1.3,<0.3
 Flask-Script
+Flask-Markdown
