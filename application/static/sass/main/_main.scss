@@ -102,3 +102,11 @@ section {
     color: $secondary-text-colour;
   }
 }
+
+.details h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+.details ul {
+  margin-left: 5px;
+}
