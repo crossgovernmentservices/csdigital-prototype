@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+  {% include "_logout.html" %}
+  {% from "_macros.html" import render_field, render_hidden %}
+
+  <div class="grid-row">
+
+    <form action="{{url_for('frontend.add_objective')}}" method="post" class="form">
+    {{ render_field(form.what, rows=10) }}
+    {{ render_field(form.how, rows=10) }}
+    <div class="form-group">
+      <button class="button">Add objective</button>
+    </div>
+    {{ render_hidden(form.csrf_token) }}
+    </form>
+
+  </div>
+{% endblock %}

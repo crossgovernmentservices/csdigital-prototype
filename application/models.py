@@ -38,7 +38,8 @@ class Objectives(db.Document):
 
 class FeedbackRequest(db.EmbeddedDocument):
     recipient_email = db.StringField(max_length=255)
-    status = db.StringField(default='Requested') # How do I do mongo enums?
+    status = db.StringField(default='Requested')  # How do I do mongo enums?
+
 
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
@@ -64,7 +65,4 @@ class User(db.Document, UserMixin):
                 return
         else:
             self.feedback_requests.append(feedback_request)
-
-
-
 

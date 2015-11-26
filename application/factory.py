@@ -12,8 +12,10 @@ from application.models import (
     Role
 )
 
+
 def asset_path_context_processor():
     return {'asset_path': '/static/'}
+
 
 def create_app(config_filename):
     ''' An application factory, as explained here:
@@ -28,6 +30,7 @@ def create_app(config_filename):
     register_filters(app)
     return app
 
+
 def register_errorhandlers(app):
     def render_error(error):
         # If a HTTPException, pull the `code` attribute; default to 500
@@ -37,12 +40,14 @@ def register_errorhandlers(app):
         app.errorhandler(errcode)(render_error)
     return None
 
+
 def register_blueprints(app):
     from application.frontend.views import frontend
     app.register_blueprint(frontend)
 
     from application.hatch.views import hatch
     app.register_blueprint(hatch)
+
 
 def register_extensions(app):
     from application.assets import env
@@ -67,7 +72,7 @@ def register_filters(app):
         try:
             return d.strftime('%-d %B %Y')
         except Exception as e:
-            return type(d)
+            return ''
 
     app.jinja_env.filters['format_date'] = format_date
 

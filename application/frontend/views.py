@@ -16,13 +16,15 @@ from flask.ext.login import current_user
 
 from application.frontend.forms import (
     LoginForm,
-    EmailForm
+    EmailForm,
+    ObjectiveForm
 )
 
 from application.models import (
     User,
     Objectives,
-    FeedbackRequest
+    FeedbackRequest,
+    Objective
 )
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
@@ -83,6 +85,21 @@ def feedback_request():
         current_user.add_request_if_not_present(feedback_request)
         current_user.save()
     return 'OK', 200
+
+
+@frontend.route("/performance-review/add-objective", methods=['GET','POST'])
+@login_required
+def add_objective():
+    form = ObjectiveForm()
+    if form.validate_on_submit():
+        message = 'Added objective'
+        flash(message)
+        objective = Objective(what=form.what.data, how=form.how.data)
+        current_user.objectives.add(objective)
+        return redirect(url_for('frontend.performance_review'))
+    else:
+        return render_template('add-objective.html', form=form)
+
 
 
 @frontend.route('/profile/add-email', methods=['GET','POST'])
