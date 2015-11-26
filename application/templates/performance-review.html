@@ -35,7 +35,6 @@
               <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
               <div class="details" style="display: none;">
                 {{objective.how|markdown}}
-                <a href="{{url_for('frontend.feedback')}}">Request feedback</a>
               </div>
             </li>
           {% endfor %}
