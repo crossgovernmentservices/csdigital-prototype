@@ -87,7 +87,7 @@ def feedback_request():
     return 'OK', 200
 
 
-@frontend.route("/performance-review/add-objective", methods=['GET','POST'])
+@frontend.route("/performance-review/add-objective", methods=['GET', 'POST'])
 @login_required
 def add_objective():
     form = ObjectiveForm()
@@ -101,8 +101,7 @@ def add_objective():
         return render_template('add-objective.html', form=form)
 
 
-
-@frontend.route('/profile/add-email', methods=['GET','POST'])
+@frontend.route('/profile/add-email', methods=['GET', 'POST'])
 @login_required
 def add_email():
     form = EmailForm()
