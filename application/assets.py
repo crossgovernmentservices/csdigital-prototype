@@ -6,7 +6,8 @@ from webassets.filter import get_filter
 sass = get_filter('sass', as_output=True)
 
 sass.load_paths = [os.path.join(os.path.dirname(__file__), 'static/sass'),
-                    os.path.join(os.path.dirname(__file__), 'static/govuk_frontend_toolkit/stylesheets')]
+                    os.path.join(os.path.dirname(__file__), 'static/govuk_frontend_toolkit/stylesheets'),
+                    os.path.join(os.path.dirname(__file__), 'static/govuk_elements/public/sass/elements')]
 
 
 css_govuk_elements = Bundle(

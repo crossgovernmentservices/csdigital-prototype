@@ -112,3 +112,19 @@ section {
   list-style: initial;
   margin-left: 20px;
 }
+
+/*
+* used on the add objective page
+*/
+.add-objective .form-control {
+  width: 100%;
+}
+
+.guidance-heading {
+  margin-top: 1em;
+}
+
+.success-summary {
+  @extend .error-summary;
+  border-color: $button-colour;
+}
