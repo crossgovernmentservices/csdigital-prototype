@@ -55,7 +55,7 @@ class CreateXgsUsersCommand(Command):
         Adds the users found in users.txt
     """
     def run(self):
-        password = prompt_pass('password') # toy password for all users for now
+        password = 'password' # toy password for all users for now
         with open('./users.txt') as users_file:
             users = users_file.readlines()
             for user_details in users:
