@@ -4,9 +4,9 @@
   {% include "_logout.html" %}
   {% from "_macros.html" import render_field, render_hidden %}
 
-  <h1 class="heading-large">Write objective</h1>
+  <h1 class="heading-large">{% if edit %}Edit{% else %}Write{% endif %} objective</h1>
 
-  <form action="{{url_for('frontend.add_objective')}}" method="post" class="form add-objective">
+  <form action="{{url}}" method="post" class="form add-objective">
 
     <div class="grid-row">
       <div class="column-half">
@@ -29,7 +29,7 @@
     </div>
 
     <div class="form-group">
-      <button class="button">Add objective</button>
+      <button class="button">{% if edit %}Save{% else %}Add objective{% endif %}</button>
     </div>
   {{ render_hidden(form.csrf_token) }}
   </form>

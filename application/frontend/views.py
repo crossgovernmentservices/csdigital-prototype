@@ -95,10 +95,27 @@ def add_objective():
         message = 'Added objective'
         flash(message)
         objective = Objective(what=form.what.data, how=form.how.data)
+        objective.save()
         current_user.objectives.add(objective)
         return redirect(url_for('frontend.performance_review'))
     else:
-        return render_template('add-objective.html', form=form)
+        add_url = '/performance-review/add-objective'
+        return render_template('add-objective.html', form=form, url=add_url)
+
+
+@frontend.route("/performance-review/edit-objective/<id>", methods=['GET', 'POST'])
+@login_required
+def edit_objective(id):
+    form = ObjectiveForm()
+    if form.validate_on_submit():
+        objective = Objective.objects(id=id).update(what=form.what.data, how= form.how.data)
+        return redirect(url_for('frontend.performance_review'))
+    else:
+        edit_url = "/performance-review/edit-objective/%s" % id
+        objective = Objective.objects(id=id).get()
+        form.what.data = objective.what
+        form.how.data = objective.how
+        return render_template('add-objective.html', form=form, url=edit_url, edit=True)
 
 
 @frontend.route('/profile/add-email', methods=['GET', 'POST'])

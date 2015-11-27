@@ -103,6 +103,9 @@ section {
   }
 }
 
+/* quick hack for override elements
+* styles for markdown text area
+*/
 .details h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
@@ -112,6 +115,8 @@ section {
   list-style: initial;
   margin-left: 20px;
 }
+
+/* end quick hack */
 
 /*
 * used on the add objective page

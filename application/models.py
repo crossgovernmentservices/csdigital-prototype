@@ -16,7 +16,7 @@ def _a_year_from_now():
     return now + a_year_from_now
 
 
-class Objective(db.EmbeddedDocument):
+class Objective(db.Document):
     what = db.StringField()
     how = db.StringField()
 
@@ -25,7 +25,7 @@ class Objectives(db.Document):
     started_on = db.DateTimeField(default=datetime.datetime.utcnow)
     due_by = db.DateTimeField(default=_a_year_from_now)
     status = db.StringField(default='In progress') # ? something else I think
-    objectives = db.ListField(db.EmbeddedDocumentField(Objective), default=[])
+    objectives = db.ListField(db.ReferenceField(Objective), default=[])
 
     def add(self, objective):
         self.objectives.append(objective)
