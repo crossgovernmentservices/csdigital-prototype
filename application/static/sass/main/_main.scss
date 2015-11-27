@@ -88,7 +88,26 @@ section {
 
 .feedback-template {
    border: 1px solid $grey-2;
-   padding: 5px;
+   padding: 10px;
+}
+
+.feedback-template h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+.feedback-template ul {
+  margin-top: 5px;
+  list-style: initial;
+  margin-left: 20px;
+}
+
+.feedback-template p {
+  line-height: 1.2em;
+  margin: 10px 0px;
+}
+
+.feedback-template {
+  word-break: word;
 }
 
 .feedback-footer {
