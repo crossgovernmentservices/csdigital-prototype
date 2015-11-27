@@ -12,7 +12,10 @@ from flask.ext.script import (
 )
 
 from flask.ext.security import MongoEngineUserDatastore
-from flask.ext.security.utils import encrypt_password, verify_password
+from flask.ext.security.utils import (
+    encrypt_password,
+    verify_password
+)
 
 from application.models import (
     User,
@@ -22,14 +25,13 @@ from application.models import (
 )
 
 from application import app
-
 app.debug = True
 port = os.environ.get('PORT', 8000)
 
 manager = Manager(app)
 manager.add_command('server', Server(host="0.0.0.0", port=port))
 
-user_datastore = app.extensions['user_datastore']
+from application.extensions import user_datastore
 
 class CreateUser(Command):
     """

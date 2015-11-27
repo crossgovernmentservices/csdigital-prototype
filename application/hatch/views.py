@@ -37,9 +37,9 @@ def manage_users():
 @hatch.route("/add-user", methods=['POST'])
 @roles_required('ADMIN')
 def add_user():
+    from application.extensions import user_datastore
     email = request.form['email']
     full_name = request.form['full-name']
-    user_datastore = current_app.extensions['user_datastore']
     if not User.objects.filter(email=email).first():
         user = user_datastore.create_user(email=email, password=encrypt_password('password'), full_name=full_name)
         user_role = user_datastore.find_or_create_role('USER')

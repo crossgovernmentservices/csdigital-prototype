@@ -32,12 +32,13 @@ frontend = Blueprint('frontend', __name__, template_folder='templates')
 
 @frontend.route('/', methods=['GET', 'POST'])
 def index():
+    from application.extensions import user_datastore
     if current_user and current_user.is_authenticated():
         return redirect('/profile')
     form = LoginForm()
     if form.validate_on_submit():
         email = form.data['email'].strip()
-        user = current_app.extensions['user_datastore'].get_user(email)
+        user = user_datastore.get_user(email)
         if not user:
             flash("You don't have a user account yet")
             return redirect(url_for('.index'))

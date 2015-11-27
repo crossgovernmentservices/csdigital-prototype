@@ -2,16 +2,7 @@
 '''The app module, containing the app factory function.'''
 from flask import Flask, render_template
 
-from flask.ext.security import (
-    Security,
-    MongoEngineUserDatastore
-)
-
-from application.models import (
-    User,
-    Role
-)
-
+from flask.ext.security import Security
 
 def asset_path_context_processor():
     return {'asset_path': '/static/'}
@@ -55,16 +46,14 @@ def register_extensions(app):
 
     from application.models import db
     db.init_app(app)
-    app.extensions['db'] = db
 
     # flask security setup
-    user_datastore = MongoEngineUserDatastore(db, User, Role)
+    from application.extensions import user_datastore
     security = Security(app, user_datastore)
-    app.extensions['user_datastore'] = user_datastore
 
     # flask markdown
     from flaskext.markdown import Markdown
-    Markdown(app)
+    markdown = Markdown(app)
 
 
 def register_filters(app):
