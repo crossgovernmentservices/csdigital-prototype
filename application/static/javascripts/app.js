@@ -103,6 +103,6 @@ var submitRequest = function(event) {
 $(document).ready(function() {
   $('.objective-header').click(toggleObjective);
   $('.edit-controls').click(templateEditable);
-  $('.search-form').submit(emailLookup);
+  $('.search-button').click(emailLookup);
   $('#submit-request').click(submitRequest);
 });

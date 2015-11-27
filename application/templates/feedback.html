@@ -40,59 +40,72 @@
     </div>
   </div>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <div class="feedback">
-        <h2 class="heading-medium">Template</h2>
-        <span class="edit-controls">
-          <a href="#">Edit</a>
-          <a href="#" style="display:none">Save</a>
-        </span>
-        <div class="feedback-template" contentEditable="false">
-            <p>Dear colleague,</p>
-            <p>I am reviewing my performance over the last while, and would appreciate
-            it if you could provide me with any feedback.</p>
-            <p>Please let me know about any:</p>
-            <ul>
-              <li>things I should do more of</li>
-              <li>things I should stop doing</li>
-              <li>things I should start doing</li>
-              <li>professional skills I displayed or improved</li>
-            </ul>
-            <p>Your feedback will be shared with me and my manager, and I am using a
-            new service that stores it online long-term so I can access it later and
-            track progress or plan my learning.</p>
-            <p>You can reply to this email with your feedback or using the link below.</p>
-            <p>You can also find out more about the new "My Performance" tool here</p>
-            <p>Kind regards</p>
-            <p>{{current_user.full_name}}</p>
+  <form>
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <div class="feedback">
+          <h2 class="heading-medium">Template</h2>
+          <span class="edit-controls">
+            <a href="#">Edit</a>
+            <a href="#" style="display:none">Save</a>
+          </span>
+          <div class="feedback-template" contentEditable="false">
+              <p>Dear colleague,</p>
+              <p>I am reviewing my performance over the last while, and would appreciate
+              it if you could provide me with any feedback.</p>
+              <p>Please let me know about any:</p>
+              <ul>
+                <li>things I should do more of</li>
+                <li>things I should stop doing</li>
+                <li>things I should start doing</li>
+                <li>professional skills I displayed or improved</li>
+              </ul>
+              <p>Your feedback will be shared with me and my manager, and I am using a
+              new service that stores it online long-term so I can access it later and
+              track progress or plan my learning.</p>
+              <p>You can reply to this email with your feedback or using the link below.</p>
+              <p>You can also find out more about the new "My Performance" tool here</p>
+              <p>Kind regards</p>
+              <p>{{current_user.full_name}}</p>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="grid-row">
+        <div class="column-two-thirds">
+          <h2 class="heading-medium">Share your objectives</h2>
+          <label class="block-label" for="include-objectives">
+          Include objectives
+          <span class="form-hint">You can share your objectives with colleagues that you request feeback from</span>
+          <input id="include-objectives" name="include-objectives" type="checkbox" value="include-objectives">
+          </label>
+        </div>
+      </div>
+
+     <div class="grid-row">
+      <div class="column-two-thirds">
+        <div class="recipients">
+          <h2 class="heading-medium">Who to send it to</h2>
+            <label for="search" class="form-label" >Find email</label>
+            <input class="form-control" type="search" name="q" id="search" title="Search">
+            <input class="search-button submit" type="submit" value="Search">
+            <ul id="recipient-list">
+              {% for existing_request in current_user.feedback_requests %}
+               <li><span class="recipient-email">{{existing_request.recipient_email}}</span><span class="request-status">{{existing_request.status}}</span></li>
+              {% endfor %}
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <a href="#" id="submit-request" class="button" style="display:none">Send request</a>
+      </div>
     </div>
 
-   <div class="grid-row">
-    <div class="column-two-thirds">
-      <section class="recipients">
-        <h2 class="heading-medium">Who to send it to</h2>
-        <form class="search-form">
-          <label for="search" class="form-label" >Find email</label>
-          <input class="form-control" type="search" name="q" id="search" title="Search">
-          <input class="search-button submit" type="submit" value="Search">
-        </form>
-        <ul id="recipient-list">
-          {% for existing_request in current_user.feedback_requests %}
-           <li><span class="recipient-email">{{existing_request.recipient_email}}</span><span class="request-status">{{existing_request.status}}</span></li>
-          {% endfor %}
-        </ul>
-      </section>
-    </div>
-  </div>
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <a href="#" id="submit-request" class="button" style="display:none">Send request</a>
-    </div>
-  </div>
+  </form>
 
 {% endblock %}
 
