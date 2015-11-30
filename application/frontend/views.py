@@ -149,6 +149,7 @@ def give_feedback(id):
 
 
 
+# your feeback for other people
 @frontend.route('/view-feedback-given')
 @frontend.route('/view-feedback-given/<id>')
 @login_required
@@ -162,6 +163,7 @@ def view_feedback_given(id=None):
 
 
 
+# your feedback from other people
 @frontend.route('/performance-review/view-feedback')
 @frontend.route('/performance-review/view-feedback/<id>')
 @login_required

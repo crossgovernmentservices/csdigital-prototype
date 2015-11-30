@@ -32,7 +32,7 @@
         <ul>
         {% for feedback in feedback_requests %}
           <li>
-            <a href="{{ url_for('frontend.view_feedback_given', id=feedback.id) }}">test</a></li>
+            <a href="{{ url_for('frontend.view_feedback', id=feedback.id) }}">test</a></li>
         {% endfor %}
         </ul>
       {% endif  %}
