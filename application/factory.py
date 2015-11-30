@@ -55,6 +55,10 @@ def register_extensions(app):
     from flaskext.markdown import Markdown
     markdown = Markdown(app)
 
+    if 'SENTRY_DSN' in os.environ:
+        from raven.contrib.flask import Sentry
+        sentry = Sentry(app, dsn=os.environ['SENTRY_DSN'])
+
 
 def register_filters(app):
     def format_date(d):
