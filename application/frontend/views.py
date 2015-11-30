@@ -24,7 +24,8 @@ from application.models import (
     User,
     Objectives,
     FeedbackRequest,
-    Objective
+    Objective,
+    Feedback
 )
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
@@ -80,11 +81,14 @@ def users():
 def feedback_request():
     current_app.logger.info(request.json)
     recipients = request.json['recipients']
-    #TODO send email to each of the recipients
+    feedback_request = FeedbackRequest()
+    feedback_request.requested_by = current_user._get_current_object()
     for recipient in recipients:
-        feedback_request = FeedbackRequest(recipient_email=recipient)
-        current_user.add_request_if_not_present(feedback_request)
-        current_user.save()
+        other_user = User.objects.filter(email=recipient).first()
+        feedback = Feedback(requested_from=other_user)
+        feedback.save()
+        feedback_request.add(feedback)
+    feedback_request.save()
     return 'OK', 200
 
 

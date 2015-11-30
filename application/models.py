@@ -24,7 +24,7 @@ class Objective(db.Document):
 class Objectives(db.Document):
     started_on = db.DateTimeField(default=datetime.datetime.utcnow)
     due_by = db.DateTimeField(default=_a_year_from_now)
-    status = db.StringField(default='In progress') # ? something else I think
+    status = db.StringField(default='In progress')  # again change to enum
     objectives = db.ListField(db.ReferenceField(Objective), default=[])
 
     def add(self, objective):
@@ -34,11 +34,6 @@ class Objectives(db.Document):
     def remove(self, objective):
         Objectives.objects(id=self.id).update_one(pull__objectives__id=objective.id)
         self.save()
-
-
-class FeedbackRequest(db.EmbeddedDocument):
-    recipient_email = db.StringField(max_length=255)
-    status = db.StringField(default='Requested')  # How do I do mongo enums?
 
 
 class Role(db.Document, RoleMixin):
@@ -53,16 +48,22 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
     full_name = db.StringField()
-    objectives = db.ReferenceField(Objectives)
-    feedback_requests = db.ListField(db.EmbeddedDocumentField(FeedbackRequest), default=[])
-    # only one set (current year for the moment)
+    # only one objectives set (current year for the moment)
     # change this one current and list of past ones?
+    objectives = db.ReferenceField(Objectives)
     other_email = db.ListField(default=[])
 
-    def add_request_if_not_present(self, feedback_request):
-        for feedback in self.feedback_requests:
-            if feedback.recipient_email == feedback_request.recipient_email:
-                return
-        else:
-            self.feedback_requests.append(feedback_request)
 
+class Feedback(db.Document):
+    requested_from = db.ReferenceField(User)
+    content = db.StringField()
+
+
+class FeedbackRequest(db.Document):
+    requested_by = db.ReferenceField(User)
+    feedback_items = db.ListField(db.ReferenceField(Feedback), default=[])
+    share_objectives = db.BooleanField(default=False)
+    status = db.StringField(default='Requested')  # How do I do mongo enums?
+
+    def add(self, feedback_from):
+        self.feedback_items.append(feedback_from)
