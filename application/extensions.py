@@ -8,3 +8,6 @@ from application.models import (
 from flask.ext.security import MongoEngineUserDatastore
 user_datastore = MongoEngineUserDatastore(db, User, Role)
 
+
+from flask.ext.mail import Mail
+mail = Mail()

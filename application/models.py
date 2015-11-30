@@ -54,16 +54,9 @@ class User(db.Document, UserMixin):
     other_email = db.ListField(default=[])
 
 
-class Feedback(db.Document):
-    requested_from = db.ReferenceField(User)
-    content = db.StringField()
-
-
 class FeedbackRequest(db.Document):
     requested_by = db.ReferenceField(User)
-    feedback_items = db.ListField(db.ReferenceField(Feedback), default=[])
+    requested_from = db.ReferenceField(User)
+    feedback_details = db.StringField()
     share_objectives = db.BooleanField(default=False)
-    status = db.StringField(default='Requested')  # How do I do mongo enums?
-
-    def add(self, feedback_from):
-        self.feedback_items.append(feedback_from)
+    sent = db.BooleanField(default=False)

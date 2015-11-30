@@ -16,3 +16,7 @@ class EmailForm(Form):
 class ObjectiveForm(Form):
     what = TextAreaField('What is your objective?', validators=[Required()])
     how = TextAreaField('How will you achieve this?', validators=[Required()])
+
+
+class FeedbackForm(Form):
+    feedback = TextAreaField('Your feedback', validators=[Required()])

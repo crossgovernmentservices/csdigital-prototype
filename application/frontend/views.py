@@ -17,15 +17,15 @@ from flask.ext.login import current_user
 from application.frontend.forms import (
     LoginForm,
     EmailForm,
-    ObjectiveForm
+    ObjectiveForm,
+    FeedbackForm
 )
 
 from application.models import (
     User,
     Objectives,
     FeedbackRequest,
-    Objective,
-    Feedback
+    Objective
 )
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
@@ -62,10 +62,10 @@ def performance_review():
     return render_template('performance-review.html')
 
 
-@frontend.route('/performance-review/feedback')
+@frontend.route('/performance-review/get-feedback')
 @login_required
 def feedback():
-    return render_template('feedback.html')
+    return render_template('get-feedback.html')
 
 
 @frontend.route('/users.json')
@@ -74,22 +74,6 @@ def users():
     q = request.args['q']
     users = User.objects.only('email').filter(email__icontains=q)
     return jsonify({'users': users})
-
-
-@frontend.route('/performance-review/feedback-request', methods=['POST'])
-@login_required
-def feedback_request():
-    current_app.logger.info(request.json)
-    recipients = request.json['recipients']
-    feedback_request = FeedbackRequest()
-    feedback_request.requested_by = current_user._get_current_object()
-    for recipient in recipients:
-        other_user = User.objects.filter(email=recipient).first()
-        feedback = Feedback(requested_from=other_user)
-        feedback.save()
-        feedback_request.add(feedback)
-    feedback_request.save()
-    return 'OK', 200
 
 
 @frontend.route("/performance-review/add-objective", methods=['GET', 'POST'])
@@ -113,7 +97,7 @@ def add_objective():
 def edit_objective(id):
     form = ObjectiveForm()
     if form.validate_on_submit():
-        objective = Objective.objects(id=id).update(what=form.what.data, how= form.how.data)
+        objective = Objective.objects(id=id).update(what=form.what.data, how=form.how.data)
         return redirect(url_for('frontend.performance_review'))
     else:
         edit_url = "/performance-review/edit-objective/%s" % id
@@ -136,3 +120,56 @@ def add_email():
         return redirect('/profile')
     else:
         return render_template('add-email.html', form=form)
+
+
+@frontend.route('/performance-review/feedback-request', methods=['POST'])
+@login_required
+def feedback_request():
+    recipients = request.json['recipients']
+    for recipient in recipients:
+        feedback_request = FeedbackRequest(requested_by=current_user._get_current_object())
+        other_user = User.objects.filter(email=recipient).first()
+        feedback_request.requested_from = other_user
+        feedback_request.save()
+    return 'OK', 200
+
+
+@frontend.route('/give-feedback/<id>', methods=['GET', 'POST'])
+@login_required
+def give_feedback(id):
+    form = FeedbackForm()
+    feedback_request = FeedbackRequest.objects(id=id).get()
+    if form.validate_on_submit():
+        feedback_request.feedback_details = form.feedback.data
+        feedback_request.save()
+        flash("Saved feedback")
+        return redirect(url_for('frontend.view_feedback_given', id=id))
+    else:
+        return render_template('give-feedback.html', form=form, feedback_request=feedback_request)
+
+
+
+@frontend.route('/view-feedback-given')
+@frontend.route('/view-feedback-given/<id>')
+@login_required
+def view_feedback_given(id=None):
+    if id:
+        feedback_request = FeedbackRequest.objects(id=id, requested_from=current_user._get_current_object()).get()
+        return render_template('view-feedback-given.html', feedback_request=feedback_request)
+    else:
+        feedback_requests = FeedbackRequest.objects.filter(requested_from=current_user._get_current_object()).all()
+        return render_template('view-feedback-given.html', feedback_requests=feedback_requests)
+
+
+
+@frontend.route('/performance-review/view-feedback')
+@frontend.route('/performance-review/view-feedback/<id>')
+@login_required
+def view_feedback(id=None):
+    if id:
+        feedback_request = FeedbackRequest.objects(id=id, requested_by=current_user._get_current_object()).get()
+        return render_template('view-feedback.html', feedback_request=feedback_request)
+    else:
+        feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
+        return render_template('view-feedback.html', feedback_requests=feedback_requests)
+

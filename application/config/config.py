@@ -17,6 +17,7 @@ class Config(object):
     MAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
     MAIL_USERNAME = os.environ.get('MAILGUN_SMTP_LOGIN')
     MAIL_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
+    HOST = os.environ.get('HOST', 'localhost')
 
 class DevelopmentConfig(Config):
     DEBUG = True

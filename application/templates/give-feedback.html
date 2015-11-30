@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+  {% from "_macros.html" import render_field, render_hidden %}
+  {% include "_logout.html" %}
+
+  <h1 class="heading-large">Give feedback for {{feedback_request.requested_by.full_name}}</h1>
+
+  <form action="{{url}}" method="post" class="form add-feedback">
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        {{ render_field(form.feedback, rows=10) }}
+      </div>
+      <div class="column-third">
+        <h2 class="heading-medium guidance-heading">Guidance on feeback</h2>
+        <p>some stuff about what, how, where, why and when</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button class="button">Save</button>
+    </div>
+  {{ render_hidden(form.csrf_token) }}
+  </form>
+
+{% endblock %}

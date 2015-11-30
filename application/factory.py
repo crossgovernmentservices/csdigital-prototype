@@ -55,6 +55,10 @@ def register_extensions(app):
     from flaskext.markdown import Markdown
     markdown = Markdown(app)
 
+    # flask mail
+    from application.extensions import mail
+    mail.init_app(app)
+
     import os
     if 'SENTRY_DSN' in os.environ:
         from raven.contrib.flask import Sentry

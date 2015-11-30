@@ -21,7 +21,8 @@ from application.models import (
     User,
     Role,
     Objectives,
-    Objective
+    Objective,
+    FeedbackRequest
 )
 
 from application import app
@@ -109,11 +110,44 @@ class AddUserObjective(Command):
         user_objectives.save()
 
 
+class SendFeedbackRequests(Command):
+    """
+        Finds and sends unsent feedback requests for users
+    """
+    def run(self):
+        from flask.ext.mail import Message
+        from flask import render_template
+        from application.extensions import mail
+
+        requests = FeedbackRequest.objects.filter(sent=False).all()
+
+        if not requests:
+            print('Nothing to send')
+            return
+
+        for request in FeedbackRequest.objects.filter(sent=False):
+            host = app.config['HOST']
+            if port == 8000:
+                host = "%s:8000" % host
+            url = "http://%s/give-feedback/%s" % (host, request.id)
+            html = render_template('email/feedback-request.html', request=request, url=url)
+
+            msg = Message(html=html,
+                          subject="Feeback request from test",
+                          sender="noreply@csdigital.notrealgov.uk",
+                          recipients=[request.requested_from.email])
+            try:
+                mail.send(msg)
+                request.sent = True
+                request.save()
+            except Exception as ex:
+                print("We weren't able to handle your request", ex)
 
 manager.add_command('create-user', CreateUser())
 manager.add_command('make-user-admin', MakeUserAdminCommand())
 manager.add_command('add-user-objective', AddUserObjective())
 manager.add_command('create-xgs-users', CreateXgsUsersCommand())
+manager.add_command('send-feedback-requests', SendFeedbackRequests())
 
 
 if __name__ == '__main__':
