@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 {% block body_content %}
 
-  {% include "_logout.html" %}
+ <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/performance-review">Performance review</a></li>
+          <li>{% if edit %}Edit{% else %}Write{% endif %} objective</li>
+        </ol>
+      </div>
+      </div>
+      <div class="column-third">
+        {% include "_logout.html" %}
+      </div>
+  </div>
+
   {% from "_macros.html" import render_field, render_hidden %}
 
   <h1 class="heading-large">{% if edit %}Edit{% else %}Write{% endif %} objective</h1>
