@@ -55,6 +55,7 @@ def register_extensions(app):
     from flaskext.markdown import Markdown
     markdown = Markdown(app)
 
+    import os
     if 'SENTRY_DSN' in os.environ:
         from raven.contrib.flask import Sentry
         sentry = Sentry(app, dsn=os.environ['SENTRY_DSN'])
