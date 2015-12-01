@@ -170,7 +170,7 @@ def give_feedback(id):
 def requested_feedback(id=None):
     if id:
         feedback_request = FeedbackRequest.objects(id=id, requested_by=current_user._get_current_object()).get()
-        return render_template('requested-feedback.html', feedback_request=feedback_request)
+        return render_template('requested-feedback.html', feedback_request=feedback_request, objectives=objectives)
     else:
         feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
         return render_template('requested-feedback.html', feedback_requests=feedback_requests)

@@ -79,7 +79,7 @@ var submitRequest = function(event) {
   });
   $.ajax({
     type: 'POST',
-    url: '/performance-review/feedback-request',
+    url: '/performance-review/send-feedback-request',
     contentType:  'application/json',
     data: JSON.stringify({"recipients": recipients}),
     success: function(data) {
