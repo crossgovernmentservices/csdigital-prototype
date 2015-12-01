@@ -47,3 +47,5 @@ docs/_build
 # sass generated css
 main.css
 govuk_elements.css
+
+environment-private.sh
