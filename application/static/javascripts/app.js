@@ -24,6 +24,7 @@ var templateEditable = function(event) {
 
 var emailLookup = function(event) {
   event.preventDefault();
+  event.stopPropagation();
   var input = $("input[name='q']"),
       searchValue = input.val().trim();
   $('#search-results').empty();
@@ -63,11 +64,13 @@ var renderSearchResults = function(users) {
 
 var addRecipient = function(event) {
   event.preventDefault();
-  var toAdd = event.currentTarget;
-  $(toAdd.parentNode).remove();
-  $('#recipient-list').append(toAdd.parentNode);
-  $(toAdd.parentNode).addClass('recipient-email');
-  $(toAdd.parentNode).append("<a href='#' class='remove'>Remove</a>");
+  var toAdd = event.currentTarget,
+    parent = toAdd.parentNode;
+  $(parent).remove();
+  $('#recipient-list').append(parent);
+  $(parent).addClass('recipient-email');
+  $(parent).append("<a href='#' class='remove'>Remove</a>");
+  $(parent).append("<input type='hidden' id='email' name='email' value='"+ $(parent).find('span').text() +"'>");
   $(toAdd).remove();
   if( $('#recipient-list li').length > 0 ) {
     $('#submit-request').show();
@@ -122,5 +125,4 @@ $(document).ready(function() {
   $('.objective-header').click(toggleObjective);
   $('.edit-controls').click(templateEditable);
   $('.search-button').click(emailLookup);
-  $('#submit-request').click(submitRequest);
 });

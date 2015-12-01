@@ -4,7 +4,9 @@
 
  <script id="search-results-template" type="text/x-jsrender">
     {% raw %}
-    <li><span>{{:userEmail}}</span><a href="#">Add</a></li>
+    <li>
+      <span>{{:userEmail}}</span><a href="#">Add</a>
+    </li>
     {% endraw %}
   </script>
 
@@ -43,32 +45,25 @@
     </div>
   </div>
 
-  <form>
+  <form action="{{url_for('feedback.get_feedback')}}" method="post" >
 
     <div class="grid-row">
       <div class="column-two-thirds">
         <div class="feedback">
           <h2 class="heading-medium">Template</h2>
-          <span class="edit-controls">
-            <a href="#">Edit</a>
-            <a href="#" style="display:none">Save</a>
-          </span>
-          <div class="feedback-template" contentEditable="false">
-              <p>Dear colleague,</p>
-              {% include "feedback/_feedback-template.html" %}
-              <p>{{current_user.full_name}}</p>
-            </div>
-          </div>
+          <textarea style="width: 100%" rows="20" class="feedback-template" name="feedback-template" id="feedback-template">{% include "feedback/_feedback-template.html" %}
+          </textarea>
         </div>
       </div>
+    </div>
 
       <div class="grid-row">
         <div class="column-two-thirds">
           <h2 class="heading-medium">Share your objectives</h2>
-          <label class="block-label" for="include-objectives">
-          Include objectives
+          <label class="block-label" for="share-objectives">
+          Share objectives
           <span class="form-hint">You can share your objectives with colleagues that you request feeback from</span>
-          <input id="include-objectives" name="include-objectives" type="checkbox" value="include-objectives">
+          <input id="share-objectives" name="share-objectives" type="checkbox" value="share-objectives">
           </label>
         </div>
       </div>
@@ -79,7 +74,7 @@
           <h2 class="heading-medium">Who to send it to</h2>
             <ul id="recipient-list">
             </ul>
-             <a href="#" id="submit-request" class="button" style="display:none">Send request</a>
+            <input type="submit" id="submit-request" class="button" style="display:none" value="Send request">
             <label for="search" class="form-label">Find email</label>
             <input class="form-control" type="search" name="q" id="search" title="Search">
             <input class="search-button submit" type="submit" value="Search">

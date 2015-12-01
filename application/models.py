@@ -60,3 +60,4 @@ class FeedbackRequest(db.Document):
     feedback_details = db.StringField()
     share_objectives = db.BooleanField(default=False)
     sent = db.BooleanField(default=False)
+    feedback_template = db.StringField()
