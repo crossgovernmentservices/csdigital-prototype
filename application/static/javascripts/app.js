@@ -79,7 +79,7 @@ var removeRecipient = function(event) {
   event.preventDefault();
   var toRemove = event.currentTarget;
   $(toRemove.parentNode).remove();
-  if( $('#recipient-list li').length == 0 ) {
+  if( $('#recipient-list li').length === 0 ) {
     $('#submit-request').hide();
   }
 };
