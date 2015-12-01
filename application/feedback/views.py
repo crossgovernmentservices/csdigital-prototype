@@ -61,15 +61,17 @@ def give_feedback(id):
 
 # your requests for feedback from other people
 @feedback.route('/performance-review/feedback')
-@feedback.route('/performance-review/feedback/<id>')
 @login_required
 def requested_feedback(id=None):
-    if id:
-        feedback_request = FeedbackRequest.objects(id=id, requested_by=current_user._get_current_object()).get()
-        return render_template('feedback/requested-feedback.html', feedback_request=feedback_request)
-    else:
-        feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
-        return render_template('feedback/requested-feedback.html', feedback_requests=feedback_requests)
+    feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
+    return render_template('feedback/requested-feedback.html', feedback_requests=feedback_requests)
+
+
+@feedback.route('/performance-review/feedback/<id>')
+@login_required
+def view_requested_feedback(id):
+    feedback_request = FeedbackRequest.objects(id=id).get()
+    return render_template('feedback/view-feedback.html',feedback_request=feedback_request)
 
 
 def _send_feedback_email(feedback_request):

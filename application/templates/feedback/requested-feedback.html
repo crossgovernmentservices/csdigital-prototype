@@ -26,16 +26,20 @@
 
   <div class="grid-row">
     <div class="column-two-thirds">
-      {% if feedback_request %}
-        {{feedback_request.feedback_details}}
-      {% elif feedback_requests %}
-        <ul>
-        {% for feedback in feedback_requests %}
-          <li><a href="{{ url_for('feedback.requested_feedback', id=feedback.id) }}">{{feedback.requested_by.full_name}}</a></li>
-        {% endfor %}
-      </ul>
-      {% endif  %}
-
+      <table>
+        <thead>
+          <tr><th>From</th><th>Sent</th><th>Replied</th></tr>
+        </thead>
+        <tbody>
+          {% for feedback in feedback_requests %}
+            <tr>
+              <td>{{feedback.requested_from.full_name}}</td>
+              <td>{{feedback.sent}}</td>
+              <td>{% if feedback.feedback_details %}No{% else %}<a href="{{ url_for('feedback.view_requested_feedback', id=feedback.id) }}">Yes</a>{% endif %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 
