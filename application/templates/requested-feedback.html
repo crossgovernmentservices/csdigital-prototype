@@ -8,7 +8,8 @@
       <div id="global-breadcrumb" class="header-context">
         <ol role="breadcrumbs" class="group">
           <li><a href="/profile">Profile</a></li>
-          <li>Feedback from you</li>
+           <li><a href="/performance-review">Performance review</a></li>
+          <li>Requested feedback</li>
         </ol>
       </div>
       </div>
@@ -18,9 +19,9 @@
   </div>
 
   {% if feedback_request %}
-    <h1 class="heading-large">Your feedback for {{feedback_request.requested_by.full_name}}</h1>
+    <h1 class="heading-large">Your feedback from {{feedback_request.requested_by.full_name}}</h1>
   {% elif feedback_requests %}
-    <h1 class="heading-large">Your feedback to colleagues</h1>
+    <h1 class="heading-large">Your feedback</h1>
   {% endif  %}
 
   <div class="grid-row">
@@ -31,7 +32,7 @@
       {% elif feedback_requests %}
         <ul>
         {% for feedback in feedback_requests %}
-          <li><a href="{{ url_for('frontend.view_feedback_request', id=feedback.id) }}">{{feedback.requested_by.full_name}}</a></li>
+          <li><a href="{{ url_for('frontend.requested_feedback', id=feedback.id) }}">{{feedback.requested_by.full_name}}</a></li>
         {% endfor %}
       </ul>
       {% endif  %}
