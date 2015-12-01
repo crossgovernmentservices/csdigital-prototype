@@ -14,6 +14,9 @@ from flask.ext.security import login_required
 from flask.ext.security.utils import login_user
 from flask.ext.login import current_user
 
+from flask.ext.mail import Message
+from application.extensions import mail
+
 from application.frontend.forms import (
     LoginForm,
     EmailForm,
@@ -131,6 +134,7 @@ def send_feedback_request():
         other_user = User.objects.filter(email=recipient).first()
         feedback_request.requested_from = other_user
         feedback_request.save()
+        _send_feedback_email(feedback_request)
     return 'OK', 200
 
 
@@ -175,3 +179,21 @@ def requested_feedback(id=None):
         feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
         return render_template('requested-feedback.html', feedback_requests=feedback_requests)
 
+
+def _send_feedback_email(feedback_request):
+    host = current_app.config['HOST']
+    if 'localhost' in host:
+        host = "%s:8000" % host
+    url = "http://%s/give-feedback/%s" % (host, feedback_request.id)
+    html = render_template('email/feedback-request.html', request=feedback_request, url=url)
+    msg = Message(html=html,
+                  subject="Feeback request from test",
+                  sender="noreply@csdigital.notrealgov.uk",
+                  recipients=[feedback_request.requested_from.email])
+    try:
+        mail.send(msg)
+        request.sent = True
+        request.save()
+    except Exception as ex:
+        current_app.logger.error("failed to send email", ex)
+        return 'Internal Server Error', 500
