@@ -152,21 +152,6 @@ def give_feedback(id):
         return render_template('give-feedback.html', form=form, feedback_request=feedback_request)
 
 
-
-# your feedback requests from other people
-# @frontend.route('/feedback-request')
-# @frontend.route('/feedback-request/<id>')
-# @login_required
-# def feedback_request(id=None):
-#     if id:
-#         feedback_request = FeedbackRequest.objects(id=id, requested_from=current_user._get_current_object()).get()
-#         return render_template('feedback-request.html', feedback_request=feedback_request)
-#     else:
-#         feedback_requests = FeedbackRequest.objects.filter(requested_from=current_user._get_current_object()).all()
-#         return render_template('feedback-request.html', feedback_requests=feedback_requests)
-
-
-
 # your requests for feedback from other people
 @frontend.route('/performance-review/feedback')
 @frontend.route('/performance-review/feedback/<id>')
@@ -174,7 +159,7 @@ def give_feedback(id):
 def requested_feedback(id=None):
     if id:
         feedback_request = FeedbackRequest.objects(id=id, requested_by=current_user._get_current_object()).get()
-        return render_template('requested-feedback.html', feedback_request=feedback_request, objectives=objectives)
+        return render_template('requested-feedback.html', feedback_request=feedback_request)
     else:
         feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
         return render_template('requested-feedback.html', feedback_requests=feedback_requests)
