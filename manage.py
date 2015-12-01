@@ -127,7 +127,7 @@ class SendFeedbackRequests(Command):
 
         for request in FeedbackRequest.objects.filter(sent=False):
             host = app.config['HOST']
-            if port == 8000:
+            if 'localhost' in host:
                 host = "%s:8000" % host
             url = "http://%s/give-feedback/%s" % (host, request.id)
             html = render_template('email/feedback-request.html', request=request, url=url)
