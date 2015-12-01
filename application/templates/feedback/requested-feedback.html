@@ -31,7 +31,7 @@
       {% elif feedback_requests %}
         <ul>
         {% for feedback in feedback_requests %}
-          <li><a href="{{ url_for('frontend.requested_feedback', id=feedback.id) }}">{{feedback.requested_by.full_name}}</a></li>
+          <li><a href="{{ url_for('feedback.requested_feedback', id=feedback.id) }}">{{feedback.requested_by.full_name}}</a></li>
         {% endfor %}
       </ul>
       {% endif  %}

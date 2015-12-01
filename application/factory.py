@@ -36,6 +36,9 @@ def register_blueprints(app):
     from application.frontend.views import frontend
     app.register_blueprint(frontend)
 
+    from application.feedback.views import feedback
+    app.register_blueprint(feedback)
+
     from application.hatch.views import hatch
     app.register_blueprint(hatch)
 
