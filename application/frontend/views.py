@@ -152,7 +152,7 @@ def give_feedback(id):
         feedback_request.feedback_details = form.feedback.data
         feedback_request.save()
         flash("Saved feedback")
-        return redirect(url_for('frontend.view_feedback_given', id=id))
+        return render_template('give-feedback.html', form=form, feedback_request=feedback_request, objectives=objectives, saved=True)
     else:
         return render_template('give-feedback.html', form=form, feedback_request=feedback_request, objectives=objectives)
 
