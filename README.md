@@ -53,6 +53,13 @@ Deployment
 In your production environment, make sure the ``SETTINGS`` environment variable is set to ``config.Config``.
 
 
+Environment variables
+---------------------
+
+Anything that is not sensitive and can go in version control can be put into
+environment.sh. For anything private, add a file called environment-private.sh (which is git ignored) and put the variables in that file.
+
+
 Adding data - a.k.a. management commands
 ----------------------------------------
 
