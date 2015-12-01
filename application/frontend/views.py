@@ -62,12 +62,6 @@ def performance_review():
     return render_template('performance-review.html')
 
 
-@frontend.route('/performance-review/get-feedback')
-@login_required
-def feedback():
-    return render_template('get-feedback.html')
-
-
 @frontend.route('/users.json')
 @login_required
 def users():
@@ -122,9 +116,15 @@ def add_email():
         return render_template('add-email.html', form=form)
 
 
-@frontend.route('/performance-review/feedback-request', methods=['POST'])
+@frontend.route('/performance-review/get-feedback')
 @login_required
-def feedback_request():
+def feedback():
+    return render_template('get-feedback.html')
+
+
+@frontend.route('/performance-review/send-feedback-request', methods=['POST'])
+@login_required
+def send_feedback_request():
     recipients = request.json['recipients']
     for recipient in recipients:
         feedback_request = FeedbackRequest(requested_by=current_user._get_current_object())
@@ -149,29 +149,29 @@ def give_feedback(id):
 
 
 
-# your feeback for other people
-@frontend.route('/view-feedback-given')
-@frontend.route('/view-feedback-given/<id>')
+# your feedback requests from other people
+@frontend.route('/feedback-request')
+@frontend.route('/feedback-request/<id>')
 @login_required
-def view_feedback_given(id=None):
+def feedback_request(id=None):
     if id:
         feedback_request = FeedbackRequest.objects(id=id, requested_from=current_user._get_current_object()).get()
-        return render_template('view-feedback-given.html', feedback_request=feedback_request)
+        return render_template('feedback-request.html', feedback_request=feedback_request)
     else:
         feedback_requests = FeedbackRequest.objects.filter(requested_from=current_user._get_current_object()).all()
-        return render_template('view-feedback-given.html', feedback_requests=feedback_requests)
+        return render_template('feedback-request.html', feedback_requests=feedback_requests)
 
 
 
 # your feedback from other people
-@frontend.route('/performance-review/view-feedback')
-@frontend.route('/performance-review/view-feedback/<id>')
+@frontend.route('/performance-review/feedback')
+@frontend.route('/performance-review/feedback/<id>')
 @login_required
-def view_feedback(id=None):
+def feedback_response(id=None):
     if id:
         feedback_request = FeedbackRequest.objects(id=id, requested_by=current_user._get_current_object()).get()
-        return render_template('view-feedback.html', feedback_request=feedback_request)
+        return render_template('feedback-response.html', feedback_request=feedback_request)
     else:
         feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
-        return render_template('view-feedback.html', feedback_requests=feedback_requests)
+        return render_template('feedback-response.html', feedback_requests=feedback_requests)
 
