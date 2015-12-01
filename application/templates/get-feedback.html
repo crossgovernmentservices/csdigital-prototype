@@ -2,10 +2,10 @@
 
 {% block endhead %}
 
- <script id="recipient-template" type="text/x-jsrender">
+ <script id="search-results-template" type="text/x-jsrender">
     {% raw %}
     <li>
-      <span class="recipient-email">{{:userEmail}}</span><a href="#">Remove</a>
+      <span class="email">{{:userEmail}}</span><a href="#">Add</a>
     </li>
     {% endraw %}
   </script>
@@ -79,23 +79,17 @@
       <div class="column-two-thirds">
         <div class="recipients">
           <h2 class="heading-medium">Who to send it to</h2>
+            <ul id="recipient-list">
+            </ul>
+             <a href="#" id="submit-request" class="button" style="display:none">Send request</a>
             <label for="search" class="form-label">Find email</label>
             <input class="form-control" type="search" name="q" id="search" title="Search">
             <input class="search-button submit" type="submit" value="Search">
-            <ul id="recipient-list">
-              {% for existing_request in current_user.feedback_requests %}
-               <li><span class="recipient-email">{{existing_request.recipient_email}}</span><span class="request-status">{{existing_request.status}}</span></li>
-              {% endfor %}
+            <ul id="search-results">
             </ul>
         </div>
       </div>
     </div>
-    <div class="grid-row">
-      <div class="column-two-thirds">
-        <a href="#" id="submit-request" class="button" style="display:none">Send request</a>
-      </div>
-    </div>
-
   </form>
 
 {% endblock %}

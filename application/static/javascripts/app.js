@@ -26,12 +26,13 @@ var emailLookup = function(event) {
   event.preventDefault();
   var input = $("input[name='q']"),
       searchValue = input.val().trim();
+  $('#search-results').empty();
   $.ajax({
     type: 'GET',
     url: '/users.json?q='+searchValue,
     contentType: 'application/json',
     success: function(data) {
-        renderRecipients(data.users);
+        renderSearchResults(data.users);
     },
     error: function(xhr, options, error) {
       console.log(error);
@@ -40,16 +41,16 @@ var emailLookup = function(event) {
   });
 };
 
-var renderRecipients = function(users) {
+var renderSearchResults = function(users) {
   $.each(users, function(index, user) {
-    var template = $.templates("#recipient-template"),
+    var template = $.templates("#search-results-template"),
       existing = $('li:not(:contains(' + user.email + ')'),
       html = template.render({
         'userEmail': user.email
       });
     if(existing.length == 0){
-      $('#recipient-list').append(html);
-      $('#recipient-list li a').click(removeRecipient);
+      $('#search-results').append(html);
+      $('#search-results li a').click(addRecipient);
       $("input[name='q']").val('');
     } else {
       console.log('email', user.email, 'already in list');
@@ -60,10 +61,23 @@ var renderRecipients = function(users) {
   }
 };
 
+var addRecipient = function(event) {
+  event.preventDefault();
+  var toAdd = event.currentTarget;
+  $(toAdd.parentNode).remove();
+  $('#recipient-list').append(toAdd.parentNode);
+  $(toAdd.parentNode).append("<a href='#' class='remove'>Remove</a>");
+  $(toAdd).remove();
+  if( $('#recipient-list li').length > 0 ) {
+    $('#submit-request').show();
+  }
+  $('.remove').click(removeRecipient);
+};
+
 var removeRecipient = function(event) {
   event.preventDefault();
   var toRemove = event.currentTarget;
-  $(toRemove).parent().remove();
+  $(toRemove.parentNode).remove();
   if( $('#recipient-list li').length == 0 ) {
     $('#submit-request').hide();
   }
