@@ -66,6 +66,7 @@ var addRecipient = function(event) {
   var toAdd = event.currentTarget;
   $(toAdd.parentNode).remove();
   $('#recipient-list').append(toAdd.parentNode);
+  $(toAdd.parentNode).addClass('recipient-email');
   $(toAdd.parentNode).append("<a href='#' class='remove'>Remove</a>");
   $(toAdd).remove();
   if( $('#recipient-list li').length > 0 ) {
@@ -85,12 +86,13 @@ var removeRecipient = function(event) {
 
 var submitRequest = function(event) {
   event.preventDefault();
-  var recipientList = $('.recipient-email'),
+  var recipientList = $('.recipient-email span'),
     recipients = [];
 
-  recipientList.each(function(){
+  recipientList.each(function() {
     recipients.push($(this).text().trim());
   });
+
   $.ajax({
     type: 'POST',
     url: '/performance-review/send-feedback-request',

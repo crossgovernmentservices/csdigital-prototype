@@ -177,8 +177,8 @@ def _send_feedback_email(feedback_request):
                   recipients=[feedback_request.requested_from.email])
     try:
         mail.send(msg)
-        request.sent = True
-        request.save()
+        feedback_request.sent = True
+        feedback_request.save()
     except Exception as ex:
         current_app.logger.error("failed to send email", ex)
         return 'Internal Server Error', 500
