@@ -5,6 +5,7 @@ from flask import (
     url_for,
     flash,
     request,
+    jsonify
 )
 
 from flask.ext.security import login_required

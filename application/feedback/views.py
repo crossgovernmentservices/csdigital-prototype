@@ -20,6 +20,7 @@ from application.models import (
 
 feedback = Blueprint('feedback', __name__, template_folder='templates')
 
+
 @feedback.route('/performance-review/get-feedback')
 @login_required
 def get_feedback():
