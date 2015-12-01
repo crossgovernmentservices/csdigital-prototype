@@ -129,10 +129,12 @@ def feedback():
 @login_required
 def send_feedback_request():
     recipients = request.json['recipients']
+    share_objectives = request.json['share-objectives']
     for recipient in recipients:
         feedback_request = FeedbackRequest(requested_by=current_user._get_current_object())
         other_user = User.objects.filter(email=recipient).first()
         feedback_request.requested_from = other_user
+        feedback_request.share_objectives = share_objectives
         feedback_request.save()
         _send_feedback_email(feedback_request)
     return 'OK', 200
@@ -143,13 +145,16 @@ def send_feedback_request():
 def give_feedback(id):
     form = FeedbackForm()
     feedback_request = FeedbackRequest.objects(id=id).get()
+    objectives = None
+    if feedback_request.share_objectives:
+        objectives = feedback_request.requested_by.objectives
     if form.validate_on_submit():
         feedback_request.feedback_details = form.feedback.data
         feedback_request.save()
         flash("Saved feedback")
         return redirect(url_for('frontend.view_feedback_given', id=id))
     else:
-        return render_template('give-feedback.html', form=form, feedback_request=feedback_request)
+        return render_template('give-feedback.html', form=form, feedback_request=feedback_request, objectives=objectives)
 
 
 # your requests for feedback from other people

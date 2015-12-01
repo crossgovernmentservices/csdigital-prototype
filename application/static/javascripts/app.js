@@ -87,7 +87,9 @@ var removeRecipient = function(event) {
 var submitRequest = function(event) {
   event.preventDefault();
   var recipientList = $('.recipient-email span'),
-    recipients = [];
+    recipients = [],
+    objectivesCheckbox = $('#include-objectives'),
+    shareObjectives = $(objectivesCheckbox).is(':checked');
 
   recipientList.each(function() {
     recipients.push($(this).text().trim());
@@ -97,7 +99,7 @@ var submitRequest = function(event) {
     type: 'POST',
     url: '/performance-review/send-feedback-request',
     contentType:  'application/json',
-    data: JSON.stringify({"recipients": recipients}),
+    data: JSON.stringify({"recipients": recipients, "share-objectives": shareObjectives}),
     success: function(data) {
       console.log('ok then');
       $('#submit-request').hide();

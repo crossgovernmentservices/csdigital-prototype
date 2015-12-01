@@ -5,7 +5,6 @@
   {% include "_logout.html" %}
 
   <h1 class="heading-large">Give feedback for {{feedback_request.requested_by.full_name}}</h1>
-
   <form action="{{url}}" method="post" class="form add-feedback">
 
     <div class="grid-row">
@@ -24,4 +23,30 @@
   {{ render_hidden(form.csrf_token) }}
   </form>
 
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <section class="objectives">
+        {% if objectives %}
+          <h2 class="heading-medium">Objectives</h2>
+           <ul>
+            {% for objective in objectives.objectives %}
+              <li class="objective">
+                <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
+                <div class="details" style="display: none;">
+                  {{objective.how|markdown}}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
 {% endblock %}
