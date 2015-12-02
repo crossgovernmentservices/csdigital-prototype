@@ -15,8 +15,6 @@
 {% endmacro %}
 
 
-{% macro render_hidden(field) %}
-    <div style="display:none;">
-        {{ field(type="hidden") }}
-   </div>
+{% macro render_hidden(form) %}
+    {{ form.hidden_tag() }}
 {% endmacro %}

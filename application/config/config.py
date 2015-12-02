@@ -8,8 +8,6 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SECURITY_PASSWORD_SALT = SECRET_KEY
     SECURITY_PASSWORD_HASH = os.environ.get('SECURITY_PASSWORD_HASH')
-    SECURITY_POST_LOGIN_VIEW = os.environ.get('SECURITY_POST_LOGIN_VIEW')
-    SECURITY_LOGIN_URL='/'
     MONGODB_SETTINGS = {
         'host': os.environ.get('MONGO_URI')
     }

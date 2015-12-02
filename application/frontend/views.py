@@ -5,13 +5,13 @@ from flask import (
     url_for,
     flash,
     request,
-    jsonify
+    jsonify,
+    current_app
 )
 
 from flask.ext.security import login_required
 from flask.ext.security.utils import login_user
 from flask.ext.login import current_user
-
 
 from application.frontend.forms import (
     LoginForm,
@@ -24,26 +24,34 @@ from application.models import (
     Objective
 )
 
+from application.extensions import user_datastore
+
 frontend = Blueprint('frontend', __name__, template_folder='templates')
 
 
 @frontend.route('/', methods=['GET', 'POST'])
 def index():
-    from application.extensions import user_datastore
-    if current_user and current_user.is_authenticated():
-        return redirect('/profile')
+    return render_template('index.html')
+
+
+@frontend.route('/login', methods=['GET', 'POST'])
+def login():
     form = LoginForm()
+    if request.args.get('next'):
+        form.next.data = request.args.get('next')
     if form.validate_on_submit():
-        email = form.data['email'].strip()
+        current_app.logger.info(form.data)
+        email = form.email.data.strip()
         user = user_datastore.get_user(email)
         if not user:
             flash("You don't have a user account yet")
-            return redirect(url_for('.index'))
-        logged_in = login_user(user)
-        if logged_in:
-            return redirect('/profile')
-    else:
-        return render_template('index.html', form=form)
+            return redirect(url_for('frontend.index'))
+        login_user(user)
+        current_app.logger.info('THIS IS THE NEXT!')
+        current_app.logger.info(form.next.data)
+        #TODO check next is valid
+        return redirect(form.next.data or '/profile')
+    return render_template('login.html', form=form)
 
 
 @frontend.route('/profile')

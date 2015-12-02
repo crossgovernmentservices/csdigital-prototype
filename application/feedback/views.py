@@ -79,7 +79,7 @@ def _send_feedback_email(feedback_request):
     url = "http://%s/give-feedback/%s" % (host, feedback_request.id)
     html = render_template('feedback/email/feedback-request.html', request=feedback_request, url=url)
     msg = Message(html=html,
-                  subject="Feeback request from test",
+                  subject="Feedback request from test",
                   sender="noreply@csdigital.notrealgov.uk",
                   recipients=[feedback_request.requested_from.email])
     try:
