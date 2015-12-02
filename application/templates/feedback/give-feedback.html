@@ -5,8 +5,16 @@
   {% include "_logout.html" %}
 
   <h1 class="heading-large">Give feedback for {{feedback_request.requested_by.full_name}}</h1>
-  <form action="{{url}}" method="post" class="form add-feedback">
 
+
+   <div class="grid-row">
+      <div class="column-two-thirds">
+        {{feedback_request.feedback_template|markdown}}
+      </div>
+  </div>
+
+
+  <form action="{{url}}" method="post" class="form add-feedback">
     <div class="grid-row">
       <div class="column-two-thirds">
         {{ render_field(form.feedback, rows=10) }}

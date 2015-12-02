@@ -33,9 +33,10 @@ def get_feedback():
             feedback_request.requested_from = other_user
             if share_objectives:
                 feedback_request.share_objectives = True
+            feedback_request.feedback_template = request.form.get('feedback-template')
             feedback_request.save()
             _send_feedback_email(feedback_request)
-            flash('Submitted request')
+        flash('Submitted request')
 
     return render_template('feedback/get-feedback.html')
 
