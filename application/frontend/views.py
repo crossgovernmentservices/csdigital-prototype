@@ -47,10 +47,8 @@ def login():
             flash("You don't have a user account yet")
             return redirect(url_for('frontend.index'))
         login_user(user)
-        current_app.logger.info('THIS IS THE NEXT!')
-        current_app.logger.info(form.next.data)
         #TODO check next is valid
-        return redirect(form.next.data or '/profile')
+        return redirect(form.next.data)
     return render_template('login.html', form=form)
 
 
