@@ -5,11 +5,63 @@
 {% from "_macros.html" import render_field, render_hidden %}
 
   <h1 class="heading-large">Civil Service Digital</h1>
+  <p class="lede">All the stuff you do in your job that isn't your actual job.</p>
+  <div class="services">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <div class="text">
+          <a href="{{url_for('frontend.profile')}}">View and edit information about me</a>
+        </div>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="column-half">
+        <div class="text">
+          <h2 class="heading-small">My log</h2>
+          <ul>
+            <li><a href="#">Log something</a></li>
+            <li><a href="#">View my log</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="column-half">
+        <div class="text">
+          <h2 class="heading-small">Feedback</h2>
+          <ul>
+            <li><a href="{{url_for('feedback.get_feedback')}}">Request feedback</a></li>
+            <li><a href="{{url_for('feedback.requested_feedback')}}">View feedback for me</a></li>
+            <li><a href="#">Give feedback</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-  <p class="text">Helping you manage your professional life as a civil servant online, with easy access at work, at home and on the move.</p>
+    <div class="grid-row">
+      <div class="column-half">
+        <div class="text">
+          <h2 class="heading-small">Objectives</h2>
+          <ul>
+            <li><a href="{{url_for('frontend.objectives')}}">View and edit my objectives</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="column-half">
+        <div class="text">
+          <h2 class="heading-small">Performance</h2>
+        </div>
+      </div>
+    </div>
 
-  <p><a href="{{url_for('frontend.profile')}}">Your profile</a></p>
-  <p><a href="{{url_for('frontend.performance_review')}}">Performance review</a></p>
-
+    <div class="grid-row">
+      <div class="column-half">
+        <div class="text">
+          <h2 class="heading-small">Development</h2>
+          <ul>
+            <li><a href="#">View my learing record</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

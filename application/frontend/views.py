@@ -58,51 +58,6 @@ def profile():
     return render_template('profile.html')
 
 
-@frontend.route('/performance-review')
-@login_required
-def performance_review():
-    return render_template('performance-review.html')
-
-
-@frontend.route('/users.json')
-@login_required
-def users():
-    q = request.args['q']
-    users = User.objects.only('email').filter(email__icontains=q)
-    return jsonify({'users': users})
-
-
-@frontend.route("/performance-review/add-objective", methods=['GET', 'POST'])
-@login_required
-def add_objective():
-    form = ObjectiveForm()
-    if form.validate_on_submit():
-        message = 'Added objective'
-        flash(message)
-        objective = Objective(what=form.what.data, how=form.how.data)
-        objective.save()
-        current_user.objectives.add(objective)
-        return redirect(url_for('frontend.performance_review'))
-    else:
-        add_url = '/performance-review/add-objective'
-        return render_template('add-objective.html', form=form, url=add_url)
-
-
-@frontend.route("/performance-review/edit-objective/<id>", methods=['GET', 'POST'])
-@login_required
-def edit_objective(id):
-    form = ObjectiveForm()
-    if form.validate_on_submit():
-        objective = Objective.objects(id=id).update(what=form.what.data, how=form.how.data)
-        return redirect(url_for('frontend.performance_review'))
-    else:
-        edit_url = "/performance-review/edit-objective/%s" % id
-        objective = Objective.objects(id=id).get()
-        form.what.data = objective.what
-        form.how.data = objective.how
-        return render_template('add-objective.html', form=form, url=edit_url, edit=True)
-
-
 @frontend.route('/profile/add-email', methods=['GET', 'POST'])
 @login_required
 def add_email():
@@ -116,3 +71,50 @@ def add_email():
         return redirect('/profile')
     else:
         return render_template('add-email.html', form=form)
+
+
+@frontend.route('/objectives')
+@login_required
+def objectives():
+    return render_template('objectives.html')
+
+
+@frontend.route("/objectives/add", methods=['GET', 'POST'])
+@login_required
+def add_objective():
+    form = ObjectiveForm()
+    if form.validate_on_submit():
+        message = 'Added objective'
+        flash(message)
+        objective = Objective(what=form.what.data, how=form.how.data)
+        objective.save()
+        current_user.objectives.add(objective)
+        return redirect(url_for('frontend.objectives'))
+    else:
+        add_url = url_for('frontend.add_objective')
+        return render_template('add-objective.html', form=form, url=add_url)
+
+
+@frontend.route("/objectives/<id>", methods=['GET', 'POST'])
+@login_required
+def edit_objective(id):
+    form = ObjectiveForm()
+    if form.validate_on_submit():
+        objective = Objective.objects(id=id).update(what=form.what.data, how=form.how.data)
+        return redirect(url_for('frontend.objectives'))
+    else:
+        edit_url = url_for('frontend.edit_objective', id=id)
+        objective = Objective.objects(id=id).get()
+        form.what.data = objective.what
+        form.how.data = objective.how
+        return render_template('add-objective.html', form=form, url=edit_url, edit=True)
+
+
+@frontend.route('/users.json')
+@login_required
+def users():
+    q = request.args['q']
+    users = User.objects.only('email').filter(email__icontains=q)
+    return jsonify({'users': users})
+
+

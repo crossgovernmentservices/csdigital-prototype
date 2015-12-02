@@ -3,6 +3,17 @@
 
   {% include "_logout.html" %}
 
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li>Profile</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
   <header class="user-details">
     <p>Signed in as:</p>
     <h1 class="heading-large">{{current_user.full_name}}</h1>
@@ -24,13 +35,5 @@
       <p class="font-xsmall text">If you go on maternity leave, switch departments or go on a career break, your previous information can stay with you. You can have limited access to some services from a personal email address, even if your work address is terminated.</p>
     </details>
   </header>
-
-  <section class="actions">
-    <div class="text">
-      <h2 class="heading-medium">1. Check on your performance review</h2>
-      <p>See how you are progressing towards your annual review, organise evidence, and easily request feedback.</p>
-      <a class="button button-start" href="{{url_for('frontend.performance_review')}}" role="button">Check now</a>
-    </div>
-  </section>
 
 {% endblock %}

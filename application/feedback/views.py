@@ -21,7 +21,7 @@ from application.models import (
 feedback = Blueprint('feedback', __name__, template_folder='templates')
 
 
-@feedback.route('/performance-review/get-feedback', methods=['GET', 'POST'])
+@feedback.route('/get-feedback', methods=['GET', 'POST'])
 @login_required
 def get_feedback():
     if request.method == 'POST':
@@ -58,14 +58,14 @@ def give_feedback(id):
 
 
 # your requests for feedback from other people
-@feedback.route('/performance-review/feedback')
+@feedback.route('/feedback')
 @login_required
 def requested_feedback(id=None):
     feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
     return render_template('feedback/requested-feedback.html', feedback_requests=feedback_requests)
 
 
-@feedback.route('/performance-review/feedback/<id>')
+@feedback.route('/feedback/<id>')
 @login_required
 def view_requested_feedback(id):
     feedback_request = FeedbackRequest.objects(id=id).get()

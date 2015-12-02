@@ -5,8 +5,8 @@
     <div class="column-two-thirds">
       <div id="global-breadcrumb" class="header-context">
         <ol role="breadcrumbs" class="group">
-          <li><a href="/profile">Profile</a></li>
-          <li><a href="/performance-review">Performance review</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="{{url_for('frontend.objectives')}}">Objectives</a></li>
           <li>{% if edit %}Edit{% else %}Write{% endif %} objective</li>
         </ol>
       </div>
@@ -45,7 +45,7 @@
     <div class="form-group">
       <button class="button">{% if edit %}Save{% else %}Add objective{% endif %}</button>
     </div>
-  {{ render_hidden(form.csrf_token) }}
+  {{ render_hidden(form) }}
   </form>
 
   </div>
