@@ -12,7 +12,7 @@ from flask.ext.login import current_user
 from flask.ext.mail import Message
 
 from application.extensions import mail
-from application.frontend.forms import FeedbackForm
+from application.feedback.forms import FeedbackForm
 from application.models import (
     User,
     FeedbackRequest
