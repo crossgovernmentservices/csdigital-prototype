@@ -14,14 +14,5 @@ class LoginForm(Form):
     next = HiddenField('next')
 
 
-class EmailForm(Form):
-    email = EmailField('Email address', validators=[Required()])
-
-
-class ObjectiveForm(Form):
-    what = TextAreaField('What is your objective?', validators=[Required()])
-    how = TextAreaField('How will you achieve this?', validators=[Required()])
-
-
 class FeedbackForm(Form):
     feedback = TextAreaField('Your feedback', validators=[Required()])

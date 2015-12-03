@@ -5,7 +5,7 @@
 
   {% from "_macros.html" import render_field, render_hidden %}
 
-  <form action="{{url_for('frontend.add_email')}}" method="post" class="form">
+  <form action="{{url_for('profile.add_email')}}" method="post" class="form">
   {{ render_field(form.email) }}
   <div class="form-group">
     <button class="button">Add email</button>

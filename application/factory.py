@@ -39,6 +39,12 @@ def register_blueprints(app):
     from application.feedback.views import feedback
     app.register_blueprint(feedback)
 
+    from application.profile.views import profile
+    app.register_blueprint(profile)
+
+    from application.objectives.views import objectives
+    app.register_blueprint(objectives)
+
     from application.hatch.views import hatch
     app.register_blueprint(hatch)
 
