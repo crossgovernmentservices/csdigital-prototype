@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li>My Log</li>
+        </ol>
+      </div>
+      </div>
+      <div class="column-third">
+        {% include "_logout.html" %}
+      </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large">My log</h1>
+      <p>Store information about things you've done and evidence of your performance here to use later.</p>
+    </div>
+  </div>
+
+  <div class="grid-row section">
+    <div class="column-third">
+      <p><a href="#" class="button">Add log entry</a></p>
+      <label class="form-label" for="search-log">Search my log</label>
+      <input class="form-control" id="search-log" type="text">
+    </div>
+  </div>
+
+  <div class="section">
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Tags</th><th>Content</th></tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
+{% endblock %}

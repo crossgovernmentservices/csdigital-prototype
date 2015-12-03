@@ -122,7 +122,7 @@ section {
   }
 }
 
-.add-feedback .form-control{
+.add-feedback .form-control {
   width: 100%;
 }
 
@@ -157,6 +157,12 @@ section {
   border-color: $button-colour;
 }
 
-.services {
- margin-top: 1.5em;
+.section {
+  margin-top: 1.5em;
+  margin-bottom: 1em;
 }
+
+.section .form-control {
+  width: 100%;
+}
+

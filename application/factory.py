@@ -45,6 +45,9 @@ def register_blueprints(app):
     from application.objectives.views import objectives
     app.register_blueprint(objectives)
 
+    from application.mylog.views import mylog
+    app.register_blueprint(mylog)
+
     from application.hatch.views import hatch
     app.register_blueprint(hatch)
 

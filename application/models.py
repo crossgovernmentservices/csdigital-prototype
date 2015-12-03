@@ -61,3 +61,10 @@ class FeedbackRequest(db.Document):
     share_objectives = db.BooleanField(default=False)
     sent = db.BooleanField(default=False)
     feedback_template = db.StringField()
+
+
+class LogEntry(db.Document):
+    created_date = db.DateTimeField(default=datetime.datetime.utcnow)
+    content = db.StringField()
+    owner = db.ReferenceField(User)
+
