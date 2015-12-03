@@ -39,14 +39,14 @@
   <div class="section">
     <table>
       <thead>
-        <tr><th>Date</th><th>Tags</th><th>Content</th></tr>
+        <tr><th>Date</th><th>Content</th><th>Tags</th></tr>
       </thead>
       <tbody>
         {% for entry in log_entries %}
           <tr>
             <td><a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.created_date|format_date}}</a></td>
-            <td><!-- tags soon --></td>
             <td>{{entry.content}}</td>
+            <td><!-- tags soon --></td>
           </tr>
         {% endfor %}
       </tbody>
