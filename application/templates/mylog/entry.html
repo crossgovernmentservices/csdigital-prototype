@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+{% from "_macros.html" import render_field, render_hidden %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li><a href="{{url_for('mylog.view_mylog')}}">My Log</a></li>
+          <li>Log entry</li>
+        </ol>
+      </div>
+      </div>
+      <div class="column-third">
+        {% include "_logout.html" %}
+      </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large">View log entry</h1>
+    </div>
+  </div>
+
+  <div class="grid-row section">
+    <div class="column-two-thirds">
+      <p><a href="#">Edit this log entry</a></p>
+      <p><a href="#">Delete this log entry</a></p>
+    </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div class="section">
+        <h2>Date</h2>
+        <p>{{entry.created_date|format_date}}</p>
+      </div>
+      <div class="section">
+        <h2>Tags</h2>
+        <p>None</p>
+      </div>
+      <div class="section">
+        <h2>Content</h2>
+        <p>{{entry.content}}</p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
+{% endblock %}

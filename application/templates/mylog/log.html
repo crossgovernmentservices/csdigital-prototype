@@ -44,7 +44,7 @@
       <tbody>
         {% for entry in log_entries %}
           <tr>
-            <td>{{entry.created_date|format_date}}</td>
+            <td><a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.created_date|format_date}}</a></td>
             <td><!-- tags soon --></td>
             <td>{{entry.content}}</td>
           </tr>

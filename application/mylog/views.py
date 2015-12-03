@@ -3,7 +3,8 @@ from flask import (
     render_template,
     flash,
     redirect,
-    url_for
+    url_for,
+    abort
 )
 
 from flask.ext.security import login_required
@@ -22,7 +23,7 @@ def view_mylog():
     return render_template('mylog/log.html', log_entries=log_entries)
 
 
-@mylog.route('/my-log/add', methods=['GET', 'POST'])
+@mylog.route('/my-log/entry', methods=['GET', 'POST'])
 def add_log_entry():
     form = LogEntryForm()
     if form.validate_on_submit():
@@ -32,3 +33,11 @@ def add_log_entry():
         flash('Entry saved')
         return redirect(url_for('mylog.view_mylog'))
     return render_template('mylog/add-entry.html', form=form)
+
+
+@mylog.route('/my-log/entry/<id>')
+def view_log_entry(id):
+    entry = LogEntry.objects(id=id)
+    if not entry:
+        abort(404)
+    return render_template('mylog/entry.html', entry=entry.get())
