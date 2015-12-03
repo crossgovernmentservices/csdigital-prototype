@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+{% from "_macros.html" import render_field, render_hidden %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li>My Log</li>
+        </ol>
+      </div>
+      </div>
+      <div class="column-third">
+        {% include "_logout.html" %}
+      </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large">Add log entry</h1>
+    </div>
+  </div>
+
+  <div class="grid-row section">
+    <div class="column-two-thirds">
+      <form action="{{url_for('mylog.add_log_entry')}}" method="POST">
+        {{ render_field(form.content, rows=10) }}
+        {{ render_hidden(form) }}
+        <input class="button"  type="submit" value="Add log entry">
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
+{% endblock %}

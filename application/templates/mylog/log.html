@@ -25,7 +25,12 @@
 
   <div class="grid-row section">
     <div class="column-third">
-      <p><a href="#" class="button">Add log entry</a></p>
+      <p><a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a></p>
+    </div>
+  </div>
+
+  <div class="grid-row section">
+    <div class="column-third">
       <label class="form-label" for="search-log">Search my log</label>
       <input class="form-control" id="search-log" type="text">
     </div>
@@ -37,7 +42,13 @@
         <tr><th>Date</th><th>Tags</th><th>Content</th></tr>
       </thead>
       <tbody>
-
+        {% for entry in log_entries %}
+          <tr>
+            <td>{{entry.created_date|format_date}}</td>
+            <td><!-- tags soon --></td>
+            <td>{{entry.content}}</td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
