@@ -62,12 +62,23 @@ class FeedbackRequest(db.Document):
     sent = db.BooleanField(default=False)
     feedback_template = db.StringField()
 
+
 class Tag(db.Document):
-    name = db.StringField()
+    owner = db.ReferenceField(User)
+    name = db.StringField(unique=True)
+
 
 class LogEntry(db.Document):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
     content = db.StringField()
     owner = db.ReferenceField(User)
     tags = db.ListField(db.ReferenceField(Tag), default=[])
+
+    def add_tag(self, name):
+        tag = Tag.objects.filter(name=name, owner=self.owner).first()
+        if not tag:
+            tag = Tag(name=name, owner=self.owner)
+            tag.save()
+        self.tags.append(tag)
+        self.save()
 

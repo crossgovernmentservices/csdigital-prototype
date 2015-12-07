@@ -14,11 +14,24 @@ var selectizeInit = function(data) {
         console.log('onChange', value);
       },
       onItemAdd: function(value, $item) {
-        console.log(value, $item);
         currentInput = $item.parent().parent().prev();
+        addTagToEntry(value, currentInput.data().entryId);
       }
   });
 };
+
+var addTagToEntry = function(tag, entryId) {
+   $.ajax({
+    url: '/my-log/entry/'+entryId+'/tags',
+    type: 'POST',
+    async: false,
+    contentType: 'application/json',
+    data:  JSON.stringify({"tag": tag}),
+    success: function(data) {
+      console.log('all done');
+    }
+  });
+}
 
 var tagsInit = function() {
   $.ajax({

@@ -6,7 +6,8 @@ from flask import (
     url_for,
     abort,
     jsonify,
-    request
+    request,
+    current_app
 )
 
 from flask.ext.security import login_required
@@ -48,6 +49,17 @@ def view_log_entry(id):
     if not entry:
         abort(404)
     return render_template('mylog/entry.html', entry=entry.get())
+
+
+@mylog.route('/my-log/entry/<id>/tags', methods=['POST'])
+def tag_entry(id):
+    entry = LogEntry.objects(id=id).get()
+    if not entry:
+        abort(404)
+    tag_name = request.json.get('tag')
+    entry.add_tag(tag_name)
+    entry.save()
+    return 'OK', 200
 
 
 @mylog.route('/my-log/tags.json')

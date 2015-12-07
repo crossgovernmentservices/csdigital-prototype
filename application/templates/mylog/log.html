@@ -51,8 +51,7 @@
             <td>{{entry.created_date|format_date}}</td>
             <td><a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.content|truncate(80)}}</a></td>
             <td>
-              {% for tag in entry.tags %}{{tag}}{% endfor %}
-              <input type="text" value="" class="demo-default selectized input-tags" tyle="display: block;">
+              <input type="text" value="{% for tag in entry.tags %}{{tag.name}},{% endfor %}" class="demo-default selectized input-tags" tyle="display: block;" data-entry-id="{{entry.id}}">
             </td>
           </tr>
         {% endfor %}
