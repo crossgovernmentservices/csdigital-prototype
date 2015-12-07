@@ -62,9 +62,12 @@ class FeedbackRequest(db.Document):
     sent = db.BooleanField(default=False)
     feedback_template = db.StringField()
 
+class Tag(db.Document):
+    name = db.StringField()
 
 class LogEntry(db.Document):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
     content = db.StringField()
     owner = db.ReferenceField(User)
+    tags = db.ListField(db.ReferenceField(Tag), default=[])
 

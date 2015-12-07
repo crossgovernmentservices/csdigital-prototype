@@ -126,6 +126,10 @@ section {
   width: 100%;
 }
 
+.log-table {
+  table-layout: fixed;
+}
+
 /* quick hack for override elements
 * styles for markdown text area
 */
