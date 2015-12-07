@@ -16,6 +16,14 @@ var selectizeInit = function(data) {
       onItemAdd: function(value, $item) {
         currentInput = $item.parent().parent().prev();
         addTagToEntry(value, currentInput.data().entryId);
+        $item.click(itemClicked);
+      },
+      onInitialize:  function() {
+        $('.item').click(itemClicked);
+      },
+      onDelete: function(value) {
+        console.log('onDelete', value);
+        //TODO remove tag with name==value from entry
       }
   });
 };
@@ -24,7 +32,6 @@ var addTagToEntry = function(tag, entryId) {
    $.ajax({
     url: '/my-log/entry/'+entryId+'/tags',
     type: 'POST',
-    async: false,
     contentType: 'application/json',
     data:  JSON.stringify({"tag": tag}),
     success: function(data) {
@@ -47,8 +54,10 @@ var tagsInit = function() {
   });
 };
 
-var watchInputs = function(event) {
-  console.log('watchInputs');
+var itemClicked = function(event) {
+    event.stopPropagation();
+    var tagName = $(event.currentTarget).data().value;
+    window.location = '/my-log?tag='+tagName;
 };
 
 $(document).ready(function() {

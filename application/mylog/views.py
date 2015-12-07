@@ -26,8 +26,14 @@ mylog = Blueprint('mylog', __name__, template_folder='templates')
 @mylog.route('/my-log')
 @login_required
 def view_mylog():
-    log_entries = LogEntry.objects.filter(owner=current_user._get_current_object()).all()
-    tags = Tag.objects.all()
+    owner = current_user._get_current_object()
+    if request.args.get('tag'):
+        tag = Tag.objects.filter(name__iexact=request.args.get('tag'), owner=owner).first()
+        log_entries = LogEntry.objects.filter(owner=owner, tags__in=[tag]).all()
+    else:
+        log_entries = LogEntry.objects.filter(owner=owner).all()
+
+    tags = Tag.objects.filter(owner=owner).all()
     return render_template('mylog/log.html', log_entries=log_entries, tags=tags)
 
 
