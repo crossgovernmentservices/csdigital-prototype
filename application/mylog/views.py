@@ -6,8 +6,7 @@ from flask import (
     url_for,
     abort,
     jsonify,
-    request,
-    current_app
+    request
 )
 
 from flask.ext.security import login_required
@@ -28,7 +27,6 @@ mylog = Blueprint('mylog', __name__, template_folder='templates')
 def view_mylog():
     log_entries = LogEntry.objects.filter(owner=current_user._get_current_object()).all()
     tags = Tag.objects.all()
-    current_app.logger.info(tags)
     return render_template('mylog/log.html', log_entries=log_entries, tags=tags)
 
 

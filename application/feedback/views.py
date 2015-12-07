@@ -41,9 +41,13 @@ def get_feedback():
     return render_template('feedback/get-feedback.html')
 
 
+@feedback.route('/give-feedback')
 @feedback.route('/give-feedback/<id>', methods=['GET', 'POST'])
 @login_required
-def give_feedback(id):
+def give_feedback(id=None):
+    if not id:
+        feedback_requests = FeedbackRequest.objects.filter(requested_from=current_user._get_current_object())
+        return render_template('feedback/feedback-for-others.html', feedback_requests=feedback_requests)
     form = FeedbackForm()
     feedback_request = FeedbackRequest.objects(id=id).get()
     objectives = None
@@ -63,7 +67,7 @@ def give_feedback(id):
 @login_required
 def requested_feedback(id=None):
     feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
-    return render_template('feedback/requested-feedback.html', feedback_requests=feedback_requests)
+    return render_template('feedback/feedback-for-me.html', feedback_requests=feedback_requests)
 
 
 @feedback.route('/feedback/<id>')
