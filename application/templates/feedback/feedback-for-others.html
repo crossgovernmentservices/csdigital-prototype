@@ -30,7 +30,8 @@
             <tr>
               <td>{{feedback.requested_by.full_name}}</td>
               <td>{{feedback.sent}}</td>
-              <td>{% if feedback.feedback_details == None %}No{% else %}<a href="{{ url_for('feedback.give_feedback', id=feedback.id) }}">Yes</a>{% endif %}</td>
+              <td>
+                <a href="{{ url_for('feedback.give_feedback', id=feedback.id) }}">{% if feedback.feedback_details == None %}No{% else %}Yes{% endif %}</a></td>
             </tr>
           {% endfor %}
         </tbody>

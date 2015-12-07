@@ -50,6 +50,10 @@ def give_feedback(id=None):
         return render_template('feedback/feedback-for-others.html', feedback_requests=feedback_requests)
     form = FeedbackForm()
     feedback_request = FeedbackRequest.objects(id=id).get()
+
+    if id and request.method == 'GET':
+        form.feedback.data = feedback_request.feedback_details
+
     objectives = None
     if feedback_request.share_objectives:
         objectives = feedback_request.requested_by.objectives
