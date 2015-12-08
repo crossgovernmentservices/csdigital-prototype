@@ -13,7 +13,7 @@
           <li><a href="/">Home</a></li>
           {% if filtered %}
             <li><a href="{{url_for('mylog.view_mylog')}}">My Log</a></li>
-            <li>Tag: {{request.args.get('tag')}}</a></li>
+            <li style="font-weight: bold">Filtered by tag: {{request.args.get('tag')}}</a></li>
           {% else %}
             <li>My Log</li>
           {% endif %}
