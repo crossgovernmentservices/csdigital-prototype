@@ -51,15 +51,29 @@ def add_log_entry():
     return render_template('mylog/add-entry.html', form=form)
 
 
-@mylog.route('/my-log/entry/<id>')
+@mylog.route('/my-log/entry/<id>', methods=['GET', 'POST'])
 def view_log_entry(id):
     entry = LogEntry.objects(id=id)
     if not entry:
         abort(404)
-    return render_template('mylog/entry.html', entry=entry.get())
+    entry = entry.get()
+    if request.method == 'GET':
+        return render_template('mylog/entry.html', entry=entry)
+    else:
+        content = request.form['content']
+        tags = request.form['tags']
+        if tags:
+            tags = tags.split(',')
+            for tag in tags:
+                entry.add_tag(tag)
+        entry.content = content
+        entry.save()
+        entry = LogEntry.objects(id=id).get()
+        flash('entry updated')
+        return render_template('mylog/entry.html', entry=entry)
 
 
-@mylog.route('/my-log/entry/<id>/tags', methods=['GET',' POST'])
+@mylog.route('/my-log/entry/<id>/tags', methods=['GET', 'POST'])
 def tag_entry(id):
     entry = LogEntry.objects(id=id).get()
     if not entry:

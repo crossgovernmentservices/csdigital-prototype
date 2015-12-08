@@ -43,11 +43,11 @@
         <h2>Date</h2>
         <p>{{entry.created_date|format_date}}</p>
       </div>
-      <form class="edit-log-entry">
+      <form class="edit-log-entry" action="{{url_for('mylog.view_log_entry', id=entry.id)}}" method="POST">
         <div class="form-group">
           <label class="form-label" for="tags">Tags</label>
           <span class="current-tags">{% for tag in entry.tags %}{{tag.name}}{% if not loop.last%}, {% endif %}{% endfor %}</span>
-          <input type="text" value="{% for tag in entry.tags %}{{tag.name}}{% if not loop.last%}, {% endif %}{% endfor %}" class="demo-default selectized input-tags" style="display: block;" data-entry-id="{{entry.id}}">
+          <input type="text" id="tags" name="tags" value="{% for tag in entry.tags %}{{tag.name}}{% if not loop.last%}, {% endif %}{% endfor %}" class="demo-default selectized input-tags" style="display: block;" data-entry-id="{{entry.id}}">
         </div>
         <div class="form-group">
           <label class="form-label" for="content">Content</label>

@@ -75,10 +75,11 @@ class LogEntry(db.Document):
     tags = db.ListField(db.ReferenceField(Tag), default=[])
 
     def add_tag(self, name):
+        name = name.strip()
         tag = Tag.objects.filter(name__iexact=name, owner=self.owner).first()
         if not tag:
             tag = Tag(name=name, owner=self.owner)
             tag.save()
-        self.tags.append(tag)
+        self.update(add_to_set__tags=tag)
         self.save()
 
