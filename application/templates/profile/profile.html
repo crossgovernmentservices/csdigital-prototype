@@ -22,7 +22,7 @@
       <ul class="user-email">
         <li class="bold-small">{{current_user.email}}</li>
         {% for email in current_user.other_email %}
-          <li>{{email}} <a href="#" class="remove-email">remove</a></li>
+          <li>{{email}} <a href="{{url_for('profile.remove_email', email=email)}}" class="remove-email">Remove</a></li>
         {% endfor %}
       </ul>
     {% else %}
