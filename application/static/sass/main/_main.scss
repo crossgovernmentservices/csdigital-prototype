@@ -130,6 +130,18 @@ section {
   table-layout: fixed;
 }
 
+.edit-log-entry {
+
+}
+
+.edit-log-entry textarea {
+  width: 100%;
+}
+
+.edit-log-entry  .form-label {
+  font-weight: bold;
+}
+
 /* quick hack for override elements
 * styles for markdown text area
 */

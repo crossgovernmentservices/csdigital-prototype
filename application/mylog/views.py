@@ -59,15 +59,19 @@ def view_log_entry(id):
     return render_template('mylog/entry.html', entry=entry.get())
 
 
-@mylog.route('/my-log/entry/<id>/tags', methods=['POST'])
+@mylog.route('/my-log/entry/<id>/tags', methods=['GET',' POST'])
 def tag_entry(id):
     entry = LogEntry.objects(id=id).get()
     if not entry:
         abort(404)
-    tag_name = request.json.get('tag')
-    entry.add_tag(tag_name)
-    entry.save()
-    return 'OK', 200
+    if request.method == 'GET':
+        tags = [tag.name for tag in entry.tags]
+        return jsonify({"tags": tags})
+    else:
+        tag_name = request.json.get('tag')
+        entry.add_tag(tag_name)
+        entry.save()
+        return 'OK', 200
 
 
 @mylog.route('/my-log/tags.json')
