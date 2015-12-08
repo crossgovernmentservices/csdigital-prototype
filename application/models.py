@@ -66,7 +66,7 @@ class FeedbackRequest(db.Document):
 
 class Tag(db.Document):
     owner = db.ReferenceField(User)
-    name = db.StringField(unique=True)
+    name = db.StringField()
 
 
 class LogEntry(db.Document):

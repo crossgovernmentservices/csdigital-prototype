@@ -46,6 +46,10 @@ def add_log_entry():
         entry = LogEntry(content=form.content.data)
         entry.owner = current_user._get_current_object()
         entry.save()
+        if form.tags.data:
+            tags = form.tags.data.split(',')
+            for tag in tags:
+                entry.add_tag(tag.strip())
         flash('Entry saved')
         return redirect(url_for('mylog.view_mylog'))
     return render_template('mylog/add-entry.html', form=form)
@@ -91,8 +95,9 @@ def tag_entry(id):
 @mylog.route('/my-log/tags.json')
 def find_tags():
     tag_name = request.args.get('tag-name')
+    owner = current_user._get_current_object()
     if tag_name:
-        tags = Tag.objects.filter(name__istartswith=tag_name).all()
+        tags = Tag.objects.filter(name__istartswith=tag_name, owner=owner).all()
     else:
-        tags = Tag.objects.all()
+        tags = Tag.objects.filter(owner=owner).all()
     return jsonify({"tags": tags})
