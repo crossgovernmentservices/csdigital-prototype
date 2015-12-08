@@ -6,6 +6,7 @@ from flask.ext.security import (
 )
 
 from flask.ext.mongoengine import MongoEngine
+from mongoengine.queryset import queryset_manager
 
 db = MongoEngine()
 
@@ -82,4 +83,8 @@ class LogEntry(db.Document):
             tag.save()
         self.update(add_to_set__tags=tag)
         self.save()
+
+    @queryset_manager
+    def objects(doc_cls, queryset):
+        return queryset.order_by('-created_date')
 
