@@ -107,11 +107,13 @@ def find_tags():
     return jsonify({"tags": tags})
 
 
+#TODO verify request is from mailgun!
 @mylog.route('/my-log/inbox', methods=['POST'])
 def inbox():
-    sender    = request.form.get('sender')
+    current_app.logger.info(request.headers)
+    sender = request.form.get('sender')
     recipient = request.form.get('recipient')
-    subject   = request.form.get('subject', '')
+    subject = request.form.get('subject', '')
     body_plain = request.form.get('body-plain', '')
     body_without_quotes = request.form.get('stripped-text', '')
 
