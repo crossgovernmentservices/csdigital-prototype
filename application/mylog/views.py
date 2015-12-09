@@ -105,3 +105,22 @@ def find_tags():
     else:
         tags = Tag.objects.filter(owner=owner).all()
     return jsonify({"tags": tags})
+
+
+@mylog.route('/my-log/inbox', methods=['POST'])
+def inbox():
+    sender    = request.form.get('sender')
+    recipient = request.form.get('recipient')
+    subject   = request.form.get('subject', '')
+    body_plain = request.form.get('body-plain', '')
+    body_without_quotes = request.form.get('stripped-text', '')
+
+    current_app.logger.info('Inbound email')
+    current_app.logger.info(sender)
+    current_app.logger.info(recipient)
+    current_app.logger.info(subject)
+    current_app.logger.info(body_plain)
+    current_app.logger.info(body_without_quotes)
+    current_app.logger.info('End inbound email')
+
+    return 'OK', 200
