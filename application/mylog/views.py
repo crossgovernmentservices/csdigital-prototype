@@ -110,7 +110,11 @@ def find_tags():
 #TODO verify request is from mailgun!
 @mylog.route('/my-log/inbox', methods=['POST'])
 def inbox():
+
     current_app.logger.info(request.headers)
+    current_app.logger.info(request.get_data())
+    current_app.logger.info(request.form)
+
     sender = request.form.get('sender')
     recipient = request.form.get('recipient')
     subject = request.form.get('subject', '')
