@@ -112,8 +112,10 @@ def find_tags():
 def inbox():
 
     current_app.logger.info(request.headers)
-    current_app.logger.info(request.get_data())
-    current_app.logger.info(request.form)
+
+    current_app.logger.info(request.form.get('token'))
+    current_app.logger.info(request.form.get('timestamp'))
+    current_app.logger.info(request.form.get('signature'))
 
     sender = request.form.get('sender')
     recipient = request.form.get('recipient')
