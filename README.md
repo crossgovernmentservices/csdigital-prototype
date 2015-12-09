@@ -86,3 +86,16 @@ Add an objective for a user
 python manage.py add-user-objective
 ```
 Answer prompt for email of user to add objective for.
+
+#### To reset
+With mongo running log into mongo
+
+Switch dbs
+```
+use xgs_performance_reviews
+```
+Remove everything
+```
+db.user.remove({})
+```
+Then add everything with management commands as above
