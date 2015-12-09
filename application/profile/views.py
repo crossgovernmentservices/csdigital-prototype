@@ -53,3 +53,8 @@ def remove_email():
         message = "Removed email: %s" % email
         flash(message)
     return redirect(url_for('profile.view_profile'))
+
+@profile.route('/profile/update-details')
+@login_required
+def update_details():
+  return render_template('profile/update-details.html')

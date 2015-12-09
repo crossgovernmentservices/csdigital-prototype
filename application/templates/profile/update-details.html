@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body_content %}
+
+  {% include "_logout.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li><a href="{{url_for('profile.view_profile')}}">Profile</a></li>
+          <li>Update details</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
