@@ -40,6 +40,7 @@ def view_mylog():
 
 
 @mylog.route('/my-log/entry', methods=['GET', 'POST'])
+@login_required
 def add_log_entry():
     form = LogEntryForm()
     if form.validate_on_submit():
@@ -56,6 +57,7 @@ def add_log_entry():
 
 
 @mylog.route('/my-log/entry/<id>', methods=['GET', 'POST'])
+@login_required
 def view_log_entry(id):
     entry = LogEntry.objects(id=id)
     if not entry:
@@ -78,6 +80,7 @@ def view_log_entry(id):
 
 
 @mylog.route('/my-log/entry/<id>/tags', methods=['GET', 'POST'])
+@login_required
 def tag_entry(id):
     entry = LogEntry.objects(id=id).get()
     if not entry:
@@ -93,6 +96,7 @@ def tag_entry(id):
 
 
 @mylog.route('/my-log/tags.json')
+@login_required
 def find_tags():
     tag_name = request.args.get('tag-name')
     owner = current_user._get_current_object()
