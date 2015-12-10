@@ -11,7 +11,7 @@ from flask import (
 from flask.ext.security import login_required
 from flask.ext.login import current_user
 
-from application.profile.forms import EmailForm
+from application.profile.forms import EmailForm, UpdateDetailsForm
 
 profile = Blueprint('profile', __name__, template_folder='templates')
 
@@ -53,3 +53,9 @@ def remove_email():
         message = "Removed email: %s" % email
         flash(message)
     return redirect(url_for('profile.view_profile'))
+
+@profile.route('/profile/update-details')
+@login_required
+def update_details():
+  form = UpdateDetailsForm()
+  return render_template('profile/update-details.html', form=form)
