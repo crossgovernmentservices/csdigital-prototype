@@ -43,8 +43,8 @@ class Role(db.Document, RoleMixin):
 
 
 class User(db.Document, UserMixin):
-    email = db.StringField(max_length=255)
-    password = db.StringField(max_length=255)
+    email = db.StringField()
+    password = db.StringField()
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
@@ -53,6 +53,19 @@ class User(db.Document, UserMixin):
     # change this one current and list of past ones?
     objectives = db.ReferenceField(Objectives)
     other_email = db.ListField(default=[])
+    _inbox_email = db.StringField()
+
+    @property
+    def inbox_email(self):
+        if not self._inbox_email:
+            inbox_email = "%s@mylog.civilservice.digital" % self.email.split('@')[0]
+            self.inbox_email = inbox_email
+        return self._inbox_email
+
+    @inbox_email.setter
+    def inbox_email(self, email):
+        self._inbox_email = email
+        self.save()
 
 
 class FeedbackRequest(db.Document):
