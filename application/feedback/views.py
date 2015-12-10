@@ -3,7 +3,8 @@ from flask import (
     render_template,
     current_app,
     flash,
-    request
+    request,
+    url_for
 )
 
 from flask.ext.security import login_required
@@ -13,9 +14,11 @@ from flask.ext.mail import Message
 
 from application.extensions import mail
 from application.feedback.forms import FeedbackForm
+
 from application.models import (
     User,
-    FeedbackRequest
+    FeedbackRequest,
+    LogEntry
 )
 
 feedback = Blueprint('feedback', __name__, template_folder='templates')
@@ -60,6 +63,13 @@ def give_feedback(id=None):
     if form.validate_on_submit():
         feedback_request.feedback_details = form.feedback.data
         feedback_request.save()
+
+        #Log the feedback in the log of who requested it
+        feedback_url = url_for('feedback.view_requested_feedback', id=feedback_request.id)
+        log_entry = LogEntry(owner=feedback_request.requested_by, content=feedback_url)
+        log_entry.save()
+        log_entry.add_tag('Feedback')
+
         flash("Saved feedback")
         return render_template('feedback/give-feedback.html', form=form, feedback_request=feedback_request, objectives=objectives, saved=True)
     else:

@@ -97,6 +97,12 @@ class LogEntry(db.Document):
         self.update(add_to_set__tags=tag)
         self.save()
 
+    def has_tag(self, name):
+        tag = Tag.objects.filter(name__iexact=name, owner=self.owner).first()
+        if not tag:
+            return False
+        return tag in self.tags
+
     @queryset_manager
     def objects(doc_cls, queryset):
         return queryset.order_by('-created_date')

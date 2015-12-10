@@ -57,7 +57,14 @@
         {% for entry in log_entries %}
           <tr>
             <td>{{entry.created_date|format_date}}</td>
-            <td><a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.content|truncate(80)}}</a></td>
+            <td>
+              <!-- quick hack for things tagged feedback -->
+              {% if entry.has_tag('Feedback') %}
+                <a href="{{entry.content}}">View feedback</a>
+              {% else %}
+                <a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.content|truncate(80)}}</a>
+              {% endif %}
+            </td>
             <td>
               <input type="text" value="{% for tag in entry.tags %}{{tag.name}},{% endfor %}" class="demo-default selectized input-tags"data-entry-id="{{entry.id}}">
             </td>
