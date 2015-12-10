@@ -132,8 +132,9 @@ def _verified(req):
     if None in (token, timestamp, signature):
         return False
     key = current_app.config['MAILGUN_API_KEY'].encode('utf-8')
+    msg = '{}{}'.format(timestamp, token).encode('utf-8')
     return signature == hmac.new(key=key,
-                                 msg='{}{}'.format(timestamp, token),
+                                 msg=msg,
                                  digestmod=hashlib.sha256).hexdigest()
 
 
