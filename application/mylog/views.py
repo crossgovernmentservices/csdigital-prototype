@@ -113,7 +113,7 @@ def find_tags():
     return jsonify({"tags": tags})
 
 
-#TODO verify request is from mailgun!
+
 @mylog.route('/my-log/inbox', methods=['POST'])
 def inbox():
     if not _verified(request):
