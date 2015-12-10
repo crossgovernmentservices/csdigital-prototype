@@ -92,7 +92,7 @@ With mongo running log into mongo
 
 Switch dbs
 ```
-use xgs_performance_reviews
+use xgs
 ```
 Remove everything
 ```

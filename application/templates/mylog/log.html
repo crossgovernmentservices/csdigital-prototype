@@ -34,7 +34,10 @@
 
   <div class="grid-row section">
     <div class="column-third">
-      <p><a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a></p>
+      <p>
+        <a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a>
+      </p>
+      <p>Or you can email an log entry to: {{current_user.inbox_email}}</p>
     </div>
   </div>
 
@@ -56,7 +59,7 @@
             <td>{{entry.created_date|format_date}}</td>
             <td><a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.content|truncate(80)}}</a></td>
             <td>
-              <input type="text" value="{% for tag in entry.tags %}{{tag.name}},{% endfor %}" class="demo-default selectized input-tags" tyle="display: block;" data-entry-id="{{entry.id}}">
+              <input type="text" value="{% for tag in entry.tags %}{{tag.name}},{% endfor %}" class="demo-default selectized input-tags"data-entry-id="{{entry.id}}">
             </td>
           </tr>
         {% endfor %}

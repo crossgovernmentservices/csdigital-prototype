@@ -1,3 +1,6 @@
+import hashlib
+import hmac
+
 from flask import (
     Blueprint,
     render_template,
@@ -12,11 +15,14 @@ from flask import (
 
 from flask.ext.security import login_required
 from flask.ext.login import current_user
+from flask.ext.mongoengine import DoesNotExist
 
 from application.models import (
     LogEntry,
-    Tag
+    Tag,
+    User
 )
+
 
 from application.mylog.forms import LogEntryForm
 
@@ -105,3 +111,56 @@ def find_tags():
     else:
         tags = Tag.objects.filter(owner=owner).all()
     return jsonify({"tags": tags})
+
+
+#TODO verify request is from mailgun!
+@mylog.route('/my-log/inbox', methods=['POST'])
+def inbox():
+    if not _verified(request):
+        # just ignore and move along
+        current_app.logger.info('Unverfied request')
+        return 'OK', 200
+    else:
+        _send_to_mylog(request)
+    return 'OK', 200
+
+
+def _verified(req):
+    token = req.form.get('token')
+    timestamp = req.form.get('timestamp')
+    signature = req.form.get('signature')
+    if None in (token, timestamp, signature):
+        return False
+    key = current_app.config['MAILGUN_API_KEY'].encode('utf-8')
+    msg = '{}{}'.format(timestamp, token).encode('utf-8')
+    return signature == hmac.new(key=key,
+                                 msg=msg,
+                                 digestmod=hashlib.sha256).hexdigest()
+
+
+def _send_to_mylog(req):
+    sender = request.form.get('sender')
+    recipient = request.form.get('recipient')
+    subject = request.form.get('subject', '')
+    body = request.form.get('body-plain', '')
+
+    current_app.logger.info('Inbound email')
+    current_app.logger.info(sender)
+    current_app.logger.info(recipient)
+    current_app.logger.info(subject)
+    current_app.logger.info(body)
+    current_app.logger.info('End inbound email')
+
+    try:
+        user = User.objects.filter(_inbox_email=recipient).get()
+        log_entry = LogEntry(owner=user)
+        sender = "From: %s" % sender
+        content = '\n'.join([subject, body, sender])
+        log_entry.content = content
+        log_entry.save()
+        log_entry.add_tag('Email')
+    except DoesNotExist:
+        # log and raise so we get sentry notification
+        current_app.logger.error('No inbox email:' + recipient)
+        raise
+
