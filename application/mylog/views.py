@@ -131,7 +131,7 @@ def _verified(req):
     signature = req.form.get('signature')
     if None in (token, timestamp, signature):
         return False
-    api_key = current_app.config['MAILGUN_API_KEY']
+    api_key = b'%s' % current_app.config['MAILGUN_API_KEY']
     return signature == hmac.new(key=api_key,
                                  msg='{}{}'.format(timestamp, token),
                                  digestmod=hashlib.sha256).hexdigest()
