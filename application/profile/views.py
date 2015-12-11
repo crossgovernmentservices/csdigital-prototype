@@ -54,8 +54,22 @@ def remove_email():
         flash(message)
     return redirect(url_for('profile.view_profile'))
 
-@profile.route('/profile/update-details')
+@profile.route('/profile/update-details', methods=['GET', 'POST'])
 @login_required
 def update_details():
   form = UpdateDetailsForm()
-  return render_template('profile/update-details.html', form=form)
+  user = current_user
+  if form.validate_on_submit():
+      if form.grade.data:
+          user.grade = form.grade.data.strip()
+      if form.profession.data:
+          user.profession = form.profession.data.strip()
+      if form.grade.data or form.profession.data:
+          user.save()
+          message = "Successfully updated details"
+      else:
+          message = "No new details submitted"
+      flash(message)
+      return redirect(url_for('profile.view_profile'))
+  else:
+      return render_template('profile/update-details.html', form=form)
