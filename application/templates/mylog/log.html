@@ -12,7 +12,7 @@
         <ol role="breadcrumbs" class="group">
           <li><a href="/">Home</a></li>
           {% if filtered %}
-            <li><a href="{{url_for('mylog.view_mylog')}}">My Log</a></li>
+            <li><a href="{{url_for('mylog.view_mylog')}}">My log</a></li>
           {% else %}
             <li>My Log</li>
           {% endif %}
@@ -32,7 +32,7 @@
   {% endif %}
 
   <h1 class="heading-large">My log</h1>
-  <p class="lede">Store information about things you've done and evidence of your performance here to use later.</p>
+  <p class="lede">Use this to store your achievements. These could be appointments or meetings that went well, challenges you overcame, feedback you were given, or where you helped with a challenge outside the day to day of your job. You can also save data from a clerical log if you work in an operational role. Remember, you can always edit items later.</p>
 
   <div class="grid-row section">
     <div class="column-third">
@@ -71,7 +71,7 @@
     <div class="column-two-thirds">
       <a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a>
       <div class="panel-indent">
-        <p>Alternatively you can email a log entry to: <strong class="bold-small">{{current_user.inbox_email}}</strong></p>
+        <p>You can also email items to: <strong class="bold-small">{{current_user.inbox_email}}</strong> which will create a new log entry. You'll still be able to edit it later.</p>
       </div>
     </div>
   </div>
