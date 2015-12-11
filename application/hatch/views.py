@@ -44,6 +44,10 @@ def add_user():
         user = user_datastore.create_user(email=email, password=encrypt_password('password'), full_name=full_name)
         user_role = user_datastore.find_or_create_role('USER')
         user_datastore.add_role_to_user(user, user_role)
+        objectives = Objectives()
+        user.objectives = objectives
+        user.objectives.save()
+        user.save()
 
     flash("Saved user " + email)
     return redirect(url_for('hatch.open'))
