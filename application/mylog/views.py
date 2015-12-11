@@ -157,6 +157,7 @@ def _send_to_mylog(req):
         sender = "From: %s" % sender
         content = '\n'.join([subject, body, sender])
         log_entry.content = content
+        log_entry.entry_from = sender
         log_entry.save()
         log_entry.add_tag('Email')
     except DoesNotExist:
