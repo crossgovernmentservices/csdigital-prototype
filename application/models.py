@@ -49,6 +49,8 @@ class User(db.Document, UserMixin):
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
     full_name = db.StringField()
+    grade = db.StringField()
+    profession = db.StringField()
     # only one objectives set (current year for the moment)
     # change this one current and list of past ones?
     objectives = db.ReferenceField(Objectives)
