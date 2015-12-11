@@ -18,16 +18,17 @@
     </div>
   </div>
 
-  <h1 class="heading-large">Give feedback for {{feedback_request.requested_by.full_name}}</h1>
+  <h1 class="heading-large">Give feedback</h1>
 
+  <p class="lede">Please provide feedback for <strong class="bold-medium">{{feedback_request.requested_by.full_name}}</strong></p>
 
-   <div class="grid-row">
-      <div class="column-two-thirds">
-        {{feedback_request.feedback_template|markdown}}
-      </div>
+  <h2 class="heading-medium">Message from {{feedback_request.requested_by.full_name}}</h2>
+  <div class="text feedback-message">
+    {{feedback_request.feedback_template|markdown}}
   </div>
 
 
+  <h2 class="heading-medium">Write feedback</h2>
   <form action="{{url}}" method="post" class="form add-feedback">
     <div class="grid-row">
       <div class="column-two-thirds">
@@ -41,7 +42,7 @@
 
     {% if not saved %}
       <div class="form-group">
-        <button class="button">Save</button>
+        <button class="button">Send feedback</button>
       </div>
     {% endif %}
 
