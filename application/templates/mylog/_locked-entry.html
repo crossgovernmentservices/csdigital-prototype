@@ -1,0 +1,25 @@
+  <div class="grid-row">
+    <div class="column-two-thirds">
+
+      <div class="section">
+        <h2>Date</h2>
+        <p>{{entry.created_date|format_date}}</p>
+      </div>
+
+      <div class="section">
+        <h2>Tags</h2>
+        <p>{% for tag in entry.tags %}{{tag.name}}{% if not loop.last%}, {% endif %}{% endfor %}</p>
+      </div>
+
+      <div class="section">
+        <h2>Content</h2>
+        <p>{{entry.content}}</p>
+      </div>
+
+      <div class="section">
+        <h2>Link</h2>
+        <p><a href="{{entry.link}}">More...</a></p>
+      </div>
+
+
+  </div>

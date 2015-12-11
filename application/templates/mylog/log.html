@@ -44,20 +44,16 @@
   <div class="section">
     <table class="log-table">
       <thead>
-        <tr><th>Date</th><th>Content</th><th>Tags</th></tr>
+        <tr><th>Date</th><th>Content</th><th>From</th><th>Tags</th></tr>
       </thead>
       <tbody>
         {% for entry in log_entries %}
           <tr>
             <td>{{entry.created_date|format_date}}</td>
             <td>
-              <!-- quick hack for things tagged feedback -->
-              {% if entry.has_tag('Feedback') %}
-                <a href="{{entry.content}}">View feedback</a>
-              {% else %}
-                <a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.content|truncate(80)}}</a>
-              {% endif %}
+              <a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.content|truncate(80)}}</a>
             </td>
+            <td>{{entry.entry_from|default('You')}}</td>
             <td>
               <input type="text" value="{% for tag in entry.tags %}{{tag.name}},{% endfor %}" class="demo-default selectized input-tags"data-entry-id="{{entry.id}}">
             </td>

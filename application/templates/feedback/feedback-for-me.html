@@ -27,14 +27,14 @@
     <div class="column-two-thirds">
       <table>
         <thead>
-          <tr><th>From</th><th>Sent</th><th>Replied</th></tr>
+          <tr><th>Requested from</th><th>Sent</th><th>Replied</th></tr>
         </thead>
         <tbody>
           {% for feedback in feedback_requests %}
             <tr>
               <td>{{feedback.requested_from.full_name}}</td>
               <td>{{feedback.sent}}</td>
-              <td>{% if feedback.feedback_details == None %}No{% else %}<a href="{{ url_for('feedback.view_requested_feedback', id=feedback.id) }}">Yes</a>{% endif %}</td>
+              <td>{% if feedback.replied %}<a href="{{url_for('feedback.view_requested_feedback', id=feedback.id)}}">Yes</a>{% else %}No{% endif %}</td>
             </tr>
           {% endfor %}
         </tbody>

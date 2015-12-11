@@ -28,11 +28,15 @@
   </div>
 
 
-  <h2 class="heading-medium">Write feedback</h2>
+  <h2 class="heading-medium">{% if feedback_request.replied %}Your{% else %}Write{% endif%} Feedback</h2>
   <form action="{{url}}" method="post" class="form add-feedback">
     <div class="grid-row">
       <div class="column-two-thirds">
-        {{ render_field(form.feedback, rows=10) }}
+        {% if feedback_request.replied %}
+          {{ feedback_request.log_entry.content }}
+        {% else %}
+          {{ render_field(form.feedback, rows=10) }}
+        {% endif %}
       </div>
       <div class="column-third">
         <h2 class="heading-medium guidance-heading">Guidance on feeback</h2>
@@ -40,7 +44,7 @@
       </div>
     </div>
 
-    {% if not saved %}
+    {% if not feedback_request.replied %}
       <div class="form-group">
         <button class="button">Send feedback</button>
       </div>
@@ -52,17 +56,17 @@
   <div class="grid-row">
     <div class="column-two-thirds">
       <section class="objectives">
-        {% if objectives %}
-          <h2 class="heading-medium">Objectives</h2>
+        {% if feedback_request.share_objectives %}
+          <h2 class="heading-medium">Objectives for {{feedback_request.requested_by.full_name}}</h2>
            <ul>
-            {% for objective in objectives.objectives %}
-              <li class="objective">
-                <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
-                <div class="details" style="display: none;">
-                  {{objective.how|markdown}}
-                </div>
-              </li>
-            {% endfor %}
+              {% for objective in feedback_request.requested_by.objectives.objectives %}
+                <li class="objective">
+                  <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
+                  <div class="details" style="display: none;">
+                    {{objective.how|markdown}}
+                  </div>
+                </li>
+              {% endfor %}
           </ul>
         {% endif %}
       </section>

@@ -70,15 +70,6 @@ class User(db.Document, UserMixin):
         self.save()
 
 
-class FeedbackRequest(db.Document):
-    requested_by = db.ReferenceField(User)
-    requested_from = db.ReferenceField(User)
-    feedback_details = db.StringField()
-    share_objectives = db.BooleanField(default=False)
-    sent = db.BooleanField(default=False)
-    feedback_template = db.StringField()
-
-
 class Tag(db.Document):
     owner = db.ReferenceField(User)
     name = db.StringField()
@@ -88,7 +79,10 @@ class LogEntry(db.Document):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
     content = db.StringField()
     owner = db.ReferenceField(User)
+    entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
+    editable = db.BooleanField(default=True)
+    link = db.StringField()
 
     def add_tag(self, name):
         name = name.strip()
@@ -109,3 +103,12 @@ class LogEntry(db.Document):
     def objects(doc_cls, queryset):
         return queryset.order_by('-created_date')
 
+
+class FeedbackRequest(db.Document):
+    requested_by = db.ReferenceField(User)
+    requested_from = db.ReferenceField(User)
+    share_objectives = db.BooleanField(default=False)
+    sent = db.BooleanField(default=False)
+    replied = db.BooleanField(default=False)
+    feedback_template = db.StringField()
+    log_entry = db.ReferenceField(LogEntry)
