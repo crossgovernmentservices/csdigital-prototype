@@ -35,15 +35,6 @@
   <p class="lede">Store information about things you've done and evidence of your performance here to use later.</p>
 
   <div class="grid-row section">
-    <div class="column-two-thirds">
-      <a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a>
-      <div class="panel-indent">
-        <p>Alternatively you can email a log entry to: <strong class="bold-small">{{current_user.inbox_email}}</strong></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid-row section">
     <div class="column-third">
       <label class="form-label" for="search-log">Search my log</label>
       <input class="form-control" id="search-log" type="text">
@@ -74,6 +65,15 @@
         {% endfor %}
       </tbody>
     </table>
+  </div>
+
+  <div class="grid-row section">
+    <div class="column-two-thirds">
+      <a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a>
+      <div class="panel-indent">
+        <p>Alternatively you can email a log entry to: <strong class="bold-small">{{current_user.inbox_email}}</strong></p>
+      </div>
+    </div>
   </div>
 
 {% endblock %}
