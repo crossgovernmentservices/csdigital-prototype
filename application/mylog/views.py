@@ -154,10 +154,10 @@ def _send_to_mylog(req):
     try:
         user = User.objects.filter(_inbox_email=recipient).get()
         log_entry = LogEntry(owner=user)
+        log_entry.entry_from = sender
         sender = "From: %s" % sender
         content = '\n'.join([subject, body, sender])
         log_entry.content = content
-        log_entry.entry_from = sender
         log_entry.save()
         log_entry.add_tag('Email')
     except DoesNotExist:
