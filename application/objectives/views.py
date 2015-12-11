@@ -21,6 +21,15 @@ objectives = Blueprint('objectives', __name__, template_folder='templates')
 def view_objectives():
     return render_template('objectives/objectives.html')
 
+@objectives.route('/performance-review')
+@login_required
+def write_performance_review():
+    return render_template('objectives/performance-review.html')
+
+@objectives.route('/competency-checker')
+@login_required
+def check_competency_framework():
+    return render_template('objectives/competency-checker.html')
 
 @objectives.route("/objectives/add", methods=['GET', 'POST'])
 @login_required
