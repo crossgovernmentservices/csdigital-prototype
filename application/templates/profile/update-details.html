@@ -19,7 +19,7 @@
 
   <h1 class="heading-large">Edit your details</h1>
 
-  <form action="" class="form">
+  <form action="{{url_for('profile.update_details')}}" method="post" class="form">
     {{ render_field(form.grade) }}
     {{ render_field(form.profession) }}
     <div class="form-group">
