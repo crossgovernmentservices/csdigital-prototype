@@ -13,7 +13,6 @@
           <li><a href="/">Home</a></li>
           {% if filtered %}
             <li><a href="{{url_for('mylog.view_mylog')}}">My Log</a></li>
-            <li style="font-weight: bold">Filtered by tag: {{request.args.get('tag')}}</a></li>
           {% else %}
             <li>My Log</li>
           {% endif %}
@@ -25,12 +24,15 @@
       </div>
   </div>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-large">My log</h1>
-      <p>Store information about things you've done and evidence of your performance here to use later.</p>
-    </div>
+  {% if filtered %}
+  <div class="filter">
+    Filtered by tag: <span class="bold-small">{{request.args.get('tag')}}</span>
+    <a href="{{url_for('mylog.view_mylog')}}" class="filter-off-btn">x</a>
   </div>
+  {% endif %}
+
+  <h1 class="heading-large">My log</h1>
+  <p class="lede">Store information about things you've done and evidence of your performance here to use later.</p>
 
   <div class="grid-row section">
     <div class="column-two-thirds">
