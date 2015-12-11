@@ -16,32 +16,27 @@
       </div>
   </div>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-large">Objectives overview</h1>
-    </div>
-  </div>
+  <h1 class="heading-large">Objectives overview</h1>
 
   <div class="grid-row">
     <div class="column-two-thirds">
-      <section>
-        <h2 class="heading-medium">Objectives</h2>
-        {% if not current_user.objectives %}
-          <p>No objectives set up yet</p>
-        {% endif %}
-        <ul>
-          {% for objective in current_user.objectives.objectives %}
-            <li class="objective">
-              <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
-              <div class="details" style="display: none;">
-                {{objective.how|markdown}}
-                <a href="{{url_for('objectives.edit_objective', id=objective.id)}}">Edit</a>
-              </div>
-            </li>
-          {% endfor %}
-        </ul>
-        <a href="{{url_for('objectives.add_objective')}}">Add an objective</a>
-      </section>
+
+      <h2 class="heading-medium">Your objectives</h2>
+      {% if not current_user.objectives %}
+        <p>No objectives set up yet</p>
+      {% endif %}
+      <ul>
+        {% for objective in current_user.objectives.objectives %}
+          <li class="objective">
+            <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
+            <div class="details" style="display: none;">
+              {{objective.how|markdown}}
+              <a href="{{url_for('objectives.edit_objective', id=objective.id)}}">Edit</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="{{url_for('objectives.add_objective')}}">Add an objective</a>
 
     </div>
 
