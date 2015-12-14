@@ -32,6 +32,7 @@ section {
 }
 
 .objective-header {
+  @extend %contain-floats;
   padding: 10px;
 }
 
