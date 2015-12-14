@@ -71,7 +71,7 @@
     <div class="column-two-thirds">
       <a href="{{url_for('mylog.add_log_entry')}}" class="button">Add log entry</a>
       <div class="panel-indent">
-        <p>You can also email items to: <strong class="bold-small">{{current_user.inbox_email}}</strong> which will create a new log entry. You'll still be able to edit it later.</p>
+        <p>You can also email items to: <strong class="bold-small"><a href="mailto:{{current_user.inbox_email}}" target="_blank">{{current_user.inbox_email}}</a></strong> which will create a new log entry. You'll still be able to edit it later.</p>
       </div>
     </div>
   </div>
