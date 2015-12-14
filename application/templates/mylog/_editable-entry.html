@@ -23,7 +23,8 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="content">Content</label>
-          <textarea class="form-control" id="content" name="content" disabled="disabled" rows="10">{{entry.content}}</textarea>
+          <div class="text entry-content">{{entry.content}}</div>
+          <textarea class="form-control entry-content--edit" id="content" name="content" style="display:none;" rows="10">{{entry.content}}</textarea>
         </div>
         <input class="button submit" type="submit" value="Save" style="display:none">
       </form>

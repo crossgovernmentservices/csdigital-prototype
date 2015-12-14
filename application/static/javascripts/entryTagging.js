@@ -31,11 +31,9 @@ var toggleEditable = function(event) {
   $('.submit').toggle();
   $('.cancel-edit').toggle();
   $('.edit').toggle();
-  if($('textarea').attr('disabled')) {
-    $('textarea').removeAttr('disabled');
-  } else {
-    $('textarea').attr('disabled','disabled');
-  }
+  $('.entry-content').toggle();
+  $('.entry-content--edit').toggle();
+
 };
 
 
