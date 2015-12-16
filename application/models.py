@@ -20,7 +20,8 @@ def _a_year_from_now():
 
 schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
            'feedback': ('feedback_template', 'requested_from', 'requested_by',
-                        'details', 'share_objectives', 'sent', 'replied')}
+                        'details', 'share_objectives', 'sent', 'replied'),
+           'log': ('content')}
 
 
 class Entry(db.DynamicDocument):
