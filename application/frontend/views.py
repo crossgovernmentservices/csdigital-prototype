@@ -39,7 +39,7 @@ def login():
             flash("You don't have a user account yet")
             return redirect(url_for('frontend.index'))
         login_user(user)
-        #TODO check next is valid
+        # TODO check next is valid
         return redirect(form.next.data)
     return render_template('login.html', form=form)
 
@@ -50,4 +50,3 @@ def users():
     q = request.args['q']
     users = User.objects.only('email').filter(email__icontains=q)
     return jsonify({'users': users})
-

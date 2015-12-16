@@ -49,3 +49,5 @@ main.css
 govuk_elements.css
 
 environment-private.sh
+
+.cache

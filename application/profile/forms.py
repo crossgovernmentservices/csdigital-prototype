@@ -7,6 +7,7 @@ from wtforms.fields import TextField
 class EmailForm(Form):
     email = EmailField('Email address', validators=[Required()])
 
+
 class UpdateDetailsForm(Form):
     grade = TextField('Grade')
     profession = TextField('Profession')

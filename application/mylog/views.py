@@ -35,14 +35,19 @@ def view_mylog():
     owner = current_user._get_current_object()
     filtered = False
     if request.args.get('tag'):
-        tag = Tag.objects.filter(name__iexact=request.args.get('tag'), owner=owner).first()
-        log_entries = LogEntry.objects.filter(owner=owner, tags__in=[tag]).all()
+        tag = Tag.objects.filter(name__iexact=request.args.get('tag'),
+                                 owner=owner).first()
+        log_entries = LogEntry.objects.filter(owner=owner,
+                                              tags__in=[tag]).all()
         filtered = True
     else:
         log_entries = LogEntry.objects.filter(owner=owner).all()
 
     tags = Tag.objects.filter(owner=owner).all()
-    return render_template('mylog/log.html', log_entries=log_entries, tags=tags, filtered=filtered)
+    return render_template('mylog/log.html',
+                           log_entries=log_entries,
+                           tags=tags,
+                           filtered=filtered)
 
 
 @mylog.route('/my-log/entry', methods=['GET', 'POST'])
@@ -107,11 +112,11 @@ def find_tags():
     tag_name = request.args.get('tag-name')
     owner = current_user._get_current_object()
     if tag_name:
-        tags = Tag.objects.filter(name__istartswith=tag_name, owner=owner).all()
+        tags = Tag.objects.filter(name__istartswith=tag_name,
+                                  owner=owner).all()
     else:
         tags = Tag.objects.filter(owner=owner).all()
     return jsonify({"tags": tags})
-
 
 
 @mylog.route('/my-log/inbox', methods=['POST'])
@@ -164,4 +169,3 @@ def _send_to_mylog(req):
         # log and raise so we get sentry notification
         current_app.logger.error('No inbox email:' + recipient)
         raise
-

@@ -4,6 +4,7 @@ from flask import Flask, render_template
 
 from flask.ext.security import Security
 
+
 def asset_path_context_processor():
     return {'asset_path': '/static/'}
 
@@ -61,11 +62,11 @@ def register_extensions(app):
 
     # flask security setup
     from application.extensions import user_datastore
-    security = Security(app, user_datastore)
+    Security(app, user_datastore)
 
     # flask markdown
     from flaskext.markdown import Markdown
-    markdown = Markdown(app)
+    Markdown(app)
 
     # flask mail
     from application.extensions import mail
@@ -74,15 +75,14 @@ def register_extensions(app):
     import os
     if 'SENTRY_DSN' in os.environ:
         from raven.contrib.flask import Sentry
-        sentry = Sentry(app, dsn=os.environ['SENTRY_DSN'])
+        Sentry(app, dsn=os.environ['SENTRY_DSN'])
 
 
 def register_filters(app):
     def format_date(d):
         try:
             return d.strftime('%-d %B %Y')
-        except Exception as e:
+        except Exception:
             return ''
 
     app.jinja_env.filters['format_date'] = format_date
-

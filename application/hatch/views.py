@@ -4,7 +4,6 @@ from flask import (
     url_for,
     redirect,
     flash,
-    current_app,
     request
 )
 
@@ -20,6 +19,7 @@ from application.models import (
 )
 
 hatch = Blueprint('hatch', __name__, url_prefix='/the-hatch')
+
 
 @hatch.route("/")
 @roles_required('ADMIN')
@@ -41,7 +41,10 @@ def add_user():
     email = request.form['email']
     full_name = request.form['full-name']
     if not User.objects.filter(email=email).first():
-        user = user_datastore.create_user(email=email, password=encrypt_password('password'), full_name=full_name)
+        password = encrypt_password('password')
+        user = user_datastore.create_user(email=email,
+                                          password=password,
+                                          full_name=full_name)
         user_role = user_datastore.find_or_create_role('USER')
         user_datastore.add_role_to_user(user, user_role)
         objectives = Objectives()
@@ -70,5 +73,3 @@ def delete_objectives(email):
     user.objectives.objectives = []
     user.objectives.save()
     return redirect(url_for('hatch.manage_users'))
-
-

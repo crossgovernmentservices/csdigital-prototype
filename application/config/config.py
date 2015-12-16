@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+
 class Config(object):
     APP_ROOT = os.path.abspath(os.path.dirname(__file__))
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, os.pardir))
@@ -18,10 +19,12 @@ class Config(object):
     MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
     HOST = os.environ.get('HOST', 'localhost')
 
+
 class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'local-dev-not-secret')
+
 
 class DockerConfig(DevelopmentConfig):
     # is this guaranteed to be up yet cause it's linked?

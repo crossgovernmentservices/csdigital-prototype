@@ -7,6 +7,7 @@ from flask.ext.security import (
 
 from flask.ext.mongoengine import MongoEngine
 from mongoengine.queryset import queryset_manager
+from mongoengine.errors import ValidationError
 
 db = MongoEngine()
 
@@ -15,6 +16,30 @@ def _a_year_from_now():
     a_year_from_now = datetime.timedelta(weeks=52)
     now = datetime.datetime.utcnow()
     return now + a_year_from_now
+
+
+schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
+           'feedback': ('feedback_template', 'requested_from', 'requested_by',
+                        'details', 'share_objectives', 'sent', 'replied')}
+
+
+class Entry(db.DynamicDocument):
+
+    entry_type = db.StringField(required=True)
+
+    # this is apparently how to do custom validation in mongoengine
+    # if someone tries to save entry with fields not in schemas map of tuples
+    # above or with unknown entry_type we'll get an validation error
+    def clean(self):
+        try:
+            valid_fields = schemas[self.entry_type]
+        except KeyError:
+            msg = 'There is no schema defined for %s' % self.entry_type
+            raise ValidationError(msg)
+        for dynamic_field in self._dynamic_fields.keys():
+            if dynamic_field not in valid_fields:
+                msg = '%s is not a valid field' % dynamic_field
+                raise ValidationError(msg)
 
 
 class Objective(db.Document):
@@ -33,7 +58,8 @@ class Objectives(db.Document):
         self.save()
 
     def remove(self, objective):
-        Objectives.objects(id=self.id).update_one(pull__objectives__id=objective.id)
+        Objectives.objects(id=self.id).update_one(
+            pull__objectives__id=objective.id)
         self.save()
 
 
@@ -53,14 +79,15 @@ class User(db.Document, UserMixin):
     profession = db.StringField()
     # only one objectives set (current year for the moment)
     # change this one current and list of past ones?
-    objectives = db.ReferenceField(Objectives)
+    # objectives = db.ReferenceField(Objectives)
     other_email = db.ListField(default=[])
     _inbox_email = db.StringField()
 
     @property
     def inbox_email(self):
         if not self._inbox_email:
-            inbox_email = "%s@mylog.civilservice.digital" % self.email.split('@')[0]
+            user_name = self.email.split('@')[0]
+            inbox_email = "%s@mylog.civilservice.digital" % user_name
             self.inbox_email = inbox_email
         return self._inbox_email
 
@@ -76,13 +103,16 @@ class Tag(db.Document):
 
 
 class LogEntry(db.Document):
+
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
-    content = db.StringField()
     owner = db.ReferenceField(User)
-    entry_from = db.StringField()
+    logged_by = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
-    link = db.StringField()
+
+    links = db.ListField(default=[])  # links to other log entries?
+
+    entry = db.ReferenceField(Entry)
 
     def add_tag(self, name):
         name = name.strip()

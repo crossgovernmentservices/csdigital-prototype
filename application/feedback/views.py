@@ -30,14 +30,17 @@ feedback = Blueprint('feedback', __name__, template_folder='templates')
 def get_feedback():
     if request.method == 'POST':
         recipients = request.form.getlist('email')
-        share_objectives = request.form.get('share-objectives') == 'share-objectives'
+        share = request.form.get('share-objectives')
+        share_objectives = share == 'share-objectives'
 
         for recipient in recipients:
-            feedback_request = FeedbackRequest(requested_by=current_user._get_current_object())
+            user = current_user._get_current_object()
+            feedback_request = FeedbackRequest(requested_by=user)
             other_user = User.objects.filter(email=recipient).first()
             feedback_request.requested_from = other_user
             feedback_request.share_objectives = share_objectives
-            feedback_request.feedback_template = request.form.get('feedback-template')
+            template = request.form.get('feedback-template')
+            feedback_request.feedback_template = template
             feedback_request.save()
             _send_feedback_email(feedback_request)
         flash('Submitted request')
@@ -48,8 +51,10 @@ def get_feedback():
 @feedback.route('/give-feedback')
 @login_required
 def give_feedback():
-    feedback_requests = FeedbackRequest.objects.filter(requested_from=current_user._get_current_object()).all()
-    return render_template('feedback/feedback-for-others.html', feedback_requests=feedback_requests)
+    user = current_user._get_current_object()
+    requests = FeedbackRequest.objects.filter(requested_from=user).all()
+    return render_template('feedback/feedback-for-others.html',
+                           feedback_requests=requests)
 
 
 @feedback.route('/give-feedback/<id>', methods=['GET', 'POST'])
@@ -63,7 +68,8 @@ def reply_to_feedback(id):
         log_entry = LogEntry()
         log_entry.owner = feedback_request.requested_by
         log_entry.content = form.feedback.data
-        feedback_url = url_for('feedback.view_requested_feedback', id=feedback_request.id)
+        feedback_url = url_for('feedback.view_requested_feedback',
+                               id=feedback_request.id)
         log_entry.link = feedback_url
         log_entry.editable = False
         log_entry.entry_from = current_user.full_name
@@ -77,22 +83,27 @@ def reply_to_feedback(id):
 
         return redirect(url_for('feedback.give_feedback'))
     else:
-        return render_template('feedback/give-feedback.html', form=form, feedback_request=feedback_request)
+        return render_template('feedback/give-feedback.html',
+                               form=form,
+                               feedback_request=feedback_request)
 
 
 # your requests for feedback from other people
 @feedback.route('/feedback')
 @login_required
 def requested_feedback():
-    feedback_requests = FeedbackRequest.objects(requested_by=current_user._get_current_object()).all()
-    return render_template('feedback/feedback-for-me.html', feedback_requests=feedback_requests)
+    user = current_user._get_current_object()
+    feedback_requests = FeedbackRequest.objects(requested_by=user).all()
+    return render_template('feedback/feedback-for-me.html',
+                           feedback_requests=feedback_requests)
 
 
 @feedback.route('/feedback/<id>')
 @login_required
 def view_requested_feedback(id):
     feedback_request = FeedbackRequest.objects(id=id).get()
-    return render_template('feedback/view-feedback.html', feedback_request=feedback_request)
+    return render_template('feedback/view-feedback.html',
+                           feedback_request=feedback_request)
 
 
 def _send_feedback_email(feedback_request):
@@ -100,7 +111,9 @@ def _send_feedback_email(feedback_request):
     if 'localhost' in host:
         host = "%s:8000" % host
     url = "http://%s/give-feedback/%s" % (host, feedback_request.id)
-    html = render_template('feedback/email/feedback-request.html', request=feedback_request, url=url)
+    html = render_template('feedback/email/feedback-request.html',
+                           request=feedback_request,
+                           url=url)
     msg = Message(html=html,
                   subject="Feedback request from test",
                   sender="noreply@csdigital.notrealgov.uk",
