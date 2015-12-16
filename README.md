@@ -1,7 +1,8 @@
 ===============================
-xgs_performance_prototype
+Civil Service Digital Prototype
 ===============================
 
+[![Build Status](https://travis-ci.org/crossgovernmentservices/csdigital-prototype.svg)](https://travis-ci.org/crossgovernmentservices/csdigital-prototype)
 
 Requirements
 ------------
