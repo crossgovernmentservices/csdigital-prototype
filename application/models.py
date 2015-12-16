@@ -105,12 +105,13 @@ class Tag(db.Document):
 
 class LogEntry(db.Document):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
-    content = db.StringField()
     owner = db.ReferenceField(User)
     entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
     link = db.StringField()
+
+    entry = db.ReferenceField(Entry)
 
     def add_tag(self, name):
         name = name.strip()

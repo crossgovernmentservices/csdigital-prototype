@@ -50,7 +50,12 @@
         {% for entry in log_entries %}
           <tr>
             <td>{{entry.created_date|format_date}}</td>
-            <td>
+            <td class="content">
+              {% if entry.link %}
+                <a href="{{entry.link}}">{{entry.entry.content|truncate(80)}}</a>
+              {% else %}
+                <a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.entry.content|truncate(80)}}</a>
+              {% endif %}
 
             </td>
             <td>{% if entry.entry_from %}{{entry.entry_from}}{% else %}You{% endif %}</td>

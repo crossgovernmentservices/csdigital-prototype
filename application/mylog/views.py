@@ -18,6 +18,7 @@ from flask.ext.login import current_user
 from flask.ext.mongoengine import DoesNotExist
 
 from application.models import (
+    Entry,
     LogEntry,
     Tag,
     User
@@ -55,13 +56,20 @@ def view_mylog():
 def add_log_entry():
     form = LogEntryForm()
     if form.validate_on_submit():
-        entry = LogEntry(content=form.content.data)
-        entry.owner = current_user._get_current_object()
+        entry = Entry()
+        entry.entry_type = 'log'
+        entry.content = form.content.data
         entry.save()
+
+        log_entry = LogEntry()
+        log_entry.owner = current_user._get_current_object()
+        log_entry.entry = entry
+        log_entry.save()
+
         if form.tags.data:
             tags = form.tags.data.split(',')
             for tag in tags:
-                entry.add_tag(tag.strip())
+                log_entry.add_tag(tag.strip())
         flash('Entry saved')
         return redirect(url_for('mylog.view_mylog'))
     return render_template('mylog/add-entry.html', form=form)

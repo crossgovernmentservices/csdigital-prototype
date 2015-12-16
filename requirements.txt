@@ -31,3 +31,4 @@ raven==5.8.1
 six==1.10.0
 webassets==0.11.1
 coverage==4.0.3
+beautifulsoup4==4.4.1
