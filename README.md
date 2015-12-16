@@ -47,6 +47,16 @@ Then run app
 ./run.sh
 ```
 
+
+Tests
+----------
+
+Make sure mongo is running
+
+```
+make test
+```
+
 Deployment
 ----------
 

@@ -25,7 +25,7 @@ from application.models import (
     FeedbackRequest
 )
 
-from application import app
+from application.run import app
 app.debug = True
 port = os.environ.get('PORT', 8000)
 

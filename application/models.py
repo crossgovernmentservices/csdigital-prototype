@@ -79,7 +79,7 @@ class User(db.Document, UserMixin):
     profession = db.StringField()
     # only one objectives set (current year for the moment)
     # change this one current and list of past ones?
-    # objectives = db.ReferenceField(Objectives)
+    objectives = db.ReferenceField(Objectives)
     other_email = db.ListField(default=[])
     _inbox_email = db.StringField()
 
@@ -103,16 +103,13 @@ class Tag(db.Document):
 
 
 class LogEntry(db.Document):
-
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
+    content = db.StringField()
     owner = db.ReferenceField(User)
-    logged_by = db.StringField()
+    entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
-
-    links = db.ListField(default=[])  # links to other log entries?
-
-    entry = db.ReferenceField(Entry)
+    link = db.StringField()
 
     def add_tag(self, name):
         name = name.strip()
