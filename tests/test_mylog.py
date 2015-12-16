@@ -25,6 +25,11 @@ def setup():
     login()
 
 
+def teardown():
+    LogEntry.objects.delete()
+    Entry.objects.delete()
+
+
 def test_add_to_mylog():
     rv = client.get('/my-log')
     assert rv.status_code == 200
@@ -47,3 +52,23 @@ def test_add_to_mylog():
     assert page.h1.string == 'My log'
     log_entries = page.tbody.find_all('tr')
     assert len(log_entries) == 2
+
+
+def test_email_to_my_Log():
+
+    data = {'sender': 'someone_else@email.com',
+            'recipient': 'someone@mylog.civilservice.digital',
+            'subject': 'the subject',
+            'body-plain': 'the body of the email'}
+
+    rv = client.post('/my-log/inbox', data=data, follow_redirects=True)
+
+    assert rv.status_code == 200
+
+    saved = LogEntry.objects.first()
+    assert saved
+    assert saved.entry.content == 'the subject\nthe body of the email'
+    assert saved.entry_from == 'someone_else@email.com'
+    assert saved.tags
+    assert saved.tags[0].name == 'Email'
+

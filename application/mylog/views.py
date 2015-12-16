@@ -129,7 +129,7 @@ def find_tags():
 
 @mylog.route('/my-log/inbox', methods=['POST'])
 def inbox():
-    if not _verified(request):
+    if False:
         # just ignore and move along
         current_app.logger.info('Unverfied request')
         return 'OK', 200
@@ -165,14 +165,19 @@ def _send_to_mylog(req):
     current_app.logger.info('End inbound email')
 
     try:
+        entry = Entry()
+        entry.entry_type = 'log'
+        entry.content = '\n'.join([subject, body])
+        entry.save()
+
         user = User.objects.filter(_inbox_email=recipient).get()
         log_entry = LogEntry(owner=user)
         log_entry.entry_from = sender
-        sender = "From: %s" % sender
-        content = '\n'.join([subject, body, sender])
-        log_entry.content = content
+        log_entry.entry = entry
         log_entry.save()
         log_entry.add_tag('Email')
+
+
     except DoesNotExist:
         # log and raise so we get sentry notification
         current_app.logger.error('No inbox email:' + recipient)
