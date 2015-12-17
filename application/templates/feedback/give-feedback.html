@@ -24,7 +24,7 @@
 
   <h2 class="heading-medium">Message from {{feedback_request.requested_by.full_name}}</h2>
   <div class="text feedback-message">
-    {{feedback_request.feedback_template|markdown}}
+    {{feedback_request.template|markdown}}
   </div>
 
 
@@ -33,7 +33,7 @@
     <div class="grid-row">
       <div class="column-two-thirds">
         {% if feedback_request.replied %}
-          {{ feedback_request.log_entry.content }}
+          {{ feedback_request.details }}
         {% else %}
           {{ render_field(form.feedback, rows=10) }}
         {% endif %}

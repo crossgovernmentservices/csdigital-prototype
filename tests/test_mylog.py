@@ -23,7 +23,7 @@ def login():
 
 def setup():
     user = user_datastore.create_user(email='someone@email.com',
-                               password='password')
+                                      password='password')
 
     assert user.inbox_email == 'someone@mylog.civilservice.digital'
 
@@ -81,4 +81,3 @@ def test_email_to_my_Log(mock_verified):
     assert saved.entry_from == 'someone_else@email.com'
     assert saved.tags
     assert saved.tags[0].name == 'Email'
-

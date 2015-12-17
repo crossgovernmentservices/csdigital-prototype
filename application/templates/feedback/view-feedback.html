@@ -26,13 +26,17 @@
   <h2 class="heading-medium">Message from {{feedback_request.requested_by.full_name}}</h2>
 
   <div class="text feedback-message">
-    {{feedback_request.feedback_template|markdown}}
+    {{feedback_request.template|markdown}}
   </div>
 
   <h2 class="heading-medium">Their Feedback</h2>
     <div class="grid-row">
       <div class="column-two-thirds">
-      {{ feedback_request.log_entry.content }}
+      {% if feedback_request.replied %}
+        {{ feedback_request.details }}
+      {% else %}
+        <p>No reply yet</p>
+      {% endif %}
     </div>
   </div>
 

@@ -20,7 +20,7 @@ def _a_year_from_now():
 
 schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
            'feedback': ('template', 'requested_from', 'requested_by',
-                        'details', 'share_objectives', 'sent', 'replied'),
+                        'details', 'share_objectives', 'objectives', 'sent', 'replied'),
            'log': ('content')}
 
 
@@ -110,7 +110,7 @@ class LogEntry(db.Document):
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
     link = db.StringField()
-    entry = db.ReferenceField(Entry)
+    entry = db.ReferenceField(Entry)  # should be a required field
 
     def add_tag(self, name):
         name = name.strip()
@@ -134,13 +134,3 @@ class LogEntry(db.Document):
     @property
     def entry_type(self):
         return self.entry.entry_type
-
-
-class FeedbackRequest(db.Document):
-    requested_by = db.ReferenceField(User)
-    requested_from = db.ReferenceField(User)
-    share_objectives = db.BooleanField(default=False)
-    sent = db.BooleanField(default=False)
-    replied = db.BooleanField(default=False)
-    feedback_template = db.StringField()
-    log_entry = db.ReferenceField(LogEntry)

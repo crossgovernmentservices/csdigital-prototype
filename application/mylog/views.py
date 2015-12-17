@@ -169,14 +169,12 @@ def _send_to_mylog(req):
         entry.entry_type = 'log'
         entry.content = '\n'.join([subject, body])
         entry.save()
-
         user = User.objects.filter(_inbox_email=recipient).get()
         log_entry = LogEntry(owner=user)
         log_entry.entry_from = sender
         log_entry.entry = entry
         log_entry.save()
         log_entry.add_tag('Email')
-
 
     except DoesNotExist:
         # log and raise so we get sentry notification

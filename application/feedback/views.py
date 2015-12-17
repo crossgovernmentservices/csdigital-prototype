@@ -18,7 +18,6 @@ from application.feedback.forms import FeedbackForm
 
 from application.models import (
     User,
-    FeedbackRequest,
     LogEntry,
     Entry
 )
@@ -44,14 +43,18 @@ def get_feedback():
             entry.requested_from = other_user.email
             entry.template = request.form.get('feedback-template')
             entry.share_objectives = share_objectives
+            if share_objectives:
+                # get and attach objectives
+                pass
             entry.save()
 
             log_entry = LogEntry()
             log_entry.owner = user
             log_entry.entry = entry
             log_entry.save()
+            log_entry.add_tag('Feedback')
 
-            _send_feedback_email(entry)
+            _send_feedback_email(log_entry, user, other_user)
         flash('Submitted request')
 
     return render_template('feedback/get-feedback.html')
@@ -61,7 +64,8 @@ def get_feedback():
 @login_required
 def give_feedback():
     user = current_user._get_current_object()
-    requests = FeedbackRequest.objects.filter(requested_from=user).all()
+    requests = Entry.objects.filter(entry_type='feedback',
+                                    requested_from=user.email).all()
     return render_template('feedback/feedback-for-others.html',
                            feedback_requests=requests)
 
@@ -70,23 +74,11 @@ def give_feedback():
 @login_required
 def reply_to_feedback(id):
     form = FeedbackForm()
-    feedback_request = FeedbackRequest.objects(id=id).get()
+    feedback_request = Entry.objects(id=id).get()
 
     if form.validate_on_submit():
-
-        log_entry = LogEntry()
-        log_entry.owner = feedback_request.requested_by
-        log_entry.content = form.feedback.data
-        feedback_url = url_for('feedback.view_requested_feedback',
-                               id=feedback_request.id)
-        log_entry.link = feedback_url
-        log_entry.editable = False
-        log_entry.entry_from = current_user.full_name
-        log_entry.save()
-        log_entry.add_tag('Feedback')
-
         feedback_request.replied = True
-        feedback_request.log_entry = log_entry
+        feedback_request.details = form.feedback.data
         feedback_request.save()
         flash("Saved feedback")
 
@@ -102,7 +94,9 @@ def reply_to_feedback(id):
 @login_required
 def requested_feedback():
     user = current_user._get_current_object()
-    feedback_requests = FeedbackRequest.objects(requested_by=user).all()
+    feedback_requests = Entry.objects.filter(entry_type='feedback',
+                                             requested_by=user.email).all()
+
     return render_template('feedback/feedback-for-me.html',
                            feedback_requests=feedback_requests)
 
@@ -110,23 +104,24 @@ def requested_feedback():
 @feedback.route('/feedback/<id>')
 @login_required
 def view_requested_feedback(id):
-    feedback_request = FeedbackRequest.objects(id=id).get()
+    feedback_request = Entry.objects(id=id).get()
     return render_template('feedback/view-feedback.html',
                            feedback_request=feedback_request)
 
 
-def _send_feedback_email(feedback):
+def _send_feedback_email(feedback, request_by, request_from):
     host = current_app.config['HOST']
     if 'localhost' in host:
         host = "%s:8000" % host
     url = "http://%s/give-feedback/%s" % (host, feedback.id)
     html = render_template('feedback/email/feedback-request.html',
-                           request=feedback_request,
+                           request_by=request_by,
+                           request_from=request_from,
                            url=url)
     msg = Message(html=html,
                   subject="Feedback request from test",
                   sender="noreply@csdigital.notrealgov.uk",
-                  recipients=[feedback.entry.requested_from.email])
+                  recipients=[feedback.entry.requested_from])
     try:
         mail.send(msg)
         feedback.entry.sent = True

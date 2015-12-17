@@ -23,13 +23,12 @@
     <div class="column-two-thirds">
       <table>
         <thead>
-          <tr><th>Request From</th><th>Sent</th><th>Replied</th></tr>
+          <tr><th>Request From</th><th>Replied</th></tr>
         </thead>
         <tbody>
            {% for feedback in feedback_requests %}
             <tr>
-              <td>{{feedback.requested_by.full_name}}</td>
-              <td>{{feedback.sent}}</td>
+              <td>{{feedback.requested_by}}</td>
               <td>
                 <a href="{{ url_for('feedback.reply_to_feedback', id=feedback.id) }}">{% if feedback.replied %}Yes{% else %}No{% endif %}</a></td>
             </tr>

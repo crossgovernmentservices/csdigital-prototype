@@ -85,4 +85,12 @@ def register_filters(app):
         except Exception:
             return ''
 
+    def format_entry(entry):
+        out = []
+        for field in entry._dynamic_fields:
+            text = '%s : %s' % (field, getattr(entry, field))
+            out.append(text)
+        return '\n'.join(out)
+
     app.jinja_env.filters['format_date'] = format_date
+    app.jinja_env.filters['format_entry'] = format_entry

@@ -42,21 +42,30 @@
   </div>
 
   <div class="section">
-    <table class="log-table">
+    <table>
       <thead>
-        <tr><th>Date</th><th>Content</th><th>From</th><th>Tags</th></tr>
+        <tr><th>Date</th><th>ID</th><th>Type</th><th>Content</th><th>From</th><th>Tags</th></tr>
       </thead>
       <tbody>
         {% for entry in log_entries %}
           <tr>
             <td>{{entry.created_date|format_date}}</td>
-            <td class="content">
-              {% if entry.link %}
-                <a href="{{entry.link}}">{{entry.entry.content|truncate(80)}}</a>
+            <td>
+              {% if entry.entry_type == 'log' %}
+                <a href="/my-log/entry/{{entry.id}}">{{entry.id}}</a>
               {% else %}
-                <a href="{{url_for('mylog.view_log_entry', id=entry.id)}}">{{entry.entry.content|truncate(80)}}</a>
+                <a href="{{entry.entry_type}}/{{entry.entry.id}}">
+                  {{entry.entry.id}}
+                </a>
               {% endif %}
-
+            </td>
+            <td>{{entry.entry_type}}</td>
+            <td class="content">
+              {% if entry.entry_type == 'log' %}
+                {{entry.entry.content|truncate(50)}}
+              {% else %}
+                {{entry.entry|format_entry|truncate(50)}}
+              {% endif %}
             </td>
             <td>{% if entry.entry_from %}{{entry.entry_from}}{% else %}You{% endif %}</td>
             <td>
