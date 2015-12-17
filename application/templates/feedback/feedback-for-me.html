@@ -18,7 +18,7 @@
   </div>
 
   {% if feedback_request %}
-    <h1 class="heading-large">Your feedback from {{feedback_request.requested_by.full_name}}</h1>
+    <h1 class="heading-large">Your feedback from {{feedback_request.entry.requested_by_name}}</h1>
   {% elif feedback_requests %}
     <h1 class="heading-large">Your feedback</h1>
   {% endif  %}
@@ -34,7 +34,7 @@
             <tr>
               <td>{{feedback.entry.requested_from}}</td>
               <td>{{feedback.entry.sent}}</td>
-              <td>{% if feedback.entry.replied %}<a href="{{url_for('feedback.view_requested_feedback', id=feedback.entry.id)}}">Yes</a>{% else %}No{% endif %}</td>
+              <td>{% if feedback.entry.replied %}<a href="{{url_for('feedback.view_requested_feedback', id=feedback.id)}}">Yes</a>{% else %}No{% endif %}</td>
             </tr>
           {% endfor %}
         </tbody>

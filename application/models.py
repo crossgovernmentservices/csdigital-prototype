@@ -50,7 +50,9 @@ class Tag(db.Document):
 
 schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
            'feedback': ('template', 'requested_from', 'requested_by',
-                        'details', 'share_objectives', 'objectives', 'sent', 'replied'),
+                        'requested_from_name', 'requested_by_name',
+                        'details', 'share_objectives', 'objectives',
+                        'sent', 'replied'),
            'log': ('content')}
 
 
@@ -64,7 +66,7 @@ class LogEntry(db.Document):
     entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
-    link = db.StringField() # This should be changed to list of links
+    link = db.StringField()  # This should be changed to list of links
     entry_type = db.StringField(required=True)
     entry = db.ReferenceField(Entry, required=True)
 
@@ -100,4 +102,3 @@ class LogEntry(db.Document):
             if dynamic_field not in valid_fields:
                 msg = '%s is not a valid field' % dynamic_field
                 raise ValidationError(msg)
-

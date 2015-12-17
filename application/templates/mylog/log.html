@@ -32,7 +32,10 @@
   {% endif %}
 
   <h1 class="heading-large">My log</h1>
-  <p class="lede">Use this to store your achievements. These could be appointments or meetings that went well, challenges you overcame, feedback you were given, or where you helped with a challenge outside the day to day of your job. You can also save data from a clerical log if you work in an operational role. Remember, you can always edit items later.</p>
+  <details>
+    <summary>About logging</summary>
+    <p>Use this to store your achievements. These could be appointments or meetings that went well, challenges you overcame, feedback you were given, or where you helped with a challenge outside the day to day of your job. You can also save data from a clerical log if you work in an operational role. Remember, you can always edit items later.</p>
+  </details>
 
   <div class="grid-row section">
     <div class="column-third">
@@ -54,8 +57,8 @@
               {% if entry.entry_type == 'log' %}
                 <a href="/my-log/entry/{{entry.id}}">{{entry.id}}</a>
               {% else %}
-                <a href="{{entry.entry_type}}/{{entry.entry.id}}">
-                  {{entry.entry.id}}
+                <a href="{{entry.entry_type}}/{{entry.id}}">
+                  {{entry.id}}
                 </a>
               {% endif %}
             </td>

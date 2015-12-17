@@ -40,6 +40,8 @@ def get_feedback():
             entry = Entry()
             entry.requested_by = user.email
             entry.requested_from = other_user.email
+            entry.requested_by_name = user.full_name
+            entry.requested_from_name = other_user.full_name
             entry.template = request.form.get('feedback-template')
             entry.share_objectives = share_objectives
             if share_objectives:
@@ -76,12 +78,12 @@ def give_feedback():
 @login_required
 def reply_to_feedback(id):
     form = FeedbackForm()
-    feedback_request = Entry.objects(id=id).get()
+    feedback_request = LogEntry.objects(id=id).get()
 
     if form.validate_on_submit():
-        feedback_request.replied = True
-        feedback_request.details = form.feedback.data
-        feedback_request.save()
+        feedback_request.entry.replied = True
+        feedback_request.entry.details = form.feedback.data
+        feedback_request.entry.save()
         flash("Saved feedback")
 
         return redirect(url_for('feedback.give_feedback'))
@@ -105,7 +107,7 @@ def requested_feedback():
 @feedback.route('/feedback/<id>')
 @login_required
 def view_requested_feedback(id):
-    feedback_request = Entry.objects(id=id).get()
+    feedback_request = LogEntry.objects(id=id).get()
     return render_template('feedback/view-feedback.html',
                            feedback_request=feedback_request)
 

@@ -26,11 +26,11 @@
         <p>No objectives set up yet</p>
       {% endif %}
       <ul>
-        {% for objective in objectives%}
+        {% for objective in objectives %}
           <li class="objective">
-            <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
+            <header class="objective-header">{{objective.entry.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
             <div class="details" style="display: none;">
-              {{objective.how|markdown}}
+              {{objective.entry.how|markdown}}
               <a href="{{url_for('objectives.edit_objective', id=objective.id)}}">Edit</a>
             </div>
           </li>
@@ -44,8 +44,8 @@
       <section class="status">
         <h2 class="heading-small">Last updated</h2>
         <p>
-          {% if current_user.objectives %}
-            {{current_user.objectives.started_on | format_date}}
+          {% if objectives %}
+            {{objectives[0].entry.started_on | format_date}}
           {% endif %}
         </p>
       </section>

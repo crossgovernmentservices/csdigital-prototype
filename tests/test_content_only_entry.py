@@ -42,4 +42,3 @@ def test_log_with_invalid_fields():
 
     with pytest.raises(ValidationError):
         log_entry.save()
-

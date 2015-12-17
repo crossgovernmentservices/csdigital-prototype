@@ -21,19 +21,19 @@
 
   <h1 class="heading-large">Your feedback</h1>
 
-  <p>Your request from {{feedback_request.requested_from.full_name}}</p>
+  <p>Your request from {{feedback_request.entry.requested_from.full_name}}</p>
 
-  <h2 class="heading-medium">Message from {{feedback_request.requested_by.full_name}}</h2>
+  <h2 class="heading-medium">Message from {{feedback_request.entry.requested_by}}</h2>
 
   <div class="text feedback-message">
-    {{feedback_request.template|markdown}}
+    {{feedback_request.entry.template|markdown}}
   </div>
 
   <h2 class="heading-medium">Their Feedback</h2>
     <div class="grid-row">
       <div class="column-two-thirds">
-      {% if feedback_request.replied %}
-        {{ feedback_request.details }}
+      {% if feedback_request.entry.replied %}
+        {{ feedback_request.entry.details }}
       {% else %}
         <p>No reply yet</p>
       {% endif %}

@@ -30,7 +30,7 @@
             <tr>
               <td>{{feedback.entry.requested_by}}</td>
               <td>
-                <a href="{{ url_for('feedback.reply_to_feedback', id=feedback.entry.id) }}">{% if feedback.entry.replied %}Yes{% else %}No{% endif %}</a></td>
+                <a href="{{ url_for('feedback.reply_to_feedback', id=feedback.id) }}">{% if feedback.entry.replied %}Yes{% else %}No{% endif %}</a></td>
             </tr>
           {% endfor %}
         </tbody>

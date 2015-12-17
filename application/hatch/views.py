@@ -10,7 +10,7 @@ from flask import (
 from flask.ext.security.decorators import roles_required
 from flask.ext.security.utils import encrypt_password
 
-from flask.ext.login import current_user
+# from flask.ext.login import current_user
 
 from application.models import User
 

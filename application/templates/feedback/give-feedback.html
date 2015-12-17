@@ -9,7 +9,7 @@
         <ol role="breadcrumbs" class="group">
           <li><a href="/">Home</a></li>
           <li><a href="{{url_for('feedback.give_feedback')}}">Give feedback</a></li>
-          <li>Feedback for {{feedback_request.requested_by.full_name}}</li>
+          <li>Feedback for {{feedback_request.entry.requested_by_name}}</li>
         </ol>
       </div>
     </div>
@@ -20,11 +20,11 @@
 
   <h1 class="heading-large">Give feedback</h1>
 
-  <p class="lede">Please provide feedback for <strong class="bold-medium">{{feedback_request.requested_by.full_name}}</strong></p>
+  <p class="lede">Please provide feedback for <strong class="bold-medium">{{feedback_request.entry.requested_by_name}}</strong></p>
 
-  <h2 class="heading-medium">Message from {{feedback_request.requested_by.full_name}}</h2>
+  <h2 class="heading-medium">Message from {{feedback_request.entry.requested_by_name}}</h2>
   <div class="text feedback-message">
-    {{feedback_request.template|markdown}}
+    {{feedback_request.entry.template|markdown}}
   </div>
 
 
@@ -32,8 +32,8 @@
   <form action="{{url}}" method="post" class="form add-feedback">
     <div class="grid-row">
       <div class="column-two-thirds">
-        {% if feedback_request.replied %}
-          {{ feedback_request.details }}
+        {% if feedback_request.entry.replied %}
+          {{ feedback_request.entry.details }}
         {% else %}
           {{ render_field(form.feedback, rows=10) }}
         {% endif %}
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    {% if not feedback_request.replied %}
+    {% if not feedback_request.entry.replied %}
       <div class="form-group">
         <button class="button">Send feedback</button>
       </div>
@@ -57,8 +57,8 @@
   <div class="grid-row">
     <div class="column-two-thirds">
       <section class="objectives">
-        {% if feedback_request.share_objectives %}
-          <h2 class="heading-medium">Objectives for {{feedback_request.requested_by.full_name}}</h2>
+        {% if feedback_request.entry.share_objectives %}
+          <h2 class="heading-medium">Objectives for {{feedback_request.entry.requested_by}}</h2>
            <ul>
               {% for objective in feedback_request.requested_by.objectives.objectives %}
                 <li class="objective">
