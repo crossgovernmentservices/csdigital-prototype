@@ -32,6 +32,7 @@ def test_save_log_entry_with_content():
 
     from_db = LogEntry.objects(id=log_entry.id).get()
     assert from_db.entry.content == 'content is all there is'
+    assert from_db.entry_type == 'log'
 
 
 def test_save_log_entry_with_feedback():

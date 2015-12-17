@@ -19,7 +19,8 @@ from application.feedback.forms import FeedbackForm
 from application.models import (
     User,
     FeedbackRequest,
-    LogEntry
+    LogEntry,
+    Entry
 )
 
 feedback = Blueprint('feedback', __name__, template_folder='templates')
@@ -35,14 +36,22 @@ def get_feedback():
 
         for recipient in recipients:
             user = current_user._get_current_object()
-            feedback_request = FeedbackRequest(requested_by=user)
             other_user = User.objects.filter(email=recipient).first()
-            feedback_request.requested_from = other_user
-            feedback_request.share_objectives = share_objectives
-            template = request.form.get('feedback-template')
-            feedback_request.feedback_template = template
-            feedback_request.save()
-            _send_feedback_email(feedback_request)
+
+            entry = Entry()
+            entry.entry_type = 'feedback'
+            entry.requested_by = user.email
+            entry.requested_from = other_user.email
+            entry.template = request.form.get('feedback-template')
+            entry.share_objectives = share_objectives
+            entry.save()
+
+            log_entry = LogEntry()
+            log_entry.owner = user
+            log_entry.entry = entry
+            log_entry.save()
+
+            _send_feedback_email(entry)
         flash('Submitted request')
 
     return render_template('feedback/get-feedback.html')
@@ -106,22 +115,23 @@ def view_requested_feedback(id):
                            feedback_request=feedback_request)
 
 
-def _send_feedback_email(feedback_request):
+def _send_feedback_email(feedback):
     host = current_app.config['HOST']
     if 'localhost' in host:
         host = "%s:8000" % host
-    url = "http://%s/give-feedback/%s" % (host, feedback_request.id)
+    url = "http://%s/give-feedback/%s" % (host, feedback.id)
     html = render_template('feedback/email/feedback-request.html',
                            request=feedback_request,
                            url=url)
     msg = Message(html=html,
                   subject="Feedback request from test",
                   sender="noreply@csdigital.notrealgov.uk",
-                  recipients=[feedback_request.requested_from.email])
+                  recipients=[feedback.entry.requested_from.email])
     try:
         mail.send(msg)
-        feedback_request.sent = True
-        feedback_request.save()
+        feedback.entry.sent = True
+        feedback.entry.save()
+        feedback.save()
     except Exception as ex:
         current_app.logger.error("failed to send email", ex)
         return 'Internal Server Error', 500

@@ -19,7 +19,7 @@ def _a_year_from_now():
 
 
 schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
-           'feedback': ('feedback_template', 'requested_from', 'requested_by',
+           'feedback': ('template', 'requested_from', 'requested_by',
                         'details', 'share_objectives', 'sent', 'replied'),
            'log': ('content')}
 
@@ -110,7 +110,6 @@ class LogEntry(db.Document):
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
     link = db.StringField()
-
     entry = db.ReferenceField(Entry)
 
     def add_tag(self, name):
@@ -131,6 +130,10 @@ class LogEntry(db.Document):
     @queryset_manager
     def objects(doc_cls, queryset):
         return queryset.order_by('-created_date')
+
+    @property
+    def entry_type(self):
+        return self.entry.entry_type
 
 
 class FeedbackRequest(db.Document):

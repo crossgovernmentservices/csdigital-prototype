@@ -8,7 +8,8 @@ from application.extensions import user_datastore
 from application.factory import create_app
 from application.models import (
     Entry,
-    LogEntry
+    LogEntry,
+    User
 )
 
 app = create_app('application.config.TestConfig')
@@ -21,7 +22,12 @@ def login():
 
 
 def setup():
-    user_datastore.create_user(email='someone@email.com',
+    user = user_datastore.create_user(email='someone@email.com',
+                               password='password')
+
+    assert user.inbox_email == 'someone@mylog.civilservice.digital'
+
+    user_datastore.create_user(email='someone_else@email.com',
                                password='password')
     login()
 
@@ -29,6 +35,7 @@ def setup():
 def teardown():
     LogEntry.objects.delete()
     Entry.objects.delete()
+    User.objects.delete()
 
 
 def test_add_to_mylog():
