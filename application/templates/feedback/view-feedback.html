@@ -21,9 +21,9 @@
 
   <h1 class="heading-large">Your feedback</h1>
 
-  <p>Your request from {{feedback_request.entry.requested_from.full_name}}</p>
+  <p>Your request from {{feedback_request.entry.requested_from_name}}</p>
 
-  <h2 class="heading-medium">Message from {{feedback_request.entry.requested_by}}</h2>
+  <h2 class="heading-medium">Message from {{feedback_request.entry.requested_by_name}}</h2>
 
   <div class="text feedback-message">
     {{feedback_request.entry.template|markdown}}
