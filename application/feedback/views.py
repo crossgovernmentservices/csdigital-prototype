@@ -38,7 +38,6 @@ def get_feedback():
             other_user = User.objects.filter(email=recipient).first()
 
             entry = Entry()
-            entry.entry_type = 'feedback'
             entry.requested_by = user.email
             entry.requested_from = other_user.email
             entry.template = request.form.get('feedback-template')
@@ -49,6 +48,7 @@ def get_feedback():
             entry.save()
 
             log_entry = LogEntry()
+            log_entry.entry_type = 'feedback'
             log_entry.owner = user
             log_entry.entry = entry
             log_entry.save()
@@ -64,10 +64,12 @@ def get_feedback():
 @login_required
 def give_feedback():
     user = current_user._get_current_object()
-    requests = Entry.objects.filter(entry_type='feedback',
-                                    requested_from=user.email).all()
+    entries = Entry.objects.filter(requested_from=user.email)
+    feedback = LogEntry.objects.filter(entry_type='feedback',
+                                       entry__in=entries).all()
+
     return render_template('feedback/feedback-for-others.html',
-                           feedback_requests=requests)
+                           feedback_requests=feedback)
 
 
 @feedback.route('/give-feedback/<id>', methods=['GET', 'POST'])
@@ -94,11 +96,10 @@ def reply_to_feedback(id):
 @login_required
 def requested_feedback():
     user = current_user._get_current_object()
-    feedback_requests = Entry.objects.filter(entry_type='feedback',
-                                             requested_by=user.email).all()
-
+    logged = LogEntry.objects(entry_type='feedback').all()
+    feedback = [log for log in logged if log.entry.requested_by == user.email]
     return render_template('feedback/feedback-for-me.html',
-                           feedback_requests=feedback_requests)
+                           feedback_requests=feedback)
 
 
 @feedback.route('/feedback/<id>')

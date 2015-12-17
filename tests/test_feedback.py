@@ -59,7 +59,7 @@ def test_request_feedback(mock_send_feedback_email):
     to_user = User.objects.filter(email='someone_else@email.com').first()
 
     assert saved
-    assert saved.entry.entry_type == 'feedback'
+    assert saved.entry_type == 'feedback'
     assert saved.entry.requested_by == from_user.email
     assert saved.entry.requested_from == to_user.email
     assert saved.entry.template == 'this is a test template'

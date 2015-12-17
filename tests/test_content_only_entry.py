@@ -6,7 +6,7 @@ from mongoengine import connect
 from mongoengine.errors import ValidationError
 connect('xgs-test')
 
-from application.models import Entry
+from application.models import Entry, LogEntry
 
 
 def teardown():
@@ -22,14 +22,24 @@ def setup():
 
 def test_log_with_valid_fields():
     entry = Entry()
-    entry.entry_type = 'log'
     entry.content = 'content is all there is'
+    entry.save()
+
+    log_entry = LogEntry()
+    log_entry.entry_type = 'log'
+    log_entry.entry = entry
     entry.save()
 
 
 def test_log_with_invalid_fields():
     entry = Entry()
-    entry.entry_type = 'log'
     entry.foo = 'this is not right there is no foo'
+    entry.save()
+
+    log_entry = LogEntry()
+    log_entry.entry_type = 'log'
+    log_entry.entry = entry
+
     with pytest.raises(ValidationError):
-        entry.save()
+        log_entry.save()
+

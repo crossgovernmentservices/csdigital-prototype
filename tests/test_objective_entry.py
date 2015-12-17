@@ -6,7 +6,7 @@ from mongoengine import connect
 from mongoengine.errors import ValidationError
 connect('xgs-test')
 
-from application.models import Entry
+from application.models import Entry, LogEntry
 
 
 def teardown():
@@ -22,32 +22,35 @@ def setup():
 
 def test_objective_with_valid_fields():
     entry = Entry()
-    entry.entry_type = 'objective'
     entry.how = 'this is how'
     entry.what = 'this is what'
     entry.save()
 
+    log_entry = LogEntry()
+    log_entry.entry_type = 'objective'
+    log_entry.entry = entry
+    log_entry.save()
+
 
 def test_objective_with_invalid_fields():
     entry = Entry()
-    entry.entry_type = 'objective'
     entry.how = 'this is how'
     entry.what = 'this is what'
     entry.something_not_right = 'this is not right'
 
     with pytest.raises(ValidationError):
-        entry.save()
-
-
-def test_entry_requires_type_field():
-    entry = Entry()
-    entry.entry_type = None
-    with pytest.raises(ValidationError):
-        entry.save()
+        log_entry = LogEntry()
+        log_entry.entry_type = 'objective'
+        log_entry.entry = entry
+        log_entry.save()
 
 
 def test_entry_type_must_be_in_models_schema():
     entry = Entry()
-    entry.entry_type = 'catfish'
+    entry.save()
+    log_entry = LogEntry()
+    log_entry.entry_type = 'catfish'
+    log_entry.entry = entry
+
     with pytest.raises(ValidationError):
-        entry.save()
+        log_entry.save()

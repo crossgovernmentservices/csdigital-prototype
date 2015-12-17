@@ -12,11 +12,7 @@ from flask.ext.security.utils import encrypt_password
 
 from flask.ext.login import current_user
 
-from application.models import (
-    User,
-    Objectives,
-    Objective
-)
+from application.models import User
 
 hatch = Blueprint('hatch', __name__, url_prefix='/the-hatch')
 
@@ -47,29 +43,26 @@ def add_user():
                                           full_name=full_name)
         user_role = user_datastore.find_or_create_role('USER')
         user_datastore.add_role_to_user(user, user_role)
-        objectives = Objectives()
-        user.objectives = objectives
-        user.objectives.save()
         user.save()
 
     flash("Saved user " + email)
     return redirect(url_for('hatch.open'))
 
 
-@hatch.route("/add-objective", methods=['POST'])
-@roles_required('ADMIN')
-def add_objective():
-    what = request.form['what']
-    how = request.form['how']
-    objective = Objective(what=what, how=how)
-    current_user.objectives.add(objective)
-    return 'Created objective for ' + current_user.email
+# @hatch.route("/add-objective", methods=['POST'])
+# @roles_required('ADMIN')
+# def add_objective():
+#     what = request.form['what']
+#     how = request.form['how']
+#     objective = Objective(what=what, how=how)
+#     current_user.objectives.add(objective)
+#     return 'Created objective for ' + current_user.email
 
 
-@hatch.route("/delete-objectives/<email>")
-@roles_required('ADMIN')
-def delete_objectives(email):
-    user = User.objects.filter(email=email).first()
-    user.objectives.objectives = []
-    user.objectives.save()
-    return redirect(url_for('hatch.manage_users'))
+# @hatch.route("/delete-objectives/<email>")
+# @roles_required('ADMIN')
+# def delete_objectives(email):
+#     user = User.objects.filter(email=email).first()
+#     user.objectives.objectives = []
+#     user.objectives.save()
+#     return redirect(url_for('hatch.manage_users'))

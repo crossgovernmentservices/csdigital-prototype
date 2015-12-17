@@ -22,11 +22,11 @@
     <div class="column-two-thirds">
 
       <h2 class="heading-medium">Your objectives</h2>
-      {% if not current_user.objectives %}
+      {% if not objectives %}
         <p>No objectives set up yet</p>
       {% endif %}
       <ul>
-        {% for objective in current_user.objectives.objectives %}
+        {% for objective in objectives%}
           <li class="objective">
             <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
             <div class="details" style="display: none;">

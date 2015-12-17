@@ -32,9 +32,9 @@
         <tbody>
           {% for feedback in feedback_requests %}
             <tr>
-              <td>{{feedback.requested_from}}</td>
-              <td>{{feedback.sent}}</td>
-              <td>{% if feedback.replied %}<a href="{{url_for('feedback.view_requested_feedback', id=feedback.id)}}">Yes</a>{% else %}No{% endif %}</td>
+              <td>{{feedback.entry.requested_from}}</td>
+              <td>{{feedback.entry.sent}}</td>
+              <td>{% if feedback.entry.replied %}<a href="{{url_for('feedback.view_requested_feedback', id=feedback.entry.id)}}">Yes</a>{% else %}No{% endif %}</td>
             </tr>
           {% endfor %}
         </tbody>

@@ -6,7 +6,7 @@ from mongoengine import connect
 from mongoengine.errors import ValidationError
 connect('xgs-test')
 
-from application.models import Entry
+from application.models import Entry, LogEntry
 
 
 def teardown():
@@ -22,7 +22,6 @@ def setup():
 
 def test_feedback_with_valid_fields():
     entry = Entry()
-    entry.entry_type = 'feedback'
     entry.requested_from = 'someone@email.com'
     entry.requested_by = 'anotherone@email.com'
     entry.details = 'details'
@@ -31,11 +30,19 @@ def test_feedback_with_valid_fields():
     entry.replied = True
     entry.save()
 
+    log_entry = LogEntry()
+    log_entry.entry_type = 'feedback'
+    log_entry.entry = entry
+    log_entry.save()
+
 
 def test_feedback_with_invalid_fields():
     entry = Entry()
-    entry.entry_type = 'objective'
     entry.yikes = 'not good!'
 
+    log_entry = LogEntry()
+    log_entry.entry_type = 'feedback'
+    log_entry.entry = entry
+
     with pytest.raises(ValidationError):
-        entry.save()
+        log_entry.save()

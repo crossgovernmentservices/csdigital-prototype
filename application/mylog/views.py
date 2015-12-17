@@ -57,11 +57,11 @@ def add_log_entry():
     form = LogEntryForm()
     if form.validate_on_submit():
         entry = Entry()
-        entry.entry_type = 'log'
         entry.content = form.content.data
         entry.save()
 
         log_entry = LogEntry()
+        log_entry.entry_type = 'log'
         log_entry.owner = current_user._get_current_object()
         log_entry.entry = entry
         log_entry.save()
@@ -166,11 +166,11 @@ def _send_to_mylog(req):
 
     try:
         entry = Entry()
-        entry.entry_type = 'log'
         entry.content = '\n'.join([subject, body])
         entry.save()
         user = User.objects.filter(_inbox_email=recipient).get()
         log_entry = LogEntry(owner=user)
+        log_entry.entry_type = 'log'
         log_entry.entry_from = sender
         log_entry.entry = entry
         log_entry.save()

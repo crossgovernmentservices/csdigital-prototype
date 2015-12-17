@@ -12,58 +12,6 @@ from mongoengine.errors import ValidationError
 db = MongoEngine()
 
 
-def _a_year_from_now():
-    a_year_from_now = datetime.timedelta(weeks=52)
-    now = datetime.datetime.utcnow()
-    return now + a_year_from_now
-
-
-schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
-           'feedback': ('template', 'requested_from', 'requested_by',
-                        'details', 'share_objectives', 'objectives', 'sent', 'replied'),
-           'log': ('content')}
-
-
-class Entry(db.DynamicDocument):
-
-    entry_type = db.StringField(required=True)
-
-    # this is apparently how to do custom validation in mongoengine
-    # if someone tries to save entry with fields not in schemas map of tuples
-    # above or with unknown entry_type we'll get an validation error
-    def clean(self):
-        try:
-            valid_fields = schemas[self.entry_type]
-        except KeyError:
-            msg = 'There is no schema defined for %s' % self.entry_type
-            raise ValidationError(msg)
-        for dynamic_field in self._dynamic_fields.keys():
-            if dynamic_field not in valid_fields:
-                msg = '%s is not a valid field' % dynamic_field
-                raise ValidationError(msg)
-
-
-class Objective(db.Document):
-    what = db.StringField()
-    how = db.StringField()
-
-
-class Objectives(db.Document):
-    started_on = db.DateTimeField(default=datetime.datetime.utcnow)
-    due_by = db.DateTimeField(default=_a_year_from_now)
-    status = db.StringField(default='In progress')  # again change to enum
-    objectives = db.ListField(db.ReferenceField(Objective), default=[])
-
-    def add(self, objective):
-        self.objectives.append(objective)
-        self.save()
-
-    def remove(self, objective):
-        Objectives.objects(id=self.id).update_one(
-            pull__objectives__id=objective.id)
-        self.save()
-
-
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
@@ -78,9 +26,6 @@ class User(db.Document, UserMixin):
     full_name = db.StringField()
     grade = db.StringField()
     profession = db.StringField()
-    # only one objectives set (current year for the moment)
-    # change this one current and list of past ones?
-    objectives = db.ReferenceField(Objectives)
     other_email = db.ListField(default=[])
     _inbox_email = db.StringField()
 
@@ -103,14 +48,25 @@ class Tag(db.Document):
     name = db.StringField()
 
 
+schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
+           'feedback': ('template', 'requested_from', 'requested_by',
+                        'details', 'share_objectives', 'objectives', 'sent', 'replied'),
+           'log': ('content')}
+
+
+class Entry(db.DynamicDocument):
+    pass
+
+
 class LogEntry(db.Document):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
     owner = db.ReferenceField(User)
     entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
-    link = db.StringField()
-    entry = db.ReferenceField(Entry)  # should be a required field
+    link = db.StringField() # This should be changed to list of links
+    entry_type = db.StringField(required=True)
+    entry = db.ReferenceField(Entry, required=True)
 
     def add_tag(self, name):
         name = name.strip()
@@ -131,6 +87,17 @@ class LogEntry(db.Document):
     def objects(doc_cls, queryset):
         return queryset.order_by('-created_date')
 
-    @property
-    def entry_type(self):
-        return self.entry.entry_type
+    # this is apparently how to do custom validation in mongoengine
+    # if someone tries to save entry with fields not in schemas map of tuples
+    # above or with unknown entry_type we'll get an validation error
+    def clean(self):
+        try:
+            valid_fields = schemas[self.entry_type]
+        except KeyError:
+            msg = 'There is no schema defined for %s' % self.entry_type
+            raise ValidationError(msg)
+        for dynamic_field in self.entry._dynamic_fields.keys():
+            if dynamic_field not in valid_fields:
+                msg = '%s is not a valid field' % dynamic_field
+                raise ValidationError(msg)
+

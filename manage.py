@@ -19,9 +19,7 @@ from flask.ext.security.utils import (
 
 from application.models import (
     User,
-    Role,
-    Objectives,
-    Objective
+    Role
 )
 
 from application.run import app
@@ -68,9 +66,6 @@ class CreateXgsUsersCommand(Command):
                     user = user_datastore.create_user(email=email, password=encrypt_password(password), full_name=name)
                     admin_role = user_datastore.find_or_create_role('ADMIN')
                     user_datastore.add_role_to_user(user, admin_role)
-                    objectives = Objectives()
-                    user.objectives = objectives
-                    user.objectives.save()
                     user.save()
 
                 else:
@@ -91,27 +86,9 @@ class MakeUserAdminCommand(Command):
             user_datastore.add_role_to_user(user, admin_role)
 
 
-class AddUserObjective(Command):
-    """
-        Adds one objective for user
-    """
-    def run(self):
-        email = prompt('user email')
-        user = User.objects.filter(email=email).first()
-        if not user:
-            print("No user found for email:", email)
-            return
-        user_objectives = Objectives.objects.filter(owner=user).first()
-        what = prompt('what will you do')
-        how = prompt('how will you do it')
-        objective = Objective(what=what, how=how)
-        user_objectives.add(objective)
-        user_objectives.save()
-
 
 manager.add_command('create-user', CreateUser())
 manager.add_command('make-user-admin', MakeUserAdminCommand())
-manager.add_command('add-user-objective', AddUserObjective())
 manager.add_command('create-xgs-users', CreateXgsUsersCommand())
 
 if __name__ == '__main__':
