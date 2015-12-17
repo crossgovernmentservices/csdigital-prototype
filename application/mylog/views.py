@@ -129,7 +129,7 @@ def find_tags():
 
 @mylog.route('/my-log/inbox', methods=['POST'])
 def inbox():
-    if False:
+    if not _verified(request):
         # just ignore and move along
         current_app.logger.info('Unverfied request')
         return 'OK', 200

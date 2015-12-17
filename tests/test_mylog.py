@@ -1,3 +1,4 @@
+import mock
 from bs4 import BeautifulSoup
 
 from mongoengine import connect
@@ -54,7 +55,8 @@ def test_add_to_mylog():
     assert len(log_entries) == 2
 
 
-def test_email_to_my_Log():
+@mock.patch('application.mylog.views._verified', return_value=True)
+def test_email_to_my_Log(mock_verified):
 
     data = {'sender': 'someone_else@email.com',
             'recipient': 'someone@mylog.civilservice.digital',
@@ -64,6 +66,7 @@ def test_email_to_my_Log():
     rv = client.post('/my-log/inbox', data=data, follow_redirects=True)
 
     assert rv.status_code == 200
+    assert mock_verified.called
 
     saved = LogEntry.objects.first()
     assert saved
