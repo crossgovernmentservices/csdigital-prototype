@@ -75,7 +75,7 @@ def add_objective():
 def edit_objective(id):
     form = ObjectiveForm()
     if form.validate_on_submit():
-        objective = LogEntry.objects(id=id).get()
+        objective = LogEntry.objects(id=id, entry_type='objective').get()
         objective.entry.update(what=form.what.data, how=form.how.data)
         objective.entry.save()
         return redirect(url_for('objectives.view_objectives'))

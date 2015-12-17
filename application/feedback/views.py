@@ -98,8 +98,10 @@ def reply_to_feedback(id):
 @login_required
 def requested_feedback():
     user = current_user._get_current_object()
-    logged = LogEntry.objects(entry_type='feedback').all()
-    feedback = [log for log in logged if log.entry.requested_by == user.email]
+    entries = Entry.objects.filter(requested_by=user.email)
+    feedback = LogEntry.objects.filter(entry_type='feedback',
+                                       entry__in=entries).all()
+
     return render_template('feedback/feedback-for-me.html',
                            feedback_requests=feedback)
 
@@ -107,7 +109,7 @@ def requested_feedback():
 @feedback.route('/feedback/<id>')
 @login_required
 def view_requested_feedback(id):
-    feedback_request = LogEntry.objects(id=id).get()
+    feedback_request = LogEntry.objects(id=id, entry_type='feedback').get()
     return render_template('feedback/view-feedback.html',
                            feedback_request=feedback_request)
 
