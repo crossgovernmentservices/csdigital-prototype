@@ -18,7 +18,7 @@ class Role(db.Document, RoleMixin):
 
 
 class User(db.Document, UserMixin):
-    email = db.StringField()
+    email = db.StringField(required=True)
     password = db.StringField()
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
@@ -27,20 +27,7 @@ class User(db.Document, UserMixin):
     grade = db.StringField()
     profession = db.StringField()
     other_email = db.ListField(default=[])
-    _inbox_email = db.StringField()
-
-    @property
-    def inbox_email(self):
-        if not self._inbox_email:
-            user_name = self.email.split('@')[0]
-            inbox_email = "%s@mylog.civilservice.digital" % user_name
-            self.inbox_email = inbox_email
-        return self._inbox_email
-
-    @inbox_email.setter
-    def inbox_email(self, email):
-        self._inbox_email = email
-        self.save()
+    inbox_email = db.StringField()
 
 
 class Tag(db.Document):
@@ -66,7 +53,7 @@ class LogEntry(db.Document):
     entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
-    link = db.StringField()  # This should be changed to list of links
+    link = db.ListField()  # This should be changed to list of links
     entry_type = db.StringField(required=True)
     entry = db.ReferenceField(Entry, required=True)
 

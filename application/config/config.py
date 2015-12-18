@@ -18,6 +18,7 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
     MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
     HOST = os.environ.get('HOST', 'localhost')
+    EMAIL_DOMAIN = os.environ.get('EMAIL_DOMAIN', 'mylog.civilservice.digital')
 
 
 class DevelopmentConfig(Config):

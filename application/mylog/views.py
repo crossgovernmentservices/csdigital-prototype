@@ -168,7 +168,7 @@ def _send_to_mylog(req):
         entry = Entry()
         entry.content = '\n'.join([subject, body])
         entry.save()
-        user = User.objects.filter(_inbox_email=recipient).get()
+        user = User.objects.filter(inbox_email=recipient).get()
         log_entry = LogEntry(owner=user)
         log_entry.entry_type = 'log'
         log_entry.entry_from = sender

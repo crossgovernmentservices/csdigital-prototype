@@ -44,8 +44,10 @@ class CreateUser(Command):
             user = user_datastore.create_user(email=email, password=encrypt_password(password), full_name=full_name)
             user_role = user_datastore.find_or_create_role('USER')
             user_datastore.add_role_to_user(user, user_role)
-            user.objectives = Objectives()
-            user.save(cascade=True)
+            email_domain = app.config.get('EMAIL_DOMAIN')
+            user_name = email.split('@')[0]
+            user.inbox_email = "%s@%s" % (user_name, email_domain)
+            user.save()
         else:
             print("User with email:", email, "already exists")
 
@@ -66,6 +68,9 @@ class CreateXgsUsersCommand(Command):
                     user = user_datastore.create_user(email=email, password=encrypt_password(password), full_name=name)
                     admin_role = user_datastore.find_or_create_role('ADMIN')
                     user_datastore.add_role_to_user(user, admin_role)
+                    email_domain = app.config.get('EMAIL_DOMAIN')
+                    user_name = email.split('@')[0]
+                    user.inbox_email = "%s@%s" % (user_name, email_domain)
                     user.save()
 
                 else:

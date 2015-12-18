@@ -25,6 +25,10 @@ def setup():
     user = user_datastore.create_user(email='someone@email.com',
                                       password='password')
 
+    email_domain = app.config.get('EMAIL_DOMAIN')
+    user.inbox_email = "someone@%s" % email_domain
+    user.save()
+
     assert user.inbox_email == 'someone@mylog.civilservice.digital'
 
     user_datastore.create_user(email='someone_else@email.com',
