@@ -1,3 +1,5 @@
+import os
+
 from flask import (
     Blueprint,
     render_template,
@@ -17,6 +19,10 @@ from application.frontend.forms import LoginForm
 from application.models import User
 
 from application.extensions import user_datastore
+
+from application.queues import EventQueue
+
+event_queue = EventQueue(os.environ.get('BROKER_URI'))
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
 
@@ -39,6 +45,10 @@ def login():
             flash("You don't have a user account yet")
             return redirect(url_for('frontend.index'))
         login_user(user)
+
+        # send login action to event queue
+        event_queue.send('USER', 'LOGIN', context={'email': email})
+
         # TODO check next is valid
         return redirect(form.next.data)
     return render_template('login.html', form=form)
