@@ -10,4 +10,5 @@ COPY requirements.txt /usr/src/app/
 
 COPY . /usr/src/app
 
-CMD ["gunicorn", "--config=gunicorn.py", "application:app"]
+WORKDIR /usr/src/app
+CMD ["gunicorn", "--config=gunicorn.py", "application.run:app"]
