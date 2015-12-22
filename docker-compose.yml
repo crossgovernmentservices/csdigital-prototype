@@ -3,8 +3,11 @@ web:
   env_file: docker-local.env
   links:
     - mongo
+  external_links:
+    - rabbitmqdocker_rabbit_1:rabbit
   ports:
     - "8000:8000"
+  hostname: prototype.local
   volumes:
     - ".:/usr/src/app"
   command: "python manage.py server"
