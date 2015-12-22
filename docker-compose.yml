@@ -5,6 +5,8 @@ web:
     - mongo
   ports:
     - "8000:8000"
+  volumes:
+    - ".:/usr/src/app"
   command: "python manage.py server"
 mongo:
   image: mongo:3.2
