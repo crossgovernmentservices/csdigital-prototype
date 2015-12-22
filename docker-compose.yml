@@ -1,0 +1,9 @@
+web:
+  build: .
+  env_file: docker-local.env
+  links:
+    - mongo
+  ports:
+    - "8000:8000"
+mongo:
+  image: mongo:3.2
