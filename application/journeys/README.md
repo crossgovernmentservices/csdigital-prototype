@@ -1,0 +1,1 @@
+Here be instructions about how to add images and journeys
