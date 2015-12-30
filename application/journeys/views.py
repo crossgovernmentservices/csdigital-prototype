@@ -3,6 +3,8 @@ from flask import (
     render_template
 )
 
+import json
+
 journeys = Blueprint('journeys', __name__, template_folder='templates')
 
 @journeys.route('/journeys')
@@ -11,4 +13,6 @@ def journeys_home():
 
 @journeys.route('/journeys/viewer')
 def journeys_viewer():
-    return render_template('journeys/viewer.html')
+    with open('application/data/csl.json') as data_file:
+          journeys = json.load(data_file)
+    return render_template('journeys/viewer.html', journeys=journeys)
