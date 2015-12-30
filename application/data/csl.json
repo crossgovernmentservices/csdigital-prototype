@@ -1,0 +1,93 @@
+{
+  "service": "1. Booking",
+  "last_updated": "10th Nov 2015",
+  "userjourneys": [            
+    {
+      "title": "Book a course - current site",
+      "path": [{
+        "caption": "Sign in",
+        "imgref": "1.current.login.png"
+      },{
+        "caption": "Homepage",
+        "imgref": "2.current.homepage.png"
+      },{
+        "caption": "Profile page",
+        "imgref": "3.current.profile.png"
+      },{
+        "caption": "Search page",
+        "imgref": "3.current.search.png"
+      },{
+        "caption": "Course description",
+        "imgref": "4.current.course-desc.png"
+      },{
+        "caption": "Course date",
+        "imgref": "5.current.date-select.png"
+      },{
+        "caption": "View basket",
+        "imgref": "6.current.basket.png"
+      },{
+        "caption": "Check terms and conditions",
+        "imgref": "7.current.tandc.png"
+      },{
+        "caption": "Add line manager details",
+        "imgref": "8.current.line-manager.png"
+      },{
+        "caption": "Confirm booking",
+        "imgref": "9.current.confirm.png"
+      }]
+    },{
+      "title": "Book a course - version 1",
+      "path": [{
+        "caption": "Sign in",
+        "imgref": "1.signin.png"
+      },{
+        "caption": "Profile",
+        "imgref": "2.profilescreen.png"
+      },{
+        "caption": "Search page",
+        "imgref": "3.searchpage.png"
+      },{
+        "caption": "Course description",
+        "imgref": "4.coursedesc.png"
+      },{
+        "caption": "Course date",
+        "imgref": "5.coursedate.png"
+      },{
+        "caption": "Payment details",
+        "imgref": "6.payment.png"
+      },{
+        "caption": "Booking end",
+        "imgref": "7.booking-end.png"
+      },{
+        "caption": "Profile with notification",
+        "imgref": "8.profile-notification.png"
+      }]
+    },{
+      "title": "Book a course - version 2",
+      "path": [{
+        "caption": "Sign in",
+        "imgref": "1.signin.png"
+      },{
+        "caption": "Profile",
+        "imgref": "2.profilescreen.tweaked.png"
+      },{
+        "caption": "Search page",
+        "imgref": "3.searchpage.png"
+      },{
+        "caption": "Course description",
+        "imgref": "4.coursedesc.png"
+      },{
+        "caption": "Course date",
+        "imgref": "5.coursedate.updated.png"
+      },{
+        "caption": "Payment details",
+        "imgref": "6.payment.png"
+      },{
+        "caption": "Booking end",
+        "imgref": "7.booking-end.png"
+      },{
+        "caption": "Profile with notification",
+        "imgref": "8.profile-notification.tweaked.png"
+      }]
+    }]
+}
