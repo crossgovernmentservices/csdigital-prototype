@@ -24,9 +24,12 @@
 
   <title>CSL screenshots & journeys</title>
 
+  {% block head %}{% endblock %}
+
 </head>
 <body>
 
+{% block body_content %}
 <p class="app-header"></p>
 
 <h1>CSL & CSD screenshots/journeys <small class="app-status">Alpha</small></h1>
@@ -42,6 +45,8 @@
 </ul>
 
 </div>
+{% endblock %}
 
+{% block body_end %}{% endblock %}
 </body>
 </html>
