@@ -52,6 +52,9 @@ def register_blueprints(app):
     from application.hatch.views import hatch
     app.register_blueprint(hatch)
 
+    from application.journeys.views import journeys
+    app.register_blueprint(journeys)
+
 
 def register_extensions(app):
     from application.assets import env
