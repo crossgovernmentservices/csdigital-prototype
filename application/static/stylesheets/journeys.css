@@ -1,0 +1,481 @@
+/* ====================================================*/
+/* Layout and typography */
+/* line 5, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+body {
+  font-family: 'nta', sans-serif;
+  padding: 25px 50px 50px;
+  margin: 0;
+  padding-bottom: 100px;
+}
+
+/* line 11, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+h1 {
+  margin-bottom: 50px;
+  font-size: 40px;
+  margin-top: 10px;
+}
+
+/* line 16, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.app-status {
+  font-size: 16px;
+  font-weight: normal;
+  vertical-align: top;
+}
+
+/* line 21, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+h2, h3 {
+  font-size: 20px;
+}
+
+/* line 24, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+a {
+  color: #005EA5;
+}
+
+/* line 27, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.intro {
+  font-size: 19px;
+  width: 66.66%;
+  margin-bottom: 40px;
+}
+
+/* line 32, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.intro a {
+  white-space: nowrap;
+}
+
+/* line 35, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.exemplar-list {
+  padding-left: 0;
+  color: #6f777b;
+}
+
+/* line 39, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.exemplar-list li {
+  font-size: 19px;
+  padding-top: 3px;
+  margin-bottom: 10px;
+  list-style-type: none;
+}
+
+/* line 45, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.exemplar-list a:hover {
+  color: #2E8ACA;
+  text-decoration: none;
+}
+
+/* line 49, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.app-header {
+  color: #6f777b;
+  font-size: 16px;
+  margin-top: 0;
+}
+
+/* line 54, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.meta {
+  color: #6f777b;
+  margin: 75px 0 50px 0;
+  font-size: 16px;
+  width: 33.33%;
+}
+
+/* ====================================================*/
+/* Zoomed-in image */
+/* line 64, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in {
+  position: fixed;
+  background: #FFF;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+}
+
+/* line 74, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-title {
+  float: right;
+  width: 28%;
+  font-size: 19px;
+  font-weight: bold;
+  margin-top: 22px;
+}
+
+/* line 81, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-title.hidden {
+  height: auto;
+}
+
+/* line 84, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-title.hidden h3 {
+  display: block;
+}
+
+/* line 87, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-title .journey {
+  margin-left: 25px;
+  white-space: normal;
+  padding-right: 45px;
+  font-size: 16px;
+}
+
+/* line 93, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-title h3 {
+  margin-left: 25px;
+  margin-top: 30px;
+  white-space: normal;
+  padding-right: 45px;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+/* line 101, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-wrapper {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 71.1%;
+  float: left;
+  border: 0;
+  border-right: 1px solid #BFC1C3;
+}
+
+/* line 111, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-wrapper::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* line 115, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-wrapper img {
+  margin-bottom: 0;
+  max-width: 1024px;
+}
+
+/* line 119, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .image-wrapper img:hover {
+  cursor: default;
+}
+
+/* line 122, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .arrow {
+  display: none;
+}
+
+/* line 125, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .close {
+  display: block;
+  float: right;
+  margin-right: 30px;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+/* line 132, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .close:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* line 136, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .note {
+  display: block;
+  float: right;
+  width: 28%;
+}
+
+/* line 141, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .note p {
+  white-space: normal;
+  margin: 0 30px 25px 25px;
+  font-size: 19px;
+}
+
+/* line 147, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .button {
+  display: none;
+  display: inline-block;
+  background: #DEE0E2;
+  margin: 30px 0;
+  position: fixed;
+  bottom: 0;
+  font-size: 19px;
+  padding: 8px 30px 4px 30px;
+  -webkit-box-shadow: 0 2px 0 #003518;
+  -moz-box-shadow: 0 2px 0 #003518;
+  box-shadow: 0 2px 0 #003518;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 164, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .button:hover {
+  cursor: pointer;
+}
+
+/* line 168, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .button.next {
+  background-color: #00823B;
+  color: white;
+  right: 0;
+}
+
+/* line 173, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .button.next:hover {
+  background-color: #00692F;
+}
+
+/* line 176, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .button.next:active {
+  -webkit-box-shadow: 0 0 0 #00823B;
+  -moz-box-shadow: 0 0 0 #00823b;
+  box-shadow: 0 0 0 #00823B;
+}
+
+/* line 181, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image.zoomed-in .journey {
+  display: block;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+/* line 186, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+html.noscroll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+/* ====================================================*/
+/* Toolbar */
+/* line 197, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.toolbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* Quickfix - hide toolbar when zoomed */
+/* line 205, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-zoomed .toolbar {
+  display: none;
+}
+
+/* ====================================================*/
+/* Full height images toggle */
+/* line 212, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-full-height {
+  float: right;
+  text-indent: -9999px;
+  width: 15px;
+  height: 23px;
+  background-image: url(full-height.png);
+  margin-top: 27px;
+}
+
+/* line 220, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-full-height:hover {
+  cursor: pointer;
+}
+
+/* line 224, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.full-height .image-wrapper {
+  height: auto;
+}
+
+/* line 227, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.full-height .image-wrapper img {
+  margin-bottom: 0;
+}
+
+/* ====================================================*/
+/* Zoom slider */
+/* line 235, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+#slider {
+  float: right;
+  margin: 28px 25px 0 50px;
+}
+
+/* ====================================================*/
+/* Open / Close all toggle */
+/* line 244, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-close-all,
+.js-open-all {
+  font-size: 16px;
+  color: #005EA5;
+  text-decoration: underline;
+}
+
+/* line 250, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-close-all:hover,
+.js-open-all:hover {
+  color: #2E8ACA;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* line 256, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-close-all {
+  display: none;
+}
+
+/* ====================================================*/
+/* Image set */
+/* line 264, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-set-images {
+  width: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin: 10px -50px 35px -50px;
+  border-top: 1px solid #bfc1c3;
+  border-bottom: 1px solid #bfc1c3;
+  padding-left: 50px;
+  padding-right: 200px;
+}
+
+/* line 275, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-zoomed .image-set-images {
+  overflow-x: hidden;
+}
+
+/* line 278, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-set-images .image:last-child .arrow {
+  display: none;
+}
+
+/* line 281, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.js-details {
+  margin: 10px 0;
+}
+
+/* line 284, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-set-title {
+  display: inline-block;
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-size: 19px;
+  font-weight: normal;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #2E3191;
+}
+
+/* line 294, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-set-title:hover {
+  text-decoration: none;
+  cursor: pointer;
+  color: #2E8ACA;
+}
+
+/* line 299, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-set-title.open {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* line 304, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-set-title.open:hover {
+  text-decoration: underline;
+}
+
+/* ====================================================*/
+/* Screens */
+/* line 313, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image {
+  display: inline-block;
+  padding-right: 10px;
+  position: relative;
+  vertical-align: top;
+  margin-bottom: 50px;
+}
+
+/* line 320, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-wrapper {
+  width: 8em;
+  border: 1px solid #BFC1C3;
+  height: 8em;
+  overflow: hidden;
+  background: #DEE0E2;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 329, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-wrapper.scrollable {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+/* line 333, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-wrapper:hover {
+  cursor: pointer;
+}
+
+/* line 336, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-wrapper img {
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+/* line 340, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.note {
+  display: none;
+}
+
+/* line 343, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.note.visible {
+  display: block;
+  margin-top: 25px;
+}
+
+/* line 347, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.close {
+  display: none;
+}
+
+/* line 350, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-title {
+  margin: 25px 0 15px 0;
+}
+
+/* line 353, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-title h3,
+.note p {
+  font-size: 16px;
+  margin: 0 0 10px 0;
+  font-weight: normal;
+  margin-right: 25px;
+}
+
+/* line 360, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-title.hidden {
+  height: 10px;
+}
+
+/* line 363, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.image-title.hidden h3 {
+  display: none;
+}
+
+/* line 366, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.arrow {
+  display: inline-block;
+  font-size: 30px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+/* line 372, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.journey {
+  display: none;
+}
+
+/* line 375, /Users/Colm/code/xgs-performance-prototype/application/static/sass/journeys/_journeys.scss */
+.next.button,
+.prev.button {
+  display: none;
+}

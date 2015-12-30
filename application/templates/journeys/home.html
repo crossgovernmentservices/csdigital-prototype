@@ -18,8 +18,15 @@
     <!--[if gte IE 9]><!-->
 
     <!-- The stylesheets-->
-    <link href="" media="all" rel="stylesheet" type="text/css" />
-    <link href="" media="screen" rel="stylesheet" type="text/css">
+    <!-- gov uk elements stylesheet -->
+    {% assets "css_govuk_elements" %}
+      <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+
+    <!-- this application main stylesheet -->
+    {% assets "css_journeys" %}
+      <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
 
   <title>CSL screenshots & journeys</title>
 

@@ -1,0 +1,378 @@
+/* ====================================================*/
+/* Layout and typography */
+
+
+body{
+	font-family: 'nta', sans-serif;
+	padding: 25px 50px 50px;
+	margin: 0;
+	padding-bottom: 100px;
+}
+h1{
+	margin-bottom: 50px;
+	font-size: 40px;
+	margin-top: 10px;
+}
+.app-status{
+	font-size: 16px;
+	font-weight: normal;
+	vertical-align: top;
+}
+h2, h3{
+	font-size: 20px;
+}
+a{
+	color: #005EA5;
+}
+.intro{
+	font-size: 19px;
+	width: 66.66%;
+	margin-bottom: 40px;
+}
+.intro a {
+	white-space: nowrap;
+}
+.exemplar-list{
+	padding-left: 0;
+	color: #6f777b;
+}
+.exemplar-list li{
+	font-size: 19px;
+	padding-top: 3px;
+	margin-bottom:  10px;
+	list-style-type: none;
+}
+.exemplar-list a:hover{
+	color: #2E8ACA;
+  	text-decoration: none;
+}
+.app-header{
+	color: #6f777b;
+	font-size: 16px;
+	margin-top: 0;
+}
+.meta{
+	color: #6f777b;
+	margin: 75px 0 50px 0;
+	font-size: 16px;
+	width: 33.33%;
+}
+
+/* ====================================================*/
+/* Zoomed-in image */
+
+.image.zoomed-in{
+	position: fixed;
+
+	background: #FFF;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1001;
+}
+.image.zoomed-in .image-title{
+	float: right;
+	width: 28%;
+	font-size: 19px;
+	font-weight: bold;
+	margin-top: 22px;
+}
+.image.zoomed-in .image-title.hidden{
+	height: auto;
+}
+.image.zoomed-in .image-title.hidden h3{
+	display: block;
+}
+.image.zoomed-in .image-title .journey{
+	margin-left: 25px;
+	white-space: normal;
+	padding-right: 45px;
+	font-size: 16px;
+}
+.image.zoomed-in .image-title h3{
+	margin-left: 25px;
+	margin-top: 30px;
+	white-space: normal;
+	padding-right: 45px;
+	font-size: 19px;
+	font-weight: bold;
+}
+.image.zoomed-in .image-wrapper{
+	height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+	width: 71.1%;
+	float: left;
+	border: 0;
+	border-right: 1px solid #BFC1C3;
+}
+
+.image-wrapper::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
+}
+.image.zoomed-in .image-wrapper img{
+	margin-bottom: 0;
+	max-width: 1024px;
+}
+.image.zoomed-in .image-wrapper img:hover{
+	cursor: default;
+}
+.image.zoomed-in .arrow{
+	display: none;
+}
+.image.zoomed-in .close{
+	display: block;
+	float: right;
+	margin-right: 30px;
+	font-weight: normal;
+	font-size: 16px;
+}
+.image.zoomed-in .close:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.image.zoomed-in .note{
+	display: block;
+	float: right;
+	width: 28%;
+}
+.image.zoomed-in .note p{
+	white-space: normal;
+	margin: 0 30px 25px 25px;
+	font-size: 19px;
+}
+
+.image.zoomed-in .button{
+	display: none;
+	display: inline-block;
+	background: #DEE0E2;
+	margin: 30px 0;
+	position: fixed;
+	bottom: 0;
+
+	font-size: 19px;
+
+	padding: 8px 30px 4px 30px;
+	-webkit-box-shadow: 0 2px 0 #003518;
+	-moz-box-shadow: 0 2px 0 #003518;
+	box-shadow: 0 2px 0 #003518;
+	-webkit-font-smoothing: antialiased;
+}
+
+.image.zoomed-in .button:hover{
+	cursor: pointer;
+}
+
+.image.zoomed-in .button.next{
+	background-color: #00823B;
+	color: white;
+	right: 0;
+}
+.image.zoomed-in .button.next:hover{
+	background-color: #00692F;
+}
+.image.zoomed-in .button.next:active{
+	-webkit-box-shadow: 0 0 0 #00823B;
+	-moz-box-shadow: 0 0 0 #00823b;
+	box-shadow: 0 0 0 #00823B;
+}
+.image.zoomed-in .journey{
+	display: block;
+	margin-bottom: 20px;
+	font-weight: normal;
+}
+html.noscroll {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+/* ====================================================*/
+/* Toolbar */
+
+.toolbar{
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 100;
+}
+
+/* Quickfix - hide toolbar when zoomed */
+.js-zoomed .toolbar {
+	display: none;
+}
+
+/* ====================================================*/
+/* Full height images toggle */
+
+.js-full-height{
+	float: right;
+	text-indent: -9999px;
+	width: 15px;
+	height: 23px;
+	background-image: url(full-height.png);
+	margin-top: 27px;
+}
+.js-full-height:hover{
+	cursor: pointer;
+}
+
+.full-height .image-wrapper{
+	height: auto;
+}
+.full-height .image-wrapper img{
+	margin-bottom: 0;
+}
+
+
+/* ====================================================*/
+/* Zoom slider */
+
+#slider{
+	float: right;
+	margin: 28px 25px 0 50px;
+}
+
+
+/* ====================================================*/
+/* Open / Close all toggle */
+
+.js-close-all,
+.js-open-all{
+	font-size: 16px;
+	color: #005EA5;
+  	text-decoration: underline;
+}
+.js-close-all:hover,
+.js-open-all:hover{
+	color: #2E8ACA;
+  	cursor: pointer;
+  	text-decoration: none;
+}
+.js-close-all{
+	display: none;
+}
+
+
+/* ====================================================*/
+/* Image set */
+
+.image-set-images{
+   width: auto;
+   overflow-x: scroll;
+   overflow-y: hidden;
+   white-space: nowrap;
+   margin: 10px -50px 35px -50px;
+   border-top: 1px solid #bfc1c3;
+   border-bottom: 1px solid #bfc1c3;
+   padding-left: 50px;
+   padding-right: 200px;
+}
+.js-zoomed .image-set-images{
+	overflow-x: hidden;
+}
+.image-set-images .image:last-child .arrow{
+	display: none;
+}
+.js-details{
+	margin: 10px 0;
+}
+.image-set-title{
+	display: inline-block;
+	margin: 0 0 10px 0;
+	padding: 0;
+	font-size: 19px;
+	font-weight: normal;
+	text-decoration: underline;
+	cursor: pointer;
+	color: #2E3191;
+}
+.image-set-title:hover{
+  text-decoration: none;
+  cursor: pointer;
+  color: #2E8ACA;
+}
+.image-set-title.open{
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+}
+.image-set-title.open:hover{
+	text-decoration: underline;
+}
+
+
+
+/* ====================================================*/
+/* Screens */
+
+.image{
+    display: inline-block;
+    padding-right: 10px;
+		position: relative;
+    vertical-align: top;
+    margin-bottom: 50px;
+}
+.image-wrapper{
+	width: 8em;
+	border: 1px solid #BFC1C3;
+	height: 8em;
+	overflow: hidden;
+	background: #DEE0E2;
+	display: inline-block;
+	vertical-align: middle;
+}
+.image-wrapper.scrollable{
+	overflow: scroll;
+	overflow-x: hidden;
+}
+.image-wrapper:hover{
+	cursor: pointer;
+}
+.image-wrapper img{
+	width: 100%;
+	margin-bottom: 100px;
+}
+.note{
+	display: none;
+}
+.note.visible{
+	display: block;
+	margin-top: 25px;
+}
+.close{
+	display: none;
+}
+.image-title{
+	margin: 25px 0 15px 0;
+}
+.image-title h3,
+.note p{
+	font-size: 16px;
+	margin: 0 0 10px 0;
+	font-weight: normal;
+	margin-right: 25px;
+}
+.image-title.hidden{
+	height: 10px;
+}
+.image-title.hidden h3{
+	display: none;
+}
+.arrow{
+	display: inline-block;
+	font-size: 30px;
+	margin-left: 10px;
+	vertical-align: middle;
+}
+.journey{
+	display: none;
+}
+.next.button,
+.prev.button{
+	display: none;
+}
