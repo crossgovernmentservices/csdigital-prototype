@@ -47,6 +47,7 @@ docs/_build
 # sass generated css
 main.css
 govuk_elements.css
+journeys.css
 
 environment-private.sh
 
