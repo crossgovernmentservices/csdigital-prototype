@@ -10,7 +10,7 @@ A basic datafile with no images will look something linke this
 
 ```
 {
-  "service": "1. Booking",
+  "journey_name": "1. CSL Booking",
   "last_updated": "10th Nov 2015",
   "userjourneys": []
 }
