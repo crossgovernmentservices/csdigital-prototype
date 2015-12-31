@@ -39,3 +39,14 @@ With each `path` entry consisting of
 * A (optional) set of **notes**, which are only visible in the zoomed in view of an image
 
 Take a look at the [csl data file](../data/csl.json)
+
+###To view a journey
+
+To view the journey append `/journeys/<datafilename>` to the end of the prototype url
+
+Also add a link to it to the index page, e.g.
+
+```
+<li><a href="/journeys/csl">1. CSL booking journey</a></li>
+```
+
