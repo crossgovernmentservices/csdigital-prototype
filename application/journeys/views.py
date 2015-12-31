@@ -11,8 +11,9 @@ journeys = Blueprint('journeys', __name__, template_folder='templates')
 def journeys_home():
     return render_template('journeys/home.html')
 
-@journeys.route('/journeys/viewer')
-def journeys_viewer():
-    with open('application/data/csl.json') as data_file:
+@journeys.route('/journeys/<journey>')
+def journeys_viewer(journey):
+    datafile = "application/data/" + journey + ".json"
+    with open( datafile ) as data_file:
           journeys = json.load(data_file)
     return render_template('journeys/viewer.html', journeys=journeys)
