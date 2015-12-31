@@ -6,7 +6,8 @@
       "title": "Book a course - current site",
       "path": [{
         "caption": "Sign in",
-        "imgref": "1.current.login.png"
+        "imgref": "1.current.login.png",
+        "note":["some note", "another note"]
       },{
         "caption": "Homepage",
         "imgref": "2.current.homepage.png"
