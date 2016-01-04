@@ -20,9 +20,9 @@ from application.models import User
 
 from application.extensions import user_datastore
 
-from application.queues import EventQueue
+from application.queues import SNSEventTopic
 
-event_queue = EventQueue(os.environ.get('BROKER_URI'))
+event_queue = SNSEventTopic()
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
 
