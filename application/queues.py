@@ -1,4 +1,5 @@
 import socket
+import json
 from time import time
 
 from kombu import Connection, Exchange
@@ -37,3 +38,31 @@ class EventQueue(object):
                 current_app.logger.warning(
                     'Broker connection failed with: %s', err)
                 return
+
+
+class SNSEventTopic(object):
+    def __init__(self, name='Events'):
+        import boto3
+
+        self.sns = boto3.client('sns')
+
+        resp = self.sns.create_topic(Name=name)
+        self.arn = resp['TopicArn']
+
+    def send(self, entity, action, context={}):
+        payload = {
+            'entity': entity,
+            'action': action,
+            'context': context,
+            'hostname': socket.gethostname(),
+            'timestamp': time()
+        }
+
+        resp = self.sns.publish(
+            TopicArn=self.arn,
+            Message=json.dumps(payload)
+        )
+
+        current_app.logger.info(
+            'Event sent: MessageId=%s, entity=%s, action=%s',
+            resp['MessageId'], entity, action)
