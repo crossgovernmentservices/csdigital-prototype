@@ -22,7 +22,7 @@ from application.extensions import user_datastore
 
 from application.queues import SNSEventTopic
 
-event_queue = SNSEventTopic()
+event_queue = SNSEventTopic(os.environ.get('SNS_TOPIC_NAME', 'EventsDev'))
 
 frontend = Blueprint('frontend', __name__, template_folder='templates')
 

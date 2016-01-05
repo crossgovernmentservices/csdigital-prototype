@@ -42,7 +42,7 @@ class EventQueue(object):
 
 
 class SNSEventTopic(object):
-    def __init__(self, name='Events'):
+    def __init__(self, name):
         import boto3
 
         self.sns = boto3.client('sns')
