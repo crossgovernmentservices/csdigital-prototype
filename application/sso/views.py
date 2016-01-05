@@ -18,8 +18,6 @@ from application.queues import SNSEventTopic
 from application.sso import oidc
 
 
-event_queue = SNSEventTopic(os.environ.get('SNS_TOPIC_NAME', 'EventsDev'))
-
 sso = Blueprint('sso', __name__, url_prefix='/login')
 
 
@@ -47,6 +45,8 @@ def login():
         login_user(user)
 
         # send login action to event queue
+        event_queue = SNSEventTopic(
+            os.environ.get('SNS_TOPIC_NAME', 'EventsDev'))
         event_queue.send('USER', 'LOGIN', email)
 
         # TODO check next is valid
