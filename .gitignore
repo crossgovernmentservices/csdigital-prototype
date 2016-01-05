@@ -52,3 +52,4 @@ journeys.css
 environment-private.sh
 
 .cache
+docker-secret.env
