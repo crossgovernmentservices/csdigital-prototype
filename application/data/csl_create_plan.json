@@ -1,0 +1,21 @@
+{
+  "journey_name": "2. CSL Create a learning plan",
+  "last_updated": "4th Jan 2016",
+  "userjourneys": [
+    {
+      "title": "Create a new learning plan",
+      "path": [{
+        "caption": "Create new",
+        "imgref": "clp_empty_state.png"
+      },{
+        "caption": "Add item",
+        "imgref": "clp_add_item.png"
+      },{
+        "caption": "Extend existing",
+        "imgref": "clp_use_existing.png"
+      },{
+        "caption": "Success",
+        "imgref": "clp_success.png"
+      }]
+    }]
+}
