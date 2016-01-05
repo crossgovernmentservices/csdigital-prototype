@@ -15,11 +15,12 @@ class EventQueue(object):
         self.serializer = serializer
         self.compression = compression
 
-    def send(self, entity, action, context={}):
+    def send(self, entity, action, user_id, context={}):
         with Connection(self.broker_uri) as conn:
             payload = {
                 'entity': entity,
                 'action': action,
+                'user_id': user_id,
                 'context': context,
                 'hostname': socket.gethostname(),
                 'timestamp': time()
@@ -49,10 +50,11 @@ class SNSEventTopic(object):
         resp = self.sns.create_topic(Name=name)
         self.arn = resp['TopicArn']
 
-    def send(self, entity, action, context={}):
+    def send(self, entity, action, user_id, context={}):
         payload = {
             'entity': entity,
             'action': action,
+            'user_id': user_id,
             'context': context,
             'hostname': socket.gethostname(),
             'timestamp': time()
