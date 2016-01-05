@@ -47,7 +47,7 @@ def login():
         login_user(user)
 
         # send login action to event queue
-        event_queue.send('USER', 'LOGIN', context={'email': email})
+        event_queue.send('USER', 'LOGIN', email)
 
         # TODO check next is valid
         return redirect(form.next.data)
