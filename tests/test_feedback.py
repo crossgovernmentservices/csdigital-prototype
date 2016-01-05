@@ -17,7 +17,7 @@ client = app.test_client()
 
 
 def login(email):
-    return client.post('/login', data={'email': email,
+    return client.post('/login/', data={'email': email,
                        'password': 'password'}, follow_redirects=True)
 
 
