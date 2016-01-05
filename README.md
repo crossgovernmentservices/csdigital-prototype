@@ -9,32 +9,27 @@ Requirements
 - python 3
 - mongodb
 - sass (for flask assets)
+- virtualenv and virtualenvwrapper (not a hard requirement but steps below assume you are using them)
 
 Quickstart
 ----------
 
 Checkout this repo.
 
-```
-* If you don't have Python3 installed, then go to python.org/downloads and get the latest version.
-* If you don't have mongodb running, you will need "Brew" set up to install it. Go to http://brew.sh/, open a terminal window and type in the shell command there.
-* Now open a new Terminal window and type "brew install mongodb"
-* Start mongoDB  with the command at the end of the install. "launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist" - this window won't return to the command prompt - it's now running mongoDB until you ctrl-C it.
-* In your other window type "sudo gem install sass"
-```
+Install the requirements above if you don't already have them installed.
 
 Then run the following commands to bootstrap your environment.
 
 ```
 mkvirtualenv --python=/path/to/python3 [appname]
 ```
+Change to the directory you checked out and install python requirements.
 
-Install python requirements.
 ```
-pip install -r requirements/dev.txt
+pip install -r requirements.txt
 ```
 
-Environment variables for running application locally are in environment.sh
+The base environment variables for running application locally are in environment.sh. See below for any private environment variables.
 
 Once that this all done you can:
 
@@ -47,7 +42,6 @@ Then run app
 ```
 ./run.sh
 ```
-
 
 Tests
 ----------
@@ -64,7 +58,7 @@ Deployment
 In your production environment, make sure the ``SETTINGS`` environment variable is set to ``config.Config``.
 
 
-Environment variables
+Private environment variables
 ---------------------
 
 Anything that is not sensitive and can go in version control can be put into
@@ -84,7 +78,6 @@ Create all xgs users
 ```
 python manage.py create-xgs-users
 ```
-Type in any old password it isn't used at the moment
 
 Create an ordinary (non admin user)
 ```
@@ -107,6 +100,6 @@ use xgs
 ```
 Remove everything
 ```
-db.user.remove({})
+db.dropDatabase()
 ```
 Then add everything with management commands as above
