@@ -32,26 +32,26 @@ def index():
     return render_template('index.html')
 
 
-@frontend.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if request.args.get('next'):
-        form.next.data = request.args.get('next')
-    if form.validate_on_submit():
-        current_app.logger.info(form.data)
-        email = form.email.data.strip()
-        user = user_datastore.get_user(email)
-        if not user:
-            flash("You don't have a user account yet")
-            return redirect(url_for('frontend.index'))
-        login_user(user)
+# @frontend.route('/login', methods=['GET', 'POST'])
+# def login():
+    # form = LoginForm()
+    # if request.args.get('next'):
+        # form.next.data = request.args.get('next')
+    # if form.validate_on_submit():
+        # current_app.logger.info(form.data)
+        # email = form.email.data.strip()
+        # user = user_datastore.get_user(email)
+        # if not user:
+            # flash("You don't have a user account yet")
+            # return redirect(url_for('frontend.index'))
+        # login_user(user)
 
         # send login action to event queue
-        event_queue.send('USER', 'LOGIN', email)
+        # event_queue.send('USER', 'LOGIN', email)
 
-        # TODO check next is valid
-        return redirect(form.next.data)
-    return render_template('login.html', form=form)
+        # # TODO check next is valid
+        # return redirect(form.next.data)
+    # return render_template('login.html', form=form)
 
 
 @frontend.route('/users.json')

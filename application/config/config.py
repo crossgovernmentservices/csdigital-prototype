@@ -20,6 +20,25 @@ class Config(object):
     HOST = os.environ.get('HOST', 'localhost')
     EMAIL_DOMAIN = os.environ.get('EMAIL_DOMAIN', 'mylog.civilservice.digital')
 
+    OIDC = {
+        'google': {
+            'domain': 'accounts.google.com',
+            'client': {
+                'client_id': os.environ.get('GOOG_CLIENT_ID'),
+                'client_secret': os.environ.get('GOOG_CLIENT_SECRET'),
+                'redirect_uri': 'http://192.168.99.100:8000/login/callback'
+            }
+        },
+        'auth0': {
+            'domain': 'xgs.eu.auth0.com',
+            'client': {
+                'client_id': os.environ.get('AUTH0_CLIENT_ID'),
+                'client_secret': os.environ.get('AUTH0_CLIENT_SECRET'),
+                'redirect_uri': 'http://192.168.99.100:8000/login/callback'
+            }
+        }
+    }
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
