@@ -19,6 +19,8 @@ from application.queues import SNSEventTopic
 
 sso = Blueprint('sso', __name__, url_prefix='/login')
 
+event_queue = SNSEventTopic(os.environ.get('SNS_TOPIC_NAME', 'EventsDev'))
+
 
 @sso.context_processor
 def sso_providers():
