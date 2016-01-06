@@ -15,7 +15,6 @@ from flask.ext.security.utils import login_user
 from application.extensions import user_datastore
 from application.frontend.forms import LoginForm
 from application.queues import SNSEventTopic
-from application.sso import oidc
 
 
 sso = Blueprint('sso', __name__, url_prefix='/login')
