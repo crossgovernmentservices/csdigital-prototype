@@ -70,7 +70,7 @@ def oidc_callback():
     user = user_datastore.get_user(user_info['email'])
 
     if not user:
-        flash("You don't have a user account yet: %s" % user_info['email'])
+        flash("You don't have a user account yet: %s" % user_info['id'])
         return redirect(url_for('frontend.index'))
 
     login_user(user)
