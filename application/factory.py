@@ -55,6 +55,9 @@ def register_blueprints(app):
     from application.journeys.views import journeys
     app.register_blueprint(journeys)
 
+    from application.learningrecord.views import learningrecord
+    app.register_blueprint(learningrecord)
+
 
 def register_extensions(app):
     from application.assets import env
