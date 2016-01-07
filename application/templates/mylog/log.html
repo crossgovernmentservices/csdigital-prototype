@@ -67,7 +67,7 @@
               {% if entry.entry_type == 'log' %}
                 {{entry.entry.content|truncate(50)}}
               {% elif entry.entry_type == 'learning_record' %}
-                <a href="{{ entry.entry.link }}" target="_blank">{{ entry.entry.link|truncate(30) }}</a>
+                Enrolled onto: <a href="{{ entry.entry.link }}" target="_blank">{{ entry.entry.link|truncate(30) }}</a>
               {% else %}
                 {{entry.entry|format_entry|truncate(50)}}
               {% endif %}
