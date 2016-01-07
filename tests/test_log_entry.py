@@ -1,22 +1,24 @@
+import os
 from pymongo import MongoClient
 
 from mongoengine import connect
-connect('xgs-test')
 
 from application.models import (
     Entry,
     LogEntry
 )
 
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/xgs-test')
+
+connect(host=MONGO_URI)
+
 
 def teardown():
-    mongo_uri = 'mongodb://localhost:27017/xgs-test'
-    client = MongoClient(mongo_uri)
-    client.drop_database('xgs-test')
+    client = MongoClient(MONGO_URI)
+    client.drop_database(client.get_default_database())
 
 
 def setup():
-    import os
     os.environ['SETTINGS'] = 'application.config.TestConfig'
 
 

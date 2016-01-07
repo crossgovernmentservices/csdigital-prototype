@@ -1,9 +1,9 @@
+import os
 import mock
 import unittest
 
 from bs4 import BeautifulSoup
 from mongoengine import connect
-connect('xgs-test')
 
 from application.extensions import user_datastore
 from application.factory import create_app
@@ -12,6 +12,10 @@ from application.models import (
     LogEntry,
     User
 )
+
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/xgs-test')
+
+connect(host=MONGO_URI)
 
 
 @unittest.skip('need to mock AWS')
