@@ -8,9 +8,10 @@ from kombu.pools import producers
 from flask import current_app
 
 
-class EventQueue(object):
-    def __init__(self, broker_uri, serializer='json', compression=None):
-        self.exchange = Exchange('events', 'topic', durable=True)
+class EventExchange(object):
+    def __init__(self, broker_uri, exchange_name, serializer='json',
+                 compression=None):
+        self.exchange = Exchange(exchange_name, 'topic', durable=True)
         self.broker_uri = broker_uri
         self.serializer = serializer
         self.compression = compression
