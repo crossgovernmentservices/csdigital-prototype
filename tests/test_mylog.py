@@ -1,6 +1,7 @@
 import mock
-from bs4 import BeautifulSoup
+import unittest
 
+from bs4 import BeautifulSoup
 from mongoengine import connect
 connect('xgs-test')
 
@@ -12,76 +13,89 @@ from application.models import (
     User
 )
 
-app = create_app('application.config.TestConfig')
-client = app.test_client()
 
+@unittest.skip('need to mock AWS')
+class TestMyLog(unittest.TestCase):
 
-def login():
-    return client.post('/login', data={'email': 'someone@email.com',
-                       'password': 'password'}, follow_redirects=True)
+    def setup(self):
+        app = create_app('application.config.TestConfig')
+        self.client = app.test_client()
 
+        user = user_datastore.create_user(
+            email='someone@email.com',
+            password='password')
 
-def setup():
-    user = user_datastore.create_user(email='someone@email.com',
-                                      password='password')
+        email_domain = app.config.get('EMAIL_DOMAIN')
+        user.inbox_email = "someone@%s" % email_domain
+        user.save()
 
-    email_domain = app.config.get('EMAIL_DOMAIN')
-    user.inbox_email = "someone@%s" % email_domain
-    user.save()
+        assert user.inbox_email == 'someone@mylog.civilservice.digital'
 
-    assert user.inbox_email == 'someone@mylog.civilservice.digital'
+        user_datastore.create_user(
+            email='someone_else@email.com',
+            password='password')
 
-    user_datastore.create_user(email='someone_else@email.com',
-                               password='password')
-    login()
+        self.client.post(
+            '/login',
+            data={
+                'email': 'someone@email.com',
+                'password': 'password'},
+            follow_redirects=True)
 
+    def teardown(self):
+        LogEntry.objects.delete()
+        Entry.objects.delete()
+        User.objects.delete()
 
-def teardown():
-    LogEntry.objects.delete()
-    Entry.objects.delete()
-    User.objects.delete()
+    def test_add_to_mylog(self):
+        rv = self.client.get('/my-log')
+        assert rv.status_code == 200
+        page = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
+        assert page.h1.string == 'My log'
+        assert not page.tbody.find('tr')
 
+        rv = self.client.post(
+            '/my-log/entry',
+            data=dict(
+                content='test content 1',
+                tags=['test tag 1']),
+            follow_redirects=True)
 
-def test_add_to_mylog():
-    rv = client.get('/my-log')
-    assert rv.status_code == 200
-    page = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-    assert page.h1.string == 'My log'
-    assert not page.tbody.find('tr')
+        assert rv.status_code == 200
+        rv = self.client.post(
+            '/my-log/entry',
+            data=dict(
+                content='test content 2',
+                tags=['test tag 2']),
+            follow_redirects=True)
 
-    rv = client.post('/my-log/entry', data=dict(content='test content 1',
-                                                tags=['test tag 1']),
-                     follow_redirects=True)
+        assert rv.status_code == 200
 
-    assert rv.status_code == 200
-    rv = client.post('/my-log/entry', data=dict(content='test content 2',
-                                                tags=['test tag 2']),
-                     follow_redirects=True)
+        page = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
+        assert page.h1.string == 'My log'
+        log_entries = page.tbody.find_all('tr')
+        assert len(log_entries) == 2
 
-    assert rv.status_code == 200
+    @mock.patch('application.mylog.views._verified', return_value=True)
+    def test_email_to_my_Log(self, mock_verified):
 
-    page = BeautifulSoup(rv.data.decode('utf-8'), 'html.parser')
-    assert page.h1.string == 'My log'
-    log_entries = page.tbody.find_all('tr')
-    assert len(log_entries) == 2
-
-
-@mock.patch('application.mylog.views._verified', return_value=True)
-def test_email_to_my_Log(mock_verified):
-
-    data = {'sender': 'someone_else@email.com',
+        data = {
+            'sender': 'someone_else@email.com',
             'recipient': 'someone@mylog.civilservice.digital',
             'subject': 'the subject',
             'body-plain': 'the body of the email'}
 
-    rv = client.post('/my-log/inbox', data=data, follow_redirects=True)
+        rv = self.client.post(
+            '/my-log/inbox',
+            data=data,
+            follow_redirects=True)
 
-    assert rv.status_code == 200
-    assert mock_verified.called
+        assert rv.status_code == 200
+        assert mock_verified.called
 
-    saved = LogEntry.objects.first()
-    assert saved
-    assert saved.entry.content == 'the subject\nthe body of the email'
-    assert saved.entry_from == 'someone_else@email.com'
-    assert saved.tags
-    assert saved.tags[0].name == 'Email'
+        saved = LogEntry.objects.first()
+        assert saved
+        assert saved.entry.content == 'the subject\nthe body of the email'
+        assert saved.entry_from == 'someone_else@email.com'
+        assert saved.tags
+        assert saved.tags[0].name == 'Email'

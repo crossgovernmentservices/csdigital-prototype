@@ -14,7 +14,7 @@
     </p>
   </div>
 
-  <form action="{{url_for('frontend.login')}}" method="post" class="form">
+  <form action="{{url_for('sso.login')}}" method="post" class="form">
     {{ render_field(form.email) }}
     <div class="form-group">
       <button class="button">Sign in</button>
@@ -22,4 +22,12 @@
     {{ render_hidden(form) }}
   </form>
 
+  <div id="sso-providers">
+    <ul>
+      {% for provider in sso_providers %}
+      <li><a href="{{url_for('sso.login_provider', provider=provider)}}">Sign in
+        with {{provider}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

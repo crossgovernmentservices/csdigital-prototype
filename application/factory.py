@@ -55,6 +55,9 @@ def register_blueprints(app):
     from application.journeys.views import journeys
     app.register_blueprint(journeys)
 
+    from application.sso.views import sso
+    app.register_blueprint(sso)
+
 
 def register_extensions(app):
     from application.assets import env
@@ -80,6 +83,8 @@ def register_extensions(app):
         from raven.contrib.flask import Sentry
         Sentry(app, dsn=os.environ['SENTRY_DSN'])
 
+    from application.sso.oidc import OIDC
+    app.oidc_client = OIDC(app)
 
 def register_filters(app):
     def format_date(d):

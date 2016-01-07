@@ -8,3 +8,7 @@ services:
 
 before_install:
   - gem install sass
+
+env:
+  global:
+    - AWS_DEFAULT_REGION=eu-west-1
