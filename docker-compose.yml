@@ -5,8 +5,8 @@ web:
     - ./docker-secret.env
   links:
     - mongo
-  # external_links:
-  #   - rabbitmqdocker_rabbit_1:rabbit
+  external_links:
+    - rabbitmqdocker_rabbit_1:rabbit
   ports:
     - "8000:8000"
   hostname: prototype.local

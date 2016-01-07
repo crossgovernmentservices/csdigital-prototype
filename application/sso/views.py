@@ -14,12 +14,16 @@ from flask.ext.security.utils import login_user
 
 from application.extensions import user_datastore
 from application.frontend.forms import LoginForm
-from application.queues import SNSEventTopic
+from application.queues import EventExchange
 
 
 sso = Blueprint('sso', __name__, url_prefix='/login')
 
-event_queue = SNSEventTopic(os.environ.get('SNS_TOPIC_NAME', 'EventsDev'))
+event_queue = EventExchange(
+    broker_uri=os.environ.get('BROKER_URI',
+                              'amqp://guest:guest@localhost:5672//'),
+    exchange_name=os.environ.get('EVENTS_EXCHANGE_NAME', 'events')
+)
 
 
 @sso.context_processor
@@ -46,8 +50,6 @@ def login():
         login_user(user)
 
         # send login action to event queue
-        event_queue = SNSEventTopic(
-            os.environ.get('SNS_TOPIC_NAME', 'EventsDev'))
         event_queue.send('USER', 'LOGIN', email)
 
         # TODO check next is valid
