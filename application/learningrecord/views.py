@@ -50,8 +50,8 @@ def add_learning_record():
 
     except DoesNotExist:
         # log and raise so we get sentry notification
-        current_app.logger.error('No email: '+ user_email)
-        raise
+        current_app.logger.error('Cannot find user: '+ user_email)
+        return 'Cannot find user ' + user_email, 400
 
     return 'OK', 200
 
