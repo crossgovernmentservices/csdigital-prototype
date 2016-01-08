@@ -13,7 +13,8 @@ from application.models import (
     User
 )
 
-MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/xgs-test')
+MONGO_URI = os.environ.get('MONGO_TEST_URI',
+                           'mongodb://localhost:27017/xgs-test')
 
 connect(host=MONGO_URI)
 
