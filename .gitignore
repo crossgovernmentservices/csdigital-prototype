@@ -57,3 +57,4 @@ docker-secret.env
 /keyrings/live/pubring.kbx~
 /keyrings/live/secring.gpg
 /docker-secret.env
+/integration.env
