@@ -47,6 +47,7 @@ def add_learning_record():
         log_entry.entry = entry
         log_entry.save()
         log_entry.add_tag('Learning record')
+        log_entry.add_tag('Learning plan')
 
     except DoesNotExist:
         # log and raise so we get sentry notification
