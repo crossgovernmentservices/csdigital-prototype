@@ -32,6 +32,7 @@ def add_learning_record():
     record = request.json
     user_email = record['email']
     link = record['link']
+    planner_email = record['planner_email']
 
     current_app.logger.info(record)
 
@@ -42,8 +43,10 @@ def add_learning_record():
 
         user = User.objects.filter(email=user_email).get()
         log_entry = LogEntry(owner=user)
-
         log_entry.entry_type = 'learning_record'
+
+        planner_user = User.objects.filter(email=planner_email).get()
+        log_entry.entry_from = planner_user.full_name
         log_entry.entry = entry
         log_entry.save()
         log_entry.add_tag('Learning record')

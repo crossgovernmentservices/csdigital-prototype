@@ -76,6 +76,31 @@ class CreateXgsUsersCommand(Command):
                 else:
                     print("User with email:", email, "already created")
 
+class CreateCslUsersCommand(Command):
+    """
+        Adds the users found in users-csl.txt
+    """
+    def run(self):
+        password = 'password' # toy password for all users for now
+        with open('./users-csl.txt') as users_file:
+            users = users_file.readlines()
+            for user_details in users:
+                email, name = user_details.strip().split(',')
+                user = User.objects.filter(email=email).first()
+                if not user:
+                    print("No user found for email:", email, "so create")
+                    user = user_datastore.create_user(email=email, password=encrypt_password(password), full_name=name)
+                    admin_role = user_datastore.find_or_create_role('ADMIN')
+                    user_datastore.add_role_to_user(user, admin_role)
+                    email_domain = app.config.get('EMAIL_DOMAIN')
+                    user_name = email.split('@')[0]
+                    user.inbox_email = "%s@%s" % (user_name, email_domain)
+                    user.save()
+
+                else:
+                    print("User with email:", email, "already created")
+
+
 
 class MakeUserAdminCommand(Command):
     """
@@ -95,6 +120,7 @@ class MakeUserAdminCommand(Command):
 manager.add_command('create-user', CreateUser())
 manager.add_command('make-user-admin', MakeUserAdminCommand())
 manager.add_command('create-xgs-users', CreateXgsUsersCommand())
+manager.add_command('create-csl-users', CreateCslUsersCommand())
 
 if __name__ == '__main__':
     manager.run()

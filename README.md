@@ -78,6 +78,11 @@ Create all xgs users
 ```
 python manage.py create-xgs-users
 ```
+Create csl users
+```
+python manage.py create-csl-users
+```
+
 
 Create an ordinary (non admin user)
 ```
