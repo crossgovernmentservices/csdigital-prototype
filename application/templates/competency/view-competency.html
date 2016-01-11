@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li>Performance</li>
+          <li>Competency Framework</li>
+        </ol>
+      </div>
+      </div>
+      <div class="column-third">
+        {% include "_logout.html" %}
+      </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large">Competency Framework</h1>
+    </div>
+  </div>
+
+  <div class="grid-row">
+    <div class="column-third">
+
+      <h2 class="heading-medium">Competencies</h2>
+      <ul>
+        {% for comp in competencies %}
+        <li><a href="{{ url_for('competency.view', competency_id=comp.id) }}">{{ comp.name }}</a></li>
+        {% endfor %}
+      </ul>
+
+    </div>
+
+    <div class="column-third">
+      <h2 class="heading-medium">{{ competency.name }}</h2>
+
+      {% if not level %}
+      <form method="post">
+        <fieldset>
+          <label>
+            Help us show the relevant behaviours for this competency by
+            providing your grade
+            {{ form.grade }}
+          </label>
+          <button>Save</button>
+      </form>
+
+      {% elif not competency %}
+      <p>Select a competency to view</p>
+
+      {% else %}
+      <p>Your grade: {{ current_user.grade }}</p>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">Level {{ level.level_id }} ({{ level.description }})</th>
+          </tr>
+          <tr>
+            <th>Effective</th>
+            <th>Ineffective</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for behaviour in behaviours %}
+          <tr>
+            <td><p>{{ behaviour.effective }}</p></td>
+            <td><p>{{ behaviour.ineffective }}</p></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              {% if prev_level %}
+              <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=prev_level.id) }}">Previous Grade</a>
+              {% endif %}
+            </td>
+            <td>
+              {% if next_level %}
+              <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=next_level.id) }}">Next Grade</a>
+              {% endif %}
+            </td>
+        </tfoot>
+      </table>
+      <p>Linked with:</p>
+      <ul>
+        <li>Objective: Blah blah blah</li>
+        {% for link in links %}
+        <li></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <div class="column-third">
+
+      <h2>Link Competencies</h2>
+
+    </div>
+
+  </div>
+
+
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
+{% endblock %}
