@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from flask.ext.wtf.html5 import EmailField
 from wtforms.validators import Required
-from wtforms.fields import TextField
+from wtforms.fields import (SelectField, TextField)
 
 
 class EmailForm(Form):
@@ -9,5 +9,5 @@ class EmailForm(Form):
 
 
 class UpdateDetailsForm(Form):
-    grade = TextField('Grade')
+    grade = SelectField('Grade')
     profession = TextField('Profession')

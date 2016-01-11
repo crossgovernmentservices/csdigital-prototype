@@ -10,7 +10,9 @@ from flask import (
 from flask.ext.security import login_required
 from flask.ext.login import current_user
 
+from application.competency.models import Level
 from application.profile.forms import EmailForm, UpdateDetailsForm
+
 
 profile = Blueprint('profile', __name__, template_folder='templates')
 
@@ -58,6 +60,9 @@ def remove_email():
 @login_required
 def update_details():
     form = UpdateDetailsForm()
+    form.grade.choices = [
+        (level.description, level.description)
+        for level in Level.objects.all()]
     user = current_user
     if form.validate_on_submit():
         if form.grade.data:
