@@ -35,6 +35,7 @@ class Link(db.Document):
     Link between documents, eg: Objective<->Competency
     """
     documents = db.ListField(db.GenericReferenceField(), default=[])
+    owner = db.ReferenceField(User)
 
 
 class Tag(db.Document):
@@ -103,6 +104,7 @@ class LogEntry(db.Document):
     def link(self, other):
         if self != other and not self.has_link(other):
             link = Link(documents=[self, other])
+            link.owner = self.owner
             link.save()
 
     def links(self):

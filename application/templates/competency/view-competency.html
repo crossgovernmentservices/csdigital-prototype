@@ -54,6 +54,7 @@
 
       {% else %}
       <p>Your grade: {{ current_user.grade }}</p>
+      <form method="post">
       <table>
         <thead>
           <tr>
@@ -67,7 +68,12 @@
         <tbody>
           {% for behaviour in behaviours %}
           <tr>
-            <td><p>{{ behaviour.effective }}</p></td>
+            <td>
+              <label>
+                <input id="behaviours-{{ loop.index0 }}" type="checkbox" name="behaviours" value="{{ behaviour.id }}">
+                {{ behaviour.effective }}
+              </label>
+            </td>
             <td><p>{{ behaviour.ineffective }}</p></td>
           </tr>
           {% endfor %}
@@ -86,11 +92,16 @@
             </td>
         </tfoot>
       </table>
+      </form>
       <p>Linked with:</p>
       <ul>
-        <li>Objective: Blah blah blah</li>
-        {% for link in links %}
-        <li></li>
+        {% for link in linked_with %}
+        <li>
+          {%- if link.entry_type == 'objective' -%}
+            Objective: {{ link.entry.what }}
+            <a href="remove-link?link={{ link.id }}">remove</a>
+          {%- endif -%}
+        </li>
         {% endfor %}
       </ul>
       {% endif %}
@@ -98,7 +109,13 @@
 
     <div class="column-third">
 
-      <h2>Link Competencies</h2>
+      <h2>Link Competency with</h2>
+      <form method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
+        <fieldset>
+          Objective: {{ link_form.objectives }}
+          <button>add</button>
+        </fieldset>
+      </form>
 
     </div>
 
