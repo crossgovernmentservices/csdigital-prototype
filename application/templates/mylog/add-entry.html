@@ -23,13 +23,20 @@
   </div>
 
   <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-large">Add log entry</h1>
-    </div>
-  </div>
 
-  <div class="grid-row section">
-    <div class="column-two-thirds">
+    <div class="column-one-quarter">
+      <h1 class="heading">Recent Notes</h1>
+      <p><a href="">+ create note</a></p>
+      <ul>
+        {% for note in ['note1', 'note2'] %}
+        <li><a href="">{{ note }}</a></li>
+        {% endfor %}
+      </ul>
+      <p><a href="">see more</a></p>
+    </div>
+
+    <div class="column-one-half">
+      <h1 class="heading-large">Give Your Note a Title</h1>
       <form action="{{url_for('mylog.add_log_entry')}}" method="POST">
          <div class="form-group">
           <label class="form-label" for="tags">Tags</label>
@@ -38,6 +45,44 @@
         {{ render_field(form.content, rows=10) }}
         {{ render_hidden(form) }}
         <input class="button"  type="submit" value="Add log entry">
+      </form>
+
+      <div>
+        Tags:
+      </div>
+
+      <div>
+        Linked to
+      </div>
+    </div>
+
+    <div class="column-one-quarter">
+      <h1 class="heading">Link your note with</h1>
+      <form>
+        <fieldset>
+          <label>Competencies</label>
+          <select>
+            {% for cluster in competencies|groupby('cluster.name') %}
+            <optgroup label="{{ cluster.grouper }}">
+              {% for competency in cluster.list %}
+              <option>{{ competency.name }}</option>
+              {% endfor %}
+            </optgroup>
+            {% endfor %}
+          </select>
+          <button>add</button>
+        </fieldset>
+      </form>
+      <form>
+        <fieldset>
+          <label>Objectives</label>
+          <select>
+            {% for objective in objectives %}
+            <option>{{ objective }}</option>
+            {% endfor %}
+          </select>
+          <button>add</button>
+        </fieldset>
       </form>
     </div>
   </div>

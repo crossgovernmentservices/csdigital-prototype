@@ -30,6 +30,14 @@ class User(db.Document, UserMixin):
     inbox_email = db.StringField()
 
 
+class Link(db.Document):
+    """
+    Link between documents, eg: Objective<->Competency
+    """
+    documents = db.ListField(db.GenericReferenceField(), default=[])
+    owner = db.ReferenceField(User)
+
+
 class Tag(db.Document):
     owner = db.ReferenceField(User)
     name = db.StringField()
@@ -53,7 +61,6 @@ class LogEntry(db.Document):
     entry_from = db.StringField()
     tags = db.ListField(db.ReferenceField(Tag), default=[])
     editable = db.BooleanField(default=True)
-    link = db.ListField()  # This should be changed to list of links
     entry_type = db.StringField(required=True)
     entry = db.ReferenceField(Entry, required=True)
 
@@ -89,3 +96,22 @@ class LogEntry(db.Document):
             if dynamic_field not in valid_fields:
                 msg = '%s is not a valid field' % dynamic_field
                 raise ValidationError(msg)
+
+    def has_link(self, other):
+        links = Link.objects.filter(documents=self).filter(documents=other)
+        return links.count() != 0
+
+    def link(self, other):
+        if self != other and not self.has_link(other):
+            link = Link(documents=[self, other])
+            link.owner = self.owner
+            link.save()
+
+    def links(self):
+        links = Link.objects.filter(documents=self)
+        return [
+            doc
+            for link in links
+            for doc in link.documents
+            if doc != self]
+

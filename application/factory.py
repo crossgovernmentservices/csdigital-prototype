@@ -58,6 +58,9 @@ def register_blueprints(app):
     from application.sso.views import sso
     app.register_blueprint(sso)
 
+    from application.competency.views import competency
+    app.register_blueprint(competency)
+
 
 def register_extensions(app):
     from application.assets import env

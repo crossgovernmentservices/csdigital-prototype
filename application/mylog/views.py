@@ -23,6 +23,7 @@ from application.models import (
     Tag,
     User
 )
+from application.competency.models import Competency
 
 
 from application.mylog.forms import LogEntryForm
@@ -72,7 +73,10 @@ def add_log_entry():
                 log_entry.add_tag(tag.strip())
         flash('Entry saved')
         return redirect(url_for('mylog.view_mylog'))
-    return render_template('mylog/add-entry.html', form=form)
+    return render_template(
+        'mylog/add-entry.html',
+        form=form,
+        competencies=Competency.objects.all())
 
 
 @mylog.route('/my-log/entry/<id>', methods=['GET', 'POST'])

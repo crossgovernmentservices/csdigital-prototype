@@ -56,13 +56,18 @@ def remove_email():
     return redirect(url_for('profile.view_profile'))
 
 
-@profile.route('/profile/update-details', methods=['GET', 'POST'])
-@login_required
-def update_details():
+def update_details_form():
     form = UpdateDetailsForm()
     form.grade.choices = [
         (level.description, level.description)
-        for level in Level.objects.all()]
+        for level in Level.objects()]
+    return form
+
+
+@profile.route('/profile/update-details', methods=['GET', 'POST'])
+@login_required
+def update_details():
+    form = update_details_form()
     user = current_user
     if form.validate_on_submit():
         if form.grade.data:
@@ -74,7 +79,7 @@ def update_details():
             message = "Successfully updated details"
         else:
             message = "No new details submitted"
-            flash(message)
+        flash(message)
         return redirect(url_for('profile.view_profile'))
     else:
         return render_template('profile/update-details.html', form=form)
