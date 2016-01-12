@@ -1,0 +1,79 @@
+{% extends "3colbase.html" %}
+
+{% block endhead %}
+    <link rel="stylesheet" href="/static/stylesheets/selectize.css">
+{% endblock %}
+
+{% from "_macros.html" import render_field, render_hidden %}
+
+{% include "_logout.html" %}
+
+{% block content_nav %}
+  <div class="content-nav-main">
+    <h2 class="heading-medium">
+      Recent notes
+    </h2>
+    <div class="content-nav-action"><a href="">+ create note</a></div>
+    <ul class="content-nav-list">
+      <li><a href="">note1</a></li>
+      <li><a class="current" href="">note2</a></li>
+      <li><a href="">note3</a></li>
+      <li><a href="">note4</a></li>
+      <li><a href="">note5</a></li>
+    </ul>
+    <div class="content-nav-action"><a href="">see more</a></div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <h1 class="heading-large">Give Your Note a Title</h1>
+  <form action="{{url_for('mylog.add_note')}}" method="POST">
+    {{ render_field(form.content, rows=10) }}
+    {{ render_hidden(form) }}
+    <div class="form-group">
+      <label class="form-label" for="tags">Tags</label>
+      <input type="text" id="tags" name="tags" class="demo-default selectized input-tags" style="display: block;">
+     </div>
+    <input class="button"  type="submit" value="Add note">
+  </form>
+
+  <div class="panel-indent">
+    <p>Don't forget you can also email notes to: <strong class="bold-small"><a href="mailto:{{current_user.inbox_email}}" target="_blank">{{current_user.inbox_email}}</a></strong></p>
+  </div>
+{% endblock %}
+
+{% block content_links %}
+  <h2 class="heading-medium">Link your note with</h2>
+  <form class="form">
+    <div class="form-group">
+      <label class="form-label">Competencies</label>
+      <select class="form-control">
+        {% for cluster in competencies|groupby('cluster.name') %}
+        <optgroup label="{{ cluster.grouper }}">
+          {% for competency in cluster.list %}
+          <option>{{ competency.name }}</option>
+          {% endfor %}
+        </optgroup>
+        {% endfor %}
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+  <form>
+    <div class="form-group">
+      <label class="form-label">Objectives</label>
+      <select class="form-control">
+        {% for objective in objectives %}
+        <option>{{ objective }}</option>
+        {% endfor %}
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/selectize.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/newEntryTagging.js"></script>
+{% endblock %}
