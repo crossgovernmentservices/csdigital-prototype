@@ -11,10 +11,13 @@ from flask import (
 from flask.ext.security import login_required
 from flask.ext.login import current_user
 
+from application.competency.forms import make_link_form
+from application.competency.models import Competency
 from application.objectives.forms import ObjectiveForm
 from application.utils import a_year_from_now
 from application.models import (
     Entry,
+    Link,
     LogEntry
 )
 
@@ -70,21 +73,54 @@ def add_objective():
                                url=add_url)
 
 
+@objectives.route('/objective/<id>/link', methods=['POST'])
+@login_required
+def link(id):
+    objective = LogEntry.objects.get(id=id, entry_type='objective')
+    form = make_link_form(competencies=True)
+    del form.objectives
+
+    if form.validate_on_submit():
+        competency = Competency.objects.get(id=form.competencies.data)
+        objective.link(competency)
+        flash('Competency successfully linked to objective')
+
+    else:
+        flash('Linking to competency failed', 'error')
+        return "%s %s" % (form.errors, form.data)
+
+    return redirect(url_for('.edit_objective', id=id))
+
+
 @objectives.route("/objective/<id>", methods=['GET', 'POST'])
 @login_required
 def edit_objective(id):
+
+    objective = LogEntry.objects.get(id=id, entry_type='objective')
+
+    link_form = make_link_form(competencies=True)
+    link_url = url_for('.link', id=id)
+
+    links = Link.objects.filter(documents=objective)
+    links = [
+        doc
+        for link in links
+        for doc in link.documents
+        if doc != objective]
+
     form = ObjectiveForm()
     if form.validate_on_submit():
-        objective = LogEntry.objects(id=id, entry_type='objective').get()
         objective.entry.update(what=form.what.data, how=form.how.data)
         objective.entry.save()
         return redirect(url_for('objectives.view_objectives'))
     else:
         edit_url = url_for('objectives.edit_objective', id=id)
-        objective = LogEntry.objects(id=id).get()
         form.what.data = objective.entry.what
         form.how.data = objective.entry.how
         return render_template('objectives/add-edit-objective.html',
                                form=form,
                                url=edit_url,
+                               link_form=link_form,
+                               link_url=link_url,
+                               links=links,
                                edit=True)

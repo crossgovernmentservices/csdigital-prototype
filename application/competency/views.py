@@ -33,6 +33,7 @@ def link(competency_id):
         entry_type='objective')
 
     form = make_link_form(objectives)
+    del form.competencies
 
     if form.validate_on_submit():
         objective = objectives.get(id=form.objectives.data)
@@ -61,10 +62,10 @@ def view(competency_id=None, level_id=None):
         entry_type='objective')
     link_form = make_link_form(objectives)
 
-    linked_with = Link.objects.filter(owner=user, documents=competency)
-    linked_with = [
+    links = Link.objects.filter(owner=user, documents=competency)
+    links = [
         doc
-        for linked in linked_with
+        for linked in links
         for doc in linked.documents
         if doc != competency]
 
@@ -86,7 +87,7 @@ def view(competency_id=None, level_id=None):
             competency=competency,
             level=level,
             link_form=link_form,
-            linked_with=linked_with,
+            links=links,
             form=form)
 
     if not level:
@@ -112,7 +113,7 @@ def view(competency_id=None, level_id=None):
         behaviours=behaviours,
         form=form,
         link_form=link_form,
-        linked_with=linked_with,
+        links=links,
         level=level,
         prev_level=prev_level,
         next_level=next_level,

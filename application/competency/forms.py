@@ -2,6 +2,8 @@ from flask.ext.wtf import Form
 from wtforms.fields import SelectField, SelectMultipleField
 from wtforms.widgets import CheckboxInput, ListWidget
 
+from application.competency.models import Competency
+
 
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(prefix_label=False)
@@ -21,12 +23,20 @@ def behaviours_form(behaviours):
 
 
 class LinkForm(Form):
-    objectives = SelectField()
+    competencies = SelectField(choices=[])
+    objectives = SelectField(choices=[])
 
 
-def make_link_form(objectives):
+def make_link_form(objectives=[], competencies=False):
     form = LinkForm()
-    form.objectives.choices = [
-        (str(objective.id), objective.entry.what)
-        for objective in objectives]
+
+    if competencies:
+        form.competencies.choices = [
+            (str(competency.id), competency.name)
+            for competency in Competency.objects]
+
+    if objectives:
+        form.objectives.choices = [
+            (str(objective.id), objective.entry.what)
+            for objective in objectives]
     return form

@@ -16,29 +16,54 @@
       </div>
   </div>
 
-  {% from "_macros.html" import render_field, render_hidden %}
+  {% from "_macros.html" import linked_with, render_field, render_hidden %}
 
   <h1 class="heading-large">{% if edit %}Edit{% else %}Write{% endif %} objective</h1>
 
-  <form action="{{url}}" method="post" class="form add-objective">
-
     <div class="grid-row">
-      <div class="column-half">
-        {{ render_field(form.what, rows=10) }}
-      </div>
-      <div class="column-half">
-        <h2 class="heading-medium guidance-heading">What</h2>
-        <p>What are you to achieve, by when, and how will it be measured?</p>
-      </div>
-    </div>
+      <div class="column-two-thirds">
 
-    <div class="grid-row">
-      <div class="column-half">
-        {{ render_field(form.how, rows=10) }}
+        <form action="{{url}}" method="post" class="form add-objective">
+
+          <div class="grid-row">
+            <div class="column-half">
+              {{ render_field(form.what, rows=10) }}
+            </div>
+            <div class="column-half">
+              <h2 class="heading-medium guidance-heading">What</h2>
+              <p>What are you to achieve, by when, and how will it be measured?</p>
+            </div>
+          </div>
+
+          <div class="grid-row">
+            <div class="column-half">
+              {{ render_field(form.how, rows=10) }}
+            </div>
+            <div class="column-half">
+              <h2 class="heading-medium guidance-heading">How</h2>
+              <p>What behaviours and values will you need to use to do this well? Which competencies are important? What skills, experience and knowledge will be needed? Are there any important milestones or tasks?</p>
+            </div>
+          </div>
+
+        </form>
+
+        {{ linked_with(links) }}
+
       </div>
-      <div class="column-half">
-        <h2 class="heading-medium guidance-heading">How</h2>
-        <p>What behaviours and values will you need to use to do this well? Which competencies are important? What skills, experience and knowledge will be needed? Are there any important milestones or tasks?</p>
+
+      <div class="column-third">
+        <h2 class="heading-medium">Link objective with</h2>
+
+        <form method="post" action="{{ link_url }}">
+          <fieldset>
+            <label>
+              Competency
+              {{ link_form.competencies }}
+            </label>
+            <button>add</button>
+            <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
+          </fieldset>
+        </form>
       </div>
     </div>
 
