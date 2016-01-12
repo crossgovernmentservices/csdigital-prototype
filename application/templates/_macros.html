@@ -18,3 +18,29 @@
 {% macro render_hidden(form) %}
     {{ form.hidden_tag() }}
 {% endmacro %}
+
+
+{% macro linked_with(links) %}
+  <p>Linked with:</p>
+  <ul>
+    {% for link in links %}
+    <li>
+        {%- if link.__class__.__name__ == 'Competency' -%}
+          Competency: {{ link.name }}
+
+        {%- elif link.entry_type == 'objective' -%}
+          Objective: {{ link.entry.what }}
+
+        {%- elif link.entry_type == 'feedback' -%}
+          Feedback: {{ link.entry.details }}
+
+        {%- elif link.entry_type == 'log' -%}
+          Note: {{ link.entry.content }}
+
+        {%- endif -%}
+
+        <a href="#remove-link?link={{ link.id }}">remove</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
