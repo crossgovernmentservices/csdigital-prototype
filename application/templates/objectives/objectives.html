@@ -32,6 +32,7 @@
             <div class="details" style="display: none;">
               {{objective.entry.how|markdown}}
               <a href="{{url_for('objectives.edit_objective', id=objective.id)}}">Edit</a>
+              <a href="{{url_for('objectives.view_objective', id=objective.id)}}">View in full</a>
             </div>
           </li>
         {% endfor %}

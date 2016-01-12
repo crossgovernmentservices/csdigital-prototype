@@ -92,6 +92,22 @@ def link(id):
 
     return redirect(url_for('.edit_objective', id=id))
 
+@objectives.route("/objective-view/<id>")
+@login_required
+def view_objective(id):
+  objective = LogEntry.objects.get(id=id, entry_type='objective')
+
+  link_form = make_link_form(competencies=True)
+  link_url = url_for('.link', id=id)
+
+  links = Link.objects.filter(documents=objective)
+  links = [
+      doc
+      for link in links
+      for doc in link.documents
+      if doc != objective]
+
+  return render_template('objectives/objective-view.html', objective=objective, links=links, link_form=link_form, link_url=link_url)
 
 @objectives.route("/objective/<id>", methods=['GET', 'POST'])
 @login_required
