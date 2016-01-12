@@ -1,3 +1,7 @@
+html {
+  background-color: $page-colour;
+}
+
 .internal-header {
   width: 100%;
   background: $text-colour;
@@ -42,3 +46,25 @@
     }
   }
 }
+
+.remove-link a {
+  color: $secondary-text-colour;
+  font-size: 16px;
+  padding: 0 10px;
+  font-weight: normal;
+}
+
+.linked-item {
+  padding-left: $gutter;
+  position: relative;
+  & > a {
+    padding: 0 10px;
+    font-weight: normal;
+  }
+
+  .remove-link {
+    position: absolute;
+    right: 0;
+  }
+}
+
