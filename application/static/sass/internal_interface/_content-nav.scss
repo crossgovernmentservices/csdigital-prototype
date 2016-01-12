@@ -10,3 +10,36 @@
   background: darken($border-colour, 10%);
   padding: 5px 15px;
 }
+
+.content-nav-main {
+  padding: 5px 0;
+
+  h2 {
+    margin: 15px 15px;
+  }
+}
+
+.content-nav-list {
+  list-style: none;
+
+  li a {
+    display: block;
+    width: 100%;
+    padding: 5px 15px;
+    color: $text-colour;
+    text-decoration: none;
+
+    &:hover {
+      background: $panel-colour;
+      color: $link-colour;
+    }
+
+    &.current {
+      background: $page-colour;
+    }
+  }
+}
+
+.content-nav-action {
+  padding: 5px 15px;
+}

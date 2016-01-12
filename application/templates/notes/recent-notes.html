@@ -1,5 +1,22 @@
 {% extends "3colbase.html" %}
 
+{% block content_nav %}
+  <div class="content-nav-main">
+    <h2 class="heading-medium">
+      Recent notes
+    </h2>
+    <div class="content-nav-action"><a href="">+ create note</a></div>
+    <ul class="content-nav-list">
+      <li><a href="">note1</a></li>
+      <li><a class="current" href="">note2</a></li>
+      <li><a href="">note3</a></li>
+      <li><a href="">note4</a></li>
+      <li><a href="">note5</a></li>
+    </ul>
+    <div class="content-nav-action"><a href="">see more</a></div>
+  </div>
+{% endblock %}
+
 {% block content %}
 
   <h1 class="heading-large">Your note title</h1>
