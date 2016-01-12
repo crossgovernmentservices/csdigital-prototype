@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="{{ ASSET_URL }}">
   {% endassets %}
 
-
-
   <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
   </script>
   <script type="text/javascript" src="/static/javascripts/vendor/jsrender.min.js"></script>
@@ -35,6 +33,19 @@
   </nav>
 {% endblock %}
 
-
-{% block content %}{% endblock %}
+{% block content_pane %}
+  <div class="content-pane">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        {% block content %}
+        some content
+        {% endblock %}
+      </div>
+      <div class="column-third">
+        {% block content_links %}{% endblock %}
+      </div>
+    </div>
+    
+  </div>
+{% endblock %}
 
