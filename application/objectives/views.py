@@ -30,7 +30,7 @@ def view_objectives():
     user = current_user._get_current_object()
     objectives = LogEntry.objects.filter(owner=user,
                                          entry_type='objective').all()
-    return render_template('objectives/objectives.html', objectives=objectives)
+    return render_template('objectives/objective-view.html', objectives=objectives)
 
 
 @objectives.route('/performance-review')
