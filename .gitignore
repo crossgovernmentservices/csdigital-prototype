@@ -48,6 +48,7 @@ docs/_build
 main.css
 govuk_elements.css
 journeys.css
+internal_interface.css
 
 environment-private.sh
 
