@@ -97,7 +97,7 @@ def link(id):
 
     return redirect(url_for('.edit_objective', id=id))
 
-@objectives.route("/objective-view/<id>")
+@objectives.route("/objective/<id>")
 @login_required
 def view_objective(id):
   user = current_user._get_current_object()
@@ -123,7 +123,7 @@ def view_objective(id):
                         link_url=link_url,
                         objectives=objectives)
 
-@objectives.route("/objective/<id>", methods=['GET', 'POST'])
+@objectives.route("/objective/<id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_objective(id):
 
@@ -143,7 +143,7 @@ def edit_objective(id):
     if form.validate_on_submit():
         objective.entry.update(what=form.what.data, how=form.how.data)
         objective.entry.save()
-        return redirect(url_for('objectives.view_objectives'))
+        return redirect(url_for('objectives.view_objective', id=id))
     else:
         edit_url = url_for('objectives.edit_objective', id=id)
         form.what.data = objective.entry.what
