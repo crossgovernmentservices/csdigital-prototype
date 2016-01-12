@@ -106,6 +106,7 @@
   {% block content_links %}
 
   {% if competency %}
+  <h2 class="heading-medium">Link competency with</h2>
   <form class="form" method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
     <div class="form-group">
       <label class="form-label">Objectives</label>
