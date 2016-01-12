@@ -126,6 +126,9 @@ def view_objective(id):
 @objectives.route("/objective/<id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_objective(id):
+    user = current_user._get_current_object()
+    objectives = LogEntry.objects.filter(owner=user,
+                                       entry_type='objective').all()
 
     objective = LogEntry.objects.get(id=id, entry_type='objective')
 
@@ -154,4 +157,6 @@ def edit_objective(id):
                                link_form=link_form,
                                link_url=link_url,
                                links=links,
-                               edit=True)
+                               edit=True,
+                               objective=objective,
+                               objectives=objectives)
