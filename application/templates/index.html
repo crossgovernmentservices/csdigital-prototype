@@ -21,8 +21,8 @@
       <div class="text">
         <h2 class="heading-small">My notes</h2>
         <ul>
-          <li><a href="">Add a note</a> (not active)</li>
-          <li><a href="{{url_for('mylog.view_mynotes')}}">View recent notes</a></li>
+          <li><a href="{{ url_for('notes.create') }}">Add a note</a></li>
+          <li><a href="{{ url_for('notes.view') }}">View recent notes</a></li>
         </ul>
       </div>
     </div>
@@ -59,18 +59,5 @@
       </div>
     </div>
   </div>
-
-  <div class="grid-row">
-    <div class="column-half">
-      <div class="text">
-        <h2 class="heading-small">My log</h2>
-        <ul>
-          <li><a href="{{url_for('mylog.add_log_entry')}}">Log something</a></li>
-          <li><a href="{{url_for('mylog.view_mylog')}}">View my log</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
 
 {% endblock %}

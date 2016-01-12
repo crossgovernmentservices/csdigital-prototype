@@ -14,9 +14,9 @@
 
 {% block content %}
   <h1 class="heading-large">Give Your Note a Title</h1>
-  <form action="{{url_for('mylog.add_note')}}" method="POST">
-    {{ render_field(form.content, rows=10) }}
+  <form action="{{ url_for('notes.create') }}" method="POST">
     {{ render_hidden(form) }}
+    {{ render_field(form.content, rows=10) }}
     <div class="form-group">
       <label class="form-label" for="tags">Tags</label>
       <input type="text" id="tags" name="tags" class="demo-default selectized input-tags" style="display: block;">

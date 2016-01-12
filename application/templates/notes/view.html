@@ -1,0 +1,92 @@
+{% extends "3colbase.html" %}
+{% from "_macros.html" import linked_with %}
+
+{% block content_nav %}
+  <div class="content-nav-main">
+    <h2 class="heading-medium">
+      Recent notes
+    </h2>
+    <div class="content-nav-action"><a href="{{ url_for('notes.create') }}">+ create note</a></div>
+    <ul class="content-nav-list">
+    {% for other_note in current_user.notes[:5] %}
+      <li>
+      {%- if note == other_note -%}
+        <a class="current" href="">{{ other_note.entry.content|truncate(40) }}</a>
+      {%- else -%}
+        <a href="{{ url_for('notes.view', id=other_note.id) }}">{{ other_note.entry.content|truncate(40) }}</a>
+      {%- endif -%}
+    {% endfor %}
+    </ul>
+    {% if notes|length > 5 %}
+    <div class="content-nav-action"><a href="">see more</a></div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+
+  <h1 class="heading-large">
+  {%- if note and note.entry.title -%}
+    {{ note.entry.title }}
+  {%- else -%}
+    Your note title
+  {%- endif -%}
+  </h1>
+
+  <section class="note-content text">
+    {% if note -%}
+      {{ note.entry.content }}
+    {%- else -%}
+    <p>Write your note here</p>
+    {%- endif %}
+  </section>
+
+  <section class="note-tags">
+    <h3 class="heading-small">Tags:</h3>
+    <ul class="tags-list">
+    {% if note %}
+    {% for tag in note.tags %}
+      <li><a href="">{{ tag.name }}</a></li>
+    {% endfor %}
+    {% endif %}
+    </ul>
+  </section>
+
+  <button class="button">Edit</button>
+
+  <section>
+    {% if note %}
+    {{ linked_with(note.links) }}
+    {% endif %}
+  </section>
+
+{% endblock %}
+
+{% block content_links %}
+  <form class="form" method="post" action="{{ request.path }}/link">
+    <div class="form-group">
+      <label class="form-label">Competencies</label>
+      <select id="competencies" name="competencies" class="form-control">
+        {% for cluster in competencies|groupby('cluster.name') %}
+        <optgroup label="{{ cluster.grouper }}">
+          {% for competency in cluster.list %}
+          <option value="{{ competency.id }}">{{ competency.name }}</option>
+          {% endfor %}
+        </optgroup>
+        {% endfor %}
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+  <form class="form" method="post" action="{{ request.path }}/link">
+    <div class="form-group">
+      <label class="form-label">Objectives</label>
+      <select id="objectives" name="objectives" class="form-control">
+        {% for objective in current_user.objectives %}
+        <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40) }}</option>
+        {% endfor %}
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+{% endblock %}

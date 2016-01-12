@@ -61,6 +61,9 @@ def register_blueprints(app):
     from application.competency.views import competency
     app.register_blueprint(competency)
 
+    from application.notes.views import notes
+    app.register_blueprint(notes)
+
 
 def register_extensions(app):
     from application.assets import env

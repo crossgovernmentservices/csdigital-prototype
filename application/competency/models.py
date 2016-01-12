@@ -1,4 +1,8 @@
+from flask.ext.login import current_user
 from flask.ext.mongoengine import MongoEngine
+
+from application.models import Link
+
 
 db = MongoEngine()
 
@@ -19,6 +23,11 @@ class Competency(db.Document):
     overview = db.StringField()
     cluster = db.ReferenceField(CompetencyCluster)
     competency_id = db.IntField()
+
+    @property
+    def links(self):
+        user = current_user._get_current_object()
+        return Link.objects.filter(owner=user, documents=self)
 
 
 class Behaviour(db.Document):

@@ -21,26 +21,30 @@
 
 
 {% macro linked_with(links) %}
-  <p>Linked with:</p>
-  <ul>
+  <h3 class="heading-small">Linked to:</h3>
+  <ul class="linked-list">
+    {% if links %}
+
     {% for link in links %}
-    <li>
-        {%- if link.__class__.__name__ == 'Competency' -%}
-          Competency: {{ link.name }}
+    <li class="linked-item">
+      {%- if link.__class__.__name__ == 'Competency' -%}
+        Competency: <a href="">{{ link.name }}</a>
 
-        {%- elif link.entry_type == 'objective' -%}
-          Objective: {{ link.entry.what }}
+      {%- elif link.entry_type == 'objective' -%}
+        Objective: <a href="">{{ link.entry.what|truncate(40) }}</a>
 
-        {%- elif link.entry_type == 'feedback' -%}
-          Feedback: {{ link.entry.details }}
+      {%- elif link.entry_type == 'feedback' -%}
+        Feedback: <a href="">{{ link.entry.details|truncate(40) }}</a>
 
-        {%- elif link.entry_type == 'log' -%}
-          Note: {{ link.entry.content }}
+      {%- elif link.entry_type == 'log' -%}
+        Note: <a href="">{{ link.entry.content|truncate(40) }}</a>
 
-        {%- endif -%}
+      {%- endif -%}
 
-        <a href="#remove-link?link={{ link.id }}">remove</a>
-      </li>
+      <span class="remove-link"><a href="">remove</a></span>
+    </li>
     {% endfor %}
+
+    {% endif %}
   </ul>
 {% endmacro %}
