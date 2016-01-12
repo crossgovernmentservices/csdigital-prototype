@@ -16,6 +16,11 @@ from flask.ext.security.utils import (
 )
 
 from application.models import (
+    Entry,
+    Link,
+    LogEntry,
+    Role,
+    Tag,
     User
 )
 from application.competency.models import (
@@ -101,6 +106,27 @@ class MakeUserAdminCommand(Command):
             print("No user found for email:", email)
         else:
             user_datastore.add_role_to_user(user, admin_role)
+
+
+class EraseDatabase(Command):
+    """
+    Erase all data from the database
+    """
+
+    def run(self):
+        self.erase_db()
+
+    def erase_db(self):
+        Behaviour.objects.delete()
+        Competency.objects.delete()
+        CompetencyCluster.objects.delete()
+        Entry.objects.delete()
+        Level.objects.delete()
+        Link.objects.delete()
+        LogEntry.objects.delete()
+        Role.objects.delete()
+        Tag.objects.delete()
+        User.objects.delete()
 
 
 class LoadCompetencyData(Command):

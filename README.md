@@ -74,6 +74,17 @@ To run any of these locally first source environment.sh
 source environment.sh
 ```
 
+> Note:
+> To erase all data in the database, use the following command (carefully!):
+> ```
+> python manage.py erase-db
+> ```
+
+Load competency framework data
+```
+python manage.py load-competency-data
+```
+
 Create all xgs users
 ```
 python manage.py create-xgs-users
