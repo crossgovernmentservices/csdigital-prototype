@@ -1,0 +1,16 @@
+<div class="content-nav-main">
+  <h2 class="heading-medium">
+    Recent notes
+  </h2>
+  <div class="content-nav-action"><a href="{{url_for('mylog.add_note')}}">+ create note</a></div>
+  <ul class="content-nav-list">
+    {% for entry in log_entries %}
+      {% if entry.entry_type == 'log' %}
+      <li><a href="/notes/entry/{{entry.id}}">{{entry.id}}</a></li>
+      {% endif %}
+    {% endfor %}
+    <li><a href="">note1</a></li>
+    <li><a class="current" href="">note2</a></li>
+  </ul>
+  <div class="content-nav-action"><a href="">see more</a></div>
+</div>

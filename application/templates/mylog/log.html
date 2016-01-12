@@ -55,7 +55,7 @@
             <td>{{entry.created_date|format_date}}</td>
             <td>
               {% if entry.entry_type == 'log' %}
-                <a href="/my-log/entry/{{entry.id}}">{{entry.id}}</a>
+                <a href="/notes/entry/{{entry.id}}">{{entry.id}}</a>
               {% else %}
                 <a href="{{entry.entry_type}}/{{entry.id}}">
                   {{entry.id}}

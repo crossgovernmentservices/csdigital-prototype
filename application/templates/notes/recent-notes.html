@@ -1,40 +1,30 @@
 {% extends "3colbase.html" %}
 
 {% block content_nav %}
-  <div class="content-nav-main">
-    <h2 class="heading-medium">
-      Recent notes
-    </h2>
-    <div class="content-nav-action"><a href="">+ create note</a></div>
-    <ul class="content-nav-list">
-      <li><a href="">note1</a></li>
-      <li><a class="current" href="">note2</a></li>
-      <li><a href="">note3</a></li>
-      <li><a href="">note4</a></li>
-      <li><a href="">note5</a></li>
-    </ul>
-    <div class="content-nav-action"><a href="">see more</a></div>
-  </div>
+  {% include "notes/_note-nav.html" %}
 {% endblock %}
 
 {% block content %}
 
   <h1 class="heading-large">Your note title</h1>
 
+  {% if not entry %}
+  <p>Select a recent note from the list</p>
+  {% else %}
   <section class="note-content text">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    {{entry.entry.content}}
   </section>
 
   <section class="note-tags">
     <h3 class="heading-small">Tags:</h3>
-    <ul class="tags-list">
+    <p>{% for tag in entry.tags %}{{tag.name}}{% if not loop.last%}, {% endif %}{% endfor %}</p>
+    <!--<ul class="tags-list">
       <li><a href="">test</a></li>
       <li><a href="">tags</a></li>
       <li><a href="">foo</a></li>
       <li><a href="">bar</a></li>
       <li><a href="">perf</a></li>
-    </ul>
+    </ul>-->
   </section>
 
   <button class="button">Edit</button>
@@ -42,48 +32,22 @@
   <section>
     <h3 class="heading-small">Linked to:</h3>
     <ul class="linked-list">
-      <li class="linked-item">Competency: <a href="/">seeing the big picture</a><span class="remove-link"><a href="">remove</a></span></li>
+      {% for link in entry.links() %}
+      <li class="linked-item">
+        {%- if link.__class__.__name__ == 'Competency' -%}
+          Competency: <a href="/">{{ link.name }}</a>
+        {%- elif link.entry_type == 'objective' -%}
+          Objective: <a href="/">{{ link.entry.what }}</a>
+        {%- endif %}
+        <span class="remove-link"><a href="remove-link?link={{ link.id }}">remove</a></span>
+      </li>
+      {% endfor %}
     </ul>
   </section>
+  {% endif %}
 
 {% endblock %}
 
 {% block content_links %}
-  <form class="form">
-    <div class="form-group">
-      <label class="form-label">Competencies</label>
-      <select class="form-control">
-        <optgroup label="Setting direction">
-          <option value="value1">Seeing the big picture</option>
-          <option>Changing and Improving</option>
-          <option>Making effective decisions</option>
-        </optgroup>
-        <optgroup label="Engaging People">
-          <option>Leading and communicating</option>
-          <option>Collaborating and partnering</option>
-          <option>Building capability for all</option>
-        </optgroup>
-        <optgroup label="Delivering results">
-          <option>Achieving commercial outcome</option>
-          <option>Delivering value for money</option>
-          <option>Managing a Quality service</option>
-          <option>Delivering at pace</option>
-        </optgroup>
-      </select>
-      <button>add</button>
-    </div>
-  </form>
-  <form>
-    <div class="form-group">
-      <label class="form-label">Objectives</label>
-      <select class="form-control">
-        <option value="">Objective 1</option>
-        <option value="">Objective 2</option>
-        <option value="">Objective 3</option>
-        <option value="">Objective 4</option>
-        <option value="">Objective 5</option>
-      </select>
-      <button>add</button>
-    </div>
-  </form>
+  {% include "notes/_link_note_with.html" %}
 {% endblock %}
