@@ -216,6 +216,7 @@ manager.add_command('make-user-admin', MakeUserAdminCommand())
 manager.add_command('create-xgs-users', CreateXgsUsersCommand())
 
 manager.add_command('load-competency-data', LoadCompetencyData())
+manager.add_command('erase-db', EraseDatabase())
 
 if __name__ == '__main__':
     manager.run()
