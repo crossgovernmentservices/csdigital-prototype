@@ -1,7 +1,5 @@
-{% extends "base.html" %}
+{% extends "3colbase.html" %}
 {% from "_macros.html" import linked_with %}
-
-{% block body_content %}
 
   <div class="grid-row">
     <div class="column-two-thirds">
@@ -18,102 +16,100 @@
       </div>
   </div>
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-large">Competency Framework</h1>
-    </div>
-  </div>
-
-  <div class="grid-row">
-    <div class="column-third">
-
-      <h2 class="heading-medium">Competencies</h2>
-      <ul>
+  {% block content_nav %}
+    <div class="content-nav-main">
+      <h2 class="heading-medium">
+        Competencies
+      </h2>
+      <ul class="content-nav-list">
         {% for comp in competencies %}
         <li><a href="{{ url_for('competency.view', competency_id=comp.id) }}">{{ comp.name }}</a></li>
         {% endfor %}
       </ul>
-
+      <!--<div class="content-nav-action"><a href="">see more</a></div>-->
     </div>
+  {% endblock %}
 
-    <div class="column-third">
+
+
+{% block content %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large">Competency Framework</h1>
       <h2 class="heading-medium">{{ competency.name }}</h2>
-
-      {% if not level %}
-      <form method="post">
-        <fieldset>
-          <label>
-            Help us show the relevant behaviours for this competency by
-            providing your grade
-            {{ form.grade }}
-          </label>
-          <button>Save</button>
-      </form>
-
-      {% elif not competency %}
-      <p>Select a competency to view</p>
-
-      {% else %}
-      <p>Your grade: {{ current_user.grade }}</p>
-      <form method="post">
-      <table>
-        <thead>
-          <tr>
-            <th colspan="2">Level {{ level.level_id }} ({{ level.description }})</th>
-          </tr>
-          <tr>
-            <th>Effective</th>
-            <th>Ineffective</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for behaviour in behaviours %}
-          <tr>
-            <td>
-              <label>
-                <input id="behaviours-{{ loop.index0 }}" type="checkbox" name="behaviours" value="{{ behaviour.id }}">
-                {{ behaviour.effective }}
-              </label>
-            </td>
-            <td><p>{{ behaviour.ineffective }}</p></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>
-              {% if prev_level %}
-              <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=prev_level.id) }}">Previous Grade</a>
-              {% endif %}
-            </td>
-            <td>
-              {% if next_level %}
-              <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=next_level.id) }}">Next Grade</a>
-              {% endif %}
-            </td>
-        </tfoot>
-      </table>
-      </form>
-      {{ linked_with(links) }}
-      {% endif %}
     </div>
-
-    <div class="column-third">
-
-      <h2>Link Competency with</h2>
-      <form method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
-        <fieldset>
-          Objective: {{ link_form.objectives }}
-          <button>add</button>
-        </fieldset>
-      </form>
-
-    </div>
-
   </div>
 
+  {% if not level %}
+  <form method="post">
+    <fieldset>
+      <label>
+        Help us show the relevant behaviours for this competency by
+        providing your grade
+        {{ form.grade }}
+      </label>
+      <button>Save</button>
+  </form>
+  {% elif not competency %}
+  <p>Select a competency to view</p>
 
+  {% else %}
+  <p>Your grade: {{ current_user.grade }}</p>
+  <form method="post">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Level {{ level.level_id }} ({{ level.description }})</th>
+      </tr>
+      <tr>
+        <th>Effective</th>
+        <th>Ineffective</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for behaviour in behaviours %}
+      <tr>
+        <td>
+          <label>
+            <!--<input id="behaviours-{{ loop.index0 }}" type="checkbox" name="behaviours" value="{{ behaviour.id }}">-->
+            {{ behaviour.effective }}
+          </label>
+        </td>
+        <td><p>{{ behaviour.ineffective }}</p></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          {% if prev_level %}
+          <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=prev_level.id) }}">Previous Grade</a>
+          {% endif %}
+        </td>
+        <td>
+          {% if next_level %}
+          <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=next_level.id) }}">Next Grade</a>
+          {% endif %}
+        </td>
+    </tfoot>
+  </table>
+  </form>
+  {{ linked_with(links) }}
+  {% endif %}
+  
 {% endblock %}
+
+  {% block content_links %}
+    <h2 class="heading-medium">Link Competency with</h2>
+    <form method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
+      <fieldset>
+        Objective: {{ link_form.objectives }}
+        <button>add</button>
+      </fieldset>
+    </form>
+  {% endblock %}
+
 
 {% block body_end %}
   <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
