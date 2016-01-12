@@ -2,15 +2,18 @@
   <h2 class="heading-medium">
     Recent notes
   </h2>
-  <div class="content-nav-action"><a href="{{url_for('mylog.add_note')}}">+ create note</a></div>
+  <div class="content-nav-action"><a href="{{ url_for('notes.create') }}">+ create note</a></div>
   <ul class="content-nav-list">
-    {% for entry in log_entries %}
-      {% if entry.entry_type == 'log' %}
-      <li><a href="/notes/entry/{{entry.id}}">{{entry.id}}</a></li>
-      {% endif %}
-    {% endfor %}
-    <li><a href="">note1</a></li>
-    <li><a class="current" href="">note2</a></li>
+  {% for other_note in current_user.notes[:5] %}
+    <li>
+    {%- if note and note == other_note -%}
+      <a class="current" href="">{{ other_note.entry.content|truncate(40) }}</a>
+    {%- else -%}
+      <a href="{{ url_for('notes.view', id=other_note.id) }}">{{ other_note.entry.content|truncate(40) }}</a>
+    {%- endif -%}
+  {% endfor %}
   </ul>
+  {% if notes|length > 5 %}
   <div class="content-nav-action"><a href="">see more</a></div>
+  {% endif %}
 </div>

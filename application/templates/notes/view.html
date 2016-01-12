@@ -2,25 +2,7 @@
 {% from "_macros.html" import linked_with %}
 
 {% block content_nav %}
-  <div class="content-nav-main">
-    <h2 class="heading-medium">
-      Recent notes
-    </h2>
-    <div class="content-nav-action"><a href="{{ url_for('notes.create') }}">+ create note</a></div>
-    <ul class="content-nav-list">
-    {% for other_note in current_user.notes[:5] %}
-      <li>
-      {%- if note == other_note -%}
-        <a class="current" href="">{{ other_note.entry.content|truncate(40) }}</a>
-      {%- else -%}
-        <a href="{{ url_for('notes.view', id=other_note.id) }}">{{ other_note.entry.content|truncate(40) }}</a>
-      {%- endif -%}
-    {% endfor %}
-    </ul>
-    {% if notes|length > 5 %}
-    <div class="content-nav-action"><a href="">see more</a></div>
-    {% endif %}
-  </div>
+  {% include "notes/_note-nav.html" %}
 {% endblock %}
 
 {% block content %}
@@ -52,7 +34,7 @@
     </ul>
   </section>
 
-  <button class="button">Edit</button>
+  <a class="button" href="{{ request.path }}/edit">Edit</a>
 
   <section>
     {% if note %}
@@ -63,30 +45,5 @@
 {% endblock %}
 
 {% block content_links %}
-  <form class="form" method="post" action="{{ request.path }}/link">
-    <div class="form-group">
-      <label class="form-label">Competencies</label>
-      <select id="competencies" name="competencies" class="form-control">
-        {% for cluster in competencies|groupby('cluster.name') %}
-        <optgroup label="{{ cluster.grouper }}">
-          {% for competency in cluster.list %}
-          <option value="{{ competency.id }}">{{ competency.name }}</option>
-          {% endfor %}
-        </optgroup>
-        {% endfor %}
-      </select>
-      <button>add</button>
-    </div>
-  </form>
-  <form class="form" method="post" action="{{ request.path }}/link">
-    <div class="form-group">
-      <label class="form-label">Objectives</label>
-      <select id="objectives" name="objectives" class="form-control">
-        {% for objective in current_user.objectives %}
-        <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40) }}</option>
-        {% endfor %}
-      </select>
-      <button>add</button>
-    </div>
-  </form>
+  {% include "notes/_link_note_with.html" %}
 {% endblock %}

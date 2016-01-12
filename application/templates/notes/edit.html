@@ -19,7 +19,8 @@
     {{ render_field(form.content, rows=10) }}
     <div class="form-group">
       <label class="form-label" for="tags">Tags</label>
-      <input type="text" id="tags" name="tags" class="demo-default selectized input-tags" style="display: block;">
+      {{ form.tags.data }}
+      {{ form.tags(class_="demo-default selectized input-tags") }}
      </div>
     <input class="button"  type="submit" value="Add note">
   </form>
