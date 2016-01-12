@@ -11,7 +11,7 @@
     </h2>
     <ul class="content-nav-list">
       {% for obj in objectives %}
-        <li><a {% if objective and objective.id == obj.id %}class="current"{% endif %} href="/objective-view/{{obj.id}}">{{obj.entry.what|truncate(35, True)}}</a></li>
+        <li><a {% if objective and objective.id == obj.id %}class="current"{% endif %} href="{{url_for('objectives.view_objective', id=obj.id)}}">{{obj.entry.what|truncate(35, True)}}</a></li>
       {% endfor %}
     </ul>
     <div class="content-nav-action"><a href="{{url_for('objectives.add_objective')}}">+ add objective</a></div>
