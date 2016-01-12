@@ -1,0 +1,34 @@
+
+{% extends "3col_template.html" %}
+
+{% block head %}
+
+  <!-- gov uk elements stylesheet -->
+  {% assets "css_govuk_elements" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+  <!-- internal interface stylesheet -->
+  {% assets "css_internal_interface" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+  <!-- this application main stylesheet -->
+  {% assets "css_main" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+
+
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/vendor/jsrender.min.js"></script>
+
+  {% block endhead %}
+  {% endblock %}
+
+{% endblock %}
+
+
+{% block content %}{% endblock %}
+
