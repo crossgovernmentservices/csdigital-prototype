@@ -1,8 +1,22 @@
 {% extends "3colbase.html" %}
 
-  {% include "_logout.html" %}
+{% include "_logout.html" %}
 
-  {% from "_macros.html" import linked_with %}
+{% from "_macros.html" import linked_with %}
+
+{% block content_nav %}
+  <div class="content-nav-main">
+    <h2 class="heading-medium">
+      Your objectives
+    </h2>
+    <ul class="content-nav-list">
+      {% for obj in objectives %}
+        <li><a {% if objective.id == obj.id %}class="current"{% endif %} href="/objective-view/{{obj.id}}">{{obj.entry.what}}</a></li>
+      {% endfor %}
+    </ul>
+    <div class="content-nav-action"><a href="{{url_for('objectives.add_objective')}}">+ add objective</a></div>
+  </div>
+{% endblock %}
 
 {% block content %}
   <h1 class="heading-large">Objective</h1><!-- to be title in future -->
