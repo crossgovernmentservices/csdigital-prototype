@@ -52,8 +52,9 @@
       </div>
 
       <div class="column-third">
-        <h2 class="heading-medium">Link objective with</h2>
 
+        {% if link_form %}
+        <h2 class="heading-medium">Link objective with</h2>
         <form method="post" action="{{ link_url }}">
           <fieldset>
             <label>
@@ -64,6 +65,8 @@
             <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
           </fieldset>
         </form>
+        {% endif %}
+
       </div>
     </div>
 

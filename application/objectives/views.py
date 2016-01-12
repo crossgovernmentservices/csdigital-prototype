@@ -70,6 +70,7 @@ def add_objective():
         add_url = url_for('objectives.add_objective')
         return render_template('objectives/add-edit-objective.html',
                                form=form,
+                               link_form=None,
                                url=add_url)
 
 
