@@ -30,7 +30,7 @@ def view_objectives():
     user = current_user._get_current_object()
     objectives = LogEntry.objects.filter(owner=user,
                                          entry_type='objective').all()
-    return render_template('objectives/objectives.html', objectives=objectives)
+    return render_template('objectives/objective-view.html', objectives=objectives)
 
 
 @objectives.route('/performance-review')
@@ -48,6 +48,10 @@ def check_competency_framework():
 @objectives.route("/objective/add", methods=['GET', 'POST'])
 @login_required
 def add_objective():
+
+    user = current_user._get_current_object()
+    objectives = LogEntry.objects.filter(owner=user,
+                                       entry_type='objective').all()
     form = ObjectiveForm()
     if form.validate_on_submit():
         user = current_user._get_current_object()
@@ -65,13 +69,14 @@ def add_objective():
         log_entry.save()
         log_entry.add_tag('Objective')
         flash('Added objective')
-        return redirect(url_for('objectives.view_objectives'))
+        return redirect(url_for('objectives.view_objective', id=log_entry.id))
     else:
         add_url = url_for('objectives.add_objective')
         return render_template('objectives/add-edit-objective.html',
                                form=form,
                                link_form=None,
-                               url=add_url)
+                               url=add_url,
+                               objectives=objectives)
 
 
 @objectives.route('/objective/<id>/link', methods=['POST'])
@@ -90,12 +95,40 @@ def link(id):
         flash('Linking to competency failed', 'error')
         return "%s %s" % (form.errors, form.data)
 
-    return redirect(url_for('.edit_objective', id=id))
+    return redirect(url_for('.view_objective', id=id))
 
+@objectives.route("/objective/<id>")
+@login_required
+def view_objective(id):
+  user = current_user._get_current_object()
+  objectives = LogEntry.objects.filter(owner=user,
+                                       entry_type='objective').all()
 
-@objectives.route("/objective/<id>", methods=['GET', 'POST'])
+  objective = LogEntry.objects.get(id=id, entry_type='objective')
+
+  link_form = make_link_form(competencies=True)
+  link_url = url_for('.link', id=id)
+
+  links = Link.objects.filter(documents=objective)
+  links = [
+      doc
+      for link in links
+      for doc in link.documents
+      if doc != objective]
+
+  return render_template('objectives/objective-view.html',
+                        objective=objective,
+                        links=links,
+                        link_form=link_form,
+                        link_url=link_url,
+                        objectives=objectives)
+
+@objectives.route("/objective/<id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_objective(id):
+    user = current_user._get_current_object()
+    objectives = LogEntry.objects.filter(owner=user,
+                                       entry_type='objective').all()
 
     objective = LogEntry.objects.get(id=id, entry_type='objective')
 
@@ -113,7 +146,7 @@ def edit_objective(id):
     if form.validate_on_submit():
         objective.entry.update(what=form.what.data, how=form.how.data)
         objective.entry.save()
-        return redirect(url_for('objectives.view_objectives'))
+        return redirect(url_for('objectives.view_objective', id=id))
     else:
         edit_url = url_for('objectives.edit_objective', id=id)
         form.what.data = objective.entry.what
@@ -124,4 +157,6 @@ def edit_objective(id):
                                link_form=link_form,
                                link_url=link_url,
                                links=links,
-                               edit=True)
+                               edit=True,
+                               objective=objective,
+                               objectives=objectives)

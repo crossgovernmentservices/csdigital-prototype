@@ -1,27 +1,9 @@
-{% extends "base.html" %}
-{% block body_content %}
+{% extends "objectives/base.html" %}
 
- <div class="grid-row">
-    <div class="column-two-thirds">
-      <div id="global-breadcrumb" class="header-context">
-        <ol role="breadcrumbs" class="group">
-          <li><a href="/">Home</a></li>
-          <li><a href="{{url_for('objectives.view_objectives')}}">Objectives</a></li>
-          <li>{% if edit %}Edit{% else %}Write{% endif %} objective</li>
-        </ol>
-      </div>
-      </div>
-      <div class="column-third">
-        {% include "_logout.html" %}
-      </div>
-  </div>
+  {% from "_macros.html" import render_field, render_hidden %}
 
-  {% from "_macros.html" import linked_with, render_field, render_hidden %}
-
-  <h1 class="heading-large">{% if edit %}Edit{% else %}Write{% endif %} objective</h1>
-
-    <div class="grid-row">
-      <div class="column-two-thirds">
+  {% block content %}
+  <h1 class="heading-large">{% if edit %}Edit{% else %}Write new{% endif %} objective</h1>
 
         <form action="{{url}}" method="post" class="form add-objective">
 
@@ -54,26 +36,5 @@
 
         {{ linked_with(links) }}
 
-      </div>
+  {% endblock %}
 
-      <div class="column-third">
-
-        {% if link_form %}
-        <h2 class="heading-medium">Link objective with</h2>
-        <form method="post" action="{{ link_url }}">
-          <fieldset>
-            <label>
-              Competency
-              {{ link_form.competencies }}
-            </label>
-            <button>add</button>
-            <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
-          </fieldset>
-        </form>
-        {% endif %}
-
-      </div>
-    </div>
-
-  </div>
-{% endblock %}

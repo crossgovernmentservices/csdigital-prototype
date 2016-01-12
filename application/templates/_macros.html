@@ -21,6 +21,7 @@
 
 
 {% macro linked_with(links) %}
+<section>
   <h3 class="heading-small">Linked to:</h3>
   <ul class="linked-list">
     {% if links %}
@@ -42,9 +43,11 @@
       {%- endif -%}
 
       <span class="remove-link"><a href="">remove</a></span>
+
     </li>
     {% endfor %}
 
     {% endif %}
   </ul>
+</section>
 {% endmacro %}
