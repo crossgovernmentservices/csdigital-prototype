@@ -75,3 +75,15 @@ html {
     width: 100%;
   }
 }
+
+.rendered-markdown {
+  ul {
+    margin-top: 5px;
+    list-style: disc;
+    padding-left: 15px;
+
+    li {
+      margin-left: 10px;
+    }
+  }
+}
