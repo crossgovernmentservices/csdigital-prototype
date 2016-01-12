@@ -101,13 +101,21 @@
 {% endblock %}
 
   {% block content_links %}
-    <h2 class="heading-medium">Link Competency with</h2>
-    <form method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
-      <fieldset>
-        Objective: {{ link_form.objectives }}
-        <button>add</button>
-      </fieldset>
-    </form>
+
+  {% if competency %}
+  <form class="form" method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
+    <div class="form-group">
+      <label class="form-label">Objectives</label>
+      <select id="objectives" name="objectives" class="form-control">
+        {% for objective in current_user.objectives %}
+        <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40) }}</option>
+        {% endfor %}
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+  {% endif %}
+
   {% endblock %}
 
 
