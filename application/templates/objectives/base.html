@@ -22,18 +22,25 @@
 
 {% block content_links %}
 
-  {% if link_form %}
-  <h2 class="heading-medium">Link objective with</h2>
-  <form method="post" action="{{ link_url }}">
-    <fieldset>
-      <label>
-        Competency
-        {{ link_form.competencies }}
-      </label>
+  {% if objective %}
+  <h2 class="heading-medium">Link your objective with</h2>
+  <form class="form" method="post" action="{{ url_for('objectives.link', id=objective.id) }}">
+    <div class="form-group">
+      <label class="form-label">Competencies</label>
+      <select id="competencies" name="competencies" class="form-control">
+        {% for cluster in competencies|groupby('cluster.name') %}
+        <optgroup label="{{ cluster.grouper }}">
+          {% for competency in cluster.list %}
+          <option value="{{ competency.id }}">{{ competency.name }}</option>
+          {% endfor %}
+        </optgroup>
+        {% endfor %}
+      </select>
       <button>add</button>
-      <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
-    </fieldset>
+    </div>
   </form>
+
+  <p><a href="{{ url_for('competency.view') }}">View competencies</a></p>
   {% endif %}
 
 {% endblock %}
