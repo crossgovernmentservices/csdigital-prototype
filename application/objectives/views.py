@@ -95,7 +95,7 @@ def link(id):
         flash('Linking to competency failed', 'error')
         return "%s %s" % (form.errors, form.data)
 
-    return redirect(url_for('.edit_objective', id=id))
+    return redirect(url_for('.view_objective', id=id))
 
 @objectives.route("/objective/<id>")
 @login_required
