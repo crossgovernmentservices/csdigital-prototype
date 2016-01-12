@@ -20,6 +20,14 @@ css_govuk_elements = Bundle(
              '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']
 )
 
+css_internal_interface = Bundle(
+    'sass/internal_interface.scss',
+    filters=scss,
+    output='stylesheets/internal_interface.css',
+    depends=['/static/sass/internal_interface/**/*.scss',
+             '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']
+)
+
 css_main = Bundle(
     'sass/main.scss',
     filters=scss,
@@ -38,4 +46,5 @@ css_journeys = Bundle(
 env = Environment()
 env.register('css_govuk_elements', css_govuk_elements)
 env.register('css_main', css_main)
+env.register('css_internal_interface', css_internal_interface)
 env.register('css_journeys', css_journeys)

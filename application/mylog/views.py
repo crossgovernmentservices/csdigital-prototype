@@ -51,6 +51,11 @@ def view_mylog():
                            tags=tags,
                            filtered=filtered)
 
+@mylog.route('/recent-notes')
+@login_required
+def view_mynotes():
+  return render_template('notes/recent-notes.html')
+
 
 @mylog.route('/my-log/entry', methods=['GET', 'POST'])
 @login_required
