@@ -57,7 +57,8 @@ def view_mynotes():
   owner = current_user._get_current_object()
   log_entries = LogEntry.objects.filter(owner=owner).all()
   return render_template('notes/recent-notes.html',
-                          log_entries=log_entries)
+                          log_entries=log_entries,
+                          competencies=Competency.objects.all())
 
 
 @mylog.route('/my-log/entry', methods=['GET', 'POST'])
@@ -138,11 +139,12 @@ def view_log_entry(id):
 @login_required
 def view_note_entry(id):
     entry = LogEntry.objects(id=id)
+    competencies = Competency.objects.all()
     if not entry:
         abort(404)
     entry = entry.get()
     if request.method == 'GET':
-        return render_template('notes/recent-notes.html', entry=entry)
+        return render_template('notes/recent-notes.html', entry=entry, competencies=competencies)
     else:
         content = request.form['content']
         tags = request.form['tags']
@@ -154,7 +156,9 @@ def view_note_entry(id):
         entry.save()
         entry = LogEntry.objects(id=id).get()
         flash('entry updated')
-        return render_template('notes/recent-notes.html', entry=entry)
+        return render_template('notes/recent-notes.html',
+                                entry=entry,
+                                competencies=competencies)
 
 
 @mylog.route('/my-log/entry/<id>/tags', methods=['GET', 'POST'])
