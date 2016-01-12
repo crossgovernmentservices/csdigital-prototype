@@ -131,6 +131,28 @@ def view_log_entry(id):
         flash('entry updated')
         return render_template('mylog/entry.html', entry=entry)
 
+@mylog.route('/notes/entry/<id>', methods=['GET', 'POST'])
+@login_required
+def view_note_entry(id):
+    entry = LogEntry.objects(id=id)
+    if not entry:
+        abort(404)
+    entry = entry.get()
+    if request.method == 'GET':
+        return render_template('notes/recent-notes.html', entry=entry)
+    else:
+        content = request.form['content']
+        tags = request.form['tags']
+        if tags:
+            tags = tags.split(',')
+            for tag in tags:
+                entry.add_tag(tag)
+        entry.content = content
+        entry.save()
+        entry = LogEntry.objects(id=id).get()
+        flash('entry updated')
+        return render_template('notes/recent-notes.html', entry=entry)
+
 
 @mylog.route('/my-log/entry/<id>/tags', methods=['GET', 'POST'])
 @login_required
