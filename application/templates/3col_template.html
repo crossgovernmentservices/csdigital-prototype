@@ -76,14 +76,14 @@
 
 
     <header role="banner" id="internal-header" class="internal-header {% block header_class %}{% endblock %}">
-      <div class="internal-header-global">
+      
         <div class="internal-header-logo">
           <a href="{{ homepage_url|default('/') }}" title="{{ logo_link_title|default('Go to the GOV.UK homepage') }}" id="logo" class="content">
             <img src="{{ asset_path }}images/gov.uk_logotype_crown_invert_trans.png?0.16.0" width="35" height="31" alt=""> {{ global_header_text|default('Civil Service Digital') }}
           </a>
         </div>
         {% block inside_header %}{% endblock %}
-      </div>
+      
       {% block proposition_header %}{% endblock %}
     </header>
     <!--end header-->

@@ -47,6 +47,23 @@ html {
       visibility: hidden;
     }
   }
+
+  .sign-out {
+    margin-top: 0;
+    position: absolute;
+    color: $highlight-colour;
+    top: 0;
+    right: 45px;
+    line-height: 50px;
+
+    a {
+      color: $highlight-colour;
+
+      &:hover {
+        color: $page-colour;
+      }
+    }
+  }
 }
 
 .remove-link a {
