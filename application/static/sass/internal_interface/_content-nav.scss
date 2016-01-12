@@ -5,3 +5,8 @@
   overflow-y: auto;
   background: $border-colour;
 }
+
+.link-back-container {
+  background: darken($border-colour, 10%);
+  padding: 5px 15px;
+}

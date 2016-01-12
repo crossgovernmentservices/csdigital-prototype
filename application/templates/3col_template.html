@@ -91,7 +91,12 @@
 
     {% block after_header %}{% endblock %}
 
+    <nav class="content-nav-container">
+      <div class="link-back-container">
+        <a class="link-back" href="">back</a>
+      </div>
     {% block content_nav %}{% endblock %}
+    </nav>
 
     {% block content_pane %}{% endblock %}
 
