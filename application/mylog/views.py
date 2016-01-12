@@ -83,7 +83,7 @@ def add_log_entry():
         form=form,
         competencies=Competency.objects.all())
 
-@mylog.route('/notes/add', methods=['GET', 'POST'])
+@mylog.route('/notes/entry', methods=['GET', 'POST'])
 @login_required
 def add_note():
     form = LogEntryForm()
