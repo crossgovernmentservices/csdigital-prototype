@@ -7,11 +7,12 @@
 
 {% block content %}
 
+  {% if note %}
   <h1 class="heading-large">
   {%- if note and note.entry.title -%}
     {{ note.entry.title }}
   {%- else -%}
-    Your note title
+    Note title
   {%- endif -%}
   </h1>
 
@@ -41,6 +42,12 @@
     {{ linked_with(note.links) }}
     {% endif %}
   </section>
+
+  {% else %}
+  <h1 class="heading-large">Your notes</h1>
+
+  <p class="lede">Select a recently captured note from the list to view.</p>
+  {% endif %}
 
 {% endblock %}
 
