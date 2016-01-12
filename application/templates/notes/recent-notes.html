@@ -7,6 +7,11 @@
     </h2>
     <div class="content-nav-action"><a href="{{url_for('mylog.add_note')}}">+ create note</a></div>
     <ul class="content-nav-list">
+      {% for entry in log_entries %}
+        {% if entry.entry_type == 'log' %}
+        <li><a href="/notes/entry/{{entry.id}}">{{entry.id}}</a></li>
+        {% endif %}
+      {% endfor %}
       <li><a href="">note1</a></li>
       <li><a class="current" href="">note2</a></li>
       <li><a href="">note3</a></li>

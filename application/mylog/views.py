@@ -54,7 +54,10 @@ def view_mylog():
 @mylog.route('/recent-notes')
 @login_required
 def view_mynotes():
-  return render_template('notes/recent-notes.html')
+  owner = current_user._get_current_object()
+  log_entries = LogEntry.objects.filter(owner=owner).all()
+  return render_template('notes/recent-notes.html',
+                          log_entries=log_entries)
 
 
 @mylog.route('/my-log/entry', methods=['GET', 'POST'])
