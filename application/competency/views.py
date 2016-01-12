@@ -19,9 +19,9 @@ from application.profile.views import update_details_form
 competency = Blueprint('competency', __name__, template_folder='templates')
 
 
-@competency.context_processor
+@competency.app_context_processor
 def competencies():
-    return {'competencies': Competency.objects()}
+    return dict(competencies=Competency.objects)
 
 
 @competency.route('/competency/<competency_id>/link', methods=['POST'])
