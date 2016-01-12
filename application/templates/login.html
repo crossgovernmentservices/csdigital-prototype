@@ -22,12 +22,12 @@
     {{ render_hidden(form) }}
   </form>
 
-  <div id="sso-providers">
+  <!--div id="sso-providers">
     <ul>
       {% for provider in sso_providers %}
       <li><a href="{{url_for('sso.login_provider', provider=provider)}}">Sign in
         with {{provider}}</a></li>
       {% endfor %}
     </ul>
-  </div>
+  </div-->
 {% endblock %}
