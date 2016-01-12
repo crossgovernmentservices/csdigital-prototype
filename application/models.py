@@ -29,6 +29,22 @@ class User(db.Document, UserMixin):
     other_email = db.ListField(default=[])
     inbox_email = db.StringField()
 
+    @property
+    def objectives(self):
+        return LogEntry.objects.filter(owner=self, entry_type='objective')
+
+    @property
+    def notes(self):
+        return LogEntry.objects.filter(owner=self, entry_type='log')
+
+    @property
+    def feedback(self):
+        return LogEntry.objects.filter(owner=self, entry_type='feedback')
+
+    @property
+    def tags(self):
+        return Tag.objects.filter(owner=self)
+
 
 class Link(db.Document):
     """
@@ -107,6 +123,7 @@ class LogEntry(db.Document):
             link.owner = self.owner
             link.save()
 
+    @property
     def links(self):
         links = Link.objects.filter(documents=self)
         return [
