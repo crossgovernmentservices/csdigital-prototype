@@ -7,6 +7,8 @@ html {
   background: $text-colour;
   padding: $gutter-third $gutter-half;
   color: $page-colour;
+  position: relative;
+  z-index: 10;
 
   .internal-header-logo {
     @extend %contain-floats;

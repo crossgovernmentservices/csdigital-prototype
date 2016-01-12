@@ -4,6 +4,20 @@
   height: 100%;
   overflow-y: auto;
   background: $border-colour;
+  z-index: 1;
+  top: 0;
+  padding-top: 50px;
+
+  &::before {
+    content: 'Civil Service Digital';
+    top: 0;
+    line-height: 50px;
+    position: absolute;
+    font-weight: bold;
+    width: 100%;
+    padding-left: 15px;
+    color: $secondary-text-colour;
+  }
 }
 
 .link-back-container {
