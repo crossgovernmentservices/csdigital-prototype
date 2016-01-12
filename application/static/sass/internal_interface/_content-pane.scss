@@ -2,3 +2,9 @@
   margin-left: 300px;
   padding: $gutter-half;
 }
+
+.content-link-pane {
+  .form-control {
+    width: 75%;
+  }
+}

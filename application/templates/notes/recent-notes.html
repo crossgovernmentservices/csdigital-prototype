@@ -2,5 +2,46 @@
 
 {% block content %}
 
+  <h1 class="heading-large">Your note title</h1>
 
+{% endblock %}
+
+{% block content_links %}
+  <form class="form">
+    <div class="form-group">
+      <label class="form-label">Competencies</label>
+      <select class="form-control">
+        <optgroup label="Setting direction">
+          <option value="value1">Seeing the big picture</option>
+          <option>Changing and Improving</option>
+          <option>Making effective decisions</option>
+        </optgroup>
+        <optgroup label="Engaging People">
+          <option>Leading and communicating</option>
+          <option>Collaborating and partnering</option>
+          <option>Building capability for all</option>
+        </optgroup>
+        <optgroup label="Delivering results">
+          <option>Achieving commercial outcome</option>
+          <option>Delivering value for money</option>
+          <option>Managing a Quality service</option>
+          <option>Delivering at pace</option>
+        </optgroup>
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+  <form>
+    <div class="form-group">
+      <label class="form-label">Objectives</label>
+      <select class="form-control">
+        <option value="">Objective 1</option>
+        <option value="">Objective 2</option>
+        <option value="">Objective 3</option>
+        <option value="">Objective 4</option>
+        <option value="">Objective 5</option>
+      </select>
+      <button>add</button>
+    </div>
+  </form>
 {% endblock %}
