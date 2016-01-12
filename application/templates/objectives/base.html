@@ -1,0 +1,45 @@
+{% extends "3colbase.html" %}
+
+{% include "_logout.html" %}
+
+{% from "_macros.html" import linked_with %}
+
+{% block content_nav %}
+  <div class="content-nav-main">
+    <h2 class="heading-medium">
+      Your objectives
+    </h2>
+    <ul class="content-nav-list">
+      {% for obj in objectives %}
+        <li><a {% if objective and objective.id == obj.id %}class="current"{% endif %} href="/objective-view/{{obj.id}}">{{obj.entry.what}}</a></li>
+      {% endfor %}
+    </ul>
+    <div class="content-nav-action"><a href="{{url_for('objectives.add_objective')}}">+ add objective</a></div>
+  </div>
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block content_links %}
+
+  {% if link_form %}
+  <h2 class="heading-medium">Link objective with</h2>
+  <form method="post" action="{{ link_url }}">
+    <fieldset>
+      <label>
+        Competency
+        {{ link_form.competencies }}
+      </label>
+      <button>add</button>
+      <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
+    </fieldset>
+  </form>
+  {% endif %}
+
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
+{% endblock %}

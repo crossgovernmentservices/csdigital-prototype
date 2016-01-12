@@ -48,6 +48,10 @@ def check_competency_framework():
 @objectives.route("/objective/add", methods=['GET', 'POST'])
 @login_required
 def add_objective():
+
+    user = current_user._get_current_object()
+    objectives = LogEntry.objects.filter(owner=user,
+                                       entry_type='objective').all()
     form = ObjectiveForm()
     if form.validate_on_submit():
         user = current_user._get_current_object()
@@ -65,13 +69,14 @@ def add_objective():
         log_entry.save()
         log_entry.add_tag('Objective')
         flash('Added objective')
-        return redirect(url_for('objectives.view_objectives'))
+        return redirect(url_for('objectives.view_objective', id=log_entry.id))
     else:
         add_url = url_for('objectives.add_objective')
         return render_template('objectives/add-edit-objective.html',
                                form=form,
                                link_form=None,
-                               url=add_url)
+                               url=add_url,
+                               objectives=objectives)
 
 
 @objectives.route('/objective/<id>/link', methods=['POST'])
