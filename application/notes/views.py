@@ -46,7 +46,7 @@ def create():
         flash('Note saved')
         return redirect(url_for('.view'))
 
-    return render_template('notes/add-note.html', form=form)
+    return render_template('notes/edit.html', form=form)
 
 
 @notes.route('/notes/<id>/link', methods=['POST'])
@@ -86,7 +86,7 @@ def edit(id):
         flash('Note updated')
         return redirect(url_for('.view', id=id))
 
-    return render_template('notes/edit.html', form=form)
+    return render_template('notes/edit.html', form=form, note=note)
 
 
 @notes.route('/notes')
