@@ -7,13 +7,13 @@
   {% for other_note in current_user.notes[:5] %}
     <li>
     {%- if note and note == other_note -%}
-      <a class="current" href="">{{ other_note.entry.content|truncate(40) }}</a>
+      <a class="current" href="">{{ other_note.entry.content|truncate(35) }}</a>
     {%- else -%}
-      <a href="{{ url_for('notes.view', id=other_note.id) }}">{{ other_note.entry.content|truncate(40) }}</a>
+      <a href="{{ url_for('notes.view', id=other_note.id) }}">{{ other_note.entry.content|truncate(35) }}</a>
     {%- endif -%}
   {% endfor %}
   </ul>
-  {% if notes|length > 5 %}
+  {% if current_user.notes|length > 5 %}
   <div class="content-nav-action"><a href="">see more</a></div>
   {% endif %}
 </div>
