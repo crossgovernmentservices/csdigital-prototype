@@ -36,8 +36,11 @@
 
   <div class="grid-row">
     <div class="column-two-thirds">
-      <h1 class="heading-large">Competency Framework</h1>
-      <h2 class="heading-medium">{{ competency.name }}</h2>
+      {% if not competency %}
+      <h1 class="heading-large">Competency framework</h1>
+      {% else %}
+      <h1 class="heading-large"><span class="heading-secondary">Competency framework</span>{{ competency.name }}</h1>
+      {% endif %}
     </div>
   </div>
 
@@ -52,7 +55,7 @@
       <button>Save</button>
   </form>
   {% elif not competency %}
-  <p>Select a competency to view</p>
+  <p class="lede">Select a competency to view from the list</p>
 
   {% else %}
   <p>Your grade: {{ current_user.grade }}</p>
