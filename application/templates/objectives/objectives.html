@@ -28,7 +28,7 @@
       <ul>
         {% for objective in objectives %}
           <li class="objective">
-            <header class="objective-header">{{objective.entry.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
+            <header class="objective-header">{{objective.entry.what|markdown}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
             <div class="details" style="display: none;">
               {{objective.entry.how|markdown}}
               <a href="{{url_for('objectives.edit_objective', id=objective.id)}}">Edit</a>
