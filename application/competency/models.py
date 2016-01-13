@@ -27,7 +27,31 @@ class Competency(db.Document):
     @property
     def links(self):
         user = current_user._get_current_object()
-        return Link.objects.filter(owner=user, documents=self)
+        links = Link.objects.filter(owner=user, documents=self)
+        return [
+            doc
+            for link in links
+            for doc in link.documents
+            if doc != self]
+
+    def unlink(self, other_id):
+        links = Link.objects.filter(
+            documents=self,
+            owner=current_user._get_current_object())
+
+        for link in links:
+            doc_a, doc_b = link.documents
+
+            # XXX link_id is a GUID, but not unique across collections
+            if doc_a == self and str(doc_b.id) == other_id:
+                link.delete()
+                return True
+
+            if doc_b == self and str(doc_a.id) == other_id:
+                link.delete()
+                return True
+
+        return False
 
 
 class Behaviour(db.Document):

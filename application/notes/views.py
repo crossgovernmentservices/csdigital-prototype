@@ -71,6 +71,20 @@ def link(id):
     return redirect(url_for('.view', id=id))
 
 
+@notes.route('/notes/<id>/unlink/<link_id>', methods=['GET', 'POST'])
+@login_required
+def unlink(id, link_id):
+    note = get_note_or_404(id)
+
+    if note.unlink(link_id):
+        flash('Removed link')
+
+    else:
+        flash('Failed to remove link', 'error')
+
+    return redirect(url_for('.view', id=id))
+
+
 @notes.route('/notes/<id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):

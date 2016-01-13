@@ -49,6 +49,20 @@ def link(id):
     return redirect(url_for('.view', id=id))
 
 
+@objectives.route('/objective/<id>/unlink/<link_id>', methods=['GET', 'POST'])
+@login_required
+def unlink(id, link_id):
+    objective = get_objective_or_404(id)
+
+    if objective.unlink(link_id):
+        flash('Removed link')
+
+    else:
+        flash('Failed to remove link', 'error')
+
+    return redirect(url_for('.view', id=id))
+
+
 @objectives.route('/objective/add', methods=['GET', 'POST'])
 @objectives.route("/objective/<id>/edit", methods=['GET', 'POST'])
 @login_required
