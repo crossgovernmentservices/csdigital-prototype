@@ -8,45 +8,46 @@
 {% block content %}
 
   {% if note %}
-  <h1 class="heading-large">
-  {%- if note and note.entry.title -%}
-    {{ note.entry.title }}
-  {%- else -%}
-    Note title
-  {%- endif -%}
-  </h1>
-
-  <section class="note-content text">
-    {% if note -%}
-      {{ note.entry.content }}
+    <h1 class="heading-large">
+    {%- if note and note.entry.title -%}
+      {{ note.entry.title }}
     {%- else -%}
-    <p>Write your note here</p>
-    {%- endif %}
-  </section>
+      Note title
+    {%- endif -%}
+    </h1>
 
-  <section class="note-tags">
-    <h3 class="heading-small">Tags:</h3>
-    <ul class="tags-list">
-    {% if note %}
-    {% for tag in note.tags %}
-      <li><a href="">{{ tag.name }}</a></li>
-    {% endfor %}
-    {% endif %}
-    </ul>
-  </section>
+    <section class="note-content text">
+      {% if note -%}
+        {{ note.entry.content }}
+      {%- else -%}
+      <p>Write your note here</p>
+      {%- endif %}
+    </section>
 
-  <a class="button" href="{{ request.path }}/edit">Edit</a>
+    <section class="note-tags">
+      <h3 class="heading-small">Tags:</h3>
+      <ul class="tags-list">
+      {% if note %}
+      {% for tag in note.tags %}
+        <li><a href="">{{ tag.name }}</a></li>
+      {% endfor %}
+      {% endif %}
+      </ul>
+    </section>
 
-  <section>
-    {% if note %}
-    {{ linked_with(note.links) }}
-    {% endif %}
-  </section>
+    <a class="button" href="{{ request.path }}/edit">Edit</a>
+
+    <section>
+      {% if note %}
+      {{ linked_with(note.links) }}
+      {% endif %}
+    </section>
 
   {% else %}
-  <h1 class="heading-large">Your notes</h1>
+    <h1 class="heading-large">Your notes</h1>
 
-  <p class="lede">Select a recently captured note from the list to view.</p>
+    <p class="lede">Select a recently captured note from the list to view.</p>
+
   {% endif %}
 
 {% endblock %}

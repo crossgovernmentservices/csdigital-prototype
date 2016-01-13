@@ -59,7 +59,7 @@ class Tag(db.Document):
     name = db.StringField()
 
 
-schemas = {'objective': ('how', 'what', 'started_on', 'due_by'),
+schemas = {'objective': ('how', 'what', 'started_on', 'due_by', 'title'),
            'feedback': ('template', 'requested_from', 'requested_by',
                         'requested_from_name', 'requested_by_name',
                         'details', 'share_objectives', 'objectives',
@@ -131,4 +131,3 @@ class LogEntry(db.Document):
             for link in links
             for doc in link.documents
             if doc != self]
-
