@@ -48,7 +48,7 @@
           <ul>
             {% for objective in feedback_request.requested_by.objectives.objectives %}
               <li class="objective">
-                <header class="objective-header">{{objective.what}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
+                <header class="objective-header">{{objective.what|markdown}} <span class="toggle"><a href="#">Show</a><a href="#" style="display: none;">Hide</a></span></header>
                 <div class="details" style="display: none;">
                   {{objective.how|markdown}}
                 </div>

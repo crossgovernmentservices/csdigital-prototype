@@ -37,7 +37,7 @@
         {%- if link.__class__.__name__ == 'Competency' -%}
           Competency: <a href="/">{{ link.name }}</a>
         {%- elif link.entry_type == 'objective' -%}
-          Objective: <a href="/">{{ link.entry.what }}</a>
+          Objective: <a href="/">{{ link.entry.what|truncate(40)|markdown }}</a>
         {%- endif %}
         <span class="remove-link"><a href="remove-link?link={{ link.id }}">remove</a></span>
       </li>

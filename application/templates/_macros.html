@@ -32,7 +32,7 @@
         Competency: <a href="">{{ link.name }}</a>
 
       {%- elif link.entry_type == 'objective' -%}
-        Objective: <a href="">{{ link.entry.what|truncate(40) }}</a>
+        Objective: <a href="">{{ link.entry.what|truncate(40)|markdown }}</a>
 
       {%- elif link.entry_type == 'feedback' -%}
         Feedback: <a href="">{{ link.entry.details|truncate(40) }}</a>
