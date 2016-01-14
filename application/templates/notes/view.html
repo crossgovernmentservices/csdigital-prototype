@@ -1,9 +1,5 @@
-{% extends "3colbase.html" %}
+{% extends "notes/base.html" %}
 {% from "_macros.html" import linked_with %}
-
-{% block content_nav %}
-  {% include "notes/_note-nav.html" %}
-{% endblock %}
 
 {% block content %}
 
@@ -50,8 +46,4 @@
 
   {% endif %}
 
-{% endblock %}
-
-{% block content_links %}
-  {% include "notes/_link_note_with.html" %}
 {% endblock %}

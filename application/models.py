@@ -64,7 +64,7 @@ schemas = {'objective': ('how', 'what', 'started_on', 'due_by', 'title'),
                         'requested_from_name', 'requested_by_name',
                         'details', 'share_objectives', 'objectives',
                         'sent', 'replied'),
-           'log': ('content')}
+           'log': ('content', 'title')}
 
 
 class Entry(db.DynamicDocument):
