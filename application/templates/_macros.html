@@ -32,13 +32,13 @@
       Competency: <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
 
       {%- elif link.entry_type == 'objective' -%}
-      Objective: <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|truncate(40) }}</a>
+      Objective: <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
 
       {%- elif link.entry_type == 'feedback' -%}
       Feedback: <a href="{{ url_for('feedback.view_requested_feedback', id=link.id) }}">{{ link.entry.details|truncate(40) }}</a>
 
       {%- elif link.entry_type == 'log' -%}
-      Note: <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.content|truncate(40) }}</a>
+      Note: <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
 
       {%- endif -%}
 

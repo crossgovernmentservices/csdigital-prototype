@@ -6,12 +6,11 @@ from flask import (
     render_template,
     request,
     url_for)
-from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import Entry, LogEntry
+from application.models import LogEntry
 from application.notes.forms import NoteForm
 
 
@@ -24,29 +23,6 @@ def get_note_or_404(id):
 
     except LogEntry.DoesNotExist:
         abort(404)
-
-
-@notes.route('/notes/create', methods=['GET', 'POST'])
-def create():
-    form = NoteForm()
-
-    if form.validate_on_submit():
-        user = current_user._get_current_object()
-        entry = Entry(content=form.content.data)
-        entry.save()
-
-        note = LogEntry(entry_type='log', owner=user)
-        note.entry = entry
-        note.save()
-
-        if form.tags.data:
-            for tag in form.tags.data.split(','):
-                note.add_tag(tag.strip())
-
-        flash('Note saved')
-        return redirect(url_for('.view'))
-
-    return render_template('notes/edit.html', form=form)
 
 
 @notes.route('/notes/<id>/link', methods=['POST'])
@@ -85,22 +61,40 @@ def unlink(id, link_id):
     return redirect(url_for('.view', id=id))
 
 
+@notes.route('/notes/add', methods=['GET', 'POST'])
 @notes.route('/notes/<id>/edit', methods=['GET', 'POST'])
 @login_required
-def edit(id):
-    note = get_note_or_404(id)
+def edit(id=None):
+
+    note = None
+    link_form = None
+    if id:
+        note = get_note_or_404(id)
+        link_form = make_link_form(competencies=True)
+
     form = NoteForm()
-    form.init_from_note(note)
 
     if form.validate_on_submit():
-        note.entry.content = form.content.data
-        for tag in form.tags.data.split(','):
-            note.add_tag(tag.strip())
-        note.save()
-        flash('Note updated')
-        return redirect(url_for('.view', id=id))
 
-    return render_template('notes/edit.html', form=form, note=note)
+        if note:
+            form.update(note)
+            flash('Updated note')
+
+        else:
+            note = form.create()
+            flash('Added note')
+
+        return redirect(url_for('.view', id=note.id))
+
+    if note:
+        form.content.data = note.entry.content
+        form.tags.data = ','.join(tag.name for tag in note.tags)
+
+    return render_template(
+        'notes/edit.html',
+        form=form,
+        link_form=link_form,
+        note=note)
 
 
 @notes.route('/notes')
