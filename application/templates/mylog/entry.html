@@ -35,20 +35,4 @@
     {% include "mylog/_locked-entry.html" %}
   {% endif %}
 
-  <div>
-    Linked to
-    <ul>
-      {% for link in entry.links() %}
-      <li>
-        {%- if link.__class__.__name__ == 'Competency' -%}
-          Competency: {{ link.name }}
-        {%- elif link.entry_type == 'objective' -%}
-          Objective: {{ link.entry.what|markdown }}
-        {%- endif %}
-        <a href="remove-link?link={{ link.id }}">remove</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
 {% endblock %}
