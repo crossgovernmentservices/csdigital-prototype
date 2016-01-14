@@ -51,15 +51,6 @@ def view_mylog():
                            tags=tags,
                            filtered=filtered)
 
-@mylog.route('/recent-notes')
-@login_required
-def view_mynotes():
-  owner = current_user._get_current_object()
-  log_entries = LogEntry.objects.filter(owner=owner).all()
-  return render_template('notes/recent-notes.html',
-                          log_entries=log_entries,
-                          competencies=Competency.objects.all())
-
 
 @mylog.route('/my-log/entry', methods=['GET', 'POST'])
 @login_required
@@ -87,34 +78,6 @@ def add_log_entry():
         form=form,
         competencies=Competency.objects.all())
 
-@mylog.route('/notes/entry', methods=['GET', 'POST'])
-@login_required
-def add_note():
-    form = LogEntryForm()
-    owner = current_user._get_current_object()
-    log_entries = LogEntry.objects.filter(owner=owner).all()
-    if form.validate_on_submit():
-        entry = Entry()
-        entry.content = form.content.data
-        entry.save()
-
-        log_entry = LogEntry()
-        log_entry.entry_type = 'log'
-        log_entry.owner = current_user._get_current_object()
-        log_entry.entry = entry
-        log_entry.save()
-
-        if form.tags.data:
-            tags = form.tags.data.split(',')
-            for tag in tags:
-                log_entry.add_tag(tag.strip())
-        flash('Entry saved')
-        return redirect(url_for('mylog.view_mynotes'))
-    return render_template(
-        'notes/add-note.html',
-        form=form,
-        log_entries=log_entries,
-        competencies=Competency.objects.all())
 
 @mylog.route('/my-log/entry/<id>', methods=['GET', 'POST'])
 @login_required

@@ -35,7 +35,7 @@ class User(db.Document, UserMixin):
 
     @property
     def notes(self):
-        return LogEntry.objects.filter(owner=self, entry_type='log')
+        return LogEntry.objects.filter(owner=self, entry_type='log').order_by('-created_date')
 
     @property
     def feedback(self):
