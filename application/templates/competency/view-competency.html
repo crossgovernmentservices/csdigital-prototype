@@ -8,7 +8,7 @@
       </h2>
       <ul class="content-nav-list">
         {% for comp in competencies %}
-        <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', competency_id=comp.id) }}">{{ comp.name }}</a></li>
+        <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', id=comp.id) }}">{{ comp.name }}</a></li>
         {% endfor %}
       </ul>
       <!--<div class="content-nav-action"><a href="">see more</a></div>-->
@@ -71,18 +71,18 @@
       <tr>
         <td>
           {% if prev_level %}
-          <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=prev_level.id) }}">Previous Grade</a>
+          <a href="{{ url_for('competency.view', id=competency.id, level_id=prev_level.id) }}">Previous Grade</a>
           {% endif %}
         </td>
         <td>
           {% if next_level %}
-          <a href="{{ url_for('competency.view', competency_id=competency.id, level_id=next_level.id) }}">Next Grade</a>
+          <a href="{{ url_for('competency.view', id=competency.id, level_id=next_level.id) }}">Next Grade</a>
           {% endif %}
         </td>
     </tfoot>
   </table>
   </form>
-  {{ linked_with(links) }}
+  {{ linked_with(competency.links) }}
   {% endif %}
   
 {% endblock %}
@@ -91,12 +91,12 @@
 
   {% if competency %}
   <h2 class="heading-medium">Link competency with</h2>
-  <form class="form" method="post" action="{{ url_for('competency.link', competency_id=competency.id) }}">
+  <form class="form" method="post" action="{{ url_for('competency.link', id=competency.id) }}">
     <div class="form-group">
       <label class="form-label">Objectives</label>
       <select id="objectives" name="objectives" class="form-control">
         {% for objective in current_user.objectives %}
-        <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40)|markdown }}</option>
+        <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40) }}</option>
         {% endfor %}
       </select>
       <button>add</button>

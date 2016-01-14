@@ -35,9 +35,14 @@
 {% endblock %}
 
 {% block content_pane %}
+
   <div class="content-pane">
+
+    {% include "_messages.html" %}
+
     <div class="grid-row">
       <div class="column-two-thirds">
+
         {% block content %}
         some content
         {% endblock %}

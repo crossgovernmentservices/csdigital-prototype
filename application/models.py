@@ -4,7 +4,7 @@ from flask.ext.security import (
     UserMixin,
     RoleMixin
 )
-
+from flask.ext.login import current_user
 from flask.ext.mongoengine import MongoEngine
 from mongoengine.queryset import queryset_manager
 from mongoengine.errors import ValidationError
@@ -122,6 +122,26 @@ class LogEntry(db.Document):
             link = Link(documents=[self, other])
             link.owner = self.owner
             link.save()
+
+    def unlink(self, other_id):
+        links = Link.objects.filter(
+            documents=self,
+            owner=current_user._get_current_object())
+
+        for link in links:
+            doc_a, doc_b = link.documents
+
+            # XXX link_id is a GUID, but not unique across collections
+            if doc_a == self and str(doc_b.id) == other_id:
+                link.delete()
+                return True
+
+            if doc_b == self and str(doc_a.id) == other_id:
+                link.delete()
+                return True
+
+        return False
+
 
     @property
     def links(self):

@@ -1,5 +1,6 @@
 from flask import (
     Blueprint,
+    abort,
     flash,
     redirect,
     render_template,
@@ -12,7 +13,7 @@ from application.competency.models import (
     Behaviour,
     Competency,
     Level)
-from application.models import Link, LogEntry
+from application.models import LogEntry
 from application.profile.views import update_details_form
 
 
@@ -24,10 +25,18 @@ def competencies():
     return dict(competencies=Competency.objects)
 
 
-@competency.route('/competency/<competency_id>/link', methods=['POST'])
+def get_competency_or_404(id):
+    try:
+        return Competency.objects.get(id=id)
+
+    except Competency.DoesNotExist:
+        abort(404)
+
+
+@competency.route('/competency/<id>/link', methods=['POST'])
 @login_required
-def link(competency_id):
-    competency = Competency.objects.get(id=competency_id)
+def link(id):
+    competency = get_competency_or_404(id)
     objectives = LogEntry.objects.filter(
         owner=current_user._get_current_object(),
         entry_type='objective')
@@ -40,17 +49,31 @@ def link(competency_id):
         objective.link(competency)
         flash('Competency linked to selected objective')
 
-    return redirect(url_for('.view', competency_id=competency_id))
+    return redirect(url_for('.view', id=id))
+
+
+@competency.route('/competency/<id>/unlink/<link_id>', methods=['GET', 'POST'])
+@login_required
+def unlink(id, link_id):
+    competency = get_competency_or_404(id)
+
+    if competency.unlink(link_id):
+        flash('Removed link')
+
+    else:
+        flash('Failed to remove link', 'error')
+
+    return redirect(url_for('.view', id=id))
 
 
 @competency.route('/competency', methods=['GET', 'POST'])
-@competency.route('/competency/<competency_id>', methods=['GET', 'POST'])
-@competency.route('/competency/<competency_id>/<level_id>', methods=['GET', 'POST'])
+@competency.route('/competency/<id>', methods=['GET', 'POST'])
+@competency.route('/competency/<id>/<level_id>', methods=['GET', 'POST'])
 @login_required
-def view(competency_id=None, level_id=None):
+def view(id=None, level_id=None):
     competency = None
-    if competency_id:
-        competency = Competency.objects.get(id=competency_id)
+    if id:
+        competency = Competency.objects.get(id=id)
 
     level = None
     if level_id:
@@ -62,13 +85,6 @@ def view(competency_id=None, level_id=None):
         entry_type='objective')
     link_form = make_link_form(objectives)
 
-    links = Link.objects.filter(owner=user, documents=competency)
-    links = [
-        doc
-        for linked in links
-        for doc in linked.documents
-        if doc != competency]
-
     behaviours = []
 
     if not current_user.grade:
@@ -78,16 +94,13 @@ def view(competency_id=None, level_id=None):
             current_user.grade = form.grade.data
             current_user.save()
             flash('Successfully updated profile')
-            return redirect(url_for(
-                '.view',
-                competency_id=competency_id))
+            return redirect(url_for('.view', id=id))
 
         return render_template(
             'competency/view-competency.html',
             competency=competency,
             level=level,
             link_form=link_form,
-            links=links,
             form=form)
 
     if not level:
@@ -113,7 +126,6 @@ def view(competency_id=None, level_id=None):
         behaviours=behaviours,
         form=form,
         link_form=link_form,
-        links=links,
         level=level,
         prev_level=prev_level,
         next_level=next_level,

@@ -29,20 +29,20 @@
     {% for link in links %}
     <li class="linked-item">
       {%- if link.__class__.__name__ == 'Competency' -%}
-        Competency: <a href="">{{ link.name }}</a>
+      Competency: <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
 
       {%- elif link.entry_type == 'objective' -%}
-        Objective: <a href="">{{ link.entry.title|truncate(40) }}</a>
+      Objective: <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|truncate(40) }}</a>
 
       {%- elif link.entry_type == 'feedback' -%}
-        Feedback: <a href="">{{ link.entry.details|truncate(40) }}</a>
+      Feedback: <a href="{{ url_for('feedback.view_requested_feedback', id=link.id) }}">{{ link.entry.details|truncate(40) }}</a>
 
       {%- elif link.entry_type == 'log' -%}
-        Note: <a href="">{{ link.entry.content|truncate(40) }}</a>
+      Note: <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.content|truncate(40) }}</a>
 
       {%- endif -%}
 
-      <span class="remove-link"><a href="">remove</a></span>
+      <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
 
     </li>
     {% endfor %}
