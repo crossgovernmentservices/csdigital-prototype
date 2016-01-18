@@ -1,5 +1,6 @@
 import datetime
 
+from flask import current_app
 from flask.ext.security import (
     UserMixin,
     RoleMixin
@@ -35,7 +36,8 @@ class User(db.Document, UserMixin):
 
     @property
     def notes(self):
-        return LogEntry.objects.filter(owner=self, entry_type='log').order_by('-created_date')
+        return LogEntry.objects.filter(owner=self, entry_type='log').order_by(
+            '-created_date')
 
     @property
     def feedback(self):
@@ -68,7 +70,13 @@ schemas = {'objective': ('how', 'what', 'started_on', 'due_by', 'title'),
 
 
 class Entry(db.DynamicDocument):
-    pass
+
+    def __unicode__(self):
+        if 'title' in self:
+            data = self.title
+        else:
+            data = self.details
+        return data
 
 
 class LogEntry(db.Document):
@@ -142,7 +150,6 @@ class LogEntry(db.Document):
 
         return False
 
-
     @property
     def links(self):
         links = Link.objects.filter(documents=self)
@@ -151,3 +158,40 @@ class LogEntry(db.Document):
             for link in links
             for doc in link.documents
             if doc != self]
+
+    @classmethod
+    def create_from_email(cls, request):
+        email = {
+            'sender': request.form['sender'],
+            'recipient': request.form['recipient'],
+            'subject': request.form.get('subject', ''),
+            'body': request.form.get(
+                'stripped-text',  # try body without signature first
+                request.form.get('body-plain', ''))}
+
+        current_app.logger.debug('Received email: {}'.format(email))
+
+        try:
+            user = User.objects.get(inbox_email=email['recipient'])
+
+        except User.DoesNotExist:
+            current_app.logger.error(
+                'No user found with inbox_email="{recipient}"'.format(**email))
+            raise
+
+        entry = Entry.objects.create(
+            title=email['subject'].strip(),
+            content=email['body'])
+
+        log_entry = LogEntry.objects.create(
+            owner=user,
+            entry_type='log',
+            entry_from=email['sender'],
+            entry=entry)
+
+        log_entry.add_tag('Email')
+
+        return log_entry
+
+    def __unicode__(self):
+        return 'type={0.entry_type}, entry={0.entry}'.format(self)
