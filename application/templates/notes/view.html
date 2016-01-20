@@ -18,7 +18,7 @@
       {%- if note and note.entry.title -%}
         {{ note.entry.title }}
       {%- else -%}
-        Note title
+        Note title<span class="small-text"> (<a href="{{ request.path }}/edit">you can change this</a>)</span>
       {%- endif -%}
       </h1>
 

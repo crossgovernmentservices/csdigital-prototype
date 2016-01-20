@@ -114,3 +114,9 @@ html {
 .form {
   @extend %contain-floats;
 }
+
+.small-text {
+  color: $secondary-text-colour;
+  font-weight: normal;
+  font-size: 16px;
+}
