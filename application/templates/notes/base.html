@@ -41,14 +41,14 @@
     {% if note.links %}
     <ul class="linked-list">
 
-      {% for link in note.links %}
+    {% for link in note.links %}
+      {%- if link.__class__.__name__ == 'Competency' -%}
       <li class="linked-item">
-        {%- if link.__class__.__name__ == 'Competency' -%}
         <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
         <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-        {%- endif -%}
       </li>
-      {% endfor %}
+      {%- endif -%}
+    {% endfor %}
 
     </ul>
     {% endif %}
@@ -76,16 +76,14 @@
     {% if note.links %}
     <ul class="linked-list">
 
-      {% for link in note.links %}
+    {% for link in note.links %}
+      {%- if link.entry_type == 'objective' -%}
       <li class="linked-item">
-
-        {%- if link.entry_type == 'objective' -%}
         <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
         <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-        {%- endif -%}
-
       </li>
-      {% endfor %}
+      {%- endif -%}
+    {% endfor %}
 
     </ul>
     {% endif %}
