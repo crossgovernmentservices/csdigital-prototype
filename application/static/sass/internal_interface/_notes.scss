@@ -16,10 +16,11 @@
     }
   }
 
-}
+  &.tags-list__empty {
+    color: $secondary-text-colour;
+    background: none;
+  }
 
-.tags-list__empty {
-  color: $secondary-text-colour;
 }
 
 .note_header {
