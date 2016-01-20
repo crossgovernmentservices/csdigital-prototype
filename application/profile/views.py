@@ -11,7 +11,9 @@ from flask.ext.security import login_required
 from flask.ext.login import current_user
 
 from application.competency.models import Level
-from application.profile.forms import EmailForm, UpdateDetailsForm
+from application.profile.forms import (
+    EmailForm,
+    UpdateDetailsForm)
 
 
 profile = Blueprint('profile', __name__, template_folder='templates')
@@ -70,6 +72,8 @@ def update_details():
     form = update_details_form()
     user = current_user
     if form.validate_on_submit():
+        if form.full_name.data:
+            user.full_name = form.full_name.data.strip()
         if form.grade.data:
             user.grade = form.grade.data.strip()
         if form.profession.data:
@@ -81,5 +85,8 @@ def update_details():
             message = "No new details submitted"
         flash(message)
         return redirect(url_for('profile.view_profile'))
-    else:
-        return render_template('profile/update-details.html', form=form)
+
+    if user.full_name:
+        form.full_name.data = user.full_name
+
+    return render_template('profile/update-details.html', form=form)

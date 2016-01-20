@@ -14,20 +14,10 @@
     </p>
   </div>
 
-  <form action="{{url_for('sso.login')}}" method="post" class="form">
-    {{ render_field(form.email) }}
-    <div class="form-group">
-      <button class="button">Sign in</button>
-    </div>
-    {{ render_hidden(form) }}
-  </form>
-
-  <!--div id="sso-providers">
-    <ul>
-      {% for provider in sso_providers %}
-      <li><a href="{{url_for('sso.login_provider', provider=provider)}}">Sign in
-        with {{provider}}</a></li>
-      {% endfor %}
-    </ul>
-  </div-->
+  <div id="sso-providers">
+    {% for provider in sso_providers %}
+    <p><a class="button" href="{{url_for('sso.login_provider', provider=provider)}}">Sign in
+      with {{ provider|title }}</a></p>
+    {% endfor %}
+  </div
 {% endblock %}
