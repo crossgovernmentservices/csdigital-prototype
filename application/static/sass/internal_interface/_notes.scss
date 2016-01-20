@@ -16,3 +16,24 @@
   }
 
 }
+
+.note_header {
+  @extend %contain-floats;
+
+  .note_actions {
+    float: right;
+    line-height: 39px;
+
+    li {
+      display: inline-block;
+      line-height: 39px;
+
+      a {
+        display: block;
+        padding: 0 10px;
+        background: darken(#fff, 2.5%);
+        text-decoration: none;
+      }
+    }
+  }
+}

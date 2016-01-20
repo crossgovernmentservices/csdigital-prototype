@@ -4,13 +4,25 @@
 {% block content %}
 
   {% if note %}
-    <h1 class="heading-large">
-    {%- if note and note.entry.title -%}
-      {{ note.entry.title }}
-    {%- else -%}
-      Note title
-    {%- endif -%}
-    </h1>
+    <header class="note_header">
+
+      <div class="note_actions">
+        <ul>
+          <li><a href="{{ request.path }}/edit">edit</a></li>
+          <li><a href="">delete</a></li>
+          <li><a href="">share</a></li>
+        </ul>
+      </div>
+
+      <h1 class="heading-large">
+      {%- if note and note.entry.title -%}
+        {{ note.entry.title }}
+      {%- else -%}
+        Note title
+      {%- endif -%}
+      </h1>
+      
+    </header>
 
     <section class="note-content text">
       {% if note -%}
@@ -30,8 +42,6 @@
       {% endif %}
       </ul>
     </section>
-
-    <a class="button" href="{{ request.path }}/edit">Edit</a>
 
     <section>
       {% if note %}
