@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+  {% include "_logout.html" %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <div id="global-breadcrumb" class="header-context">
+        <ol role="breadcrumbs" class="group">
+          <li><a href="/">Home</a></li>
+          <li>Staff Hierarchy</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-section">
+    <h2 class="heading-medium">Hierarchy</h2>
+    <ul>
+      <li>
+        {%- if current_user.manager -%}
+          {{ current_user.manager.full_name }}
+        {%- endif -%}
+        <ul>
+          <li>You
+            {%- if current_user.is_manager -%}
+            <ul>
+              {% for user in current_user.staff %}
+              <li>{{ user.full_name }}</li>
+              {% endfor %}
+            </ul>
+            {%- endif -%}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+{% endblock %}

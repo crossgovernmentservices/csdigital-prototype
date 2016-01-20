@@ -10,6 +10,7 @@ from flask.ext.mongoengine import MongoEngine
 from mongoengine.queryset import queryset_manager
 from mongoengine.errors import ValidationError
 
+
 db = MongoEngine()
 
 
@@ -29,6 +30,8 @@ class User(db.Document, UserMixin):
     profession = db.StringField()
     other_email = db.ListField(default=[])
     inbox_email = db.StringField()
+    staff = db.ListField(db.ReferenceField('User'), default=[])
+    manager = db.ReferenceField('User')
 
     @property
     def objectives(self):
@@ -46,6 +49,24 @@ class User(db.Document, UserMixin):
     @property
     def tags(self):
         return Tag.objects.filter(owner=self)
+
+    @property
+    def is_manager(self):
+        return bool(self.staff)
+
+    def remove_staff(self, user):
+        if user in self.staff:
+            self.update(pull__staff=user)
+            user.update(manager=None)
+
+    def add_staff(self, user):
+        if user not in self.staff:
+
+            if user.manager:
+                user.manager.remove_staff(user)
+
+            self.update(add_to_set__staff=user)
+            user.update(manager=self)
 
 
 def make_inbox_email(email):

@@ -90,3 +90,9 @@ def update_details():
         form.full_name.data = user.full_name
 
     return render_template('profile/update-details.html', form=form)
+
+
+@profile.route('/hierarchy')
+@login_required
+def hierarchy():
+    return render_template('profile/hierarchy.html')

@@ -8,7 +8,7 @@ from flask import (
 )
 
 from flask.ext.security.decorators import roles_required
-from flask.ext.security.utils import encrypt_password
+from flask.ext.security.utils import encrypt_password, login_user
 
 # from flask.ext.login import current_user
 
@@ -47,6 +47,16 @@ def add_user():
 
     flash("Saved user " + email)
     return redirect(url_for('hatch.open'))
+
+
+@hatch.route('/su/<email_or_name>')
+@roles_required('ADMIN')
+def su(email_or_name):
+    users = set(User.objects.filter(email=email_or_name))
+    users = users | set(User.objects.filter(full_name=email_or_name))
+    if len(users) == 1:
+        login_user(list(users)[0])
+    return redirect(url_for('frontend.index'))
 
 
 # @hatch.route("/add-objective", methods=['POST'])
