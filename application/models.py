@@ -48,6 +48,12 @@ class User(db.Document, UserMixin):
         return Tag.objects.filter(owner=self)
 
 
+def make_inbox_email(email):
+    return '{user}@{domain}'.format(
+        user=email.split('@')[0],
+        domain=current_app.config['EMAIL_DOMAIN'])
+
+
 class Link(db.Document):
     """
     Link between documents, eg: Objective<->Competency

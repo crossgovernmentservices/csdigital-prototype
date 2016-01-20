@@ -10,10 +10,11 @@ from flask import (
     session,
     url_for
 )
-from flask.ext.security.utils import login_user
+from flask.ext.security.utils import login_user, logout_user
 
 from application.extensions import user_datastore
 from application.frontend.forms import LoginForm
+from application.models import make_inbox_email
 from application.queues import EventExchange
 
 
@@ -58,6 +59,12 @@ def login():
     return render_template('login.html', form=form)
 
 
+@sso.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('frontend.index'))
+
+
 @sso.route('/<provider>')
 def login_provider(provider):
     session['provider'] = provider
@@ -68,12 +75,24 @@ def login_provider(provider):
 def oidc_callback():
     auth_code = request.args.get('code')
     provider = session['provider']
-    user_info = current_app.oidc_client.authenticate(provider, auth_code)
+
+    try:
+        user_info = current_app.oidc_client.authenticate(provider, auth_code)
+
+    except:
+        return redirect(url_for('frontend.index'))
+
     user = user_datastore.get_user(user_info['email'])
 
     if not user:
-        flash("You don't have a user account yet: %s" % user_info['id'])
-        return redirect(url_for('frontend.index'))
+        # user has successfully logged in or registered on IdP
+        # so create an account
+        user = user_datastore.create_user(
+            email=user_info['email'],
+            inbox_email=make_inbox_email(user_info['email']),
+            full_name=user_info.get('nickname', user_info.get('name')))
+        user_role = user_datastore.find_or_create_role('USER')
+        user_datastore.add_role_to_user(user, user_role)
 
     login_user(user)
 
