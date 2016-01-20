@@ -31,7 +31,7 @@
     <section class="note_body">
       <div class="note-content text">
       {% if note -%}
-        {{ note.entry.content }}
+        {{ note.entry.content|markdown }}
       {%- else -%}
       <p>Write your note here</p>
       {%- endif %}
