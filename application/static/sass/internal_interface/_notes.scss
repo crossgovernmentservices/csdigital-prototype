@@ -19,6 +19,12 @@
 
 .note_header {
   @extend %contain-floats;
+  padding-bottom: $gutter-half;
+  border-bottom: 1px solid $link-colour;
+
+  .note_title {
+    margin-bottom: 0;
+  }
 
   .note_actions {
     float: right;
@@ -36,4 +42,15 @@
       }
     }
   }
+
+  .note_date {
+    color: $secondary-text-colour;
+    padding-left: $gutter-half;
+    font-size: 16px;
+  }
+}
+
+.note_body {
+  padding: $gutter-half 0;
+  border-bottom: 1px solid $link-colour;
 }

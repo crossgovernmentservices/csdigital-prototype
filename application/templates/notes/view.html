@@ -14,22 +14,28 @@
         </ul>
       </div>
 
-      <h1 class="heading-large">
+      <h1 class="heading-large note_title">
       {%- if note and note.entry.title -%}
         {{ note.entry.title }}
       {%- else -%}
         Note title
       {%- endif -%}
       </h1>
-      
+
+      {% if note -%}
+      <span class="note_date">Added on: {{ note.created_date }}</span>
+      {% endif %}
+
     </header>
 
-    <section class="note-content text">
+    <section class="note_body">
+      <div class="note-content text">
       {% if note -%}
         {{ note.entry.content }}
       {%- else -%}
       <p>Write your note here</p>
       {%- endif %}
+      </div>
     </section>
 
     <section class="note-tags">
