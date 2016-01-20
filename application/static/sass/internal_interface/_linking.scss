@@ -1,0 +1,12 @@
+.linking_container {
+  //border-top: 5px solid $link-colour;
+  //padding-top: 10px;
+}
+
+.link_section_heading {
+  @extend .heading-small;
+  margin-top: 0;
+  background: $panel-colour;
+  font-weight: normal;
+  padding: 5px 8px;
+}

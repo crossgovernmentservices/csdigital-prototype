@@ -74,8 +74,9 @@ html {
 }
 
 .linked-item {
-  padding-left: $gutter;
   position: relative;
+  padding: 10px 0;
+  border-bottom: 1px dashed $panel-colour;
   & > a {
     padding: 0 10px;
     font-weight: normal;
@@ -108,4 +109,8 @@ html {
   strong {
     font-weight: bold;
   }
+}
+
+.form {
+  @extend %contain-floats;
 }
