@@ -129,3 +129,7 @@ a.secondary_btn {
 .staff_admin {
   margin-bottom: $gutter;
 }
+
+.js-enabled .add-staff-member-form {
+  display: none;
+}
