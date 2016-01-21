@@ -6,11 +6,12 @@ from flask import (
     render_template,
     request,
     url_for)
+from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry
+from application.models import LogEntry, User
 from application.notes.forms import NoteForm
 
 
@@ -107,3 +108,18 @@ def view(id=None):
         note = get_note_or_404(id)
 
     return render_template('notes/view.html', note=note)
+
+
+@notes.route('/notes/<id>/link_to_staff_member', methods=['POST'])
+@login_required
+def link_staff(id):
+    note = get_note_or_404(id)
+
+    try:
+        member = User.objects.get(id=request.form['user_id'])
+
+    except User.DoesNotExist:
+        abort(404)
+
+    note.link(member)
+    return redirect(url_for('.view', id=id))

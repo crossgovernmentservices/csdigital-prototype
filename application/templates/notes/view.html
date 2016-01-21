@@ -52,6 +52,32 @@
       </ul>
     </section>
 
+    {% if current_user.is_manager %}
+    <section class="note-staff">
+      <h3 class="heading-small">Staff</h3>
+      <ul class="staff-list">
+      {% if note %}
+        {% for link in note.links %}
+          {% if link.__class__.__name__ == 'User' -%}
+        <li><img src="" width="64" height="64" alt="{{ link.full_name }}"></li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      </ul>
+      <a href="">+ add</a>
+      <form method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
+        <fieldset>
+          <select name="user_id" id="user_id">
+          {% for member in current_user.staff %}
+            <option value="{{ member.id }}">{{ member.full_name }}</option>
+          {% endfor %}
+          </select>
+          <button>Add</button>
+        </fieldset>
+      </form>
+    </section>
+    {% endif %}
+
   {% else %}
     <h1 class="heading-large">Your notes</h1>
 
