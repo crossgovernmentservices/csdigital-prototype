@@ -9,6 +9,7 @@ html {
   color: $page-colour;
   position: relative;
   z-index: 10;
+  box-sizing: border-box;
 
   .internal-header-logo {
     @extend %contain-floats;
