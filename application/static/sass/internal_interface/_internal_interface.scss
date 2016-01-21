@@ -73,20 +73,6 @@ html {
   font-weight: normal;
 }
 
-.linked-item {
-  padding-left: $gutter;
-  position: relative;
-  & > a {
-    padding: 0 10px;
-    font-weight: normal;
-  }
-
-  .remove-link {
-    position: absolute;
-    right: 0;
-  }
-}
-
 .new-note {
   #content {
     margin: 0;
@@ -108,4 +94,14 @@ html {
   strong {
     font-weight: bold;
   }
+}
+
+.form {
+  @extend %contain-floats;
+}
+
+.small-text {
+  color: $secondary-text-colour;
+  font-weight: normal;
+  font-size: 16px;
 }

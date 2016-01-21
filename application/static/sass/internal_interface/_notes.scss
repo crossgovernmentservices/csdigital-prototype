@@ -2,17 +2,61 @@
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
+  background: darken(#fff, 2.5%);
+  border-radius: 17px;
 
   a {
     display: block;
     text-decoration: none;
     color: $link-colour;
-    padding: 5px;
+    padding: 5px 15px;
 
     &:hover {
       text-decoration: underline;
-      background: $highlight-colour;
     }
   }
 
+  &.tags-list__empty {
+    color: $secondary-text-colour;
+    background: none;
+  }
+
+}
+
+.note_header {
+  @extend %contain-floats;
+  padding-bottom: $gutter-half;
+  border-bottom: 1px solid $link-colour;
+
+  .note_title {
+    margin-bottom: 0;
+  }
+
+  .note_actions {
+    float: right;
+    line-height: 39px;
+
+    li {
+      display: inline-block;
+      line-height: 39px;
+
+      a {
+        display: block;
+        padding: 0 10px;
+        background: darken(#fff, 2.5%);
+        text-decoration: none;
+      }
+    }
+  }
+
+  .note_date {
+    color: $secondary-text-colour;
+    padding-left: $gutter-half;
+    font-size: 16px;
+  }
+}
+
+.note_body {
+  padding: $gutter-half 0;
+  border-bottom: 1px solid $link-colour;
 }

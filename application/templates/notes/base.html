@@ -33,32 +33,73 @@
 
 {% block content_links %}
   {% if note %}
-  <h2 class="heading-medium">Link your note with</h2>
-  <form class="form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
-    <div class="form-group">
-      <label class="form-label">Competencies</label>
-      <select id="competencies" name="competencies" class="form-control">
-        {% for cluster in competencies|groupby('cluster.name') %}
-        <optgroup label="{{ cluster.grouper }}">
-          {% for competency in cluster.list %}
-          <option value="{{ competency.id }}">{{ competency.name }}</option>
+  <h2 class="heading-medium">Link your note</h2>
+
+  <!-- section for linking competencies -->
+  <section class="linking_container">
+    <h4 class="link_section_heading">Competencies</h4>
+    {% if note.links %}
+    <ul class="linked-list">
+
+    {% for link in note.links %}
+      {%- if link.__class__.__name__ == 'Competency' -%}
+      <li class="linked-item">
+        <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
+        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+      </li>
+      {%- endif -%}
+    {% endfor %}
+
+    </ul>
+    {% endif %}
+    <form class="form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
+      <div class="form-group">
+        <!--<label class="form-label">Competencies</label>-->
+        <select id="competencies" name="competencies" class="form-control">
+          {% for cluster in competencies|groupby('cluster.name') %}
+          <optgroup label="{{ cluster.grouper }}">
+            {% for competency in cluster.list %}
+            <option value="{{ competency.id }}">{{ competency.name }}</option>
+            {% endfor %}
+          </optgroup>
           {% endfor %}
-        </optgroup>
-        {% endfor %}
-      </select>
-      <button>add</button>
-    </div>
-  </form>
-  <form class="form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
-    <div class="form-group">
-      <label class="form-label">Objectives</label>
-      <select id="objectives" name="objectives" class="form-control">
-        {% for objective in current_user.objectives %}
-        <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40)|markdown }}</option>
-        {% endfor %}
-      </select>
-      <button>add</button>
-    </div>
-  </form>
+        </select>
+        <button>add</button>
+      </div>
+    </form>
+  </section>
+  <!-- end linking competencies -->
+
+  <!-- section for linking objectives -->
+  <section class="linking_container">
+    <h4 class="link_section_heading">Objectives</h4>
+    {% if note.links %}
+    <ul class="linked-list">
+
+    {% for link in note.links %}
+      {%- if link.entry_type == 'objective' -%}
+      <li class="linked-item">
+        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
+        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+      </li>
+      {%- endif -%}
+    {% endfor %}
+
+    </ul>
+    {% endif %}
+    <form class="form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
+      <div class="form-group">
+        <!--<label class="form-label">Objectives</label>-->
+        <select id="objectives" name="objectives" class="form-control">
+          {% for objective in current_user.objectives %}
+          <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40)|markdown }}</option>
+          {% endfor %}
+        </select>
+        <button>add</button>
+      </div>
+    </form>
+  </section>
+  <!-- end linking objectives -->
+
   {% endif %}
 {% endblock %}

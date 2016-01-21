@@ -1,0 +1,31 @@
+.linking_container {
+  //border-top: 5px solid $link-colour;
+  //padding-top: 10px;
+}
+
+.link_section_heading {
+  @extend .heading-small;
+  margin-top: 0;
+  background: $panel-colour;
+  font-weight: normal;
+  padding: 5px 8px;
+}
+
+.linked-item {
+  position: relative;
+  padding: 10px 0;
+  border-bottom: 1px dashed $panel-colour;
+  & > a {
+    padding: 0 10px;
+    font-weight: normal;
+  }
+
+  .remove-link {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.linked-item:last-of-type {
+  border-bottom: none;
+}
