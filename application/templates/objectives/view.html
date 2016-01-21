@@ -35,12 +35,35 @@
 
   <section class="obj_comments">
     <h3 class="heading-small">Comments</h3>
+    {% for comment in objective.comments %}
+    <div class="comment">
+      <div class="metadata">
+        <span>From: {{ comment.owner.full_name }}</span>
+        <span>Date: {{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</span>
+      </div>
+      <div class="content">
+        {{ comment.entry.content }}
+      </div>
+    </div>
+    {% endfor %}
+    <form method="post" action="{{ request.path }}/comment">
+      <fieldset>
+        <textarea name="content" id="content"></textarea>
+      </fieldset>
+      <button class="button">Comment</button>
+    </form>
   </section>
 
   {% else %}
-    <h1 class="heading-large">Your objectives</h1>
+    <h1 class="heading-large">
+      {%- if not user -%}
+        Your objectives
+      {%- else -%}
+        {{ user.full_name }}'s objectives
+      {%- endif -%}
+    </h1>
 
-    <p class="lede">Select one of your objectives from the list</p>
+    <p class="lede">Select an objective from the list</p>
 
     <section class="related">
       <h2>Useful resources</h2>
