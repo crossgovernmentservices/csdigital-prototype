@@ -6,20 +6,59 @@
   min-height: 120px;
 
   & .staff-initials {
-    content: "TD";
-    background: $border-colour;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    line-height: 120px;
-    text-align: center;
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 48px;
-    font-weight: bold;
-    color: $page-colour;
   }
+}
+
+.staff-initials {
+  background: $border-colour;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  line-height: 120px;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: $page-colour;
+  display: inline-block;
+}
+
+.staff-initials--mini {
+  @extend .staff-initials;
+  width: 60px;
+  height: 60px;
+  line-height: 58px;
+  font-size: 24px;
+  box-sizing: border-box;
+  border: 4px solid $border-colour;
+}
+
+a.staff-initials--mini {
+  color: $page-colour;
+  text-decoration: none;
+  margin-right: 5px;
+
+  &:hover {
+    border-color: $link-colour;
+  }
+}
+
+a.staff-list__add-btn {
+  @extend .staff-initials--mini;
+  background: $page-colour;
+  border: 4px solid $border-colour;
+  color: $border-colour;
+
+  &:hover {
+    border: 4px solid $link-colour;
+    color: $link-colour;
+  }
+}
+
+.staff-list li {
+  display: inline-block;
 }
 
 .staff-details {

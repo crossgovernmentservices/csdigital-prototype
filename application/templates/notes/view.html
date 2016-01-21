@@ -59,12 +59,13 @@
       {% if note %}
         {% for link in note.links %}
           {% if link.__class__.__name__ == 'User' -%}
-        <li><img src="" width="64" height="64" alt="{{ link.full_name }}"></li>
+        <li><a href="" class="staff-initials--mini" title="{{ link.full_name }}">{{ link.full_name|initials }}</a></li>
           {% endif %}
         {% endfor %}
+        <li><a class="staff-list__add-btn" href="">+</a></li>
       {% endif %}
       </ul>
-      <a href="">+ add</a>
+      
       <form method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
         <fieldset>
           <select name="user_id" id="user_id">
