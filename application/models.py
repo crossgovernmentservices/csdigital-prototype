@@ -52,7 +52,12 @@ class User(db.Document, UserMixin):
 
     @property
     def manager_notes(self):
-        return []
+        links = Link.objects.filter(documents=self)
+        return [
+            doc
+            for link in links
+            for doc in link.documents
+            if doc != self]
 
     @property
     def is_manager(self):
