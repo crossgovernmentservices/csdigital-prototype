@@ -109,5 +109,10 @@ def register_filters(app):
             out.append(text)
         return '\n'.join(out)
 
+    def initials(full_name):
+      initials = ''.join(name[0].upper() for name in full_name.split())
+      return initials
+
     app.jinja_env.filters['format_date'] = format_date
     app.jinja_env.filters['format_entry'] = format_entry
+    app.jinja_env.filters['initials'] = initials

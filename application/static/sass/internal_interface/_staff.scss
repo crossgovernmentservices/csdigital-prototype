@@ -5,7 +5,7 @@
   overflow: hidden;
   min-height: 120px;
 
-  &::after {
+  & .staff-initials {
     content: "TD";
     background: $border-colour;
     width: 120px;

@@ -23,6 +23,8 @@
       <li class="staff-member">
         {% if person.image %}
         <img class="staff-image" src="" width="120" height="120" alt="{{ person.full_name }}">
+        {% else %}
+        <div class="staff-initials">{{ person.full_name|initials }}</div>
         {% endif %}
         <div class="staff-listing">
           <div class="staff-listing_actions secondary-link"><a href="">transfer</a></div>
