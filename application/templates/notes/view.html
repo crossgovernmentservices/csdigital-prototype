@@ -59,21 +59,23 @@
       {% if note %}
         {% for link in note.links %}
           {% if link.__class__.__name__ == 'User' -%}
-        <li><img src="" width="64" height="64" alt="{{ link.full_name }}"></li>
+        <li><a href="" class="staff-initials--mini" title="{{ link.full_name }}">{{ link.full_name|initials }}</a></li>
           {% endif %}
         {% endfor %}
+        <li><a class="staff-list__add-btn" href="">+</a></li>
       {% endif %}
       </ul>
-      <a href="">+ add</a>
-      <form method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
-        <fieldset>
-          <select name="user_id" id="user_id">
+      
+      <form class="form add-staff-member-form" method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
+        <div class="form-group">
+          <label for="user_id" class="form-label">Add staff member</label>
+          <select class="form-control" name="user_id" id="user_id">
           {% for member in current_user.staff %}
             <option value="{{ member.id }}">{{ member.full_name }}</option>
           {% endfor %}
           </select>
           <button>Add</button>
-        </fieldset>
+        </div>
       </form>
     </section>
     {% endif %}
@@ -85,4 +87,8 @@
 
   {% endif %}
 
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/internal_interface.js"></script>
 {% endblock %}

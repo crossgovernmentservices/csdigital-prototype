@@ -1,0 +1,96 @@
+.staff-member {
+  position: relative;
+  padding-left: 150px;
+  margin-bottom: $gutter;
+  overflow: hidden;
+  min-height: 120px;
+
+  & .staff-initials {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+.staff-initials {
+  background: $border-colour;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  line-height: 120px;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  color: $page-colour;
+  display: inline-block;
+}
+
+.staff-initials--mini {
+  @extend .staff-initials;
+  width: 60px;
+  height: 60px;
+  line-height: 58px;
+  font-size: 24px;
+  box-sizing: border-box;
+  border: 4px solid $border-colour;
+}
+
+a.staff-initials--mini {
+  color: $page-colour;
+  text-decoration: none;
+  margin-right: 5px;
+
+  &:hover {
+    border-color: $link-colour;
+  }
+}
+
+a.staff-list__add-btn {
+  @extend .staff-initials--mini;
+  background: $page-colour;
+  border: 4px solid $border-colour;
+  color: $border-colour;
+
+  &:hover {
+    border: 4px solid $link-colour;
+    color: $link-colour;
+  }
+}
+
+.staff-list li {
+  display: inline-block;
+}
+
+.staff-details {
+  margin-bottom: 15px;
+}
+
+.staff_name {
+  margin: 15px 0 0;
+}
+
+.staff_profession {
+  color: $secondary-text-colour;
+}
+
+.staff-listing {
+  @extend %contain-floats;
+}
+
+.staff-listing_actions {
+  float: right;
+}
+
+.staff-listing_links li {
+  display: inline-block;
+  padding: 0 5px;
+  border-right: 1px solid $border-colour;
+}
+
+.staff-listing_links li:first-of-type {
+  padding-left: 0;
+}
+
+.staff-listing_links li:last-of-type {
+  border-right: none;
+}
