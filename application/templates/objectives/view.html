@@ -2,15 +2,27 @@
 
 {% block content %}
   {% if objective %}
-    <h1 class="heading-large">{{ objective.entry.title|default("Objective") }}</h1>
+  <header class="note_header">
+
+    <div class="note_actions">
+      <ul>
+        <li><a href="{{ url_for('objectives.edit', id=objective.id) }}">edit</a></li>
+        <li><a href="">delete</a></li>
+        <li><a href="">share</a></li>
+      </ul>
+    </div>
+
+    <h1 class="heading-large note_title">{{ objective.entry.title|default("Objective") }}</h1>
+
+    <span class="note_date">Added on: {{ objective.created_date }}</span>
+
+  </header>
 
     <h3 class="heading-small">What</h3>
     <div>{{ objective.entry.what|markdown }}</div>
 
     <h3 class="heading-small">How</h3>
     <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
-
-    <a class="button" href="{{ url_for('objectives.edit', id=objective.id) }}">Edit</a>
 
     {{ linked_with(objective.links) }}
 
