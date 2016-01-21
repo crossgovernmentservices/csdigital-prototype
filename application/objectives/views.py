@@ -1,29 +1,33 @@
 from flask import (
     Blueprint,
     abort,
-    render_template,
+    flash,
     redirect,
-    url_for,
-    flash
-)
+    render_template,
+    request,
+    url_for)
 from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.objectives.forms import ObjectiveForm
 from application.models import LogEntry, User
+from application.objectives.forms import ObjectiveForm
 
 
 objectives = Blueprint('objectives', __name__, template_folder='templates')
 
 
-def get_objective_or_404(id):
+def get_or_404(cls, **kwargs):
     try:
-        return LogEntry.objects.get(id=id, entry_type='objective')
+        return cls.objects.get(**kwargs)
 
-    except LogEntry.DoesNotExist:
+    except cls.DoesNotExist:
         abort(404)
+
+
+def get_objective_or_404(**kwargs):
+    return get_or_404(LogEntry, entry_type='objective', **kwargs)
 
 
 @objectives.route('/performance-review')
@@ -35,7 +39,7 @@ def write_performance_review():
 @objectives.route('/objective/<id>/link', methods=['POST'])
 @login_required
 def link(id):
-    objective = get_objective_or_404(id)
+    objective = get_objective_or_404(id=id)
     form = make_link_form(competencies=True)
     del form.objectives
 
@@ -53,7 +57,7 @@ def link(id):
 @objectives.route('/objective/<id>/unlink/<link_id>', methods=['GET', 'POST'])
 @login_required
 def unlink(id, link_id):
-    objective = get_objective_or_404(id)
+    objective = get_objective_or_404(id=id)
 
     if objective.unlink(link_id):
         flash('Removed link')
@@ -72,7 +76,7 @@ def edit(id=None):
     objective = None
     link_form = None
     if id:
-        objective = get_objective_or_404(id)
+        objective = get_objective_or_404(id=id)
         link_form = make_link_form(competencies=True)
 
     form = ObjectiveForm()
@@ -106,7 +110,7 @@ def edit(id=None):
 def view(id=None):
     objective = None
     if id:
-        objective = get_objective_or_404(id)
+        objective = get_objective_or_404(id=id)
 
     link_form = make_link_form(competencies=True)
 
@@ -120,21 +124,32 @@ def view(id=None):
 @objectives.route('/objective/staff/<user_id>/<id>')
 @login_required
 def view_others(user_id, id=None):
-    try:
-        user = User.objects.get(id=user_id)
-
-    except User.DoesNotExist:
-        abort(404)
+    user = get_or_404(User, id=user_id)
 
     if user not in current_user.staff:
         abort(403)
 
     objective = None
     if id:
-        objective = get_objective_or_404(id)
+        objective = get_objective_or_404(id=id)
 
     return render_template(
         'objectives/view.html',
         objective=objective,
         user=user,
         link_form=None)
+
+
+@objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
+@login_required
+def comment(user_id, id):
+    user = get_or_404(User, id=user_id)
+
+    if user not in current_user.staff:
+        abort(403)
+
+    objective = get_objective_or_404(id=id)
+
+    objective.add_comment(request.form['content'])
+
+    return redirect(url_for('.view_others', user_id=user_id, id=id))

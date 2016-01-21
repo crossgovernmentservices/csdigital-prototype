@@ -102,6 +102,7 @@ schemas = {'objective': ('how', 'what', 'started_on', 'due_by', 'title'),
                         'requested_from_name', 'requested_by_name',
                         'details', 'share_objectives', 'objectives',
                         'sent', 'replied'),
+           'comment': ('content',),
            'log': ('content', 'title')}
 
 
@@ -194,6 +195,20 @@ class LogEntry(db.Document):
             for link in links
             for doc in link.documents
             if doc != self]
+
+    @property
+    def comments(self):
+        return [
+            link for link in self.links
+            if 'entry_type' in link and link.entry_type == 'comment']
+
+    def add_comment(self, content):
+        entry = Entry.objects.create(content=content)
+        comment = LogEntry.objects.create(
+            owner=current_user._get_current_object(),
+            entry_type='comment',
+            entry=entry)
+        self.link(comment)
 
     @classmethod
     def create_from_email(cls, request):
