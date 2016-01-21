@@ -28,7 +28,7 @@
           <div class="staff-listing_actions secondary-link"><a href="">transfer</a></div>
           <div class="staff-details">
             <h3 class="staff_name heading-medium">{{ person.full_name }}</h3>
-            <div class="staff_profession">{{ person.profession }}</div>
+            <div class="staff_profession">{% if person.profession %}{{ person.profession }}{% else %}profession not set{% endif %}</div>
           </div>
           <ul class="staff-listing_links">
             <li><a href="">{{ person.manager_notes|length }} notes</a></li>
