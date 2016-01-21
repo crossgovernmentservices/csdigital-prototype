@@ -38,9 +38,15 @@
   </section>
 
   {% else %}
-    <h1 class="heading-large">Your objectives</h1>
+    <h1 class="heading-large">
+      {%- if not user -%}
+        Your objectives
+      {%- else -%}
+        {{ user.full_name }}'s objectives
+      {%- endif -%}
+    </h1>
 
-    <p class="lede">Select one of your objectives from the list</p>
+    <p class="lede">Select an objective from the list</p>
 
     <section class="related">
       <h2>Useful resources</h2>

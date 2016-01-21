@@ -13,7 +13,7 @@
         <div class="staff_name">{{ person.full_name }}</div>
         <div class="staff_profession">{{ person.profession }}</div>
         <div><a href="">{{ person.manager_notes|length }} notes</a></div>
-        <div><a href="">View objectives</a></div>
+        <div><a href="{{ url_for('objectives.view_others', user_id=person.id) }}">View objectives</a></div>
         <div><a href="">transfer</a></div>
       </li>
       {% endfor %}

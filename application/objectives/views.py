@@ -6,12 +6,13 @@ from flask import (
     url_for,
     flash
 )
+from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
 from application.objectives.forms import ObjectiveForm
-from application.models import LogEntry
+from application.models import LogEntry, User
 
 
 objectives = Blueprint('objectives', __name__, template_folder='templates')
@@ -113,3 +114,27 @@ def view(id=None):
         'objectives/view.html',
         objective=objective,
         link_form=link_form)
+
+
+@objectives.route('/objective/staff/<user_id>')
+@objectives.route('/objective/staff/<user_id>/<id>')
+@login_required
+def view_others(user_id, id=None):
+    try:
+        user = User.objects.get(id=user_id)
+
+    except User.DoesNotExist:
+        abort(404)
+
+    if user not in current_user.staff:
+        abort(403)
+
+    objective = None
+    if id:
+        objective = get_objective_or_404(id)
+
+    return render_template(
+        'objectives/view.html',
+        objective=objective,
+        user=user,
+        link_form=None)
