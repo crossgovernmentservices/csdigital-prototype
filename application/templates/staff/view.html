@@ -1,20 +1,40 @@
 {% extends "base.html" %}
 
+{% block head %}
+{{ super() }}
+
+<!-- internal interface stylesheet -->
+{% assets "css_internal_interface" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+
+{% endblock %}
+
 {% block body_content %}
 
     <h1 class="heading-large">Your staff</h1>
 
-    <a href="{{ url_for('staff.add') }}">+ add staff</a>
+    <div class="staff_admin">
+      <a class="secondary_btn" href="{{ url_for('staff.add') }}">+ add staff</a>
+    </div>
 
     <ul>
       {% for person in current_user.staff %}
-      <li>
-        <img src="" width="120" height="120" alt="{{ person.full_name }}">
-        <div class="staff_name">{{ person.full_name }}</div>
-        <div class="staff_profession">{{ person.profession }}</div>
-        <div><a href="">{{ person.manager_notes|length }} notes</a></div>
-        <div><a href="{{ url_for('objectives.view_others', user_id=person.id) }}">View objectives</a></div>
-        <div><a href="">transfer</a></div>
+      <li class="staff-member">
+        {% if person.image %}
+        <img class="staff-image" src="" width="120" height="120" alt="{{ person.full_name }}">
+        {% endif %}
+        <div class="staff-listing">
+          <div class="staff-listing_actions secondary-link"><a href="">transfer</a></div>
+          <div class="staff-details">
+            <h3 class="staff_name heading-medium">{{ person.full_name }}</h3>
+            <div class="staff_profession">{{ person.profession }}</div>
+          </div>
+          <ul class="staff-listing_links">
+            <li><a href="">{{ person.manager_notes|length }} notes</a></li>
+            <li><a href="{{ url_for('objectives.view_others', user_id=person.id) }}">View objectives</a></li>
+          </ul>
+        </div>
       </li>
       {% endfor %}
     </ul>

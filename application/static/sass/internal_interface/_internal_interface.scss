@@ -67,6 +67,7 @@ html {
   }
 }
 
+.secondary-link a,
 .remove-link a {
   color: $secondary-text-colour;
   font-size: 16px;
@@ -105,4 +106,26 @@ html {
   color: $secondary-text-colour;
   font-weight: normal;
   font-size: 16px;
+}
+
+.secondary_btn,
+a.secondary_btn {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: 1px solid #bfc1c3;
+  background: $highlight-colour;
+  border-radius: 3px;
+  color: $text-colour;
+  text-decoration: none;
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.staff_admin {
+  margin-bottom: $gutter;
 }

@@ -1,0 +1,57 @@
+.staff-member {
+  position: relative;
+  padding-left: 150px;
+  margin-bottom: $gutter;
+  overflow: hidden;
+  min-height: 120px;
+
+  &::after {
+    content: "TD";
+    background: $border-colour;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    line-height: 120px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 48px;
+    font-weight: bold;
+    color: $page-colour;
+  }
+}
+
+.staff-details {
+  margin-bottom: 15px;
+}
+
+.staff_name {
+  margin: 15px 0 0;
+}
+
+.staff_profession {
+  color: $secondary-text-colour;
+}
+
+.staff-listing {
+  @extend %contain-floats;
+}
+
+.staff-listing_actions {
+  float: right;
+}
+
+.staff-listing_links li {
+  display: inline-block;
+  padding: 0 5px;
+  border-right: 1px solid $border-colour;
+}
+
+.staff-listing_links li:first-of-type {
+  padding-left: 0;
+}
+
+.staff-listing_links li:last-of-type {
+  border-right: none;
+}
