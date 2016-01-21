@@ -51,6 +51,10 @@ class User(db.Document, UserMixin):
         return Tag.objects.filter(owner=self)
 
     @property
+    def manager_notes(self):
+        return []
+
+    @property
     def is_manager(self):
         return bool(self.staff)
 

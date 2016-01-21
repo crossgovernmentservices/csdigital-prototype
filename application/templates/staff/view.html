@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+    <h1 class="heading-large">Your staff</h1>
+
+    <a href="{{ url_for('staff.add') }}">+ add staff</a>
+
+    <ul>
+      {% for person in current_user.staff %}
+      <li>
+        <img src="" width="120" height="120" alt="{{ person.full_name }}">
+        <div class="staff_name">{{ person.full_name }}</div>
+        <div class="staff_profession">{{ person.profession }}</div>
+        <div><a href="">{{ person.manager_notes|length }} notes</a></div>
+        <div><a href="">View objectives</a></div>
+        <div><a href="">transfer</a></div>
+      </li>
+      {% endfor %}
+    </ul>
+
+{% endblock %}

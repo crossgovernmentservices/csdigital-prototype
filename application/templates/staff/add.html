@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+  <h1 class="heading-large">Add staff member</h1>
+
+  <form method="post" action="{{ url_for('staff.add') }}">
+    <fieldset>
+      <label>
+        Staff member:
+        <select id="id" name="id">
+          {% for user in users %}
+          <option value="{{ user.id }}">{{ user.full_name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </fieldset>
+    <button class="button">Add</button>
+  </form>
+
+{% endblock %}
