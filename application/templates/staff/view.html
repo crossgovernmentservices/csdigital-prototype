@@ -4,7 +4,7 @@
 
     <h1 class="heading-large">Your staff</h1>
 
-    <a href="staff.add">+ add staff</a>
+    <a href="{{ url_for('staff.add') }}">+ add staff</a>
 
     <ul>
       {% for person in current_user.staff %}
