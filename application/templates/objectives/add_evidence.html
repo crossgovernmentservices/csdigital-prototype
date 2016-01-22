@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% from '_macros.html' import render_field, render_hidden %}
+
+{% block body_content %}
+
+  <h1 class="heading-large">Add Evidence</h1>
+
+  <form method="post" action="{{ url_for('objectives.add_evidence', id=objective.id) }}">
+    {{ render_hidden(form) }}
+
+    {{ render_field(form.title) }}
+
+    {{ render_field(form.content) }}
+
+    <button class="button">Add</button>
+  </form>
+
+{% endblock %}

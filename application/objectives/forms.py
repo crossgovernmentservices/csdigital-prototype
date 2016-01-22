@@ -2,7 +2,7 @@ import datetime
 
 from flask.ext.login import current_user
 from flask.ext.wtf import Form
-from wtforms.validators import Required
+from wtforms.validators import DataRequired, Required
 from wtforms.fields import StringField, TextAreaField
 
 from application.models import Entry, LogEntry
@@ -39,3 +39,8 @@ class ObjectiveForm(Form):
         objective.add_tag('Objective')
 
         return objective
+
+
+class EvidenceForm(Form):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content')

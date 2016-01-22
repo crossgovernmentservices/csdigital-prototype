@@ -103,15 +103,17 @@ schemas = {'objective': ('how', 'what', 'started_on', 'due_by', 'title'),
                         'details', 'share_objectives', 'objectives',
                         'sent', 'replied'),
            'comment': ('content',),
+           'evidence': ('content', 'title'),
            'log': ('content', 'title')}
 
 
 class Entry(db.DynamicDocument):
 
     def __unicode__(self):
+        data = ''
         if 'title' in self:
             data = self.title
-        else:
+        elif 'details' in self:
             data = self.details
         return data
 
@@ -211,12 +213,14 @@ class LogEntry(db.Document):
             link for link in self.links
             if 'entry_type' in link and link.entry_type == 'comment']
 
+    @property
+    def evidence(self):
+        return [
+            link for link in self.links
+            if 'entry_type' in link and link.entry_type == 'evidence']
+
     def add_comment(self, content):
-        entry = Entry.objects.create(content=content)
-        comment = LogEntry.objects.create(
-            owner=current_user._get_current_object(),
-            entry_type='comment',
-            entry=entry)
+        comment = create_log_entry('comment', content=content)
         self.link(comment)
 
     @classmethod
@@ -239,19 +243,34 @@ class LogEntry(db.Document):
                 'No user found with inbox_email="{recipient}"'.format(**email))
             raise
 
-        entry = Entry.objects.create(
+        note = create_log_entry(
+            'log',
             title=email['subject'].strip(),
-            content=email['body'])
-
-        log_entry = LogEntry.objects.create(
-            owner=user,
-            entry_type='log',
+            content=email['body'],
             entry_from=email['sender'],
-            entry=entry)
+            owner=user)
 
-        log_entry.add_tag('Email')
+        note.add_tag('Email')
 
-        return log_entry
+        return note
 
     def __unicode__(self):
         return 'type={0.entry_type}, entry={0.entry}'.format(self)
+
+
+def create_log_entry(_type, **kwargs):
+    data = {}
+    _kwargs = dict(kwargs)
+    for key, val in _kwargs.items():
+        if key in schemas[_type]:
+            data[key] = kwargs.pop(key)
+
+    entry = Entry.objects.create(**data)
+
+    owner = kwargs.pop('owner', current_user._get_current_object())
+
+    return LogEntry.objects.create(
+        entry_type=_type,
+        entry=entry,
+        owner=owner,
+        **kwargs)

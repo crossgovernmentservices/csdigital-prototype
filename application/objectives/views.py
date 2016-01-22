@@ -11,8 +11,8 @@ from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, User
-from application.objectives.forms import ObjectiveForm
+from application.models import LogEntry, User, create_log_entry
+from application.objectives.forms import EvidenceForm, ObjectiveForm
 
 
 objectives = Blueprint('objectives', __name__, template_folder='templates')
@@ -153,3 +153,27 @@ def comment(user_id, id):
     objective.add_comment(request.form['content'])
 
     return redirect(url_for('.view_others', user_id=user_id, id=id))
+
+
+@objectives.route('/objective/<id>/evidence/add', methods=['GET', 'POST'])
+@login_required
+def add_evidence(id):
+    objective = get_objective_or_404(id=id)
+    form = EvidenceForm()
+
+    if form.validate_on_submit():
+        evidence = create_log_entry(
+            'evidence',
+            title=form.title.data,
+            content=form.content.data)
+
+        objective.link(evidence)
+
+        flash('Evidence added')
+
+        return redirect(url_for('.view', id=id))
+
+    return render_template(
+        'objectives/add_evidence.html',
+        form=form,
+        objective=objective)
