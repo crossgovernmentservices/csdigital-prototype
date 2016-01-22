@@ -9,6 +9,7 @@
   {% if objective %}
   <header class="note_header">
 
+    {%- if not user -%}
     <div class="note_actions">
       <ul>
         <li><a href="{{ url_for('objectives.edit', id=objective.id) }}">edit</a></li>
@@ -16,6 +17,7 @@
         <li><a href="">share</a></li>
       </ul>
     </div>
+    {%- endif -%}
 
     <h1 class="heading-large note_title">
       {%- if user -%}<span class="heading-secondary">{{ user.full_name }}'s Objectives</span>{%- endif -%}
