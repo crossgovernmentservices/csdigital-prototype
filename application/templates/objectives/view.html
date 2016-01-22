@@ -41,7 +41,7 @@
           <span class="title">{{ item.entry.title }}</span>
           <span class="remove-link"><a href="{{ url_for('objectives.remove_evidence', id=objective.id, evidence_id=item.id) }}">remove</a></span>
           <span class="metadata">added on {{ item.created_date }}</span>
-          <div class="content">{{ item.entry.content }}</div>
+          <div class="content">{{ item.entry.content|markdown }}</div>
         </div>
       </li>
     {% endfor %}
