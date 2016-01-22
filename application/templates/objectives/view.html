@@ -12,7 +12,10 @@
       </ul>
     </div>
 
-    <h1 class="heading-large note_title">{{ objective.entry.title|default("Objective") }}</h1>
+    <h1 class="heading-large note_title">
+      {%- if user -%}<span class="heading-secondary">{{ user.full_name }}'s Objectives</span>{%- endif -%}
+      {{ objective.entry.title|default("Objective") }}
+    </h1>
 
     <span class="note_date">Added on: {{ objective.created_date }}</span>
 
