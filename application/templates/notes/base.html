@@ -52,7 +52,8 @@
 
     </ul>
     {% endif %}
-    <form class="form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
+    <a href="" class="add-link-btn" data-link-form="competency">+ add competency</a>
+    <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
       <div class="form-group">
         <!--<label class="form-label">Competencies</label>-->
         <select id="competencies" name="competencies" class="form-control">
@@ -87,7 +88,9 @@
 
     </ul>
     {% endif %}
-    <form class="form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
+
+    <a href="" class="add-link-btn" data-link-form="objectives">+ add objective</a>
+    <form data-linking-type="objectives" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
       <div class="form-group">
         <!--<label class="form-label">Objectives</label>-->
         <select id="objectives" name="objectives" class="form-control">
@@ -102,4 +105,8 @@
   <!-- end linking objectives -->
 
   {% endif %}
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/internal_interface.js"></script>
 {% endblock %}

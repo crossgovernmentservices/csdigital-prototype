@@ -1,6 +1,14 @@
 .linking_container {
   //border-top: 5px solid $link-colour;
   //padding-top: 10px;
+  .add-link-btn {
+    display: block;
+
+    &.active {
+      border-left: 4px solid $link-colour;
+      color: $link-colour;
+    }
+  }
 }
 
 .link_section_heading {
@@ -14,7 +22,7 @@
 .linked-item {
   position: relative;
   padding: 10px 0;
-  border-bottom: 1px dashed $panel-colour;
+  border-bottom: 1px solid $panel-colour;
   & > a {
     padding: 0 10px;
     font-weight: normal;
@@ -28,4 +36,41 @@
 
 .linked-item:last-of-type {
   border-bottom: none;
+}
+
+.add-link-btn,
+a.add-link-btn {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-left: 4px solid $highlight-colour;
+  background: $highlight-colour;
+  color: $text-colour;
+  text-decoration: none;
+
+  &:hover {
+    color: $link-hover-colour;
+    text-decoration: underline;
+  }
+}
+
+.add-link-form {
+  border-left: 4px solid $link-colour;
+  padding-left: 15px;
+
+  .form-group {
+    margin: 10px 0;
+  }
+}
+
+.add-link-btn { 
+  display: none; 
+  &:focus {
+    outline: none;
+  }
+}
+
+.js-enabled {
+  .add-link-form { display: none; }
+  .add-link-btn { display: block; }
 }
