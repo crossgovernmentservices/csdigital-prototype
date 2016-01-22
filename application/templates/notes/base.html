@@ -95,7 +95,7 @@
         <!--<label class="form-label">Objectives</label>-->
         <select id="objectives" name="objectives" class="form-control">
           {% for objective in current_user.objectives %}
-          <option value="{{ objective.id }}">{{ objective.entry.what|truncate(40)|markdown }}</option>
+          <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40)|markdown }}</option>
           {% endfor %}
         </select>
         <button>add</button>

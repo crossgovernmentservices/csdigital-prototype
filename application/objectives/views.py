@@ -11,8 +11,8 @@ from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, User
-from application.objectives.forms import ObjectiveForm
+from application.models import LogEntry, User, create_log_entry
+from application.objectives.forms import EvidenceForm, ObjectiveForm
 
 
 objectives = Blueprint('objectives', __name__, template_folder='templates')
@@ -40,7 +40,7 @@ def write_performance_review():
 @login_required
 def link(id):
     objective = get_objective_or_404(id=id)
-    form = make_link_form(competencies=True)
+    form = make_link_form(competencies=True, notes=True)
     del form.objectives
 
     if form.validate_on_submit():
@@ -77,7 +77,7 @@ def edit(id=None):
     link_form = None
     if id:
         objective = get_objective_or_404(id=id)
-        link_form = make_link_form(competencies=True)
+        link_form = make_link_form(competencies=True, notes=True)
 
     form = ObjectiveForm()
 
@@ -112,7 +112,7 @@ def view(id=None):
     if id:
         objective = get_objective_or_404(id=id)
 
-    link_form = make_link_form(competencies=True)
+    link_form = make_link_form(competencies=True, notes=True)
 
     return render_template(
         'objectives/view.html',
@@ -153,3 +153,49 @@ def comment(user_id, id):
     objective.add_comment(request.form['content'])
 
     return redirect(url_for('.view_others', user_id=user_id, id=id))
+
+
+@objectives.route('/objective/<id>/evidence/add', methods=['GET', 'POST'])
+@login_required
+def add_evidence(id):
+    objective = get_objective_or_404(id=id)
+    form = EvidenceForm()
+
+    if form.validate_on_submit():
+        evidence = create_log_entry(
+            'evidence',
+            title=form.title.data,
+            content=form.content.data)
+
+        objective.link(evidence)
+
+        flash('Evidence added')
+
+        return redirect(url_for('.view', id=id))
+
+    return render_template(
+        'objectives/add_evidence.html',
+        form=form,
+        objective=objective)
+
+
+@objectives.route('/objective/<id>/evidence/note/<note_id>', methods=['GET', 'POST'])
+@login_required
+def promote_note(id, note_id):
+    note = get_or_404(LogEntry, entry_type='log', id=note_id)
+
+    note.update(entry_type='evidence')
+    flash('Note promoted to evidence')
+
+    return redirect(url_for('.view', id=id))
+
+
+@objectives.route('/objective/<id>/evidence/remove/<evidence_id>')
+@login_required
+def remove_evidence(id, evidence_id):
+    objective = get_objective_or_404(id=id)
+    evidence = get_or_404(LogEntry, entry_type='evidence', id=evidence_id)
+    objective.unlink(evidence)
+    evidence.delete()
+    flash('Evidence removed')
+    return redirect(url_for('.view', id=id))

@@ -37,15 +37,12 @@ def get_competency_or_404(id):
 @login_required
 def link(id):
     competency = get_competency_or_404(id)
-    objectives = LogEntry.objects.filter(
-        owner=current_user._get_current_object(),
-        entry_type='objective')
-
-    form = make_link_form(objectives)
-    del form.competencies
+    form = make_link_form(objectives=True, notes=True)
 
     if form.validate_on_submit():
-        objective = objectives.get(id=form.objectives.data)
+        objective = LogEntry.objects.get(
+            id=form.objectives.data,
+            entry_type='objective')
         objective.link(competency)
         flash('Competency linked to selected objective')
 
@@ -79,11 +76,7 @@ def view(id=None, level_id=None):
     if level_id:
         level = Level.objects.get(id=level_id)
 
-    user = current_user._get_current_object()
-    objectives = LogEntry.objects.filter(
-        owner=user,
-        entry_type='objective')
-    link_form = make_link_form(objectives)
+    link_form = make_link_form(objectives=True)
 
     behaviours = []
 

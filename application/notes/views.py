@@ -6,7 +6,6 @@ from flask import (
     render_template,
     request,
     url_for)
-from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
@@ -29,7 +28,7 @@ def get_note_or_404(id):
 @notes.route('/notes/<id>/link', methods=['POST'])
 def link(id):
     note = get_note_or_404(id)
-    form = make_link_form()
+    form = make_link_form(competencies=True, objectives=True)
 
     if form.is_submitted():
         if 'competencies' in request.form:
@@ -71,7 +70,7 @@ def edit(id=None):
     link_form = None
     if id:
         note = get_note_or_404(id)
-        link_form = make_link_form(competencies=True)
+        link_form = make_link_form(competencies=True, objectives=True)
 
     form = NoteForm()
 
