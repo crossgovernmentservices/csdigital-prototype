@@ -66,18 +66,17 @@
         <li><a class="staff-list__add-btn" href="">+</a></li>
       {% endif %}
       </ul>
-      
+
       <form class="form add-staff-member-form" method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
-        <div class="form-group">
-          <label for="user_id" class="form-label">Add staff member</label>
-          <select class="form-control" name="user_id" id="user_id">
-          {% for member in current_user.staff %}
-            <option value="{{ member.id }}">{{ member.full_name }}</option>
-          {% endfor %}
-          </select>
-          <button>Add</button>
-        </div>
+        <label for="user_id" class="form-label">Add staff member</label>
+        <select class="form-control" name="user_id" id="user_id">
+        {% for member in current_user.staff %}
+          <option value="{{ member.id }}">{{ member.full_name }}</option>
+        {% endfor %}
+        </select>
+        <button>Add</button>
       </form>
+
     </section>
     {% endif %}
 
