@@ -29,7 +29,7 @@
     </header>
 
     <section class="note_body">
-      <div class="note-content text">
+      <div class="note-content text rendered-markdown">
       {% if note -%}
         {{ note.entry.content|markdown }}
       {%- else -%}
