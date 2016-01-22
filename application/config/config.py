@@ -26,7 +26,9 @@ class Config(object):
             'client': {
                 'client_id': os.environ.get('GOOG_CLIENT_ID'),
                 'client_secret': os.environ.get('GOOG_CLIENT_SECRET'),
-                'redirect_uri': 'http://localhost:8000/login/callback'
+                'redirect_uri': os.environ.get(
+                    'GOOG_OIDC_CALLBACK_URL',
+                    'http://localhost:8000/login/callback')
             }
         },
         'auth0': {
@@ -34,7 +36,9 @@ class Config(object):
             'client': {
                 'client_id': os.environ.get('AUTH0_CLIENT_ID'),
                 'client_secret': os.environ.get('AUTH0_CLIENT_SECRET'),
-                'redirect_uri': 'http://localhost:8000/login/callback'
+                'redirect_uri': os.environ.get(
+                    'AUTH0_CALLBACK_URL',
+                    'http://localhost:8000/login/callback')
             }
         }
     }
