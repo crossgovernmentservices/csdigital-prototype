@@ -177,3 +177,14 @@ def add_evidence(id):
         'objectives/add_evidence.html',
         form=form,
         objective=objective)
+
+
+@objectives.route('/objective/<id>/evidence/note/<note_id>', methods=['GET', 'POST'])
+@login_required
+def promote_note(id, note_id):
+    note = get_or_404(LogEntry, entry_type='log', id=note_id)
+
+    note.update(entry_type='evidence')
+    flash('Note promoted to evidence')
+
+    return redirect(url_for('.view', id=id))
