@@ -188,3 +188,14 @@ def promote_note(id, note_id):
     flash('Note promoted to evidence')
 
     return redirect(url_for('.view', id=id))
+
+
+@objectives.route('/objective/<id>/evidence/remove/<evidence_id>')
+@login_required
+def remove_evidence(id, evidence_id):
+    objective = get_objective_or_404(id=id)
+    evidence = get_or_404(LogEntry, entry_type='evidence', id=evidence_id)
+    objective.unlink(evidence)
+    evidence.delete()
+    flash('Evidence removed')
+    return redirect(url_for('.view', id=id))
