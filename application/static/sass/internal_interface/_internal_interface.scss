@@ -130,6 +130,13 @@ a.secondary_btn {
   margin-bottom: $gutter;
 }
 
+// form for adding staff member to note
+.add-staff-member-form {
+  border-left: 5px solid $link-colour;
+  padding: 5px $gutter-half;
+  margin: 15px 0;
+}
+
 .js-enabled .add-staff-member-form {
   display: none;
 }

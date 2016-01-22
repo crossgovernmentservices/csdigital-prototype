@@ -29,7 +29,7 @@
     </header>
 
     <section class="note_body">
-      <div class="note-content text">
+      <div class="note-content text rendered-markdown">
       {% if note -%}
         {{ note.entry.content|markdown }}
       {%- else -%}
@@ -66,18 +66,17 @@
         <li><a class="staff-list__add-btn" href="">+</a></li>
       {% endif %}
       </ul>
-      
+
       <form class="form add-staff-member-form" method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
-        <div class="form-group">
-          <label for="user_id" class="form-label">Add staff member</label>
-          <select class="form-control" name="user_id" id="user_id">
-          {% for member in current_user.staff %}
-            <option value="{{ member.id }}">{{ member.full_name }}</option>
-          {% endfor %}
-          </select>
-          <button>Add</button>
-        </div>
+        <label for="user_id" class="form-label">Add staff member</label>
+        <select class="form-control" name="user_id" id="user_id">
+        {% for member in current_user.staff %}
+          <option value="{{ member.id }}">{{ member.full_name }}</option>
+        {% endfor %}
+        </select>
+        <button>Add</button>
       </form>
+
     </section>
     {% endif %}
 
@@ -86,10 +85,10 @@
 
     <p class="lede">Select a recently captured note from the list to view.</p>
 
+    <div class="panel-indent">
+      <p>Don't forget you can also email notes to: <strong class="bold-small"><a href="mailto:{{current_user.inbox_email}}" target="_blank">{{current_user.inbox_email}}</a></strong></p>
+    </div>
+
   {% endif %}
 
-{% endblock %}
-
-{% block body_end %}
-<script src="/static/javascripts/internal_interface.js"></script>
 {% endblock %}

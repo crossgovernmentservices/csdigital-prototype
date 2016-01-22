@@ -51,7 +51,8 @@ a.staff-list__add-btn {
   border: 4px solid $border-colour;
   color: $border-colour;
 
-  &:hover {
+  &:hover,
+  &.active {
     border: 4px solid $link-colour;
     color: $link-colour;
   }
