@@ -66,7 +66,7 @@
       {% for comment in objective.comments %}
       <div class="comment">
         <dl class="comment__metadata definition-inline">
-          <dt>From</dt><dd>{{ comment.owner.full_name }}</dd>
+          <dt class="visuallyhidden">From</dt><dd>{{ comment.owner.full_name }}</dd>
           <dt>Date</dt><dd>{{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</dd>
         </dl>
         <div class="comment__content">
