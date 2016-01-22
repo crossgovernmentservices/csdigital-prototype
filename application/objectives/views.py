@@ -40,7 +40,7 @@ def write_performance_review():
 @login_required
 def link(id):
     objective = get_objective_or_404(id=id)
-    form = make_link_form(competencies=True)
+    form = make_link_form(competencies=True, notes=True)
     del form.objectives
 
     if form.validate_on_submit():
@@ -77,7 +77,7 @@ def edit(id=None):
     link_form = None
     if id:
         objective = get_objective_or_404(id=id)
-        link_form = make_link_form(competencies=True)
+        link_form = make_link_form(competencies=True, notes=True)
 
     form = ObjectiveForm()
 
@@ -112,7 +112,7 @@ def view(id=None):
     if id:
         objective = get_objective_or_404(id=id)
 
-    link_form = make_link_form(competencies=True)
+    link_form = make_link_form(competencies=True, notes=True)
 
     return render_template(
         'objectives/view.html',

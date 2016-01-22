@@ -51,6 +51,12 @@ class User(db.Document, UserMixin):
         return Tag.objects.filter(owner=self)
 
     @property
+    def competencies(self):
+        # TODO
+        from application.competency.models import Competency
+        return Competency.objects
+
+    @property
     def manager_notes(self):
         links = Link.objects.filter(documents=self)
         return [

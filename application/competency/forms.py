@@ -1,8 +1,7 @@
+from flask.ext.login import current_user
 from flask.ext.wtf import Form
 from wtforms.fields import SelectField, SelectMultipleField
 from wtforms.widgets import CheckboxInput, ListWidget
-
-from application.competency.models import Competency
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -22,21 +21,16 @@ def behaviours_form(behaviours):
     return form
 
 
-class LinkForm(Form):
-    competencies = SelectField(choices=[])
-    objectives = SelectField(choices=[])
+def make_link_form(**enable):
+    form = Form()
+    user = current_user._get_current_object()
 
+    def choices(items):
+        return [(str(item.id), str(item)) for item in items]
 
-def make_link_form(objectives=[], competencies=False):
-    form = LinkForm()
+    for linktype in ['competencies', 'notes', 'objectives']:
+        if enable.get(linktype, False):
+            setattr(form, linktype, SelectField(
+                choices=choices(getattr(user, linktype))))
 
-    if competencies:
-        form.competencies.choices = [
-            (str(competency.id), competency.name)
-            for competency in Competency.objects]
-
-    if objectives:
-        form.objectives.choices = [
-            (str(objective.id), objective.entry.what)
-            for objective in objectives]
     return form

@@ -97,15 +97,16 @@
 
     </ul>
     {% endif %}
-    {#
-    need to change this to show notes
     <form class="form" method="post" action="{{ url_for('objectives.link', id=objective.id) }}">
       <div class="form-group">
-        {% include "competency/select.html" %}
+        <select name="notes" id="notes" class="form-control">
+          {% for note in current_user.notes %}
+          <option value="{{ note.id }}">{{ note.entry.title|default(note.entry.content)|truncate(40) }}</option>
+          {% endfor %}
+        </select>
         <button>add</button>
       </div>
     </form>
-    #}
   </section>
   <!-- end linking notes -->
 
