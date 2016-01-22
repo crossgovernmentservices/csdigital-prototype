@@ -127,17 +127,26 @@ class LogEntry(db.Document):
 
     def add_tag(self, name):
         name = name.strip()
-        tag = Tag.objects.filter(name__iexact=name, owner=self.owner).first()
-        if not tag:
-            tag = Tag(name=name, owner=self.owner)
-            tag.save()
-        self.update(add_to_set__tags=tag)
-        self.save()
+
+        if name:
+
+            try:
+                tag = Tag.objects.get(name__iexact=name, owner=self.owner)
+
+            except Tag.DoesNotExist:
+                tag = Tag.objects.create(name=name, owner=self.owner)
+
+            self.update(add_to_set__tags=tag)
 
     def has_tag(self, name):
-        tag = Tag.objects.filter(name__iexact=name, owner=self.owner).first()
-        if not tag:
+        name = name.strip().lower()
+
+        try:
+            tag = Tag.objects.get(name__iexact=name, owner=self.owner)
+
+        except Tag.DoesNotExist:
             return False
+
         return tag in self.tags
 
     @queryset_manager

@@ -20,7 +20,7 @@ class NoteForm(Form):
         note.entry.save()
 
         for tag in self.tags.data.split(','):
-            note.add_tag(tag.strip())
+            note.add_tag(tag)
 
     def create(self):
         entry = Entry(
@@ -35,6 +35,6 @@ class NoteForm(Form):
         note.save()
 
         for tag in self.tags.data.split(','):
-            note.add_tag(tag.strip())
+            note.add_tag(tag)
 
         return note

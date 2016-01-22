@@ -42,12 +42,13 @@
       <h3 class="heading-small">Tags</h3>
       <ul class="tags-list">
       {% if note %}
-      {% if note.tags |count==0 %}
-        <li class="tags-list__empty">No tags added. Use tags to help organise your notes.</li>
-      {% endif %}
-      {% for tag in note.tags %}
-        <li><a href="">{{ tag.name }}</a></li>
-      {% endfor %}
+        {% if note.tags %}
+          {% for tag in note.tags %}
+            <li><a href="">{{ tag.name }}</a></li>
+          {% endfor %}
+        {% else %}
+          <li class="tags-list__empty">No tags added. Use tags to help organise your notes.</li>
+        {% endif %}
       {% endif %}
       </ul>
     </section>

@@ -74,7 +74,7 @@ def add_log_entry():
             entry=entry)
 
         for tag in form.tags.data.split(','):
-            log_entry.add_tag(tag.strip())
+            log_entry.add_tag(tag)
 
         flash('Entry saved')
 
@@ -95,7 +95,7 @@ def view_log_entry(id):
         entry.entry.update(content=request.form['content'])
 
         for tag in request.form['tags'].split(','):
-            entry.add_tag(tag.strip())
+            entry.add_tag(tag)
 
         flash('entry updated')
 
