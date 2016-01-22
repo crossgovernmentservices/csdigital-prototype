@@ -140,3 +140,20 @@ a.secondary_btn {
 .js-enabled .add-staff-member-form {
   display: none;
 }
+
+// An inline definition list - name:value pairs for example
+/* dl */.definition-inline {
+  @extend %contain-floats;
+  dt {
+    float: left;
+    margin-right: 5px;
+    &:after {
+      content: ':';
+    }
+  }
+  dd {
+    float: left;
+    font-weight: bold;
+    margin-right: $gutter-half;
+  }
+}

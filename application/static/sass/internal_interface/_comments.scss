@@ -1,0 +1,14 @@
+.comment {
+  margin-bottom: $gutter;
+}
+
+.comment__metadata {
+  font-size: 16px;
+  color: $secondary-text-colour;
+  padding-left: 5px;
+}
+
+.comment__content {
+  background: darken($highlight-colour, 5%);
+  padding: 10px;
+}

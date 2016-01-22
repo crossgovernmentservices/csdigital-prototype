@@ -62,11 +62,11 @@
     <h3 class="heading-small">Comments</h3>
     {% for comment in objective.comments %}
     <div class="comment">
-      <div class="metadata">
-        <span>From: {{ comment.owner.full_name }}</span>
-        <span>Date: {{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</span>
-      </div>
-      <div class="content">
+      <dl class="comment__metadata definition-inline">
+        <dt>From</dt><dd>{{ comment.owner.full_name }}</dd>
+        <dt>Date</dt><dd>{{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</dd>
+      </dl>
+      <div class="comment__content">
         {{ comment.entry.content }}
       </div>
     </div>
