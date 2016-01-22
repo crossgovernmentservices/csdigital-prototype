@@ -63,7 +63,7 @@
   <section class="obj_comments">
     <h3 class="heading-medium">Comments</h3>
     {% if objective.comments|length > 0 %}
-      {% for comment in objective.comments %}
+      {% for comment in objective.comments|sort(true,attribute='created_date') %}
       <div class="comment">
         <dl class="comment__metadata definition-inline">
           <dt class="visuallyhidden">From</dt><dd>{{ comment.owner.full_name }}</dd>
