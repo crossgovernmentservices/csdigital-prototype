@@ -21,16 +21,16 @@ class Config(object):
     EMAIL_DOMAIN = os.environ.get('EMAIL_DOMAIN', 'mylog.civilservice.digital')
 
     OIDC = {
-        'google': {
-            'domain': 'accounts.google.com',
-            'client': {
-                'client_id': os.environ.get('GOOG_CLIENT_ID'),
-                'client_secret': os.environ.get('GOOG_CLIENT_SECRET'),
-                'redirect_uri': os.environ.get(
-                    'GOOG_OIDC_CALLBACK_URL',
-                    'http://localhost:8000/login/callback')
-            }
-        },
+        # 'google': {
+            # 'domain': 'accounts.google.com',
+            # 'client': {
+                # 'client_id': os.environ.get('GOOG_CLIENT_ID'),
+                # 'client_secret': os.environ.get('GOOG_CLIENT_SECRET'),
+                # 'redirect_uri': os.environ.get(
+                    # 'GOOG_OIDC_CALLBACK_URL',
+                    # 'http://localhost:8000/login/callback')
+            # }
+        # },
         'auth0': {
             'domain': 'xgs.eu.auth0.com',
             'client': {
