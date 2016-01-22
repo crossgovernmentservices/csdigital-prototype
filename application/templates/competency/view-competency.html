@@ -28,6 +28,14 @@
     </div>
   </div>
 
+  {% if competency %}
+  <div class="grid-row">
+    <div style="padding: 0 15px; font-size: smaller">
+      <p>{{ competency.overview }}</p>
+    </div>
+  </div>
+  {% endif %}
+
   {% if not level %}
   <form method="post">
     <fieldset>
