@@ -16,3 +16,34 @@
 .comment__none {
   color: $secondary-text-colour;
 }
+
+.comment_content_entry {
+  margin-bottom: 10px;
+  -webkit-transition: all 0.6s;
+  transition: all 0.6s;
+
+  .active & {
+    width: 75%;
+    height: 100px;
+  }
+}
+
+.comment_button {
+  background: $link-hover-colour;
+  color: $page-colour;
+  padding: 8px 15px 7px;
+  font-size: 19px;
+  border: none;
+  outline: none;
+}
+
+.js-enabled {
+  .comment_form {
+    .comment_button {
+      display: none;
+    }
+    &.active .comment_button {
+      display: inline-block;
+    }
+  }
+}

@@ -61,7 +61,7 @@
   </section><!-- end objective_container -->
 
   <section class="obj_comments">
-    <h3 class="heading-small">Comments</h3>
+    <h3 class="heading-medium">Comments</h3>
     {% if objective.comments|length > 0 %}
       {% for comment in objective.comments %}
       <div class="comment">
@@ -78,11 +78,9 @@
     <p class="comment__none">No comments yet</p>
     {% endif %}
 
-    <form method="post" action="{{ request.path }}/comment">
-      <fieldset>
-        <textarea name="content" id="content"></textarea>
-      </fieldset>
-      <button class="button">Comment</button>
+    <form class="comment_form" method="post" action="{{ request.path }}/comment">
+      <textarea placeholder="enter comment here" class="form-control comment_content_entry" name="content"></textarea>
+      <button class="comment_button">Comment</button>
     </form>
   </section>
 
