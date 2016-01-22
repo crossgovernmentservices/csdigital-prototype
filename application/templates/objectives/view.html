@@ -1,71 +1,86 @@
 {% extends "objectives/base.html" %}
 
+
+{% block inside_banner %}
+{%- if user -%}<span class="user_indicator--manager">manager view</span>{%- endif -%}
+{% endblock %}
+
 {% block content %}
   {% if objective %}
-  <header class="note_header">
+  <section class="objective_container">
+    <header class="note_header">
 
-    <div class="note_actions">
+      {%- if not user -%}
+      <div class="note_actions">
+        <ul>
+          <li><a href="{{ url_for('objectives.edit', id=objective.id) }}">edit</a></li>
+          <li><a href="">delete</a></li>
+          <li><a href="">share</a></li>
+        </ul>
+      </div>
+      {%- endif -%}
+
+      <h1 class="heading-large note_title">
+        {%- if user -%}<span class="heading-secondary">{{ user.full_name }}'s Objectives</span>{%- endif -%}
+        {{ objective.entry.title|default("Objective") }}
+      </h1>
+
+      <span class="note_date">Added on: {{ objective.created_date }}</span>
+
+    </header>
+
+    <section class="item-view_body">
+      <h3 class="heading-small">What</h3>
+      <div>{{ objective.entry.what|markdown }}</div>
+
+      <h3 class="heading-small">How</h3>
+      <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
+
+      <h3 class="heading-small">Progress</h3>
+      <div class="rendered-markdown"></div>
+    </section>
+
+    <section class="obj_attachments">
+      <h3 class="heading-small">Evidence</h3>
+      {% if not user %}
+      <a href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add</a>
+      {% endif %}
       <ul>
-        <li><a href="{{ url_for('objectives.edit', id=objective.id) }}">edit</a></li>
-        <li><a href="">delete</a></li>
-        <li><a href="">share</a></li>
+      {% for item in objective.evidence %}
+        <li>
+          <div class="evidence collapsed">
+            <span class="title">{{ item.entry.title }}</span>
+            <span class="remove-link"><a href="{{ url_for('objectives.remove_evidence', id=objective.id, evidence_id=item.id) }}">remove</a></span>
+            <span class="metadata">added on {{ item.created_date }}</span>
+            <div class="content">{{ item.entry.content }}</div>
+          </div>
+        </li>
+      {% endfor %}
       </ul>
-    </div>
-
-    <h1 class="heading-large note_title">{{ objective.entry.title|default("Objective") }}</h1>
-
-    <span class="note_date">Added on: {{ objective.created_date }}</span>
-
-  </header>
-
-  <section class="item-view_body">
-    <h3 class="heading-small">What</h3>
-    <div>{{ objective.entry.what|markdown }}</div>
-
-    <h3 class="heading-small">How</h3>
-    <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
-
-    <h3 class="heading-small">Progress</h3>
-    <div class="rendered-markdown"></div>
-  </section>
-
-  <section class="obj_attachments">
-    <h3 class="heading-small">Evidence</h3>
-    {% if not user %}
-    <a href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add</a>
-    {% endif %}
-    <ul>
-    {% for item in objective.evidence %}
-      <li>
-        <div class="evidence collapsed">
-          <span class="title">{{ item.entry.title }}</span>
-          <span class="remove-link"><a href="{{ url_for('objectives.remove_evidence', id=objective.id, evidence_id=item.id) }}">remove</a></span>
-          <span class="metadata">added on {{ item.created_date }}</span>
-          <div class="content">{{ item.entry.content }}</div>
-        </div>
-      </li>
-    {% endfor %}
-    </ul>
-  </section>
+    </section>
+  </section><!-- end objective_container -->
 
   <section class="obj_comments">
-    <h3 class="heading-small">Comments</h3>
-    {% for comment in objective.comments %}
-    <div class="comment">
-      <div class="metadata">
-        <span>From: {{ comment.owner.full_name }}</span>
-        <span>Date: {{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</span>
+    <h3 class="heading-medium">Comments</h3>
+    {% if objective.comments|length > 0 %}
+      {% for comment in objective.comments|sort(true,attribute='created_date') %}
+      <div class="comment">
+        <dl class="comment__metadata definition-inline">
+          <dt class="visuallyhidden">From</dt><dd>{{ comment.owner.full_name }}</dd>
+          <dt>Date</dt><dd>{{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</dd>
+        </dl>
+        <div class="comment__content">
+          {{ comment.entry.content }}
+        </div>
       </div>
-      <div class="content">
-        {{ comment.entry.content }}
-      </div>
-    </div>
-    {% endfor %}
-    <form method="post" action="{{ request.path }}/comment">
-      <fieldset>
-        <textarea name="content" id="content"></textarea>
-      </fieldset>
-      <button class="button">Comment</button>
+      {% endfor %}
+    {% else %}
+    <p class="comment__none">No comments yet</p>
+    {% endif %}
+
+    <form class="comment_form" method="post" action="{{ request.path }}/comment">
+      <textarea placeholder="enter comment here" class="form-control comment_content_entry" name="content"></textarea>
+      <button class="comment_button">Comment</button>
     </form>
   </section>
 

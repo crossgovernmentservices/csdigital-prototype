@@ -111,6 +111,26 @@
   </section>
   <!-- end linking notes -->
 
+  {% else %}
+  <h2 class="heading-medium">Linked to objective</h2>
+
+  <section class="linking_container">
+    <h4 class="link_section_heading">Competencies</h4>
+    {% if objective.links %}
+    <ul class="linked-list">
+
+    {% for link in objective.links %}
+      {%- if link.__class__.__name__ == 'Competency' -%}
+      <li class="linked-item">
+        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.name }}</a>
+        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+      </li>
+      {%- endif -%}
+    {% endfor %}
+
+    </ul>
+    {% endif %}
+  </section>
   {% endif %}
 
 {% endblock %}
@@ -119,4 +139,5 @@
   <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
   </script>
   <script type="text/javascript" src="/static/javascripts/app.js"></script>
+  <script src="/static/javascripts/internal_interface.js"></script>
 {% endblock %}

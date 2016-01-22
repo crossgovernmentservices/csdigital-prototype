@@ -19,6 +19,12 @@
       return false;
     });
 
+    // comments
+    $('.comment_content_entry').on('focus', function() {
+      console.log('here');
+      $(this).parent('form').addClass('active');
+    });
+
   });
 
 }).call(this, jQuery, window);
