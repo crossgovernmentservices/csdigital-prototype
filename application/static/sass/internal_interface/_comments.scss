@@ -12,3 +12,7 @@
   background: darken($highlight-colour, 5%);
   padding: 10px;
 }
+
+.comment__none {
+  color: $secondary-text-colour;
+}

@@ -60,17 +60,22 @@
 
   <section class="obj_comments">
     <h3 class="heading-small">Comments</h3>
-    {% for comment in objective.comments %}
-    <div class="comment">
-      <dl class="comment__metadata definition-inline">
-        <dt>From</dt><dd>{{ comment.owner.full_name }}</dd>
-        <dt>Date</dt><dd>{{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</dd>
-      </dl>
-      <div class="comment__content">
-        {{ comment.entry.content }}
+    {% if objective.comments|length > 0 %}
+      {% for comment in objective.comments %}
+      <div class="comment">
+        <dl class="comment__metadata definition-inline">
+          <dt>From</dt><dd>{{ comment.owner.full_name }}</dd>
+          <dt>Date</dt><dd>{{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</dd>
+        </dl>
+        <div class="comment__content">
+          {{ comment.entry.content }}
+        </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
+    {% else %}
+    <p class="comment__none">No comments yet</p>
+    {% endif %}
+
     <form method="post" action="{{ request.path }}/comment">
       <fieldset>
         <textarea name="content" id="content"></textarea>
