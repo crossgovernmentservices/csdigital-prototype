@@ -7,56 +7,58 @@
 
 {% block content %}
   {% if objective %}
-  <header class="note_header">
+  <section class="objective_container">
+    <header class="note_header">
 
-    {%- if not user -%}
-    <div class="note_actions">
+      {%- if not user -%}
+      <div class="note_actions">
+        <ul>
+          <li><a href="{{ url_for('objectives.edit', id=objective.id) }}">edit</a></li>
+          <li><a href="">delete</a></li>
+          <li><a href="">share</a></li>
+        </ul>
+      </div>
+      {%- endif -%}
+
+      <h1 class="heading-large note_title">
+        {%- if user -%}<span class="heading-secondary">{{ user.full_name }}'s Objectives</span>{%- endif -%}
+        {{ objective.entry.title|default("Objective") }}
+      </h1>
+
+      <span class="note_date">Added on: {{ objective.created_date }}</span>
+
+    </header>
+
+    <section class="item-view_body">
+      <h3 class="heading-small">What</h3>
+      <div>{{ objective.entry.what|markdown }}</div>
+
+      <h3 class="heading-small">How</h3>
+      <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
+
+      <h3 class="heading-small">Progress</h3>
+      <div class="rendered-markdown"></div>
+    </section>
+
+    <section class="obj_attachments">
+      <h3 class="heading-small">Evidence</h3>
+      {% if not user %}
+      <a href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add</a>
+      {% endif %}
       <ul>
-        <li><a href="{{ url_for('objectives.edit', id=objective.id) }}">edit</a></li>
-        <li><a href="">delete</a></li>
-        <li><a href="">share</a></li>
+      {% for item in objective.evidence %}
+        <li>
+          <div class="evidence collapsed">
+            <span class="title">{{ item.entry.title }}</span>
+            <span class="remove-link"><a href="{{ url_for('objectives.remove_evidence', id=objective.id, evidence_id=item.id) }}">remove</a></span>
+            <span class="metadata">added on {{ item.created_date }}</span>
+            <div class="content">{{ item.entry.content }}</div>
+          </div>
+        </li>
+      {% endfor %}
       </ul>
-    </div>
-    {%- endif -%}
-
-    <h1 class="heading-large note_title">
-      {%- if user -%}<span class="heading-secondary">{{ user.full_name }}'s Objectives</span>{%- endif -%}
-      {{ objective.entry.title|default("Objective") }}
-    </h1>
-
-    <span class="note_date">Added on: {{ objective.created_date }}</span>
-
-  </header>
-
-  <section class="item-view_body">
-    <h3 class="heading-small">What</h3>
-    <div>{{ objective.entry.what|markdown }}</div>
-
-    <h3 class="heading-small">How</h3>
-    <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
-
-    <h3 class="heading-small">Progress</h3>
-    <div class="rendered-markdown"></div>
-  </section>
-
-  <section class="obj_attachments">
-    <h3 class="heading-small">Evidence</h3>
-    {% if not user %}
-    <a href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add</a>
-    {% endif %}
-    <ul>
-    {% for item in objective.evidence %}
-      <li>
-        <div class="evidence collapsed">
-          <span class="title">{{ item.entry.title }}</span>
-          <span class="remove-link"><a href="{{ url_for('objectives.remove_evidence', id=objective.id, evidence_id=item.id) }}">remove</a></span>
-          <span class="metadata">added on {{ item.created_date }}</span>
-          <div class="content">{{ item.entry.content }}</div>
-        </div>
-      </li>
-    {% endfor %}
-    </ul>
-  </section>
+    </section>
+  </section><!-- end objective_container -->
 
   <section class="obj_comments">
     <h3 class="heading-small">Comments</h3>
