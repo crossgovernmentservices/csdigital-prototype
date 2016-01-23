@@ -12,22 +12,15 @@ from application.competency.forms import make_link_form
 from application.competency.models import Competency
 from application.models import LogEntry, User
 from application.notes.forms import NoteForm
+from application.utils import get_or_404
 
 
 notes = Blueprint('notes', __name__, template_folder='templates')
 
 
-def get_note_or_404(id):
-    try:
-        return LogEntry.objects.get(id=id, entry_type='log')
-
-    except LogEntry.DoesNotExist:
-        abort(404)
-
-
 @notes.route('/notes/<id>/link', methods=['POST'])
 def link(id):
-    note = get_note_or_404(id)
+    note = get_or_404(LogEntry, entry_type='log', id=id)
     form = make_link_form(competencies=True, objectives=True)
 
     if form.is_submitted():
@@ -50,7 +43,7 @@ def link(id):
 @notes.route('/notes/<id>/unlink/<link_id>', methods=['GET', 'POST'])
 @login_required
 def unlink(id, link_id):
-    note = get_note_or_404(id)
+    note = get_or_404(LogEntry, entry_type='log', id=id)
 
     if note.unlink(link_id):
         flash('Removed link')
@@ -69,7 +62,7 @@ def edit(id=None):
     note = None
     link_form = None
     if id:
-        note = get_note_or_404(id)
+        note = get_or_404(LogEntry, entry_type='log', id=id)
         link_form = make_link_form(competencies=True, objectives=True)
 
     form = NoteForm()
@@ -104,7 +97,7 @@ def view(id=None):
     note = None
 
     if id:
-        note = get_note_or_404(id)
+        note = get_or_404(LogEntry, entry_type='log', id=id)
 
     return render_template('notes/view.html', note=note)
 
@@ -112,7 +105,7 @@ def view(id=None):
 @notes.route('/notes/<id>/link_to_staff_member', methods=['POST'])
 @login_required
 def link_staff(id):
-    note = get_note_or_404(id)
+    note = get_or_404(LogEntry, entry_type='log', id=id)
 
     try:
         member = User.objects.get(id=request.form['user_id'])

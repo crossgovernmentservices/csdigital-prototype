@@ -13,17 +13,10 @@ from application.competency.forms import make_link_form
 from application.competency.models import Competency
 from application.models import LogEntry, User, create_log_entry
 from application.objectives.forms import EvidenceForm, ObjectiveForm
+from application.utils import get_or_404
 
 
 objectives = Blueprint('objectives', __name__, template_folder='templates')
-
-
-def get_or_404(cls, **kwargs):
-    try:
-        return cls.objects.get(**kwargs)
-
-    except cls.DoesNotExist:
-        abort(404)
 
 
 def get_objective_or_404(**kwargs):
