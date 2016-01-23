@@ -34,7 +34,7 @@
             <div class="staff_profession">{% if person.profession %}{{ person.profession }}{% else %}profession not set{% endif %}</div>
           </div>
           <ul class="staff-listing_links">
-            <li><a href="">{{ person.manager_notes|length }} notes</a></li>
+            <li><a href="{{ url_for('staff.member', id=person.id) }}">{{ person.manager_notes|length }} notes</a></li>
             <li><a href="{{ url_for('objectives.view_others', user_id=person.id) }}">View objectives</a></li>
           </ul>
         </div>

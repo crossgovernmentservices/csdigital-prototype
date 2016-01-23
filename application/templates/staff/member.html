@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<!-- internal interface stylesheet -->
+{% assets "css_internal_interface" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+
+{% endblock %}
+
+{% block body_content %}
+
+        {% if member.image %}
+        <img class="staff-image" src="" width="120" height="120" alt="{{ member.full_name }}">
+        {% else %}
+        <div class="staff-initials">{{ member.full_name|initials }}</div>
+        {% endif %}
+
+        <h2 class="heading-medium">Notes</h2>
+        <ul>
+        {% for note in member.manager_notes %}
+          <li>{{ note.entry.title }}</li>
+        {% endfor %}
+        </ul>
+{% endblock %}
