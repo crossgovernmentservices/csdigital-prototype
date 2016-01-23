@@ -89,6 +89,8 @@ def edit(id=None):
     if objective:
         form.what.data = objective.entry.what
         form.how.data = objective.entry.how
+        if 'progress' in objective.entry:
+            form.progress.data = objective.entry.progress
 
     return render_template(
         'objectives/edit.html',

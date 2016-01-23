@@ -36,9 +36,9 @@
       <h3 class="heading-small">How</h3>
       <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
 
-      <h3 class="heading-small">Progress</h3>
-      <div class="rendered-markdown"></div>
-    </section>
+    <h3 class="heading-small">Progress</h3>
+    <div class="rendered-markdown">{{ objective.entry.progress|default('')|markdown }}</div>
+  </section>
 
     <section class="obj_attachments">
       <h3 class="heading-small">Evidence</h3>

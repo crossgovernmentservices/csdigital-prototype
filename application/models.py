@@ -103,14 +103,23 @@ class Tag(db.Document):
     name = db.StringField()
 
 
-schemas = {'objective': ('how', 'what', 'started_on', 'due_by', 'title'),
-           'feedback': ('template', 'requested_from', 'requested_by',
-                        'requested_from_name', 'requested_by_name',
-                        'details', 'share_objectives', 'objectives',
-                        'sent', 'replied'),
-           'comment': ('content',),
-           'evidence': ('content', 'title'),
-           'log': ('content', 'title')}
+schemas = {
+    'objective': ('how', 'what', 'started_on', 'due_by', 'title', 'progress'),
+    'feedback': (
+        'template',
+        'requested_from',
+        'requested_by',
+        'requested_from_name',
+        'requested_by_name',
+        'details',
+        'share_objectives',
+        'objectives',
+        'sent',
+        'replied'),
+    'comment': ('content',),
+    'evidence': ('content', 'title'),
+    'log': ('content', 'title')
+}
 
 
 class Entry(db.DynamicDocument):
