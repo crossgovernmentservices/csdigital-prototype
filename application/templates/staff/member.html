@@ -12,16 +12,24 @@
 
 {% block body_content %}
 
-        {% if member.image %}
-        <img class="staff-image" src="" width="120" height="120" alt="{{ member.full_name }}">
-        {% else %}
-        <div class="staff-initials">{{ member.full_name|initials }}</div>
-        {% endif %}
+  <h1 class="heading-large">Your notes</h1>
 
-        <h2 class="heading-medium">Notes</h2>
-        <ul>
-        {% for note in member.manager_notes %}
-          <li><a href="{{ url_for('notes.view', id=note.id) }}">{{ note.entry }}</a></li>
-        {% endfor %}
-        </ul>
+  <a href="{{ url_for('notes.view') }}">See all notes</a>
+
+  <div class="panel-indent">
+    <p>Notes filtered by: {{ member.full_name }}</p>
+    {% if member.image %}
+    <img class="staff-image" src="" width="120" height="120" alt="{{ member.full_name }}">
+    {% else %}
+    <div class="staff-initials--mini">{{ member.full_name|initials }}</div>
+    {% endif %}
+  </div>
+
+  <h2 class="heading-medium">Filtered notes list</h2>
+  <ul>
+  {% for note in member.manager_notes %}
+    <li><a href="{{ url_for('notes.view', id=note.id) }}">{{ note.entry }}</a></li>
+  {% endfor %}
+  </ul>
+        
 {% endblock %}
