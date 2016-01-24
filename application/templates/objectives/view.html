@@ -41,11 +41,13 @@
   </section>
 
     <section class="obj_attachments">
-      <h3 class="heading-small">Evidence</h3>
-      {% if not user %}
-      <a href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add</a>
-      {% endif %}
-      <ul>
+      <header class="obj_attachments_head">
+        {% if not user %}
+        <a class="add-link--right" href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add evidence</a>
+        {% endif %}
+        <h3 class="heading-small">Evidence</h3>
+      </header>
+      <ul class="evidence_list">
       {% for item in objective.evidence %}
         <li class="evidence_item">
           <details>

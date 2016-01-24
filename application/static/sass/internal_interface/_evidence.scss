@@ -1,3 +1,7 @@
+.evidence_list {
+  margin-top: $gutter-half;
+}
+
 .evidence_item {
   
 }
@@ -7,6 +11,7 @@
   box-sizing: border-box;
   padding-right: 75px;
   width: 100%;
+  margin-bottom: 0;
 }
 
 .evidence_remove {
@@ -18,4 +23,8 @@
 .evidence_date {
   color: $secondary-text-colour;
   padding-left: $gutter;
+}
+
+.evidence_content {
+  margin-left: $gutter-half;
 }

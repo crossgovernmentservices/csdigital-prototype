@@ -2,6 +2,20 @@
   border-top: 1px solid $border-colour;
 }
 
+.obj_attachments_head {
+  position: relative;
+}
+
+.add-link--right {
+  float: right;
+  font-size: 16px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .obj_comments {
   border-top: 5px solid $link-colour;
 }
