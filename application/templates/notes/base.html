@@ -1,5 +1,7 @@
 {% extends '3colbase.html' %}
 
+{% from "_macros.html" import competency_links, objectives_links %}
+
 {% block content_nav %}
   <div class="content-nav-main">
     <h2 class="heading-medium">
@@ -35,74 +37,9 @@
   {% if note %}
   <h2 class="heading-medium">Link your note</h2>
 
-  <!-- section for linking competencies -->
-  <section class="linking_container">
-    <h4 class="link_section_heading">Competencies</h4>
-    {% if note.links %}
-    <ul class="linked-list">
+  {{ competency_links(note, "note", competencies) }}
 
-    {% for link in note.links %}
-      {%- if link.__class__.__name__ == 'Competency' -%}
-      <li class="linked-item">
-        <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
-      {%- endif -%}
-    {% endfor %}
-
-    </ul>
-    {% endif %}
-    <a href="" class="add-link-btn" data-link-form="competency">+ add competency</a>
-    <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
-      <div class="form-group">
-        <!--<label class="form-label">Competencies</label>-->
-        <select id="competencies" name="competencies" class="form-control">
-          {% for cluster in competencies|groupby('cluster.name') %}
-          <optgroup label="{{ cluster.grouper }}">
-            {% for competency in cluster.list %}
-            <option value="{{ competency.id }}">{{ competency.name }}</option>
-            {% endfor %}
-          </optgroup>
-          {% endfor %}
-        </select>
-        <button>add</button>
-      </div>
-    </form>
-  </section>
-  <!-- end linking competencies -->
-
-  <!-- section for linking objectives -->
-  <section class="linking_container">
-    <h4 class="link_section_heading">Objectives</h4>
-    {% if note.links %}
-    <ul class="linked-list">
-
-    {% for link in note.links %}
-      {%- if link.entry_type == 'objective' -%}
-      <li class="linked-item">
-        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
-      {%- endif -%}
-    {% endfor %}
-
-    </ul>
-    {% endif %}
-
-    <a href="" class="add-link-btn" data-link-form="objectives">+ add objective</a>
-    <form data-linking-type="objectives" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=note.id) }}">
-      <div class="form-group">
-        <!--<label class="form-label">Objectives</label>-->
-        <select id="objectives" name="objectives" class="form-control">
-          {% for objective in current_user.objectives %}
-          <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40)|markdown }}</option>
-          {% endfor %}
-        </select>
-        <button>add</button>
-      </div>
-    </form>
-  </section>
-  <!-- end linking objectives -->
+  {{ objectives_links(note, "note", current_user) }}
 
   {% endif %}
 {% endblock %}

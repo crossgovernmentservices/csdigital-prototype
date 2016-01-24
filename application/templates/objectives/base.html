@@ -1,6 +1,6 @@
 {% extends "3colbase.html" %}
 
-{% from "_macros.html" import linked_with %}
+{% from "_macros.html" import linked_with, competency_links %}
 
 {%- if user %}
   {% set objectives = user.objectives %}
@@ -54,32 +54,7 @@
     {% if not user %}
     <h2 class="heading-medium">Link your objective</h2>
 
-    <!-- section for linking competencies -->
-    <section class="linking_container">
-      <h4 class="link_section_heading">Competencies</h4>
-      {% if objective.links %}
-      <ul class="linked-list">
-
-      {% for link in objective.links %}
-        {%- if link.__class__.__name__ == 'Competency' -%}
-        <li class="linked-item">
-          <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.name }}</a>
-          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-        </li>
-        {%- endif -%}
-      {% endfor %}
-
-      </ul>
-      {% endif %}
-      <form class="form" method="post" action="{{ url_for('objectives.link', id=objective.id) }}">
-        <div class="form-group">
-          {% include "competency/select.html" %}
-          <button>add</button>
-        </div>
-      </form>
-      <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
-    </section>
-    <!-- end linking competencies -->
+    {{ competency_links(objective, "objective", competencies) }}
 
     <!-- section for linking notes -->
     <section class="linking_container">

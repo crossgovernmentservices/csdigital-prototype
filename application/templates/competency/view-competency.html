@@ -1,5 +1,5 @@
 {% extends "3colbase.html" %}
-{% from "_macros.html" import linked_with %}
+{% from "_macros.html" import linked_with, objectives_links %}
 
   {% block content_nav %}
     <div class="content-nav-main">
@@ -100,43 +100,15 @@
   {% if competency %}
   <h2 class="heading-medium">Link competency with</h2>
 
-  <!-- section for linking objectives -->
-  <section class="linking_container">
-    <h4 class="link_section_heading">Objectives</h4>
-    {% if competency.links %}
-    <ul class="linked-list">
+  {{ objectives_links(competency, "competencies", current_user) }}
 
-    {% for link in competency.links %}
-      {%- if link.entry_type == 'objective' -%}
-      <li class="linked-item">
-        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
-      {%- endif -%}
-    {% endfor %}
-
-    </ul>
-    {% endif %}
-
-    <form class="form" method="post" action="{{ url_for('competency.link', id=competency.id) }}">
-      <div class="form-group">
-        <label class="form-label">Objectives</label>
-        <select id="objectives" name="objectives" class="form-control">
-          {% for objective in current_user.objectives %}
-          <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40) }}</option>
-          {% endfor %}
-        </select>
-        <button>add</button>
-      </div>
-    </form>
-  </section>
   {% endif %}
 
   {% endblock %}
-
 
 {% block body_end %}
   <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
   </script>
   <script type="text/javascript" src="/static/javascripts/app.js"></script>
+  <script src="/static/javascripts/internal_interface.js"></script>
 {% endblock %}
