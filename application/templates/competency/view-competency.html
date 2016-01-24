@@ -99,17 +99,37 @@
 
   {% if competency %}
   <h2 class="heading-medium">Link competency with</h2>
-  <form class="form" method="post" action="{{ url_for('competency.link', id=competency.id) }}">
-    <div class="form-group">
-      <label class="form-label">Objectives</label>
-      <select id="objectives" name="objectives" class="form-control">
-        {% for objective in current_user.objectives %}
-        <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40) }}</option>
-        {% endfor %}
-      </select>
-      <button>add</button>
-    </div>
-  </form>
+
+  <!-- section for linking objectives -->
+  <section class="linking_container">
+    <h4 class="link_section_heading">Objectives</h4>
+    {% if competency.links %}
+    <ul class="linked-list">
+
+    {% for link in competency.links %}
+      {%- if link.entry_type == 'objective' -%}
+      <li class="linked-item">
+        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
+        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+      </li>
+      {%- endif -%}
+    {% endfor %}
+
+    </ul>
+    {% endif %}
+
+    <form class="form" method="post" action="{{ url_for('competency.link', id=competency.id) }}">
+      <div class="form-group">
+        <label class="form-label">Objectives</label>
+        <select id="objectives" name="objectives" class="form-control">
+          {% for objective in current_user.objectives %}
+          <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40) }}</option>
+          {% endfor %}
+        </select>
+        <button>add</button>
+      </div>
+    </form>
+  </section>
   {% endif %}
 
   {% endblock %}
