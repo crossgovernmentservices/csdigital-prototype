@@ -1,5 +1,6 @@
 {% extends "objectives/base.html" %}
 
+{% from '_macros.html' import render_field, render_hidden %}
 
 {% block inside_banner %}
 {%- if user -%}<span class="user_indicator--manager">manager view</span>{%- endif -%}
@@ -43,10 +44,22 @@
     <section class="obj_attachments">
       <header class="obj_attachments_head">
         {% if not user %}
-        <a class="add-link--right" href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add evidence</a>
+        <a class="evidence-add-link evidence-add-link--right" href="{{ url_for('objectives.add_evidence', id=objective.id) }}">+ add evidence</a>
         {% endif %}
         <h3 class="heading-small">Evidence</h3>
       </header>
+      <div class="evidence_add">
+        <h3 class="heading-small">Attach evidence</h3>
+        <form class="evidence_form" method="post" action="{{ url_for('objectives.add_evidence', id=objective.id) }}">
+          {{ render_hidden(evidence_form) }}
+
+          {{ render_field(evidence_form.title) }}
+
+          {{ render_field(evidence_form.evidence_content, rows=4) }}
+
+          <button class="button">Attach evidence</button>
+        </form>
+      </div>
       <ul class="evidence_list">
       {% for item in objective.evidence %}
         <li class="evidence_item">

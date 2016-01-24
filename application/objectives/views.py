@@ -108,11 +108,13 @@ def view(id=None):
         objective = get_objective_or_404(id=id)
 
     link_form = make_link_form(competencies=True, notes=True)
+    evidence_form = EvidenceForm()
 
     return render_template(
         'objectives/view.html',
         objective=objective,
-        link_form=link_form)
+        link_form=link_form,
+        evidence_form=evidence_form)
 
 
 @objectives.route('/objective/staff/<user_id>')
@@ -160,7 +162,7 @@ def add_evidence(id):
         evidence = create_log_entry(
             'evidence',
             title=form.title.data,
-            content=form.content.data)
+            content=form.evidence_content.data)
 
         objective.link(evidence)
 

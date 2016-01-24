@@ -25,6 +25,13 @@
       $(this).parent('form').addClass('active');
     });
 
+    // toggle add evidence form
+    $('.evidence-add-link').on('click', function() {
+      $(this).toggleClass('active');
+      $('.evidence_add').toggle();
+      return false;
+    });
+
   });
 
 }).call(this, jQuery, window);

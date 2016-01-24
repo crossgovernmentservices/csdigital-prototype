@@ -28,3 +28,45 @@
 .evidence_content {
   margin-left: $gutter-half;
 }
+
+.evidence-add-link--right {
+  @extend .add-link--right;
+  display: inline-block;
+  height: 30px;
+  padding: 5px 5px;
+  margin-top: -5px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.active {
+    background: $panel-colour;
+  }
+}
+
+.evidence_add {
+  padding: $gutter-half;
+  background: $panel-colour;
+
+  h3 {
+    margin: 0 0 $gutter-half 0;
+  }
+
+  .js-enabled & {
+    display: none;
+  }
+}
+
+.evidence_form {
+  .form-group {
+    margin-bottom: $gutter-half;
+  }
+  .form-label, .form-control,
+  button {
+    font-size: 16px;
+  }
+  textarea.form-control {
+    width: 75%;
+  }
+}
