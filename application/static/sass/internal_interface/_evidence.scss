@@ -3,7 +3,7 @@
 }
 
 .evidence_item {
-  
+  padding: 5px 0;
 }
 
 .evidence_summary {
@@ -23,6 +23,7 @@
 .evidence_date {
   color: $secondary-text-colour;
   padding-left: $gutter;
+  font-size: 16px;
 }
 
 .evidence_content {
