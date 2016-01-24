@@ -36,10 +36,19 @@ def link(id):
     form = make_link_form(competencies=True, notes=True)
     # del form.objectives
 
-    if form.validate_on_submit():
-        competency = Competency.objects.get(id=request.form['competencies'])
-        objective.link(competency)
-        flash('Competency successfully linked to objective')
+    if form.is_submitted():
+        if 'competencies' in request.form:
+            competency = Competency.objects.get(
+                id=request.form['competencies'])
+            objective.link(competency)
+            flash('Competency successfully linked to objective')
+
+        elif 'notes' in request.form:
+            note = LogEntry.objects.get(
+                id=request.form['notes'],
+                entry_type='log')
+            objective.link(note)
+            flash('Note successfully linked to objective')
 
     else:
         flash('Linking to competency failed', 'error')
