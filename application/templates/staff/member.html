@@ -21,7 +21,7 @@
         <h2 class="heading-medium">Notes</h2>
         <ul>
         {% for note in member.manager_notes %}
-          <li><a href="{{ url_for('notes.view', id=note.id) }}">{{ note.entry.title }}</a></li>
+          <li><a href="{{ url_for('notes.view', id=note.id) }}">{{ note.entry }}</a></li>
         {% endfor %}
         </ul>
 {% endblock %}
