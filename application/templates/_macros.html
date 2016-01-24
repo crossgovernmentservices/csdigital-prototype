@@ -14,6 +14,29 @@
     </div>
 {% endmacro %}
 
+{# 
+  additional macro because I wasn't sure what the best approach for this is 
+#}
+{% macro render_field_inset_help(field, help_label, help_info) %}
+    <div class="form-group">
+        {{ field.label(class_="form-label") }}
+        <details class="form-inset-help">
+          <summary>{{ help_label }}</summary>
+          <div class="help_content panel-indent">{{ help_info }}</div>
+        </details>
+        {% if not kwargs['class_'] %}
+          {{ field(class_="form-control", **kwargs)|safe }}
+        {% else %}
+          {{ field(**kwargs)|safe }}
+        {% endif %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <span class="error">{{error}}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
 
 {% macro render_hidden(form) %}
     {{ form.hidden_tag() }}
