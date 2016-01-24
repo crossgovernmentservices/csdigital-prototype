@@ -34,10 +34,10 @@ def write_performance_review():
 def link(id):
     objective = get_objective_or_404(id=id)
     form = make_link_form(competencies=True, notes=True)
-    del form.objectives
+    # del form.objectives
 
     if form.validate_on_submit():
-        competency = Competency.objects.get(id=form.competencies.data)
+        competency = Competency.objects.get(id=request.form['competencies'])
         objective.link(competency)
         flash('Competency successfully linked to objective')
 

@@ -3,6 +3,7 @@ from flask import (
     abort,
     flash,
     redirect,
+    request,
     render_template,
     url_for)
 from flask.ext.login import current_user
@@ -41,7 +42,7 @@ def link(id):
 
     if form.validate_on_submit():
         objective = LogEntry.objects.get(
-            id=form.objectives.data,
+            id=request.form['objectives'],
             entry_type='objective')
         objective.link(competency)
         flash('Competency linked to selected objective')
