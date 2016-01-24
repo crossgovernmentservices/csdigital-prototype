@@ -26,6 +26,7 @@
   & > a {
     padding: 0 10px;
     font-weight: normal;
+    display: inline-block;
   }
 
   .remove-link {
@@ -36,6 +37,15 @@
 
 .linked-item:last-of-type {
   border-bottom: none;
+}
+
+.linked-item__add-evidence {
+  text-decoration: none;
+  img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+  }
 }
 
 .add-link-btn,
