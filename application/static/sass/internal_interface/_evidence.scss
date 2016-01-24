@@ -1,0 +1,21 @@
+.evidence_item {
+  
+}
+
+.evidence_summary {
+  position: relative;
+  box-sizing: border-box;
+  padding-right: 75px;
+  width: 100%;
+}
+
+.evidence_remove {
+  position: absolute;
+  right: 0; top: 0;
+  width: 75px;
+}
+
+.evidence_date {
+  color: $secondary-text-colour;
+  padding-left: $gutter;
+}
