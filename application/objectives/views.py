@@ -36,10 +36,19 @@ def link(id):
     form = make_link_form(competencies=True, notes=True)
     # del form.objectives
 
-    if form.validate_on_submit():
-        competency = Competency.objects.get(id=request.form['competencies'])
-        objective.link(competency)
-        flash('Competency successfully linked to objective')
+    if form.is_submitted():
+        if 'competencies' in request.form:
+            competency = Competency.objects.get(
+                id=request.form['competencies'])
+            objective.link(competency)
+            flash('Competency successfully linked to objective')
+
+        elif 'notes' in request.form:
+            note = LogEntry.objects.get(
+                id=request.form['notes'],
+                entry_type='log')
+            objective.link(note)
+            flash('Note successfully linked to objective')
 
     else:
         flash('Linking to competency failed', 'error')
@@ -108,11 +117,13 @@ def view(id=None):
         objective = get_objective_or_404(id=id)
 
     link_form = make_link_form(competencies=True, notes=True)
+    evidence_form = EvidenceForm()
 
     return render_template(
         'objectives/view.html',
         objective=objective,
-        link_form=link_form)
+        link_form=link_form,
+        evidence_form=evidence_form)
 
 
 @objectives.route('/objective/staff/<user_id>')
@@ -160,7 +171,7 @@ def add_evidence(id):
         evidence = create_log_entry(
             'evidence',
             title=form.title.data,
-            content=form.content.data)
+            content=form.evidence_content.data)
 
         objective.link(evidence)
 

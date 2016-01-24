@@ -1,6 +1,6 @@
 {% extends "3colbase.html" %}
 
-{% from "_macros.html" import linked_with %}
+{% from "_macros.html" import linked_with, competency_links %}
 
 {%- if user %}
   {% set objectives = user.objectives %}
@@ -50,87 +50,68 @@
 
 {% block content_links %}
 
-  {% if objective and not user %}
-  <h2 class="heading-medium">Link your objective</h2>
+  {% if objective %}
+    {% if not user %}
+    <h2 class="heading-medium">Link your objective</h2>
 
-  <!-- section for linking competencies -->
-  <section class="linking_container">
-    <h4 class="link_section_heading">Competencies</h4>
-    {% if objective.links %}
-    <ul class="linked-list">
+    {{ competency_links(objective, "objective", competencies) }}
 
-    {% for link in objective.links %}
-      {%- if link.__class__.__name__ == 'Competency' -%}
-      <li class="linked-item">
-        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.name }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
-      {%- endif -%}
-    {% endfor %}
+    <!-- section for linking notes -->
+    <section class="linking_container">
+      <h4 class="link_section_heading">Your notes</h4>
+      {% if objective.links %}
+      <ul class="linked-list">
 
-    </ul>
+      {% for link in objective.links %}
+        {%- if link.entry_type == 'log' -%}
+        <li class="linked-item">
+          <a class="linked-item__add-evidence" href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">
+            <img src="/static/images/paper_clip.svg" alt="attach as evidence" />
+          </a>
+          <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
+          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+        </li>
+        {%- endif -%}
+      {% endfor %}
+
+      </ul>
+      {% endif %}
+
+      <a href="" class="add-link-btn" data-link-form="notes">+ add note</a>
+      <form data-linking-type="notes" class="form add-link-form" class="form" method="post" action="{{ url_for('objectives.link', id=objective.id) }}">
+        <div class="form-group">
+          <select name="notes" id="notes" class="form-control">
+            {% for note in current_user.notes %}
+            <option value="{{ note.id }}">{{ note.entry.title|default(note.entry.content)|truncate(40) }}</option>
+            {% endfor %}
+          </select>
+          <button>add</button>
+        </div>
+      </form>
+    </section>
+    <!-- end linking notes -->
+
+    {% else %}
+    <h2 class="heading-medium">Objective linked to</h2>
+
+    <section class="linking_container">
+      <h4 class="link_section_heading">Competencies</h4>
+      {% if objective.links %}
+      <ul class="linked-list">
+
+      {% for link in objective.links %}
+        {%- if link.__class__.__name__ == 'Competency' -%}
+        <li class="linked-item">
+          <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.name }}</a>
+          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+        </li>
+        {%- endif -%}
+      {% endfor %}
+
+      </ul>
+      {% endif %}
+    </section>
     {% endif %}
-    <form class="form" method="post" action="{{ url_for('objectives.link', id=objective.id) }}">
-      <div class="form-group">
-        {% include "competency/select.html" %}
-        <button>add</button>
-      </div>
-    </form>
-    <p><a href="{{ url_for('competency.view') }}">View competency framework</a></p>
-  </section>
-  <!-- end linking competencies -->
-
-  <!-- section for linking notes -->
-  <section class="linking_container">
-    <h4 class="link_section_heading">Your notes</h4>
-    {% if objective.links %}
-    <ul class="linked-list">
-
-    {% for link in objective.links %}
-      {%- if link.entry_type == 'log' -%}
-      <li class="linked-item">
-        <a class="button" href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}">+</a>
-        <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
-      {%- endif -%}
-    {% endfor %}
-
-    </ul>
-    {% endif %}
-    <form class="form" method="post" action="{{ url_for('objectives.link', id=objective.id) }}">
-      <div class="form-group">
-        <select name="notes" id="notes" class="form-control">
-          {% for note in current_user.notes %}
-          <option value="{{ note.id }}">{{ note.entry.title|default(note.entry.content)|truncate(40) }}</option>
-          {% endfor %}
-        </select>
-        <button>add</button>
-      </div>
-    </form>
-  </section>
-  <!-- end linking notes -->
-
-  {% else %}
-  <h2 class="heading-medium">Linked to objective</h2>
-
-  <section class="linking_container">
-    <h4 class="link_section_heading">Competencies</h4>
-    {% if objective.links %}
-    <ul class="linked-list">
-
-    {% for link in objective.links %}
-      {%- if link.__class__.__name__ == 'Competency' -%}
-      <li class="linked-item">
-        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.name }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
-      {%- endif -%}
-    {% endfor %}
-
-    </ul>
-    {% endif %}
-  </section>
   {% endif %}
 
 {% endblock %}

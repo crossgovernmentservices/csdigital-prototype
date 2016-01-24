@@ -1,6 +1,6 @@
 {% extends "objectives/base.html" %}
 
-{% from "_macros.html" import render_field, render_hidden %}
+{% from "_macros.html" import render_field, render_field_inset_help, render_hidden %}
 
 {% block content %}
 
@@ -13,37 +13,11 @@
       Give your objective a title
     {%- endif -%}">
 
-    <div class="grid-row">
-      <div class="column-half">
-        {{ render_field(form.what, rows=10) }}
-      </div>
-      <div class="column-half">
-        <h2 class="heading-medium guidance-heading">What</h2>
-        <p>What are you to achieve, by when, and how will it be measured?</p>
-      </div>
-    </div>
+    {{ render_field_inset_help(form.what, "Good things to put in the What section", "What are you to achieve, by when, and how will it be measured?", rows=6) }}
 
-    <div class="grid-row">
-      <div class="column-half">
-        {{ render_field(form.how, rows=10) }}
-      </div>
-      <div class="column-half">
-        <h2 class="heading-medium guidance-heading">How</h2>
-        <p>What behaviours and values will you need to use to do this well?
-        Which competencies are important? What skills, experience and knowledge
-        will be needed? Are there any important milestones or tasks?</p>
-      </div>
-    </div>
+    {{ render_field_inset_help(form.how, "Good things to put in the How section", "What behaviours and values will you need to use to do this well? Which competencies are important? What skills, experience and knowledge will be needed? Are there any important milestones or tasks?", rows=6) }}
 
-    <div class="grid-row">
-      <div class="column-half">
-        {{ render_field(form.progress, rows=10) }}
-      </div>
-      <div class="column-half">
-        <h2 class="heading-medium guidance-heading">Progress</h2>
-        <p>What progress have you made towards achieving this objective?</p>
-      </div>
-    </div>
+    {{ render_field_inset_help(form.progress, "Good things to put in the Progress section", "What progress have you made towards achieving this objective?", rows=6) }}
 
     <div class="form-group">
       <button class="button">
@@ -55,7 +29,5 @@
       </button>
     </div>
   </form>
-
-  {% if objective %}{{ linked_with(objective.links) }}{% endif %}
 
 {% endblock %}

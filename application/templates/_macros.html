@@ -14,6 +14,29 @@
     </div>
 {% endmacro %}
 
+{# 
+  additional macro because I wasn't sure what the best approach for this is 
+#}
+{% macro render_field_inset_help(field, help_label, help_info) %}
+    <div class="form-group">
+        {{ field.label(class_="form-label") }}
+        <details class="form-inset-help">
+          <summary>{{ help_label }}</summary>
+          <div class="help_content panel-indent">{{ help_info }}</div>
+        </details>
+        {% if not kwargs['class_'] %}
+          {{ field(class_="form-control", **kwargs)|safe }}
+        {% else %}
+          {{ field(**kwargs)|safe }}
+        {% endif %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <span class="error">{{error}}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
 
 {% macro render_hidden(form) %}
     {{ form.hidden_tag() }}
@@ -50,4 +73,88 @@
     {% endif %}
   </ul>
 </section>
+{% endmacro %}
+
+{% macro competency_links(item, type, competencies) %}
+  <!-- section for linking competencies -->
+  <section class="linking_container">
+    <h4 class="link_section_heading">Competencies</h4>
+    {% if item.links %}
+    <ul class="linked-list">
+
+      {% for link in item.links %}
+        {%- if link.__class__.__name__ == 'Competency' -%}
+        <li class="linked-item">
+          <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
+          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+        </li>
+        {%- endif -%}
+      {% endfor %}
+
+    </ul>
+    {% endif %}
+
+    <a href="" class="add-link-btn" data-link-form="competency">+ add competency</a>
+
+    {% if type == "note" %}
+    <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
+    {% else %}
+    <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('objectives.link', id=item.id) }}">
+    {% endif %}
+      <div class="form-group">
+        <!--<label class="form-label">Competencies</label>-->
+        <select id="competencies" name="competencies" class="form-control">
+          {% for cluster in competencies|groupby('cluster.name') %}
+          <optgroup label="{{ cluster.grouper }}">
+            {% for competency in cluster.list %}
+            <option value="{{ competency.id }}">{{ competency.name }}</option>
+            {% endfor %}
+          </optgroup>
+          {% endfor %}
+        </select>
+        <button>add</button>
+      </div>
+    </form>
+
+  </section>
+  <!-- end linking competencies -->
+{% endmacro %}
+
+{% macro objectives_links(item, type, current_user) %}
+  <!-- section for linking objectives -->
+  <section class="linking_container">
+    <h4 class="link_section_heading">Objectives</h4>
+    {% if item.links %}
+    <ul class="linked-list">
+
+    {% for link in item.links %}
+      {%- if link.entry_type == 'objective' -%}
+      <li class="linked-item">
+        <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
+        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+      </li>
+      {%- endif -%}
+    {% endfor %}
+
+    </ul>
+    {% endif %}
+
+    <a href="" class="add-link-btn" data-link-form="objectives">+ add objective</a>
+    {% if type == "note" %}
+    <form data-linking-type="objectives" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
+    {% else %}
+    <form data-linking-type="objectives" class="form add-link-form" method="post" action="{{ url_for('competency.link', id=item.id) }}">
+    {% endif %}
+      <div class="form-group">
+        <!--<label class="form-label">Objectives</label>-->
+        <select id="objectives" name="objectives" class="form-control">
+          {% for objective in current_user.objectives %}
+          <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what)|truncate(40)|markdown }}</option>
+          {% endfor %}
+        </select>
+        <button>add</button>
+      </div>
+    </form>
+  </section>
+  <!-- end linking objectives -->
 {% endmacro %}

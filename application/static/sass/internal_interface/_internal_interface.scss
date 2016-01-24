@@ -161,3 +161,16 @@ a.secondary_btn {
 .objective_container {
   margin-bottom: 2*$gutter;
 }
+
+// too much nesting
+.form-group {
+  .form-inset-help {
+    font-size: 16px;
+
+    .help_content {
+      @extend .text;
+      margin-left: 10px;
+      padding: 10px;
+    }
+  }
+}
