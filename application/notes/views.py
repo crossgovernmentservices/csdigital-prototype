@@ -6,11 +6,12 @@ from flask import (
     render_template,
     request,
     url_for)
+from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, User
+from application.models import LogEntry, Tag, User
 from application.notes.forms import NoteForm
 from application.utils import get_or_404
 
@@ -100,6 +101,22 @@ def view(id=None):
         note = get_or_404(LogEntry, entry_type='log', id=id)
 
     return render_template('notes/view.html', note=note)
+
+
+@notes.route('/notes/tag/<tag>')
+@login_required
+def by_tag(tag):
+    owner = current_user._get_current_object()
+
+    try:
+        tag = Tag.objects.get(owner=owner, name__iexact=tag)
+
+    except Tag.DoesNotExist:
+        return redirect(url_for('.view'))
+
+    notes = LogEntry.objects.filter(owner=owner, tags__in=[tag])
+
+    return render_template('notes/by-tag.html', tag=tag, notes=notes)
 
 
 @notes.route('/notes/<id>/link_to_staff_member', methods=['POST'])
