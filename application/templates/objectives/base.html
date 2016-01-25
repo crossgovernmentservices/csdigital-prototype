@@ -42,7 +42,9 @@
       </li>
       {% endfor %}
     </ul>
+    {% if not user %}
     <div class="content-nav-action"><a href="{{ url_for('objectives.edit') }}">+ add objective</a></div>
+    {% endif %}
   </div>
 {% endblock %}
 
