@@ -23,7 +23,7 @@
       </h1>
 
       {% if note -%}
-      <span class="note_date">Added on: {{ note.created_date }}</span>
+      <span class="note_date">Added on: {{ "{:%Y-%m-%d %H:%M}".format(note.created_date) }}</span>
       {% endif %}
 
     </header>
