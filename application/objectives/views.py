@@ -190,8 +190,15 @@ def add_evidence(id):
 def promote_note(id, note_id):
     note = get_or_404(LogEntry, entry_type='log', id=note_id)
 
-    note.update(entry_type='evidence')
-    flash('Note promoted to evidence')
+    evidence = create_log_entry(
+        'evidence',
+        title=note.entry.title,
+        content=note.entry.content)
+
+    objective = get_objective_or_404(id=id)
+    objective.link(evidence)
+
+    flash('Evidence created from note')
 
     return redirect(url_for('.view', id=id))
 
