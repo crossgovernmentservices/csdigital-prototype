@@ -37,10 +37,16 @@ class User(db.Document, UserMixin):
     def objectives(self):
         return LogEntry.objects.filter(owner=self, entry_type='objective')
 
+    def add_objective(self, **kwargs):
+        return create_log_entry('objective', owner=self, **kwargs)
+
     @property
     def notes(self):
         return LogEntry.objects.filter(owner=self, entry_type='log').order_by(
             '-created_date')
+
+    def add_note(self, **kwargs):
+        return create_log_entry('log', owner=self, **kwargs)
 
     @property
     def feedback(self):
