@@ -86,6 +86,6 @@ def view(id=None, level_id=None):
             return redirect(url_for('.view', id=id))
 
     return render_template(
-        'competency/view-competency.html',
+        'competency/view.html',
         level=level,
         competency=get_or_404(Competency, id=id))
