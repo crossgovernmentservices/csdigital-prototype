@@ -1,0 +1,32 @@
+{% extends "3colbase.html" %}
+{% from "_macros.html" import objectives_links %}
+
+{% block content_nav %}
+  <div class="content-nav-main">
+    <h2 class="heading-medium">
+      Competencies
+    </h2>
+    <ul class="content-nav-list">
+      {% for comp in competencies %}
+      <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', id=comp.id) }}">{{ comp.name }}</a></li>
+      {% endfor %}
+    </ul>
+    <!--<div class="content-nav-action"><a href="">see more</a></div>-->
+  </div>
+{% endblock %}
+
+{% block content_links %}
+  {% if competency %}
+  <h2 class="heading-medium">Link competency with</h2>
+
+  {{ objectives_links(competency, "competencies", current_user) }}
+
+  {% endif %}
+{% endblock %}
+
+{% block body_end %}
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/app.js"></script>
+  <script src="/static/javascripts/internal_interface.js"></script>
+{% endblock %}
