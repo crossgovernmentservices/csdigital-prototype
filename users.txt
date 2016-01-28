@@ -6,8 +6,5 @@ katya.lakshtanova@digital.cabinet-office.gov.uk, Katya Lakshtanova
 clara.teoh@digital.cabinet-office.gov.uk,Clara Teoh
 david.heath@digital.cabinet-office.gov.uk,David Heath
 colm.britton@digital.cabinet-office.gov.uk,Colm Britton
-adam.shimali@digital.cabinet-office.gov.uk,Adam Shimali
-mikael.allison@digital.cabinet-office.gov.uk,Mikael Allison
-lorena.sutherland@digital.cabinet-office.gov.uk,Lorena Sutherland
 test.user@digital.cabinet-office.gov.uk, Test User
 andy.driver@digital.cabinet-office.gov.uk,Andy Driver
