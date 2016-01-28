@@ -46,11 +46,12 @@ def add():
     manager = current_user
     admin_role = Role.objects.get(name='ADMIN')
     users = User.objects.filter(
-        roles__nin=[admin_role],
         id__nin=[member.id for member in manager.staff],
         id__ne=manager.id)
     if admin_role not in manager.roles:
-        users = users.filter(manager=None)
+        users = users.filter(
+            roles__nin=[admin_role],
+            manager=None)
 
     return render_template('staff/add.html', users=users)
 
