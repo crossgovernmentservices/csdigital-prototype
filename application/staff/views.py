@@ -9,7 +9,7 @@ from flask import (
 from flask.ext.login import current_user
 from flask.ext.security import login_required
 
-from application.models import User
+from application.models import Role, User
 from application.utils import get_or_404
 
 
@@ -44,9 +44,11 @@ def add():
         return redirect(url_for('.view'))
 
     manager = current_user
+    admin_role = Role.objects.get(name='ADMIN')
     users = User.objects.filter(id__ne=manager.id)
     users = users.filter(
         manager=None,
+        roles__nin=[admin_role],
         id__nin=[member.id for member in manager.staff])
 
     return render_template('staff/add.html', users=users)
