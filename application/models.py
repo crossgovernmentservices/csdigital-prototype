@@ -76,8 +76,11 @@ class User(db.Document, UserMixin):
 
     def add_staff(self, user):
         if user not in self.staff and not user.manager:
-            self.update(add_to_set__staff=user)
-            user.update(manager=self)
+
+            admin_role = Role.objects.get(name='ADMIN')
+            if admin_role not in user.roles:
+                self.update(add_to_set__staff=user)
+                user.update(manager=self)
 
 
 def make_inbox_email(email):
