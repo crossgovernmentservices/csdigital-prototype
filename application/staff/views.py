@@ -45,7 +45,9 @@ def add():
 
     manager = current_user
     users = User.objects.filter(id__ne=manager.id)
-    users = users.filter(id__nin=[member.id for member in manager.staff])
+    users = users.filter(
+        manager=None,
+        id__nin=[member.id for member in manager.staff])
 
     return render_template('staff/add.html', users=users)
 

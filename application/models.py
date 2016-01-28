@@ -75,11 +75,7 @@ class User(db.Document, UserMixin):
             user.update(manager=None)
 
     def add_staff(self, user):
-        if user not in self.staff:
-
-            if user.manager:
-                user.manager.remove_staff(user)
-
+        if user not in self.staff and not user.manager:
             self.update(add_to_set__staff=user)
             user.update(manager=self)
 
