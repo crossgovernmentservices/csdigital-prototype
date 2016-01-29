@@ -20,6 +20,7 @@ notes = Blueprint('notes', __name__, template_folder='templates')
 
 
 @notes.route('/notes/<id>/link', methods=['POST'])
+@login_required
 def link(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
     form = make_link_form(competencies=True, objectives=True)
@@ -46,11 +47,9 @@ def link(id):
 def unlink(id, link_id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    if note.unlink(link_id):
-        flash('Removed link')
+    note.remove_link(link_id)
 
-    else:
-        flash('Failed to remove link', 'error')
+    flash('Removed link')
 
     return redirect(url_for('.view', id=id))
 
@@ -92,13 +91,15 @@ def edit(id=None):
 
 
 @notes.route('/notes')
+@login_required
+def view_all():
+    return render_template('notes/view_all.html')
+
+
 @notes.route('/notes/<id>')
 @login_required
-def view(id=None):
-    note = None
-
-    if id:
-        note = get_or_404(LogEntry, entry_type='log', id=id)
+def view(id):
+    note = get_or_404(LogEntry, entry_type='log', id=id)
 
     return render_template('notes/view.html', note=note)
 
@@ -106,15 +107,9 @@ def view(id=None):
 @notes.route('/notes/tag/<tag>')
 @login_required
 def by_tag(tag):
-    owner = current_user._get_current_object()
+    tag = current_user.get_or_404(Tag, name__iexact=tag)
 
-    try:
-        tag = Tag.objects.get(owner=owner, name__iexact=tag)
-
-    except Tag.DoesNotExist:
-        return redirect(url_for('.view'))
-
-    notes = LogEntry.objects.filter(owner=owner, tags__in=[tag])
+    notes = current_user.notes.filter(tags__in=[tag])
 
     return render_template('notes/by-tag.html', tag=tag, notes=notes)
 
@@ -124,11 +119,7 @@ def by_tag(tag):
 def link_staff(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    try:
-        member = User.objects.get(id=request.form['user_id'])
-
-    except User.DoesNotExist:
-        abort(404)
+    member = get_or_404(User, id=request.form['user_id'])
 
     note.link(member)
     return redirect(url_for('.view', id=id))

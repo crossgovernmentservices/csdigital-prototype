@@ -22,7 +22,7 @@
         <h2 class="heading-small">My notes</h2>
         <ul>
           <li><a href="{{ url_for('notes.edit') }}">Add a note</a></li>
-          <li><a href="{{ url_for('notes.view') }}">View recent notes</a></li>
+          <li><a href="{{ url_for('notes.view_all') }}">View recent notes</a></li>
         </ul>
       </div>
     </div>
@@ -41,8 +41,8 @@
       <div class="text">
         <h2 class="heading-small">Performance and objectives</h2>
         <ul>
-          <li><a href="{{url_for('objectives.view')}}">View and edit my objectives</a></li>
-          <li><a href="{{url_for('competency.view')}}">Check competency framework</a></li>
+          <li><a href="{{url_for('objectives.view_all')}}">View and edit my objectives</a></li>
+          <li><a href="{{url_for('competency.view_all')}}">Check competency framework</a></li>
           <li><a href="{{url_for('objectives.write_performance_review')}}">Write performance review</a></li>
         </ul>
       </div>
