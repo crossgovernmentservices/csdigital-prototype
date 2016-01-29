@@ -242,7 +242,13 @@ class LogEntry(db.Document, Linkable):
 
     @property
     def comments(self):
-        return self._linked_log_entries('comment')
+        return reversed(self._linked_log_entries('comment'))
+
+    @property
+    def latest_comment(self):
+        comments = self.comments
+        if comments:
+            return next(comments)
 
     @property
     def notes(self):
