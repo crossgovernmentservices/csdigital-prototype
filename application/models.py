@@ -223,14 +223,19 @@ class LogEntry(db.Document, Linkable):
     @property
     def comments(self):
         return [
-            link for link in self.links
+            link for link in self.linked
             if 'entry_type' in link and link.entry_type == 'comment']
 
     @property
     def evidence(self):
         return [
-            link for link in self.links
+            link for link in self.linked
             if 'entry_type' in link and link.entry_type == 'evidence']
+
+    def competencies(self):
+        return [
+            link for link in self.linked
+            if link.__class__.__name__ == 'Competency']
 
     def add_comment(self, content):
         comment = create_log_entry('comment', content=content)
