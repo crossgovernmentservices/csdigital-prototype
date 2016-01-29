@@ -15,5 +15,11 @@
   {% endfor %}
   </ul>
 
+  <h2 class="heading-medium">Other competencies</h2>
+  <ul>
+    {% for competency in comps_not_linked %}
+      <li><h3 class="heading-small"><a href="{{ url_for('competency.view', id=competency.id) }}">{{ competency.name }}</a></h3></li>
+    {% endfor %}
+  </ul>
 
 {% endblock %}
