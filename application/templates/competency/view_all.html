@@ -4,10 +4,16 @@
 
   <div class="grid-row">
     <div class="column-two-thirds">
-      <h1 class="heading-large">Competency framework</h1>
+      <h1 class="heading-large">Competencies</h1>
     </div>
   </div>
 
-  <p class="lede">Select a competency to view from the list</p>
+  <h2 class="heading-medium">You are focusing on</h2>
+  <ul>
+  {% for competency in current_user.competencies %}
+    <li><h3 class="heading-small"><a href="{{ url_for('competency.view', id=competency.id) }}">{{ competency.name }}</a></h3></li>
+  {% endfor %}
+  </ul>
+
 
 {% endblock %}
