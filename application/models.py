@@ -96,6 +96,16 @@ class User(db.Document, UserMixin, Linkable):
         return LogEntry.objects.filter(owner=self, entry_type='log').order_by(
             '-created_date')
 
+    @property
+    def last_updated_note(self):
+        notes = self.notes
+        by_last_updated = sorted(
+            notes,
+            key=lambda n: n.entry.last_updated or n.created_date,
+            reverse=True)
+        if by_last_updated:
+            return by_last_updated[0]
+
     def add_note(self, **kwargs):
         return create_log_entry('log', owner=self, **kwargs)
 
