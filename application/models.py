@@ -220,18 +220,24 @@ class LogEntry(db.Document, Linkable):
                 msg = '%s is not a valid field' % dynamic_field
                 raise ValidationError(msg)
 
-    @property
-    def comments(self):
+    def _linked_log_entries(self, entry_type):
         return [
             link for link in self.linked
-            if 'entry_type' in link and link.entry_type == 'comment']
+            if 'entry_type' in link and link.entry_type == entry_type]
+
+    @property
+    def comments(self):
+        return self._linked_log_entries('comment')
+
+    @property
+    def notes(self):
+        return self._linked_log_entries('log')
 
     @property
     def evidence(self):
-        return [
-            link for link in self.linked
-            if 'entry_type' in link and link.entry_type == 'evidence']
+        return self._linked_log_entries('evidence')
 
+    @property
     def competencies(self):
         return [
             link for link in self.linked
