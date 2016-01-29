@@ -46,11 +46,9 @@ def link(id):
 def unlink(id, link_id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    if note.unlink(link_id):
-        flash('Removed link')
+    note.remove_link(link_id)
 
-    else:
-        flash('Failed to remove link', 'error')
+    flash('Removed link')
 
     return redirect(url_for('.view', id=id))
 

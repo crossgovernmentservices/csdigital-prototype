@@ -14,12 +14,48 @@ from mongoengine.errors import ValidationError
 db = MongoEngine()
 
 
+class Link(db.Document):
+    """
+    Link between documents, eg: Objective<->Competency
+    """
+    documents = db.ListField(db.GenericReferenceField(), default=[])
+    owner = db.ReferenceField('User')
+
+
+class Linkable(object):
+
+    @property
+    def links(self):
+        return Link.objects.filter(documents=self)
+
+    def has_link(self, other):
+        return self.links.filter(documents=other).count() != 0
+
+    def link(self, other):
+        if self != other and not self.has_link(other):
+            return Link.objects.create(documents=[self, other])
+
+    def unlink(self, other):
+        self.links.filter(documents=other).delete()
+
+    def remove_link(self, link_id):
+        self.links.filter(id=link_id).delete()
+
+    @property
+    def linked(self):
+        return [
+            doc
+            for link in self.links.select_related()
+            for doc in link.documents
+            if doc != self]
+
+
 class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
 
 
-class User(db.Document, UserMixin):
+class User(db.Document, UserMixin, Linkable):
     email = db.StringField(required=True)
     password = db.StringField()
     active = db.BooleanField(default=True)
@@ -64,12 +100,8 @@ class User(db.Document, UserMixin):
 
     @property
     def manager_notes(self):
-        links = Link.objects.filter(documents=self)
-        return [
-            doc
-            for link in links
-            for doc in link.documents
-            if doc != self]
+        # XXX only manager notes are linked to users at the moment
+        return self.linked
 
     @property
     def is_manager(self):
@@ -93,14 +125,6 @@ def make_inbox_email(email):
     return '{user}@{domain}'.format(
         user=email.split('@')[0],
         domain=current_app.config['EMAIL_DOMAIN'])
-
-
-class Link(db.Document):
-    """
-    Link between documents, eg: Objective<->Competency
-    """
-    documents = db.ListField(db.GenericReferenceField(), default=[])
-    owner = db.ReferenceField(User)
 
 
 class Tag(db.Document):
@@ -138,7 +162,7 @@ class Entry(db.DynamicDocument):
         return data
 
 
-class LogEntry(db.Document):
+class LogEntry(db.Document, Linkable):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
     owner = db.ReferenceField(User)
     entry_from = db.StringField()
@@ -188,44 +212,6 @@ class LogEntry(db.Document):
             if dynamic_field not in valid_fields:
                 msg = '%s is not a valid field' % dynamic_field
                 raise ValidationError(msg)
-
-    def has_link(self, other):
-        links = Link.objects.filter(documents=self).filter(documents=other)
-        return links.count() != 0
-
-    def link(self, other):
-        if self != other and not self.has_link(other):
-            link = Link(documents=[self, other])
-            link.owner = self.owner
-            link.save()
-
-    def unlink(self, other_id):
-        links = Link.objects.filter(
-            documents=self,
-            owner=current_user._get_current_object())
-
-        for link in links:
-            doc_a, doc_b = link.documents
-
-            # XXX link_id is a GUID, but not unique across collections
-            if doc_a == self and str(doc_b.id) == other_id:
-                link.delete()
-                return True
-
-            if doc_b == self and str(doc_a.id) == other_id:
-                link.delete()
-                return True
-
-        return False
-
-    @property
-    def links(self):
-        links = Link.objects.filter(documents=self)
-        return [
-            doc
-            for link in links
-            for doc in link.documents
-            if doc != self]
 
     @property
     def comments(self):

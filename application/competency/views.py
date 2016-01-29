@@ -46,12 +46,13 @@ def link(id):
     return redirect(url_for('.view', id=id))
 
 
-@competency.route('/competency/<id>/unlink/<link_id>', methods=['GET', 'POST'])
+@competency.route('/competency/<id>/unlink/<other_id>', methods=['GET', 'POST'])
 @login_required
-def unlink(id, link_id):
+def unlink(id, other_id):
     competency = get_or_404(Competency, id=id)
+    other = get_or_404(LogEntry, id=other_id)
 
-    if competency.unlink(link_id):
+    if competency.unlink(other):
         flash('Removed link')
 
     else:
