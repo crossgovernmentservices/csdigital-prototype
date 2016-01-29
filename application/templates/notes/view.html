@@ -3,92 +3,80 @@
 
 {% block content %}
 
-  {% if note %}
-    <header class="note_header">
+  <header class="note_header">
 
-      <div class="note_actions">
-        <ul>
-          <li><a href="{{ request.path }}/edit">edit</a></li>
-          <li><a href="">delete</a></li>
-          <li><a href="">share</a></li>
-        </ul>
-      </div>
-
-      <h1 class="heading-large note_title">
-      {%- if note and note.entry.title -%}
-        {{ note.entry.title }}
-      {%- else -%}
-        Note title<span class="small-text"> (<a href="{{ request.path }}/edit">you can change this</a>)</span>
-      {%- endif -%}
-      </h1>
-
-      {% if note -%}
-      <span class="note_date">Added on: {{ note.created_date }}</span>
-      {% endif %}
-
-    </header>
-
-    <section class="note_body">
-      <div class="note-content text rendered-markdown">
-      {% if note -%}
-        {{ note.entry.content|markdown }}
-      {%- else -%}
-      <p>Write your note here</p>
-      {%- endif %}
-      </div>
-    </section>
-
-    <section class="note-tags">
-      <h3 class="heading-small">Tags</h3>
-      <ul class="tags-list">
-      {% if note %}
-        {% if note.tags %}
-          {% for tag in note.tags %}
-            <li><a href="">{{ tag.name }}</a></li>
-          {% endfor %}
-        {% else %}
-          <li class="tags-list__empty">No tags added. Use tags to help organise your notes.</li>
-        {% endif %}
-      {% endif %}
+    <div class="note_actions">
+      <ul>
+        <li><a href="{{ request.path }}/edit">edit</a></li>
+        <li><a href="">delete</a></li>
+        <li><a href="">share</a></li>
       </ul>
-    </section>
-
-    {% if current_user.is_manager %}
-    <section class="note-staff">
-      <h3 class="heading-small">Staff</h3>
-      <ul class="staff-list">
-      {% if note %}
-        {% for link in note.links %}
-          {% if link.__class__.__name__ == 'User' -%}
-        <li><a href="{{ url_for('staff.member', id=link.id) }}" class="staff-initials--mini" title="{{ link.full_name }}">{{ link.full_name|initials }}</a></li>
-          {% endif %}
-        {% endfor %}
-        <li><a class="staff-list__add-btn" href="">+</a></li>
-      {% endif %}
-      </ul>
-
-      <form class="form add-staff-member-form" method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
-        <label for="user_id" class="form-label">Add staff member</label>
-        <select class="form-control" name="user_id" id="user_id">
-        {% for member in current_user.staff %}
-          <option value="{{ member.id }}">{{ member.full_name }}</option>
-        {% endfor %}
-        </select>
-        <button>Add</button>
-      </form>
-
-    </section>
-    {% endif %}
-
-  {% else %}
-    <h1 class="heading-large">Your notes</h1>
-
-    <p class="lede">Select a recently captured note from the list to view.</p>
-
-    <div class="panel-indent">
-      <p>Don't forget you can also email notes to: <strong class="bold-small"><a href="mailto:{{current_user.inbox_email}}" target="_blank">{{current_user.inbox_email}}</a></strong></p>
     </div>
 
+    <h1 class="heading-large note_title">
+    {%- if note and note.entry.title -%}
+      {{ note.entry.title }}
+    {%- else -%}
+      Note title<span class="small-text"> (<a href="{{ request.path }}/edit">you can change this</a>)</span>
+    {%- endif -%}
+    </h1>
+
+    {% if note -%}
+    <span class="note_date">Added on: {{ "{:%Y-%m-%d %H:%M}".format(note.created_date) }}</span>
+    {% endif %}
+
+  </header>
+
+  <section class="note_body">
+    <div class="note-content text rendered-markdown">
+    {% if note -%}
+      {{ note.entry.content|markdown }}
+    {%- else -%}
+    <p>Write your note here</p>
+    {%- endif %}
+    </div>
+  </section>
+
+  <section class="note-tags">
+    <h3 class="heading-small">Tags</h3>
+    <ul class="tags-list">
+    {% if note %}
+      {% if note.tags %}
+        {% for tag in note.tags %}
+          <li><a href="{{ url_for('notes.by_tag', tag=tag.name) }}">{{ tag.name }}</a></li>
+        {% endfor %}
+      {% else %}
+        <li class="tags-list__empty">No tags added. Use tags to help organise your notes.</li>
+      {% endif %}
+    {% endif %}
+    </ul>
+  </section>
+
+  {% if current_user.is_manager %}
+  <section class="note-staff">
+    <h3 class="heading-small">Staff</h3>
+    <ul class="staff-list">
+    {% if note %}
+      {% for link in note.links %}
+        {% if link.__class__.__name__ == 'User' -%}
+      <li><a href="{{ url_for('staff.member', id=link.id) }}" class="staff-initials--mini" title="{{ link.full_name }}">{{ link.full_name|initials }}</a></li>
+        {% endif %}
+      {% endfor %}
+      <li><a class="staff-list__add-btn" href="">+</a></li>
+    {% endif %}
+    </ul>
+
+    <form class="form add-staff-member-form" method="post" action="{{ url_for('notes.link_staff', id=note.id) }}">
+      <label for="user_id" class="form-label">Add staff member</label>
+      <select class="form-control" name="user_id" id="user_id">
+      {% for member in current_user.staff %}
+        <option value="{{ member.id }}">{{ member.full_name }}</option>
+      {% endfor %}
+      </select>
+      <button>Add</button>
+    </form>
+
+  </section>
   {% endif %}
 
 {% endblock %}

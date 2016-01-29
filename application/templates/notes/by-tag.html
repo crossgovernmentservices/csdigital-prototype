@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+
+  <h1 class="heading-large">Your notes</h1>
+
+  <a href="{{ url_for('notes.view') }}">See all notes</a>
+
+  <div class="panel-indent">
+    <p>Notes filtered by tag: {{ tag.name }}</p>
+  </div>
+
+  <h2 class="heading-medium">Filtered notes list</h2>
+  <ul>
+  {% for note in notes %}
+    <li><a href="{{ url_for('notes.view', id=note.id) }}">{{ note.entry }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

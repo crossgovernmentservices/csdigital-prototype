@@ -1,0 +1,71 @@
+{% extends "competency/base.html" %}
+
+{% block content %}
+
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1 class="heading-large"><span class="heading-secondary">Competency framework</span>{{ competency.name }}</h1>
+    </div>
+  </div>
+
+  <div class="grid-row">
+    <div style="padding: 0 15px; font-size: smaller">
+      <p>{{ competency.overview }}</p>
+    </div>
+  </div>
+
+  {% if not level %}
+  <form method="post">
+    <fieldset>
+      <label>
+        Help us show the relevant behaviours for this competency by
+        providing your grade
+        {{ grade_form.grade }}
+      </label>
+      <button>Save</button>
+  </form>
+
+  {% else %}
+  <p>Your grade: {{ current_user.grade }}</p>
+  <form method="post">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Level {{ level.level_id }} ({{ level.description }})</th>
+      </tr>
+      <tr>
+        <th>Effective</th>
+        <th>Ineffective</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for behaviour in competency.behaviours(level) %}
+      <tr>
+        <td>
+          <label>
+            <!--<input id="behaviours-{{ loop.index0 }}" type="checkbox" name="behaviours" value="{{ behaviour.id }}">-->
+            {{ behaviour.effective }}
+          </label>
+        </td>
+        <td><p>{{ behaviour.ineffective }}</p></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          {% if level.prev %}
+          <a href="{{ url_for('competency.view', id=competency.id, level_id=level.prev.id) }}">Previous Grade</a>
+          {% endif %}
+        </td>
+        <td>
+          {% if level.next %}
+          <a href="{{ url_for('competency.view', id=competency.id, level_id=level.next.id) }}">Next Grade</a>
+          {% endif %}
+        </td>
+    </tfoot>
+  </table>
+  </form>
+  {% endif %}
+
+{% endblock %}

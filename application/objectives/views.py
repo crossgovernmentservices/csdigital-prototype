@@ -34,7 +34,6 @@ def write_performance_review():
 def link(id):
     objective = get_objective_or_404(id=id)
     form = make_link_form(competencies=True, notes=True)
-    # del form.objectives
 
     if form.is_submitted():
         if 'competencies' in request.form:
@@ -76,10 +75,8 @@ def unlink(id, link_id):
 def edit(id=None):
 
     objective = None
-    link_form = None
     if id:
         objective = get_objective_or_404(id=id)
-        link_form = make_link_form(competencies=True, notes=True)
 
     form = ObjectiveForm()
 
@@ -104,26 +101,22 @@ def edit(id=None):
     return render_template(
         'objectives/edit.html',
         form=form,
-        link_form=link_form,
         objective=objective)
 
 
-@objectives.route('/objective')
 @objectives.route('/objective/<id>')
 @login_required
-def view(id=None):
-    objective = None
-    if id:
-        objective = get_objective_or_404(id=id)
-
-    link_form = make_link_form(competencies=True, notes=True)
-    evidence_form = EvidenceForm()
-
+def view(id):
     return render_template(
         'objectives/view.html',
-        objective=objective,
-        link_form=link_form,
-        evidence_form=evidence_form)
+        objective=get_objective_or_404(id=id),
+        evidence_form=EvidenceForm())
+
+
+@objectives.route('/objective')
+@login_required
+def view_all():
+    return render_template('objectives/view_all.html')
 
 
 @objectives.route('/objective/staff/<user_id>')
@@ -142,8 +135,7 @@ def view_others(user_id, id=None):
     return render_template(
         'objectives/view.html',
         objective=objective,
-        user=user,
-        link_form=None)
+        user=user)
 
 
 @objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
@@ -190,8 +182,15 @@ def add_evidence(id):
 def promote_note(id, note_id):
     note = get_or_404(LogEntry, entry_type='log', id=note_id)
 
-    note.update(entry_type='evidence')
-    flash('Note promoted to evidence')
+    evidence = create_log_entry(
+        'evidence',
+        title=note.entry.title,
+        content=note.entry.content)
+
+    objective = get_objective_or_404(id=id)
+    objective.link(evidence)
+
+    flash('Evidence created from note')
 
     return redirect(url_for('.view', id=id))
 

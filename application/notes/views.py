@@ -6,11 +6,12 @@ from flask import (
     render_template,
     request,
     url_for)
+from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, User
+from application.models import LogEntry, Tag, User
 from application.notes.forms import NoteForm
 from application.utils import get_or_404
 
@@ -19,6 +20,7 @@ notes = Blueprint('notes', __name__, template_folder='templates')
 
 
 @notes.route('/notes/<id>/link', methods=['POST'])
+@login_required
 def link(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
     form = make_link_form(competencies=True, objectives=True)
@@ -45,11 +47,9 @@ def link(id):
 def unlink(id, link_id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    if note.unlink(link_id):
-        flash('Removed link')
+    note.remove_link(link_id)
 
-    else:
-        flash('Failed to remove link', 'error')
+    flash('Removed link')
 
     return redirect(url_for('.view', id=id))
 
@@ -91,15 +91,27 @@ def edit(id=None):
 
 
 @notes.route('/notes')
+@login_required
+def view_all():
+    return render_template('notes/view_all.html')
+
+
 @notes.route('/notes/<id>')
 @login_required
-def view(id=None):
-    note = None
-
-    if id:
-        note = get_or_404(LogEntry, entry_type='log', id=id)
+def view(id):
+    note = get_or_404(LogEntry, entry_type='log', id=id)
 
     return render_template('notes/view.html', note=note)
+
+
+@notes.route('/notes/tag/<tag>')
+@login_required
+def by_tag(tag):
+    tag = current_user.get_or_404(Tag, name__iexact=tag)
+
+    notes = current_user.notes.filter(tags__in=[tag])
+
+    return render_template('notes/by-tag.html', tag=tag, notes=notes)
 
 
 @notes.route('/notes/<id>/link_to_staff_member', methods=['POST'])
@@ -107,11 +119,7 @@ def view(id=None):
 def link_staff(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    try:
-        member = User.objects.get(id=request.form['user_id'])
-
-    except User.DoesNotExist:
-        abort(404)
+    member = get_or_404(User, id=request.form['user_id'])
 
     note.link(member)
     return redirect(url_for('.view', id=id))

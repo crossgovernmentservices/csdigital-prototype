@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  {% if objective %}
+
   <section class="objective_container">
     <header class="note_header">
 
@@ -26,7 +26,7 @@
         {{ objective.entry.title|default("Objective") }}
       </h1>
 
-      <span class="note_date">Added on: {{ objective.created_date }}</span>
+      <span class="note_date">Added on: {{ "{:%Y-%m-%d %H:%M}".format(objective.created_date) }}</span>
 
     </header>
 
@@ -71,8 +71,10 @@
             <details>
               <summary class="evidence_summary">
                 <span class="evidence_title">{{ item.entry.title }}</span>
-                <span class="evidence_date">added on {{ item.created_date }}</span>
+                <span class="evidence_date">added on {{ "{:%Y-%m-%d %H:%M}".format(item.created_date) }}</span>
+                {% if not user %}
                 <span class="evidence_remove remove-link"><a href="{{ url_for('objectives.remove_evidence', id=objective.id, evidence_id=item.id) }}">remove</a></span>
+                {% endif %}
               </summary>
               <div class="panel-indent evidence_content">{{ item.entry.content|markdown }}</div>
             </details>
@@ -110,31 +112,5 @@
     </form>
     {% endif %}
   </section>
-
-  {% else %}
-    <h1 class="heading-large">
-      {%- if not user -%}
-        Your objectives
-      {%- else -%}
-        {{ user.full_name }}'s objectives
-      {%- endif -%}
-    </h1>
-
-    <p class="lede">Select an objective from the list</p>
-
-    <section class="related">
-      <h2>Useful resources</h2>
-      <nav>
-        <ul>
-          <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/resources/cscf_fulla4potrait_2013-2017_v2e.pdf">Competency framework</a></li>
-          <li><a href="https://civilservicelearning.civilservice.gov.uk/competency-framework/how-use-competency-framework">How to use the competency framework</a></li>
-          <li><a href="https://civilservicelearning.civilservice.gov.uk/competency-framework/case-study-1">A case study</a></li>
-          <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/performance-objectives-and-competency-e-learning">Competency and objective training</a></li>
-          <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/howtosetsmartobjectivescfindicatorstr230513fvissue3.doc">How to set SMART objectives</a></li>
-        </ul>
-      </nav>
-    </section>
-
-  {% endif %}
 
 {% endblock %}
