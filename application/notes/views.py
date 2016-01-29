@@ -90,13 +90,15 @@ def edit(id=None):
 
 
 @notes.route('/notes')
+@login_required
+def view_all():
+    return render_template('notes/view_all.html')
+
+
 @notes.route('/notes/<id>')
 @login_required
-def view(id=None):
-    note = None
-
-    if id:
-        note = get_or_404(LogEntry, entry_type='log', id=id)
+def view(id):
+    note = get_or_404(LogEntry, entry_type='log', id=id)
 
     return render_template('notes/view.html', note=note)
 
