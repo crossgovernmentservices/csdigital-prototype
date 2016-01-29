@@ -119,23 +119,31 @@ def view_all():
     return render_template('objectives/view_all.html')
 
 
-@objectives.route('/objective/staff/<user_id>')
 @objectives.route('/objective/staff/<user_id>/<id>')
 @login_required
-def view_others(user_id, id=None):
+def view_for_user(user_id, id):
     user = get_or_404(User, id=user_id)
 
     if user not in current_user.staff:
         abort(403)
 
-    objective = None
-    if id:
-        objective = get_objective_or_404(id=id)
+    objective = get_objective_or_404(id=id)
 
     return render_template(
         'objectives/view.html',
         objective=objective,
         user=user)
+
+
+@objectives.route('/objective/staff/<user_id>')
+@login_required
+def view_all_for_user(user_id):
+    user = get_or_404(User, id=user_id)
+
+    if user not in current_user.staff:
+        abort(403)
+
+    return render_template('objectives/view_all.html', user=user)
 
 
 @objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
@@ -150,7 +158,7 @@ def comment(user_id, id):
 
     objective.add_comment(request.form['content'])
 
-    return redirect(url_for('.view_others', user_id=user_id, id=id))
+    return redirect(url_for('.view_for_user', user_id=user_id, id=id))
 
 
 @objectives.route('/objective/<id>/evidence/add', methods=['GET', 'POST'])
