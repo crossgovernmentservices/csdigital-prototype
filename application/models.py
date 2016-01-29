@@ -242,13 +242,13 @@ class LogEntry(db.Document, Linkable):
 
     @property
     def comments(self):
-        return reversed(self._linked_log_entries('comment'))
+        return list(reversed(self._linked_log_entries('comment')))
 
     @property
     def latest_comment(self):
         comments = self.comments
         if comments:
-            return next(comments)
+            return comments[0]
 
     @property
     def notes(self):
@@ -256,7 +256,13 @@ class LogEntry(db.Document, Linkable):
 
     @property
     def evidence(self):
-        return self._linked_log_entries('evidence')
+        return list(reversed(self._linked_log_entries('evidence')))
+
+    @property
+    def latest_evidence(self):
+        evidence = self.evidence
+        if evidence:
+            return evidence[0]
 
     @property
     def competencies(self):
