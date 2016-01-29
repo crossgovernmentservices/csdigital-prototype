@@ -15,6 +15,7 @@ from flask.ext.security.utils import (
     encrypt_password
 )
 
+from application.factory import create_app
 from application.models import (
     Entry,
     Link,
@@ -30,7 +31,7 @@ from application.competency.models import (
     Level
 )
 
-from application.run import app
+app = create_app(os.environ.get('SETTINGS', 'application.config.Config'))
 app.debug = True
 port = os.environ.get('PORT', 8000)
 

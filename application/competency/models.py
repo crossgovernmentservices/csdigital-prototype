@@ -1,4 +1,3 @@
-from flask.ext.login import current_user
 from flask.ext.mongoengine import MongoEngine
 
 from application.models import Linkable

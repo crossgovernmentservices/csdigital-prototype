@@ -10,6 +10,8 @@ from flask.ext.mongoengine import MongoEngine
 from mongoengine.queryset import queryset_manager
 from mongoengine.errors import ValidationError
 
+from application.utils import get_or_404
+
 
 db = MongoEngine()
 
@@ -69,6 +71,9 @@ class User(db.Document, UserMixin, Linkable):
     staff = db.ListField(db.ReferenceField('User'), default=[])
     manager = db.ReferenceField('User')
 
+    def get_or_404(self, cls, **kwargs):
+        return get_or_404(cls, owner=self, **kwargs)
+
     @property
     def objectives(self):
         return LogEntry.objects.filter(owner=self, entry_type='objective')
@@ -94,7 +99,7 @@ class User(db.Document, UserMixin, Linkable):
 
     @property
     def competencies(self):
-        # TODO
+        # TODO list competencies linked to user's objectives and notes
         from application.competency.models import Competency
         return Competency.objects
 
