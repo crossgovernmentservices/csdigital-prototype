@@ -140,7 +140,13 @@ class Tag(db.Document):
 
 
 schemas = {
-    'objective': ('how', 'what', 'started_on', 'due_by', 'title', 'progress'),
+    'objective': (
+        'how',
+        'what',
+        'started_on',
+        'due_by',
+        'title',
+        'progress'),
     'feedback': (
         'template',
         'requested_from',
@@ -159,6 +165,15 @@ schemas = {
 
 
 class Entry(db.DynamicDocument):
+    last_updated = db.DateTimeField(default=None)
+
+    def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.utcnow()
+        return super(Entry, self).save(*args, **kwargs)
+
+    def update(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.utcnow()
+        return super(Entry, self).update(*args, **kwargs)
 
     def __unicode__(self):
         data = ''
