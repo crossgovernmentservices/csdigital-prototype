@@ -99,9 +99,11 @@ class User(db.Document, UserMixin, Linkable):
 
     @property
     def competencies(self):
-        # TODO list competencies linked to user's objectives and notes
-        from application.competency.models import Competency
-        return Competency.objects
+        return set([
+            competency
+            for objective in self.objectives
+            for competency in objective.linked
+            if competency.__class__.__name__ == 'Competency'])
 
     @property
     def manager_notes(self):
