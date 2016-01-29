@@ -38,6 +38,12 @@ class Competency(db.Document, Linkable):
     def behaviours(self, level):
         return Behaviour.objects.filter(level=level, competency=self)
 
+    def objectives(self, user):
+        return [
+            objective
+            for objective in self.linked
+            if objective.entry_type == 'objective' and objective.owner == user]
+
 
 class Behaviour(db.Document):
     effective = db.StringField()
