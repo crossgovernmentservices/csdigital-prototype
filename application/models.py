@@ -78,6 +78,16 @@ class User(db.Document, UserMixin, Linkable):
     def objectives(self):
         return LogEntry.objects.filter(owner=self, entry_type='objective')
 
+    @property
+    def last_updated_objective(self):
+        objectives = self.objectives
+        by_last_updated = sorted(
+            objectives,
+            key=lambda o: o.entry.last_updated or o.created_date,
+            reverse=True)
+        if by_last_updated:
+            return by_last_updated[0]
+
     def add_objective(self, **kwargs):
         return create_log_entry('objective', owner=self, **kwargs)
 
