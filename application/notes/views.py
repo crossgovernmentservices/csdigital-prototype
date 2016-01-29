@@ -1,7 +1,7 @@
 from flask import (
     Blueprint,
-    abort,
     flash,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -102,6 +102,18 @@ def view(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
     return render_template('notes/view.html', note=note)
+
+
+@notes.route('/notes/<id>.json')
+@login_required
+def view_json(id):
+    note = get_or_404(LogEntry, entry_type='log', id=id)
+    return jsonify({
+        'created_date': note.created_date,
+        'last_updated': note.entry.last_updated,
+        'title': note.entry.title,
+        'content': note.entry.content,
+        'tags': [tag.name for tag in note.tags]})
 
 
 @notes.route('/notes/tag/<tag>')
