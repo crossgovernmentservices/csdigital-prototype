@@ -102,10 +102,14 @@ html {
   @extend %contain-floats;
 }
 
+.small-text,
+.small-link {
+  font-size: 16px;
+}
+
 .small-text {
   color: $secondary-text-colour;
   font-weight: normal;
-  font-size: 16px;
 }
 
 .secondary_btn,
