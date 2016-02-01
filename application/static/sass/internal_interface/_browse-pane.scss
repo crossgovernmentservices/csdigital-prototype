@@ -8,11 +8,15 @@
   padding-top: 50px;
   border-right: 1px solid #ccc;
 
+  ul {
+    list-style: none;
+  }
+
   li {
     position: relative;
     font-size: 16px;
 
-    a {
+    & > a {
       text-decoration: none;
       position: relative;
       display: block;
@@ -37,6 +41,32 @@
         float: right;
         content: "\203A";
       }
+
+      &.browse-pane__subsection-heading {
+        font-size: 19px;
+        font-weight: bold;
+        color: $grey-1;
+
+        &::after {
+          // margin-top: -10px;
+          content: "";
+        }
+        &:hover {
+          color: $text-colour;
+        }
+      }
+      &.browse-pane__subsection-heading--open {
+        @extend .browse-pane__subsection-heading;
+        color: $text-colour;
+      }
+    }
+
+    & > ul {
+      margin-left: $gutter-half;
     }
   }
+}
+
+.browse-pane__subsection {
+  margin: 0;
 }
