@@ -13,13 +13,13 @@
     <ul>
       <li><a href="/competency" class="browse-pane__subsection-heading">Competencies</a></li>
       <li>
-      <a href="/objective" class="browse-pane__subsection-heading--open">
-        {% if not user -%}
-          Your objectives
-        {%- else -%}
-          {{ user.full_name }}'s objectives
-        {%- endif %}
-      </a>
+        <a href="/objective" class="browse-pane__subsection-heading--open">
+          {% if not user -%}
+            Your objectives
+          {%- else -%}
+            {{ user.full_name }}'s objectives
+          {%- endif %}
+        </a>
 
     {% with sort=request.args.get('sort', 'oldest-first') %}
     <div class="content-nav-action">
@@ -28,7 +28,11 @@
           {# up arrow #}&#8593;
         {%- else -%}
           {# down arrow #}&#8595;
-        {%- endif %} sort</a></div>
+        {%- endif %} sort</a>
+        {% if not user %}
+        <a href="{{ url_for('objectives.edit') }}">+ add objective</a>
+        {% endif %}
+    </div>
     {% endwith %}
 
     <ul>
@@ -48,9 +52,7 @@
     </li>
     <li><a href="" class="browse-pane__subsection-heading">Development goals</a></li>
   </ul>
-    {% if not user %}
-    <div class="content-nav-action"><a href="{{ url_for('objectives.edit') }}">+ add objective</a></div>
-    {% endif %}
+
   </div>
 {% endblock %}
 
