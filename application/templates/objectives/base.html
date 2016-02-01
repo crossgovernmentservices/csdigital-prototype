@@ -29,9 +29,9 @@
         {%- else -%}
           {# down arrow #}&#8595;
         {%- endif %} sort</a>
-        {% if not user %}
-        <a href="{{ url_for('objectives.edit') }}">+ add objective</a>
-        {% endif %}
+      {% if not user %}
+      <a href="{{ url_for('objectives.edit') }}">+ add objective</a>
+      {% endif %}
     </div>
     {% endwith %}
 
