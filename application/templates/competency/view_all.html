@@ -14,11 +14,20 @@
     <li>
       <details class="accordion">
         <summary class="accordion-head">
-          {{ competency.name }}
-          <span class="more-group">
-            <button class="btn-more">Show information <img alt="" src="/static/images/circle-plus@2x.png" width="16px"></button>
-            <button class="btn-less">Hide information <img alt="" src="/static/images/circle-minus@2x.png" width="16px"></button>
-          </span>
+          <div class="grid-row">
+            <div class="column-half accordion-title">{{ competency.name }}</div>
+            <div class="column-quarter accordion-meta">
+              {{ competency.objectives(current_user)|length }} objective{{ competency.objectives(current_user)|length|pluralise }}
+            </div>
+            <div class="column-quarter">
+              <span class="more-group">
+                <button class="btn-more">Show information <img alt="" src="/static/images/circle-plus@2x.png" width="16px"></button>
+                <button class="btn-less">Hide information <img alt="" src="/static/images/circle-minus@2x.png" width="16px"></button>
+              </span>
+            </div>
+          </div>
+          
+          
         </summary>
         <div class="accordion-content">
 
