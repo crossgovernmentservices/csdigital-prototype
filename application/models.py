@@ -290,6 +290,12 @@ class LogEntry(db.Document, Linkable):
             link for link in self.linked
             if link.__class__.__name__ == 'Competency']
 
+    @property
+    def linked_staff(self):
+        return [
+            link for link in self.linked
+            if link.__class__.__name__ == 'User']
+
     def add_comment(self, content):
         comment = create_log_entry('comment', content=content)
         self.link(comment)
