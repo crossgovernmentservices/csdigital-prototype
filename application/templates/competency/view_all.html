@@ -26,8 +26,6 @@
               </span>
             </div>
           </div>
-          
-          
         </summary>
         <div class="accordion-content">
 
@@ -62,7 +60,26 @@
   <h2 class="heading-medium">Other competencies</h2>
   <ul>
     {% for competency in comps_not_linked %}
-      <li><h3 class="heading-small"><a href="{{ url_for('competency.view', id=competency.id) }}">{{ competency.name }}</a></h3></li>
+      <li>
+        <details class="accordion">
+          <summary class="accordion-head">
+            <span class="accordion-title">{{ competency.name }}</span>
+            <span class="more-group">
+              <button class="btn-more">Show information <img alt="" src="/static/images/circle-plus@2x.png" width="16px"></button>
+              <button class="btn-less">Hide information <img alt="" src="/static/images/circle-minus@2x.png" width="16px"></button>
+            </span>
+          </summary>
+          <div class="accordion-content">
+            <div class="grid-row accordion-content__subsection">
+              <div class="column-third accordion-content__subsection__heading">
+                <h3 class="heading-small">Description</h3>
+                <a class="small-link" href="{{ url_for('competency.view', id=competency.id) }}">See behaviours</a>
+              </div>
+              <div class="column-two-thirds">{{ competency.overview }}</div>
+            </div>
+          </div>
+        </details>
+      </li>
     {% endfor %}
   </ul>
 
