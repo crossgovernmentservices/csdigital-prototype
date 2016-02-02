@@ -61,11 +61,10 @@
     <!-- section for linking notes -->
     <section class="linking_container">
       <h4 class="link_section_heading">Your notes</h4>
-      {% if objective.links %}
+      {% if objective.notes %}
       <ul class="linked-list">
 
-      {% for link in objective.links %}
-        {%- if link.entry_type == 'log' -%}
+      {% for link in objective.notes %}
         <li class="linked-item">
           <a class="linked-item__add-evidence" href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">
             <img src="/static/images/paper_clip.svg" alt="attach as evidence" />
@@ -73,7 +72,6 @@
           <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
           <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
         </li>
-        {%- endif -%}
       {% endfor %}
 
       </ul>
