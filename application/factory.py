@@ -113,6 +113,13 @@ def register_filters(app):
       initials = ''.join(name[0].upper() for name in full_name.split())
       return initials
 
+    def pluralise(number, singular = '', plural = 's'):
+      if number == 1:
+        return singular
+      else:
+        return plural
+
     app.jinja_env.filters['format_date'] = format_date
     app.jinja_env.filters['format_entry'] = format_entry
     app.jinja_env.filters['initials'] = initials
+    app.jinja_env.filters['pluralise'] = pluralise

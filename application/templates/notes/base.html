@@ -3,7 +3,7 @@
 {% from "_macros.html" import competency_links, objectives_links %}
 
 {% block content_nav %}
-  <div class="content-nav-main">
+  <div>
     <h2 class="heading-medium">
       Recent notes
     </h2>
@@ -12,7 +12,7 @@
     {% set start=request.args.get('from', 0)|int %}
     {% set num=request.args.get('num', 5)|int(default=5) %}
 
-    <ul class="content-nav-list">
+    <ul>
       {% for other_note in current_user.notes[start:start + num] %}
       <li>
       {%- if note and note == other_note -%}
