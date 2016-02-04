@@ -1,1 +1,92 @@
 {% extends "base.html" %}
+
+{% block body_content %}
+
+<h1 class="heading-large">
+  <span class="heading-secondary">Skills audit</span>
+  Assess your capability level
+</h1>
+
+<p class="lede text">Some blurb about what the user is about to do.</p>
+
+<details>
+  <summary>Why are we asking you to do this?</summary>
+  <div class="panel-indent text">
+    An explanation about why the organisation needs this. And why it is useful for the user to complete it accurately.
+  </div>
+</details>
+
+  <form class="form" action="">
+
+    <!-- COMMERCIAL -->
+    <div class="form-group">
+      <label for="commercial" class="form-label">Commercial</label>
+      <input type="range" id="commercial" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
+      <datalist id="capabilitylevel">
+        <option>0</option>
+        <option>25</option>
+        <option>50</option>
+        <option>75</option>
+        <option>100</option>
+      </datalist>
+      <output for="commercial">0</ouput>
+    </div>
+
+    <!-- DIGITAL -->
+    <div class="form-group">
+      <label for="digital" class="form-label">Digital</label>
+      <input type="range" id="digtial" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
+      <datalist id="capabilitylevel">
+        <option>0</option>
+        <option>25</option>
+        <option>50</option>
+        <option>75</option>
+        <option>100</option>
+      </datalist>
+      <output for="digital">0</ouput>
+    </div>
+
+    <!-- PROJECT DELIVERY -->
+    <div class="form-group">
+      <label for="projectdel" class="form-label">Project delivery</label>
+      <input type="range" id="projectdel" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
+      <datalist id="capabilitylevel">
+        <option>0</option>
+        <option>25</option>
+        <option>50</option>
+        <option>75</option>
+        <option>100</option>
+      </datalist>
+      <output for="projectdel">0</ouput>
+    </div>
+
+    <!-- LEADING and MANAGING CHANGE -->
+    <div class="form-group">
+      <label for="leadmanaging" class="form-label">Leading and managing change</label>
+      <input type="range" id="leadmanaging" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
+      <datalist id="capabilitylevel">
+        <option>0</option>
+        <option>25</option>
+        <option>50</option>
+        <option>75</option>
+        <option>100</option>
+      </datalist>
+      <output for="leadmanaging">0</ouput>
+    </div>
+
+  </form>
+
+{% endblock %}
+
+{% block body_end %}
+  <script>
+  (function($, window){
+    $(function() {
+      $("input[type=range]").on("change", function() {
+        $(this).parents(".form-group").find("output").text($(this).val());
+        console.log($(this).val());
+      });
+    });
+  }).call(this, jQuery, window);
+  </script>
+{% endblock %}
