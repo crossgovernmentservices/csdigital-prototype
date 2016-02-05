@@ -211,3 +211,88 @@
     outline: none;
   }
 }
+
+//
+// This is used for the sliders on the 
+// skills audit form page
+//
+.skills-audit-form {
+  margin-top: $gutter;
+}
+
+@mixin rangeThumb {
+  width: 18px;
+  height: 18px;
+  margin: -8px 0  0;
+  border-radius: 50%;
+  background: $link-hover-colour;
+  cursor: pointer;
+  border: 0 !important;
+}
+
+@mixin rangeTrack {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: $secondary-text-colour;
+}
+
+.form-range-group {
+  position: relative;
+  margin-bottom: 60px;
+
+  .form-label {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .form-control {
+    width: 100%;
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+
+    // Thumb
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none; // needed again for Chrome & Safari
+        @include rangeThumb;
+      }
+      &::-moz-range-thumb {
+          @include rangeThumb;
+        }
+
+      &::-ms-thumb {
+        @include rangeThumb;
+      }
+
+      // Track
+      &::-webkit-slider-runnable-track {
+        @include rangeTrack;
+      }
+
+      &::-moz-range-track {
+        @include rangeTrack;
+      }
+
+      &::-ms-track {
+        @include rangeTrack;
+      }
+  }
+}
+
+.capability-labels {
+  @extend %contain-floats;
+  list-style: none;
+  margin-bottom: $gutter;
+
+  li {
+    width: 25%;
+    float: left;
+    text-align: center;
+
+    &.selected {
+      font-weight: bold;
+    }
+  }
+}

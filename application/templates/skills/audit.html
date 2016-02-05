@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+
+{% include "_logout.html" %}
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <div id="global-breadcrumb" class="header-context">
+      <ol role="breadcrumbs" class="group">
+        <li><a href="/">Home</a></li>
+        <li>Skills audit</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<h1 class="heading-large">
+  <span class="heading-secondary">Skills audit</span>
+  Assess your capability level
+</h1>
+
+<p class="lede text">Some blurb about what the user is about to do.</p>
+
+<details>
+  <summary>Why are we asking you to do this?</summary>
+  <div class="panel-indent text">
+    An explanation about why the organisation needs this. And why it is useful for the user to complete it accurately.
+  </div>
+</details>
+
+  <form class="form skills-audit-form" action="">
+
+    <!-- COMMERCIAL -->
+    <div class="form-group form-range-group">
+      <label for="commercial" class="form-label">Commercial</label>
+      <p class="text">The government spends £45 billion each year on goods and services. Obtaining better value requires all civil servants to demonstrate sound financial and commercial understanding.</p>
+      <input type="range" id="commercial" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
+    </div>
+
+    <!-- DIGITAL -->
+    <div class="form-group form-range-group">
+      <label for="digital" class="form-label">Digital</label>
+      <p class="text">We live in a digital world and need to understand how to tap into that world, from using social media to delivering straightforward and convenient information and services for citizens online.</p>
+      <input type="range" id="digtial" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
+      <details>
+        <summary>Read description for each level</summary>
+        <table>
+        <thead>
+          <tr>
+            <th>Awareness</th>
+            <th>Working</th>
+            <th>Practitioner</th>
+            <th>Specialist</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Staff will have the digital skills and awareness they need to do their jobs effectively, as well as an understanding of the benefits of digital services in government (and the need to provide support to anyone who needs help accessing these). Staff will understand why people use digital services in their personal life, and how online services can be more efficient, faster, more timely (24/7) and simpler.</td>
+            <td>Staff will have ‘beyond basic’ digital skills, with the ability to use a range of software and digital tools that are specifically relevant to the individual’s role.</td>
+            <td>Staff will be able to make, and take a leading role in ensuring that others make, the most of digital opportunities in relation service delivery and understand what professions need to do to adapt and improve government services. They will also stay abreast of digital developments to help identify challenges and opportunities.</td>
+            <td>Staff possess a range of specific specialist skills directly related to the individual’s role such as information and service design (e.g. coding), publishing (e.g. content design), communications and analysis.</td>
+          </tr>
+          <tr>
+            <td>Skills demonstrated include:
+              The ability to use a computer or other digital device to send and receive email, keep safe online, use search engines and browse the Internet and intranet, as well as to upload, download and access attachments and fill in an online form.</td>
+            <td>Skills demonstrated include: 
+              Staff will be confident users of digital and can use tools with direct application to their role such as a range of software applications, social media, mobile technology and a range of digital tools/open source products.</td>
+            <td>Skills demonstrated include:
+              Staff can support others in attaining working level skills, and understand the benefits of digital by challenging current approaches to providing information and services. Can also lead and support the development of digital plans and strategies.</td>
+            <td>Skills demonstrated include:
+              Staff can design new, and redesign existing. digital services and make expert use of advanced digital tools relating to comms and policy. Furthermore, staff will lead and / or be a part of multi-disciplinary Agile teams. Staff will also produce and deliver digital products and assets to support information and service design (e.g. product managers, developers, technical architects, designers etc.)</td>
+          </tr>
+        </tbody>
+      </table></details>
+
+    </div>
+
+    <!-- PROJECT DELIVERY -->
+    <div class="form-group form-range-group">
+      <label for="projectdel" class="form-label">Project delivery</label>
+      <p class="text">Everyone needs to be skilled in project management to ensure work is delivered on time, to budget and is properly managed.</p>
+      <input type="range" id="projectdel" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
+    </div>
+
+    <!-- Change leadership -->
+    <div class="form-group form-range-group">
+      <label for="leadmanaging" class="form-label">Change leadership</label>
+      <p class="text">Leaders at all levels are role models, leading change and communicating with staff. Change will always be part of the day job.</p>
+      <input type="range" id="leadmanaging" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
+    </div>
+
+  </form>
+
+{% endblock %}
+
+{% block body_end %}
+  <script>
+  (function($, window){
+
+    function whichLevel(value) {
+      var level = "awareness";
+      if( value > 75 ) {
+        level = "specialist";
+      } else if ( value > 50 ) {
+        level = "practitioner";
+      } else if ( value > 25 ) {
+        level = "working";
+      }
+      return level;
+    }
+
+    $(function() {
+      $("input[type=range]").on("change", function() {
+        var $formGroup = $(this).parents(".form-group");
+        $formGroup.find("output").text($(this).val());
+
+        $formGroup
+          .find(".capability-labels li")
+          .removeClass("selected")
+            .filter("." + whichLevel($(this).val()))
+            .addClass("selected");
+
+      });
+    });
+  }).call(this, jQuery, window);
+  </script>
+{% endblock %}

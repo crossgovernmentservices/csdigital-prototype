@@ -64,6 +64,9 @@ def register_blueprints(app):
     from application.notes.views import notes
     app.register_blueprint(notes)
 
+    from application.skills.views import skills
+    app.register_blueprint(skills)
+
     from application.staff.views import staff
     app.register_blueprint(staff)
 
