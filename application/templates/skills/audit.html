@@ -16,62 +16,62 @@
   </div>
 </details>
 
-  <form class="form" action="">
+  <form class="form skills-audit-form" action="">
 
     <!-- COMMERCIAL -->
-    <div class="form-group">
+    <div class="form-group form-range-group">
       <label for="commercial" class="form-label">Commercial</label>
-      <input type="range" id="commercial" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
-      <datalist id="capabilitylevel">
-        <option>0</option>
-        <option>25</option>
-        <option>50</option>
-        <option>75</option>
-        <option>100</option>
-      </datalist>
-      <output for="commercial">0</ouput>
+      <input type="range" id="commercial" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
     </div>
 
     <!-- DIGITAL -->
-    <div class="form-group">
+    <div class="form-group form-range-group">
       <label for="digital" class="form-label">Digital</label>
-      <input type="range" id="digtial" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
-      <datalist id="capabilitylevel">
-        <option>0</option>
-        <option>25</option>
-        <option>50</option>
-        <option>75</option>
-        <option>100</option>
-      </datalist>
-      <output for="digital">0</ouput>
+      <input type="range" id="digtial" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
     </div>
 
     <!-- PROJECT DELIVERY -->
-    <div class="form-group">
+    <div class="form-group form-range-group">
       <label for="projectdel" class="form-label">Project delivery</label>
-      <input type="range" id="projectdel" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
-      <datalist id="capabilitylevel">
-        <option>0</option>
-        <option>25</option>
-        <option>50</option>
-        <option>75</option>
-        <option>100</option>
-      </datalist>
-      <output for="projectdel">0</ouput>
+      <input type="range" id="projectdel" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
     </div>
 
     <!-- LEADING and MANAGING CHANGE -->
-    <div class="form-group">
+    <div class="form-group form-range-group">
       <label for="leadmanaging" class="form-label">Leading and managing change</label>
-      <input type="range" id="leadmanaging" min="0" max="100" step="1" value="1" class="form-control" list="capabilitylevel" />
-      <datalist id="capabilitylevel">
-        <option>0</option>
-        <option>25</option>
-        <option>50</option>
-        <option>75</option>
-        <option>100</option>
-      </datalist>
-      <output for="leadmanaging">0</ouput>
+      <input type="range" id="leadmanaging" min="0" max="100" step="1" value="1" class="form-control" />
+
+      <ul class="capability-labels">
+        <li class="awareness">Awareness</li>
+        <li class="working">Working</li>
+        <li class="practitioner">Practitioner</li>
+        <li class="specialist">Specialist</li>
+      </ul>
+
     </div>
 
   </form>
@@ -81,10 +81,30 @@
 {% block body_end %}
   <script>
   (function($, window){
+
+    function whichLevel(value) {
+      var level = "awareness";
+      if( value > 75 ) {
+        level = "specialist";
+      } else if ( value > 50 ) {
+        level = "practitioner";
+      } else if ( value > 25 ) {
+        level = "working";
+      }
+      return level;
+    }
+
     $(function() {
       $("input[type=range]").on("change", function() {
-        $(this).parents(".form-group").find("output").text($(this).val());
-        console.log($(this).val());
+        var $formGroup = $(this).parents(".form-group");
+        $formGroup.find("output").text($(this).val());
+
+        $formGroup
+          .find(".capability-labels li")
+          .removeClass("selected")
+            .filter("." + whichLevel($(this).val()))
+            .addClass("selected");
+
       });
     });
   }).call(this, jQuery, window);
