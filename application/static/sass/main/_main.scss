@@ -290,6 +290,12 @@
     width: 25%;
     float: left;
     text-align: center;
+    box-sizing: border-box;
+    border-right: 2px solid $secondary-text-colour;
+
+    &:last-child {
+      border-right: none;
+    }
 
     &.selected {
       font-weight: bold;
