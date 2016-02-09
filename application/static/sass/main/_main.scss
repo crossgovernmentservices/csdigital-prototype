@@ -287,11 +287,15 @@
   margin-bottom: $gutter;
 
   li {
-    width: 25%;
+    width: 23%;
     float: left;
     text-align: center;
     box-sizing: border-box;
     border-right: 2px solid $secondary-text-colour;
+
+    &.na {
+      width: 8%;
+    }
 
     &:last-child {
       border-right: none;
@@ -301,4 +305,8 @@
       font-weight: bold;
     }
   }
+}
+
+.capability-level-explanations {
+  margin-left: 8%;
 }

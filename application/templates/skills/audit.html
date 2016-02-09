@@ -45,7 +45,8 @@
       <input type="range" id="commercial" min="0" max="100" step="1" value="1" class="form-control" />
 
       <ul class="capability-labels">
-        <li class="awareness selected">Awareness</li>
+        <li class="na selected">N/A</li>
+        <li class="awareness">Awareness</li>
         <li class="working">Working</li>
         <li class="practitioner">Practitioner</li>
         <li class="specialist">Specialist</li>
@@ -53,32 +54,34 @@
 
       <details>
         <summary>Detailed guidance for each level of Commercial capability</summary>
-        <table>
-        <thead>
-          <tr>
-            <th width="25%">Awareness</th>
-            <th width="25%">Working</th>
-            <th width="25%">Practitioner</th>
-            <th width="25%">Specialist</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td valign="top">At awareness level, staff demonstrate that they work to ensure they achieve value for money in the course of delivering their work and get the best deal for the money spent as an important part of achieving their targets.</td>
-            <td valign="top">At this level, staff demonstrate the use of commercial skills to deliver best value for the taxpayer as a part of their role. They make strategic decisions with commercial outcomes and may be responsible for managing and interacting with third parties.</td>
-            <td valign="top">Practitioner level staff work in a professional procurement role, or role with commercial responsibilities (such as project management, audit, finance, corporate finance or law), applying commercial expertise and experience, and demonstrating an understanding of financial impact.</td>
-            <td valign="top">Specialist level staff are recognised experts in their field, and apply in-depth knowledge and extensive experience of a market sector and/or commercial practice (e.g. dispute resolution, commercial negotiation).</td>
-          </tr>
-          <tr><td colspan=4><em>Skills demonstrated include:</em></td></tr>
-          <tr>
-            <td valign="top">Awareness that all decisions should achieve value for money for the taxpayer, how to achieve best value, and an understanding of how to engage with suppliers and manage relationships with stakeholders.</td>
-            <td valign="top">Achieving value in the sourcing of services, assessing the commercial viability of policies and projects, using subject matter knowledge to manage contracts with third-party suppliers effectively, commercial financing, or risk appraisal.</td>
-            <td valign="top">Engaging and negotiating with suppliers, and leading and strengthening sourcing and contract management processes and practices.</td>
-            <td valign="top">Engaging tactically and strategically with suppliers and stakeholders with confidence and credibility to maximise value for money for the taxpayer.</td>
-          </tr>
-        </tbody>
-      </table>
-    </details>
+        <div class="panel-indent capability-level-explanations">
+          <table>
+            <thead>
+              <tr>
+                <th width="25%">Awareness</th>
+                <th width="25%">Working</th>
+                <th width="25%">Practitioner</th>
+                <th width="25%">Specialist</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td valign="top">At awareness level, staff demonstrate that they work to ensure they achieve value for money in the course of delivering their work and get the best deal for the money spent as an important part of achieving their targets.</td>
+                <td valign="top">At this level, staff demonstrate the use of commercial skills to deliver best value for the taxpayer as a part of their role. They make strategic decisions with commercial outcomes and may be responsible for managing and interacting with third parties.</td>
+                <td valign="top">Practitioner level staff work in a professional procurement role, or role with commercial responsibilities (such as project management, audit, finance, corporate finance or law), applying commercial expertise and experience, and demonstrating an understanding of financial impact.</td>
+                <td valign="top">Specialist level staff are recognised experts in their field, and apply in-depth knowledge and extensive experience of a market sector and/or commercial practice (e.g. dispute resolution, commercial negotiation).</td>
+              </tr>
+              <tr><td colspan=4><em>Skills demonstrated include:</em></td></tr>
+              <tr>
+                <td valign="top">Awareness that all decisions should achieve value for money for the taxpayer, how to achieve best value, and an understanding of how to engage with suppliers and manage relationships with stakeholders.</td>
+                <td valign="top">Achieving value in the sourcing of services, assessing the commercial viability of policies and projects, using subject matter knowledge to manage contracts with third-party suppliers effectively, commercial financing, or risk appraisal.</td>
+                <td valign="top">Engaging and negotiating with suppliers, and leading and strengthening sourcing and contract management processes and practices.</td>
+                <td valign="top">Engaging tactically and strategically with suppliers and stakeholders with confidence and credibility to maximise value for money for the taxpayer.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
 
     </div>
 
@@ -227,13 +230,15 @@
   (function($, window){
 
     function whichLevel(value) {
-      var level = "awareness";
+      var level = "na";
       if( value > 75 ) {
         level = "specialist";
       } else if ( value > 50 ) {
         level = "practitioner";
       } else if ( value > 25 ) {
         level = "working";
+      } else if ( value > 8 ) {
+        level = "awareness";
       }
       return level;
     }
