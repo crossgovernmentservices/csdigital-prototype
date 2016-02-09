@@ -82,11 +82,13 @@
     {% if item.competencies %}
     <ul class="linked-list">
 
-      {% for link in item.competencies %}
-      <li class="linked-item">
-        <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
+      {% for link in item.linked %}
+        {%- if link.__class__.__name__ == 'Competency' -%}
+        <li class="linked-item">
+          <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
+          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+        </li>
+        {%- endif -%}
       {% endfor %}
 
     </ul>
