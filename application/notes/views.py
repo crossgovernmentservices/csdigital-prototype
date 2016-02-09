@@ -1,3 +1,5 @@
+import re
+
 from flask import (
     Blueprint,
     flash,
@@ -135,3 +137,23 @@ def link_staff(id):
 
     note.link(member)
     return redirect(url_for('.view', id=id))
+
+
+@notes.route('/notes/search.json')
+@login_required
+def search():
+    search_term = request.args.get('q')
+    notes = []
+
+    if search_term:
+        notes = current_user.notes
+
+        def match_query(note):
+            return (
+                re.search(search_term, note.entry.content, re.I) or
+                re.search(search_term, note.entry.title, re.I))
+
+        notes = filter(match_query, notes)
+
+    return jsonify({'results': [
+        {'name': n.entry.title, 'value': str(n.id)} for n in notes]})
