@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from flask import current_app
 from flask.ext.security import (
@@ -140,12 +141,19 @@ class User(db.Document, UserMixin, Linkable):
             user.update(manager=None)
 
     def add_staff(self, user):
-        if user not in self.staff and not user.manager:
+        if not user.manager:
 
             admin_role = Role.objects.get(name='ADMIN')
             if admin_role not in user.roles:
                 self.update(add_to_set__staff=user)
                 user.update(manager=self)
+
+            else:
+                logging.warn("can't add ADMIN {.full_name} as staff".format(
+                    user))
+
+        else:
+            logging.warn("{.full_name} already has a manager".format(user))
 
 
 def make_inbox_email(email):
