@@ -2,6 +2,7 @@ from flask import (
     Blueprint,
     abort,
     flash,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -33,24 +34,31 @@ def write_performance_review():
 @login_required
 def link(id):
     objective = get_objective_or_404(id=id)
-    form = make_link_form(competencies=True, notes=True)
+    link = None
+    _type = None
+    target = None
 
-    if form.is_submitted():
-        if 'competencies' in request.form:
-            competency = Competency.objects.get(
-                id=request.form['competencies'])
-            objective.link(competency)
-            flash('Competency successfully linked to objective')
+    if 'competencies' in request.form:
+        _type = 'Competency'
+        target = get_or_404(Competency, id=request.form['competencies'])
 
-        elif 'notes' in request.form:
-            note = LogEntry.objects.get(
-                id=request.form['notes'],
-                entry_type='log')
-            objective.link(note)
-            flash('Note successfully linked to objective')
+    elif 'notes' in request.form:
+        _type = 'Note'
+        target = get_or_404(current_user.notes, id=request.form['notes'])
+
+    if target:
+        link = objective.link(target)
+
+        if request.is_xhr:
+            return jsonify({
+                'link': {'id': str(link.id)},
+                'target': target,
+                'type': _type})
+
+        flash('{} successfully linked to objective'.format(_type))
 
     else:
-        flash('Linking to competency failed', 'error')
+        flash('Linking failed', 'error')
 
     return redirect(url_for('.view', id=id))
 
