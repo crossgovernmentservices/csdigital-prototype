@@ -19,17 +19,14 @@ staff = Blueprint('staff', __name__, template_folder='templates')
 def add_staff(**member_data):
     member = get_or_404(User, **member_data)
     current_user.add_staff(member)
+    current_user.reload()
 
 
-@staff.route('/staff', methods=['GET', 'POST'])
+@staff.route('/staff')
 @login_required
 def view():
 
     if request.is_xhr:
-
-        if request.method == 'POST':
-            add_staff(**request.get_json())
-
         return jsonify({'staff': list(current_user.staff)})
 
     return render_template('staff/view.html')
@@ -52,7 +49,13 @@ def allowed_staff(manager):
 def add():
 
     if request.method == 'POST':
-        add_staff(**request.form.to_dict())
+        if request.is_xhr:
+            add_staff(**request.json)
+            return view()
+
+        else:
+            add_staff(**request.form.to_dict())
+
         return redirect(url_for('.view'))
 
     users = allowed_staff(current_user)
@@ -73,7 +76,8 @@ def search():
             Q(full_name__icontains=search_term))
         users = users.order_by('full_name', 'email')
 
-    return jsonify({'users': users})
+    return jsonify({'results': [
+        {'name': u.full_name, 'value': str(u.id)} for u in users]})
 
 
 @staff.route('/staff/<id>')
