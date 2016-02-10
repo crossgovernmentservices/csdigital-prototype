@@ -76,7 +76,9 @@ def competency_json(id, level_id):
     return jsonify({
         'competency': competency,
         'level': level,
-        'behaviours': competency.behaviours(level)})
+        'behaviours': competency.behaviours(level),
+        'next_level': level.next,
+        'prev_level': level.prev})
 
 
 @competency.route('/competency/<id>', methods=['GET', 'POST'])
