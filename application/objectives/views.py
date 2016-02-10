@@ -10,9 +10,8 @@ from flask import (
 from flask.ext.login import current_user
 from flask.ext.security import login_required
 
-from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, User, create_log_entry
+from application.models import Link, LogEntry, User, create_log_entry
 from application.objectives.forms import EvidenceForm, ObjectiveForm
 from application.utils import get_or_404
 
@@ -196,6 +195,19 @@ def comment(user_id, id):
     objective.add_comment(request.form['content'])
 
     return redirect(url_for('.view_for_user', user_id=user_id, id=id))
+
+
+@objectives.route('/objective/<id>/evidence', methods=['GET', 'POST'])
+@login_required
+def evidence(id):
+    objective = get_objective_or_404(id)
+
+    if request.method == 'POST':
+        create_log_entry('evidence', **request.get_json())
+        objective.link(evidence)
+        objective.reload()
+
+    return jsonify({'evidence': objective.evidence})
 
 
 @objectives.route('/objective/<id>/evidence/add', methods=['GET', 'POST'])
