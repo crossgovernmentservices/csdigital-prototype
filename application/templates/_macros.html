@@ -75,20 +75,18 @@
 </section>
 {% endmacro %}
 
-{% macro competency_links(item, type, competencies) %}
+{% macro competency_links(item, link_to, competencies) %}
   <!-- section for linking competencies -->
   <section class="linking_container">
     <h4 class="link_section_heading">Competencies</h4>
-    {% if item.links %}
+    {% if item.competencies %}
     <ul class="linked-list">
 
-      {% for link in item.links %}
-        {%- if link.__class__.__name__ == 'Competency' -%}
-        <li class="linked-item">
-          <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
-          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-        </li>
-        {%- endif -%}
+      {% for link in item.competencies %}
+      <li class="linked-item">
+        <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
+        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+      </li>
       {% endfor %}
 
     </ul>
@@ -96,7 +94,7 @@
 
     <a href="" class="add-link-btn" data-link-form="competency">+ add competency</a>
 
-    {% if type == "note" %}
+    {% if link_to == "note" %}
     <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
     {% else %}
     <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('objectives.link', id=item.id) }}">
@@ -124,16 +122,14 @@
   <!-- section for linking objectives -->
   <section class="linking_container">
     <h4 class="link_section_heading">Objectives</h4>
-    {% if item.links %}
+    {% if type == "competencies" and item.objectives(current_user) %}
     <ul class="linked-list">
 
-    {% for link in item.links %}
-      {%- if link.entry_type == 'objective' -%}
+    {% for link in item.objectives(current_user) %}
       <li class="linked-item">
         <a href="{{ url_for('objectives.view', id=link.id) }}">{{ link.entry.title|default(link.entry.what|markdown|striptags)|truncate(40) }}</a>
         <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
       </li>
-      {%- endif -%}
     {% endfor %}
 
     </ul>

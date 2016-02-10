@@ -1,0 +1,127 @@
+// Accordion
+// ==========================================================================
+.accordion {
+  border: 1px solid $link-colour;
+  margin: 0 0 10px;
+  list-style: none;
+
+  & ::-webkit-details-marker { display:none; }
+}
+
+.accordion-head {
+  display: block;
+  padding: 3px $gutter-half 0;
+  line-height: 2em;
+  position: relative;
+
+  a {
+    text-decoration: none;
+  }
+
+  .highlight {
+    font-weight: bold;
+  }
+
+  &:hover {
+    background: $grey-4;
+    cursor: pointer;
+
+    .highlight {
+      text-decoration: underline;
+    }
+  }
+}
+
+.accordion-content {
+  .panel-indent {
+    margin-bottom: $gutter;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.accordion {
+  .accordion-content__subsection {
+    padding: $gutter-half 0;
+    border-top: 1px solid $panel-colour;
+    margin: 0;
+
+    &:first-of-type {
+      border: none;
+      padding-top: 0;
+    }
+  }
+
+  .accordion-content__subsection__heading {
+    padding: 0;
+
+    h3 {
+      margin-top: 0;
+    }
+  }
+}
+
+.accordion--open,
+.accordion[open] {
+  .accordion-head {
+    border-bottom: 1px solid $grey-3;
+  }
+  .accordion-content {
+    display: block;
+    padding: $gutter-half;
+  }
+
+  .btn-less {
+    display: block;
+  }
+
+  .btn-more {
+    display: none;
+  }
+}
+
+.btn-less {
+  display: none;
+}
+
+.btn-more {
+  display: block;
+}
+
+.more-group {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  line-height: 41px;
+
+  .btn-less, .btn-more {
+    line-height: inherit;
+  }
+}
+
+.btn-more, .btn-less {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: $link-colour;
+
+  &:hover {
+    color: $link-hover-colour;
+    cursor: pointer;
+  }
+
+  img {
+    margin-bottom: -2px;
+  }
+}
+
+.accordion-title {
+  color: $text-colour;
+}
+.accordion-meta {
+  font-size: 16px;
+  color: $secondary-text-colour;
+}

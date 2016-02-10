@@ -78,6 +78,16 @@ class User(db.Document, UserMixin, Linkable):
     def objectives(self):
         return LogEntry.objects.filter(owner=self, entry_type='objective')
 
+    @property
+    def last_updated_objective(self):
+        objectives = self.objectives
+        by_last_updated = sorted(
+            objectives,
+            key=lambda o: o.entry.last_updated or o.created_date,
+            reverse=True)
+        if by_last_updated:
+            return by_last_updated[0]
+
     def add_objective(self, **kwargs):
         return create_log_entry('objective', owner=self, **kwargs)
 
@@ -85,6 +95,16 @@ class User(db.Document, UserMixin, Linkable):
     def notes(self):
         return LogEntry.objects.filter(owner=self, entry_type='log').order_by(
             '-created_date')
+
+    @property
+    def last_updated_note(self):
+        notes = self.notes
+        by_last_updated = sorted(
+            notes,
+            key=lambda n: n.entry.last_updated or n.created_date,
+            reverse=True)
+        if by_last_updated:
+            return by_last_updated[0]
 
     def add_note(self, **kwargs):
         return create_log_entry('log', owner=self, **kwargs)
@@ -99,9 +119,11 @@ class User(db.Document, UserMixin, Linkable):
 
     @property
     def competencies(self):
-        # TODO list competencies linked to user's objectives and notes
-        from application.competency.models import Competency
-        return Competency.objects
+        return set([
+            competency
+            for objective in self.objectives
+            for competency in objective.linked
+            if competency.__class__.__name__ == 'Competency'])
 
     @property
     def manager_notes(self):
@@ -138,7 +160,13 @@ class Tag(db.Document):
 
 
 schemas = {
-    'objective': ('how', 'what', 'started_on', 'due_by', 'title', 'progress'),
+    'objective': (
+        'how',
+        'what',
+        'started_on',
+        'due_by',
+        'title',
+        'progress'),
     'feedback': (
         'template',
         'requested_from',
@@ -157,6 +185,15 @@ schemas = {
 
 
 class Entry(db.DynamicDocument):
+    last_updated = db.DateTimeField(default=None)
+
+    def save(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.utcnow()
+        return super(Entry, self).save(*args, **kwargs)
+
+    def update(self, *args, **kwargs):
+        self.last_updated = datetime.datetime.utcnow()
+        return super(Entry, self).update(*args, **kwargs)
 
     def __unicode__(self):
         data = ''
@@ -218,17 +255,46 @@ class LogEntry(db.Document, Linkable):
                 msg = '%s is not a valid field' % dynamic_field
                 raise ValidationError(msg)
 
+    def _linked_log_entries(self, entry_type):
+        return [
+            link for link in self.linked
+            if 'entry_type' in link and link.entry_type == entry_type]
+
     @property
     def comments(self):
-        return [
-            link for link in self.links
-            if 'entry_type' in link and link.entry_type == 'comment']
+        return list(reversed(self._linked_log_entries('comment')))
+
+    @property
+    def latest_comment(self):
+        comments = self.comments
+        if comments:
+            return comments[0]
+
+    @property
+    def notes(self):
+        return self._linked_log_entries('log')
 
     @property
     def evidence(self):
+        return list(reversed(self._linked_log_entries('evidence')))
+
+    @property
+    def latest_evidence(self):
+        evidence = self.evidence
+        if evidence:
+            return evidence[0]
+
+    @property
+    def competencies(self):
         return [
-            link for link in self.links
-            if 'entry_type' in link and link.entry_type == 'evidence']
+            link for link in self.linked
+            if link.__class__.__name__ == 'Competency']
+
+    @property
+    def linked_staff(self):
+        return [
+            link for link in self.linked
+            if link.__class__.__name__ == 'User']
 
     def add_comment(self, content):
         comment = create_log_entry('comment', content=content)

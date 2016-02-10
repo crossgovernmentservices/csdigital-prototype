@@ -9,14 +9,17 @@
 {% endif -%}
 
 {% block content_nav %}
-  <div class="content-nav-main">
-    <h2 class="heading-medium">
-      {% if not user -%}
-        Your objectives
-      {%- else -%}
-        {{ user.full_name }}'s objectives
-      {%- endif %}
-    </h2>
+  <div>
+    <ul>
+      <li><a href="/competency" class="browse-pane__subsection-heading">Competencies</a></li>
+      <li>
+        <a href="/objective" class="browse-pane__subsection-heading--open">
+          {% if not user -%}
+            Your objectives
+          {%- else -%}
+            {{ user.full_name }}'s objectives
+          {%- endif %}
+        </a>
 
     {% with sort=request.args.get('sort', 'oldest-first') %}
     <div class="content-nav-action">
@@ -25,26 +28,31 @@
           {# up arrow #}&#8593;
         {%- else -%}
           {# down arrow #}&#8595;
-        {%- endif %} sort</a></div>
+        {%- endif %} sort</a>
+      {% if not user %}
+      <a href="{{ url_for('objectives.edit') }}">+ add objective</a>
+      {% endif %}
+    </div>
     {% endwith %}
 
-    <ul class="content-nav-list">
+    <ul>
     {% for obj in objectives|sort(attribute='created_date', reverse=(request.args.get('sort', 'oldest-first') == 'newest-first')) %}
       <li>
         <a {% if objective and objective == obj %}class="current"{% endif %} href="
           {%- if not user -%}
             {{ url_for('objectives.view', id=obj.id) }}
           {%- else -%}
-            {{ url_for('objectives.view_others', user_id=user.id, id=obj.id) }}
+            {{ url_for('objectives.view_for_user', user_id=user.id, id=obj.id) }}
           {%- endif -%}">
           {{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}
         </a>
       </li>
       {% endfor %}
     </ul>
-    {% if not user %}
-    <div class="content-nav-action"><a href="{{ url_for('objectives.edit') }}">+ add objective</a></div>
-    {% endif %}
+    </li>
+    <li><a href="" class="browse-pane__subsection-heading">Development goals</a></li>
+  </ul>
+
   </div>
 {% endblock %}
 
@@ -61,11 +69,10 @@
     <!-- section for linking notes -->
     <section class="linking_container">
       <h4 class="link_section_heading">Your notes</h4>
-      {% if objective.links %}
+      {% if objective.notes %}
       <ul class="linked-list">
 
-      {% for link in objective.links %}
-        {%- if link.entry_type == 'log' -%}
+      {% for link in objective.notes %}
         <li class="linked-item">
           <a class="linked-item__add-evidence" href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">
             <img src="/static/images/paper_clip.svg" alt="attach as evidence" />
@@ -73,7 +80,6 @@
           <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
           <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
         </li>
-        {%- endif -%}
       {% endfor %}
 
       </ul>

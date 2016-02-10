@@ -102,10 +102,14 @@ html {
   @extend %contain-floats;
 }
 
+.small-text,
+.small-link {
+  font-size: 16px;
+}
+
 .small-text {
   color: $secondary-text-colour;
   font-weight: normal;
-  font-size: 16px;
 }
 
 .secondary_btn,
@@ -172,5 +176,13 @@ a.secondary_btn {
       margin-left: 10px;
       padding: 10px;
     }
+  }
+}
+
+.competency-list--not-linked {
+  border-top: 1px dashed $grey-3;
+  border-bottom: 1px dashed $grey-3;
+  a {
+    color: $secondary-text-colour;
   }
 }
