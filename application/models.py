@@ -361,10 +361,16 @@ def create_log_entry(_type, **kwargs):
 
     entry = Entry.objects.create(**data)
 
+    data = {}
+    _kwargs = dict(kwargs)
+    for key, val in _kwargs.items():
+        if key in ['owner', 'entry_from', 'tags']:
+            data[key] = kwargs.pop(key)
+
     owner = kwargs.pop('owner', current_user._get_current_object())
 
     return LogEntry.objects.create(
         entry_type=_type,
         entry=entry,
         owner=owner,
-        **kwargs)
+        **data)
