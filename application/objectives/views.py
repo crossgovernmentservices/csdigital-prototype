@@ -30,31 +30,60 @@ def write_performance_review():
     return render_template('objectives/performance-review.html')
 
 
-@objectives.route('/objective/<id>/link', methods=['POST'])
-@login_required
-def link(id):
-    objective = get_objective_or_404(id=id)
-    link = None
+def get_link_target(data):
     _type = None
     target = None
 
-    if 'competencies' in request.form:
+    if 'competencies' in data:
         _type = 'Competency'
-        target = get_or_404(Competency, id=request.form['competencies'])
+        target = get_or_404(Competency, id=data['competencies'])
 
-    elif 'notes' in request.form:
+    elif 'notes' in data:
         _type = 'Note'
-        target = get_or_404(current_user.notes, id=request.form['notes'])
+        target = get_or_404(current_user.notes, id=data['notes'])
+
+    return _type, target
+
+
+@objectives.route('/objective/<id>/links', methods=['GET', 'POST'])
+@login_required
+def links(id):
+    objective = get_objective_or_404(id)
+
+    if request.method == 'POST':
+        _, target = get_link_target(request.get_json())
+
+        if target:
+            objective.link(target)
+            objective.reload()
+
+        else:
+            return jsonify({'error': 'Linking failed'})
+
+    return jsonify({'linked': objective.linked})
+
+
+@objectives.route('/objective/<id>/links/<link_id>', methods=['GET', 'DELETE'])
+@login_required
+def link(id, link_id):
+    objective = get_objective_or_404(id)
+    get_or_404(Link, id=link_id)
+
+    if request.method == 'DELETE':
+        objective.remove_link(link_id)
+        return jsonify({})
+
+    return jsonify({})
+
+
+@objectives.route('/objective/<id>/link', methods=['POST'])
+@login_required
+def make_link(id):
+    objective = get_objective_or_404(id=id)
+    _type, target = get_link_target(request.form)
 
     if target:
-        link = objective.link(target)
-
-        if request.is_xhr:
-            return jsonify({
-                'link': {'id': str(link.id)},
-                'target': target,
-                'type': _type})
-
+        objective.link(target)
         flash('{} successfully linked to objective'.format(_type))
 
     else:
