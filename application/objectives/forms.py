@@ -38,4 +38,4 @@ class ObjectiveForm(Form):
 
 class EvidenceForm(Form):
     title = StringField('Title', validators=[DataRequired()])
-    evidence_content = TextAreaField('Content')
+    content = TextAreaField('Content')
