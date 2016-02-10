@@ -7,14 +7,11 @@ from flask.ext.security import (
     RoleMixin
 )
 from flask.ext.login import current_user
-from flask.ext.mongoengine import MongoEngine
+import mongoengine as db
 from mongoengine.queryset import queryset_manager
 from mongoengine.errors import ValidationError
 
 from application.utils import get_or_404
-
-
-db = MongoEngine()
 
 
 class Link(db.Document):

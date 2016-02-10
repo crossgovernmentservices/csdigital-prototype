@@ -75,7 +75,8 @@ def register_extensions(app):
     from application.assets import env
     env.init_app(app)
 
-    from application.models import db
+    from flask.ext.mongoengine import MongoEngine
+    db = MongoEngine()
     db.init_app(app)
 
     # flask security setup
@@ -97,6 +98,7 @@ def register_extensions(app):
 
     from application.sso.oidc import OIDC
     app.oidc_client = OIDC(app)
+
 
 def register_filters(app):
     def format_date(d):

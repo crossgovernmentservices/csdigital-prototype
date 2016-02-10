@@ -1,9 +1,6 @@
-from flask.ext.mongoengine import MongoEngine
+import mongoengine as db
 
 from application.models import Linkable
-
-
-db = MongoEngine()
 
 
 class Level(db.Document):
