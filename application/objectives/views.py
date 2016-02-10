@@ -182,6 +182,28 @@ def view_all_for_user(user_id):
     return render_template('objectives/view_all.html', user=user)
 
 
+@objectives.route('/objective/<id>/comments.json', methods=['GET', 'POST'])
+@login_required
+def comments(id):
+    objective = get_objective_or_404(id=id)
+
+    if request.method == 'POST':
+
+        if objective.owner not in current_user.staff:
+            abort(403)
+
+        objective.add_comment(request.get_json()['content'])
+        objective.reload()
+
+    return jsonify({'comments': [
+        {
+            'author': comment.owner.full_name,
+            'created_date': comment.created_date,
+            'content': comment.entry.content,
+            'id': str(comment.id)}
+        for comment in objective.comments]})
+
+
 @objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
 @login_required
 def comment(user_id, id):
