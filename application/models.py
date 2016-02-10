@@ -39,7 +39,16 @@ class Linkable(object):
             return Link.objects.create(documents=[self, other])
 
     def unlink(self, other):
-        self.links.filter(documents=other).delete()
+
+        if isinstance(other, str):
+            unlinked = False
+            for linked in self.linked:
+                if str(getattr(linked, 'id', '')) == other:
+                    self.unlink(linked)
+                    unlinked = True
+            return unlinked
+
+        return self.links.filter(documents=other).delete()
 
     def remove_link(self, link_id):
         self.links.filter(id=link_id).delete()
