@@ -1,18 +1,11 @@
 {% extends "competency/base.html" %}
 
-{% block content %}
+{% block main_content %}
 
-  <div class="grid-row">
-    <div class="column-two-thirds">
-      <h1 class="heading-large"><span class="heading-secondary">Competency framework</span>{{ competency.name }}</h1>
-    </div>
-  </div>
+  <h1 class="heading-large"><span class="heading-secondary">Competency framework</span>{{ competency.name }}</h1>
 
-  <div class="grid-row">
-    <div style="padding: 0 15px; font-size: smaller">
-      <p>{{ competency.overview }}</p>
-    </div>
-  </div>
+  <p class="text">{{ competency.overview }}</p>
+
 
   {% if not level %}
   <form method="post">
