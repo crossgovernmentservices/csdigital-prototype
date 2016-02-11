@@ -28,31 +28,38 @@
 
 .linked-item {
   position: relative;
-  padding: 10px 0;
+  padding: 8px 0;
   border-bottom: 1px solid $panel-colour;
   & > a {
     padding: 0 10px;
+    font-size: 16px;
     font-weight: normal;
     display: inline-block;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .remove-link {
     position: absolute;
     right: 0;
   }
+
+  .linked-item__add-evidence {
+    text-decoration: none;
+    padding: 0 5px;
+    img {
+      width: 30px;
+      height: 30px;
+      vertical-align: middle;
+    }
+  }
 }
 
 .linked-item:last-of-type {
   border-bottom: none;
-}
-
-.linked-item__add-evidence {
-  text-decoration: none;
-  img {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
-  }
 }
 
 .add-link-btn,
