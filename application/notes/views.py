@@ -1,7 +1,9 @@
+import re
+
 from flask import (
     Blueprint,
-    abort,
     flash,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -11,7 +13,7 @@ from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, Tag, User
+from application.models import LogEntry, Tag, User, entry_from_json
 from application.notes.forms import NoteForm
 from application.utils import get_or_404
 
@@ -100,8 +102,20 @@ def view_all():
 @login_required
 def view(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
-
     return render_template('notes/view.html', note=note)
+
+
+@notes.route('/notes/<id>.json', methods=['GET', 'PATCH', 'PUT'])
+@login_required
+def view_json(id):
+    note = get_or_404(LogEntry, entry_type='log', id=id)
+
+    if request.method in ['PATCH', 'PUT']:
+        note.entry.update(**entry_from_json('log', request.json))
+        note.add_tags(request.json.get('tags', []))
+        note.reload()
+
+    return jsonify(note.to_json())
 
 
 @notes.route('/notes/tag/<tag>')
@@ -123,3 +137,23 @@ def link_staff(id):
 
     note.link(member)
     return redirect(url_for('.view', id=id))
+
+
+@notes.route('/notes/search.json')
+@login_required
+def search():
+    search_term = request.args.get('q')
+    notes = []
+
+    if search_term:
+        notes = current_user.notes
+
+        def match_query(note):
+            return (
+                re.search(search_term, note.entry.content, re.I) or
+                re.search(search_term, note.entry.title, re.I))
+
+        notes = filter(match_query, notes)
+
+    return jsonify({'results': [
+        {'name': n.entry.title, 'value': str(n.id)} for n in notes]})

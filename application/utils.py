@@ -1,6 +1,7 @@
 import datetime
 
 from flask import abort
+from mongoengine.errors import DoesNotExist
 
 
 def a_year_from_now():
@@ -9,9 +10,17 @@ def a_year_from_now():
     return now + a_year_from_now
 
 
-def get_or_404(cls, **kwargs):
+def get_or_404(model_or_queryset, **kwargs):
     try:
-        return cls.objects.get(**kwargs)
+        return model_or_queryset.objects.get(**kwargs)
 
-    except cls.DoesNotExist:
+    except AttributeError:
+
+        try:
+            return model_or_queryset.get(**kwargs)
+
+        except DoesNotExist:
+            abort(404)
+
+    except DoesNotExist:
         abort(404)
