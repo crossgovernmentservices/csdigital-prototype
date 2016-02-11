@@ -11,7 +11,12 @@ from flask.ext.login import current_user
 from flask.ext.security import login_required
 
 from application.competency.models import Competency
-from application.models import Link, LogEntry, User, create_log_entry
+from application.models import (
+    Link,
+    LogEntry,
+    User,
+    create_log_entry,
+    entry_from_json)
 from application.objectives.forms import EvidenceForm, ObjectiveForm
 from application.utils import get_or_404
 
@@ -138,6 +143,19 @@ def edit(id=None):
         'objectives/edit.html',
         form=form,
         objective=objective)
+
+
+@objectives.route('/objective/<id>.json', methods=['GET', 'PATCH', 'PUT'])
+@login_required
+def objective_json(id):
+    objective = get_objective_or_404(id=id)
+
+    if request.method in ['PATCH', 'PUT']:
+        objective.entry.update(**entry_from_json('objective', request.json))
+        objective.add_tags(request.json.get('tags', []))
+        objective.reload()
+
+    return jsonify(objective.to_json())
 
 
 @objectives.route('/objective/<id>')

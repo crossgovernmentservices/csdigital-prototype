@@ -261,6 +261,13 @@ class LogEntry(db.Document, Linkable):
 
             self.update(add_to_set__tags=tag)
 
+    def add_tags(self, tags):
+        tags = filter(None, map(lambda s: s.strip(), tags))
+
+        if tags:
+            tags = Tag.objects.filter(name__in=tags, owner=self.owner)
+            self.update(add_to_set__tags=list(tags))
+
     def has_tag(self, name):
         name = name.strip().lower()
 
@@ -392,3 +399,8 @@ def create_log_entry(_type, **kwargs):
         entry=entry,
         owner=owner,
         **data)
+
+
+def entry_from_json(entry_type, json):
+    schema = schemas[entry_type]
+    return {k: json[k] for k in schema if k in json}

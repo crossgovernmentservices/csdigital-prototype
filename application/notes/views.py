@@ -13,7 +13,7 @@ from flask.ext.security import login_required
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, Tag, User, schemas
+from application.models import LogEntry, Tag, User, entry_from_json
 from application.notes.forms import NoteForm
 from application.utils import get_or_404
 
@@ -111,15 +111,8 @@ def view_json(id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
     if request.method in ['PATCH', 'PUT']:
-        data = request.get_json()
-        schema = schemas['log']
-        entry_data = {k: data[k] for k in schema if k in data}
-        note.entry.update(**entry_data)
-        if 'tags' in data:
-            existing_tags = [tag.name for tag in note.tags]
-            for tag in data['tags']:
-                if tag not in existing_tags:
-                    note.add_tag(tag)
+        note.entry.update(**entry_from_json('log', request.json))
+        note.add_tags(request.json.get('tags', []))
         note.reload()
 
     return jsonify(note.to_json())
