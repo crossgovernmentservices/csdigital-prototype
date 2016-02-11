@@ -59,4 +59,4 @@ def index():
 def users():
     q = request.args['q']
     users = User.objects.only('email').filter(email__icontains=q)
-    return jsonify({'users': users})
+    return jsonify({'users': [u.to_json() for u in users]})

@@ -25,11 +25,13 @@ def add_staff(**member_data):
 @staff.route('/staff')
 @login_required
 def view():
-
-    if request.is_xhr:
-        return jsonify({'staff': list(current_user.staff)})
-
     return render_template('staff/view.html')
+
+
+@staff.route('/staff.json')
+@login_required
+def staff_json():
+    return jsonify({'staff': [u.to_json() for u in current_user.staff]})
 
 
 def allowed_staff(manager):

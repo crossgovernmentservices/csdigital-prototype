@@ -102,7 +102,7 @@ def view_log_entry(id):
     return render_template('mylog/entry.html', entry=entry)
 
 
-@mylog.route('/my-log/entry/<id>/tags', methods=['GET', 'POST'])
+@mylog.route('/my-log/entry/<id>/tags.json', methods=['GET', 'POST'])
 @login_required
 def tag_entry(id):
     entry = get_logentry_or_404(id)

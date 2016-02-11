@@ -44,10 +44,10 @@ def get_link_target(data):
     return _type, target
 
 
-@objectives.route('/objective/<id>/links', methods=['GET', 'POST'])
+@objectives.route('/objective/<id>/links.json', methods=['GET', 'POST'])
 @login_required
 def links(id):
-    objective = get_objective_or_404(id)
+    objective = get_objective_or_404(id=id)
 
     if request.method == 'POST':
         _, target = get_link_target(request.get_json())
@@ -59,7 +59,7 @@ def links(id):
         else:
             return jsonify({'error': 'Linking failed'})
 
-    return jsonify({'linked': objective.linked})
+    return jsonify({'linked': [l.to_json() for l in objective.linked]})
 
 
 @objectives.route('/objective/<id>/links/<link_id>', methods=['GET', 'DELETE'])
@@ -195,13 +195,7 @@ def comments(id):
         objective.add_comment(request.get_json()['content'])
         objective.reload()
 
-    return jsonify({'comments': [
-        {
-            'author': comment.owner.full_name,
-            'created_date': comment.created_date,
-            'content': comment.entry.content,
-            'id': str(comment.id)}
-        for comment in objective.comments]})
+    return jsonify({'comments': [c.to_json() for c in objective.comments]})
 
 
 @objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
@@ -219,17 +213,17 @@ def comment(user_id, id):
     return redirect(url_for('.view_for_user', user_id=user_id, id=id))
 
 
-@objectives.route('/objective/<id>/evidence', methods=['GET', 'POST'])
+@objectives.route('/objective/<id>/evidence.json', methods=['GET', 'POST'])
 @login_required
 def evidence(id):
-    objective = get_objective_or_404(id)
+    objective = get_objective_or_404(id=id)
 
     if request.method == 'POST':
         create_log_entry('evidence', **request.get_json())
         objective.link(evidence)
         objective.reload()
 
-    return jsonify({'evidence': objective.evidence})
+    return jsonify({'evidence': [e.to_json() for e in objective.evidence]})
 
 
 @objectives.route('/objective/<id>/evidence/add', methods=['GET', 'POST'])

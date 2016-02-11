@@ -161,6 +161,14 @@ class User(db.Document, UserMixin, Linkable):
         else:
             logging.warn("{.full_name} already has a manager".format(user))
 
+    def to_json(self):
+        return {
+            'id': str(self.id),
+            'full_name': self.full_name,
+            'email': self.email,
+            'grade': self.grade,
+            'profession': self.profession}
+
 
 def make_inbox_email(email):
     return '{user}@{domain}'.format(
@@ -217,6 +225,11 @@ class Entry(db.DynamicDocument):
             data = self.details
         return data
 
+    def to_json(self):
+        return dict(
+            id=str(self.id),
+            **dict((k, getattr(self, k)) for k in self if k not in ['id']))
+
 
 class LogEntry(db.Document, Linkable):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
@@ -226,6 +239,14 @@ class LogEntry(db.Document, Linkable):
     editable = db.BooleanField(default=True)
     entry_type = db.StringField(required=True)
     entry = db.ReferenceField(Entry, required=True)
+
+    def to_json(self):
+        return {
+            'id': str(self.id),
+            'entry_type': self.entry_type,
+            'entry': self.entry.to_json(),
+            'created_date': self.created_date,
+            'tags': [tag.name for tag in self.tags]}
 
     def add_tag(self, name):
         name = name.strip()
