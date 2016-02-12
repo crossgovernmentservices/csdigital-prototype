@@ -32,6 +32,16 @@ def sso_providers():
     return dict(sso_providers=current_app.config['OIDC'])
 
 
+@sso.app_context_processor
+def auth0_logout():
+
+    url = 'https://{host}/v2/logout?returnTo={returnTo}'.format(
+        host=current_app.config['OIDC']['auth0']['domain'],
+        returnTo=url_for('sso.logout', _external=True))
+
+    return dict(logout_url=url)
+
+
 @sso.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
