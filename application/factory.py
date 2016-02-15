@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 '''The app module, containing the app factory function.'''
-from flask import Flask, render_template
 
+import os
+
+from flask import Flask, render_template
 from flask.ext.security import Security
 
 
@@ -9,12 +11,17 @@ def asset_path_context_processor():
     return {'asset_path': '/static/'}
 
 
-def create_app(config_filename):
+def create_app(config=None):
     ''' An application factory, as explained here:
         http://flask.pocoo.org/docs/patterns/appfactories/
     '''
     app = Flask(__name__)
-    app.config.from_object(config_filename)
+
+    if not config:
+        config = os.environ.get('SETTINGS', 'application.config.Config')
+
+    app.config.from_object(config)
+
     register_errorhandlers(app)
     register_blueprints(app)
     app.context_processor(asset_path_context_processor)
@@ -98,6 +105,10 @@ def register_extensions(app):
 
     from application.sso.oidc import OIDC
     app.oidc_client = OIDC(app)
+
+    if app.debug:
+        from flask_debugtoolbar import DebugToolbarExtension
+        DebugToolbarExtension().init_app(app)
 
 
 def register_filters(app):

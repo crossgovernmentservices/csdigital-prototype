@@ -3,6 +3,7 @@
 import csv
 import os
 
+from flask import current_app
 from flask.ext.script import (
     Manager,
     Server,
@@ -10,7 +11,6 @@ from flask.ext.script import (
     prompt,
     prompt_pass
 )
-
 from flask.ext.security.utils import (
     encrypt_password
 )
@@ -30,15 +30,14 @@ from application.competency.models import (
     CompetencyCluster,
     Level
 )
-
-app = create_app(os.environ.get('SETTINGS', 'application.config.Config'))
-app.debug = True
-port = os.environ.get('PORT', 8000)
-
-manager = Manager(app)
-manager.add_command('server', Server(host="0.0.0.0", port=port))
-
 from application.extensions import user_datastore
+
+
+manager = Manager(create_app)
+manager.add_option('-c', '--config', dest='config', required=False)
+manager.add_command('runserver', Server(
+    host='0.0.0.0',
+    port=int(os.environ.get('PORT', '8000'))))
 
 
 class CreateUser(Command):
@@ -58,7 +57,7 @@ class CreateUser(Command):
                 full_name=full_name)
             user_role = user_datastore.find_or_create_role('USER')
             user_datastore.add_role_to_user(user, user_role)
-            email_domain = app.config.get('EMAIL_DOMAIN')
+            email_domain = current_app.config.get('EMAIL_DOMAIN')
             user_name = email.split('@')[0]
             user.inbox_email = "%s@%s" % (user_name, email_domain)
             user.save()
@@ -86,7 +85,7 @@ class CreateXgsUsersCommand(Command):
                         full_name=name)
                     admin_role = user_datastore.find_or_create_role('ADMIN')
                     user_datastore.add_role_to_user(user, admin_role)
-                    email_domain = app.config.get('EMAIL_DOMAIN')
+                    email_domain = current_app.config.get('EMAIL_DOMAIN')
                     user_name = email.split('@')[0]
                     user.inbox_email = "%s@%s" % (user_name, email_domain)
                     user.save()
@@ -210,6 +209,8 @@ class LoadCompetencyData(Command):
             behaviour.save()
 
         self.load_model_fixtures('behaviour.csv', exists, create)
+
+
 
 
 manager.add_command('create-user', CreateUser())
