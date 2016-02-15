@@ -186,3 +186,9 @@ a.secondary_btn {
     color: $secondary-text-colour;
   }
 }
+
+// used on the overview pages
+.ov-subsection-titles {
+  @extend .heading-small;
+  margin-top: 0;
+}
