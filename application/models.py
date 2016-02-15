@@ -316,6 +316,9 @@ class LogEntry(db.Document, Linkable):
     def notes(self):
         return self._linked_log_entries('log')
 
+    def objectives(self, *args):
+        return self._linked_log_entries('objective')
+
     @property
     def evidence(self):
         return list(reversed(self._linked_log_entries('evidence')))

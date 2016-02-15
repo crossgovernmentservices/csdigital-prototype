@@ -49,7 +49,7 @@ def link(id):
 def unlink(id, link_id):
     note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    note.remove_link(link_id)
+    note.unlink(link_id)
 
     flash('Removed link')
 
