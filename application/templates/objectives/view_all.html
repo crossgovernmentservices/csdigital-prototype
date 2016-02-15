@@ -13,7 +13,7 @@
   <p class="lede">Select an objective from the list</p>
 
   <ul>
-  {% for obj in current_user.objectives|sort(attribute='created_date', reverse=(request.args.get('sort', 'oldest-first') == 'newest-first')) %}
+  {% for obj in objectives %}
     <li><h3 class="heading-small"><a href="{{ url_for('objectives.view', id=obj.id) }}">{{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}</a></h3></li>
   {% endfor %}
   </ul>

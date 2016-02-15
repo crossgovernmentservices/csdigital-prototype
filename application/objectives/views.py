@@ -170,7 +170,20 @@ def view(id):
 @objectives.route('/objective')
 @login_required
 def view_all():
-    return render_template('objectives/view_all.html')
+
+    def created_date(obj):
+        return obj.created_date
+
+    reverse = request.args.get('sort', 'oldest-first') == 'newest-first'
+
+    objectives = sorted(
+        current_user.objectives,
+        key=created_date,
+        reverse=reverse)
+
+    return render_template(
+        'objectives/view_all.html',
+        objectives=objectives)
 
 
 @objectives.route('/objective/staff/<user_id>/<id>')
