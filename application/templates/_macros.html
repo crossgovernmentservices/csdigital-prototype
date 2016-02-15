@@ -124,7 +124,7 @@
   <!-- section for linking objectives -->
   <section class="linking_container">
     <h4 class="link_section_heading">Objectives</h4>
-    {% if type == "competencies" and item.objectives(current_user) %}
+    {% if type in ["competencies", "note"] and item.objectives(current_user) %}
     <ul class="linked-list">
 
     {% for link in item.objectives(current_user) %}
