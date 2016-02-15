@@ -14,7 +14,14 @@
 
   <ul>
   {% for obj in objectives %}
-    <li><h3 class="heading-small"><a href="{{ url_for('objectives.view', id=obj.id) }}">{{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}</a></h3></li>
+    <li>
+      <details class="accordion">
+        <summary class="accordion-head"><h3 class="accordion-title">{{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}</h3></summary>
+        <div class="accoridon-content">
+          <a href="{{ url_for('objectives.view', id=obj.id) }}">{{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}</a>
+        </div>
+      </details>
+    </li>
   {% endfor %}
   </ul>
 
