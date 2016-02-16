@@ -60,6 +60,8 @@ class DevelopmentConfig(Config):
         'flask_debugtoolbar.panels.route_list.RouteListDebugPanel',
         'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
         'flask.ext.mongoengine.panels.MongoDebugPanel']
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
+    DEBUG_TB_PROFILER_ENABLED = True
 
 
 class DockerConfig(DevelopmentConfig):
