@@ -26,7 +26,11 @@
         {{ objective.entry.title|default("Objective") }}
       </h1>
 
-      <span class="note_date">Added on: {{ "{:%Y-%m-%d %H:%M}".format(objective.created_date) }}</span>
+      {% if objective.entry.last_updated is defined %}
+        {% if objective.entry.last_updated != None %}
+        <span class="note_date">Last edited on {{ "{:%a %d %b %y %p}".format(objective.entry.last_updated) }}</span>
+        {% endif %}
+      {% endif %}
 
     </header>
 
