@@ -80,6 +80,11 @@
   .accordion-head {
     border-bottom: 1px solid $grey-3;
   }
+
+  .accordion-title {
+    font-weight: bold;
+  }
+
   .accordion-content {
     display: block;
     padding: $gutter-half;
