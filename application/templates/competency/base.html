@@ -1,33 +1,52 @@
-{% extends "3colbase.html" %}
+{% extends "base--small-bar.html" %}
 {% from "_macros.html" import objectives_links %}
 
-{% block content_nav %}
-  <ul class="browse-pane__content">
-    <li>
-      <a href="/competency" class="browse-pane__subsection-heading--open">Competencies</a>
-      <ul>
-        {% for comp in current_user.competencies %}
-        <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', id=comp.id) }}">{{ comp.name }}</a></li>
-        {% endfor %}
-      </ul>
-      <ul class="competency-list--not-linked">
-        {% for comp in comps_not_linked %}
-        <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', id=comp.id) }}">{{ comp.name }}</a></li>
-        {% endfor %}
-      </ul>
-    </li>
-  </ul>
-
-  <!--<div class="content-nav-action"><a href="">see more</a></div>-->
+{% block head %}
+  <!-- internal interface stylesheet -->
+  {% assets "css_internal_interface" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
 {% endblock %}
 
-{% block content_links %}
-  {% if competency %}
-  <h2 class="heading-medium">Link competency with</h2>
+{% block content %}
 
-  {{ objectives_links(competency, "competencies", current_user) }}
+  {% block content_nav %}
+  <nav class="browse-pane">
+    <ul class="browse-pane__content">
+      <li>
+        <a href="/competency" class="browse-pane__subsection-heading--open">Competencies</a>
+        <ul>
+          {% for comp in current_user.competencies %}
+          <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', id=comp.id) }}">{{ comp.name }}</a></li>
+          {% endfor %}
+        </ul>
+        <ul class="competency-list--not-linked">
+          {% for comp in comps_not_linked %}
+          <li><a {% if competency and competency.id == comp.id %}class="current"{% endif %} href="{{ url_for('competency.view', id=comp.id) }}">{{ comp.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+  </nav>
 
-  {% endif %}
+  {% endblock %}
+
+  <div class="main_content">
+
+      <div class="column-two-thirds">{% block main_content %}{% endblock %}</div>
+      <div class="column-third">
+        {% block content_links %}
+          {% if competency %}
+          <h2 class="heading-medium">Link competency with</h2>
+
+          {{ objectives_links(competency, "competencies", current_user) }}
+
+          {% endif %}
+        {% endblock %}
+      </div>
+
+  </div>
+
 {% endblock %}
 
 {% block body_end %}

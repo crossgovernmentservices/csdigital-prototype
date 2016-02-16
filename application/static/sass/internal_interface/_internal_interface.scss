@@ -216,3 +216,22 @@ a.secondary_btn {
 .ov-date {
   font-size: 16px;
 }
+
+.main_content {
+  @extend %contain-floats;
+  margin-left: 300px;
+  margin-top: 45px;
+  border-left: 1px solid #ccc;
+  padding: $gutter $gutter-half $gutter*2;
+
+  h1 {
+    margin-top: 0;
+  }
+}
+
+/*
+* used on the add objective page
+*/
+.add-objective .form-control {
+  width: 75%;
+}

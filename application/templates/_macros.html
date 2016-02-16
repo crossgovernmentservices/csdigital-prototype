@@ -94,7 +94,7 @@
     </ul>
     {% endif %}
 
-    <a href="" class="add-link-btn" data-link-form="competency">+ add competency</a>
+    <a href="" class="add-link-btn" data-link-form="competency">+ link competency</a>
 
     {% if link_to == "note" %}
     <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
@@ -137,7 +137,7 @@
     </ul>
     {% endif %}
 
-    <a href="" class="add-link-btn" data-link-form="objectives">+ add objective</a>
+    <a href="" class="add-link-btn" data-link-form="objectives">+ link objective</a>
     {% if type == "note" %}
     <form data-linking-type="objectives" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
     {% else %}
