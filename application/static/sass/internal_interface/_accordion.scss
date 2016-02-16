@@ -13,6 +13,7 @@
   padding: 3px $gutter-half 0;
   line-height: 2em;
   position: relative;
+  margin: 0;
 
   a {
     text-decoration: none;
@@ -48,9 +49,20 @@
     border-top: 1px solid $panel-colour;
     margin: 0;
 
+    // probably a better way to do this
+    .column-half,
+    .column-two-thirds,
+    .column-third {
+      padding: 0;
+    }
+
     &:first-of-type {
       border: none;
       padding-top: 0;
+    }
+
+    &:last-of-type {
+      padding-bottom: 0;
     }
   }
 
