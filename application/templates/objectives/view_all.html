@@ -13,46 +13,10 @@
   <p class="lede">Select an objective from the list</p>
 
   <ul>
-  {% for obj in objectives %}
-    <li>
-      <details class="accordion">
-        <summary class="accordion-head">
-          <div class="grid-row">
-            <div class="column-two-thirds">
-              <h3 class="accordion-title">{{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}</h3>
-            </div>
-            <div class="column-third">
-              <span class="more-group">
-                <button class="btn-more">Show information <img alt="" src="/static/images/circle-plus@2x.png" width="16px"></button>
-                <button class="btn-less">Hide information <img alt="" src="/static/images/circle-minus@2x.png" width="16px"></button>
-              </span>
-            </div>
-          </div>
-        </summary>
-        <div class="accordion-content">
-          <div class="grid-row accordion-content__subsection">
-            <div class="column-half">
-              <h3 class="ov-subsection-titles">{{ obj.competencies|length }} Competencies</h3>
-              <ul class="ov-linked-list">
-              {% for comp in obj.competencies %}
-                <li><a href="{{ url_for('competency.view', id=comp.id) }}">{{comp.name}}</a></li>
-              {% endfor %}
-              </ul>
-            </div>
-            <div class="column-half">
-              <h3 class="ov-subsection-titles">{{ obj.notes|length }} Notes</h3>
-              <h3 class="ov-subsection-titles">{{ obj.evidence|length }} pieces of evidence</h3>
-            </div>
-          </div>
-          <div class="grid-row accordion-content__subsection">
-            <div class="column-half ov-date">Last edited on {{ obj.entry.last_updated }}</div>
-            <div class="column-half ov-date">Last comment on {{ obj.latest_comment.created_date }}</div>
-          </div>
-          <div class="accordion-content__subsection"><a class="small-link" href="{{ url_for('objectives.view', id=obj.id) }}">view objective</a></div>
-        </div>
-      </details>
-    </li>
-  {% endfor %}
+    {% from 'objectives/partials/_objective-summary.html' import render_obj_summary %}
+    {% for obj in objectives %}
+      {{ render_obj_summary( obj, loop.index|string ) }}
+    {% endfor %}
   </ul>
 
 {% endblock %}
@@ -63,11 +27,11 @@
     <h2>Useful resources</h2>
     <nav>
       <ul>
-        <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/resources/cscf_fulla4potrait_2013-2017_v2e.pdf">Competency framework</a></li>
-        <li><a href="https://civilservicelearning.civilservice.gov.uk/competency-framework/how-use-competency-framework">How to use the competency framework</a></li>
+        <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/performance-management-e-learning">Performance management (e-learning)</a></li>
+        <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/howtosetsmartobjectivescfindicatorstr230513fvissue3.doc">How to set SMART objectives</a></li>
         <li><a href="https://civilservicelearning.civilservice.gov.uk/competency-framework/case-study-1">A case study</a></li>
         <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/performance-objectives-and-competency-e-learning">Competency and objective training</a></li>
-        <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/howtosetsmartobjectivescfindicatorstr230513fvissue3.doc">How to set SMART objectives</a></li>
+        <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/facetoface/managing-people-regular-performance-discussions-0">Regular performance discussions</a></li>
       </ul>
     </nav>
   </section>
