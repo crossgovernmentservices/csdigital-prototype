@@ -60,6 +60,10 @@
       border: none;
       padding-top: 0;
     }
+
+    &:last-of-type {
+      padding-bottom: 0;
+    }
   }
 
   .accordion-content__subsection__heading {
