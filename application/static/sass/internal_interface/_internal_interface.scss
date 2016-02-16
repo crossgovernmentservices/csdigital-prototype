@@ -67,14 +67,6 @@ html {
   }
 }
 
-.secondary-link a,
-.remove-link a {
-  color: $secondary-text-colour;
-  font-size: 16px;
-  padding: 0 10px;
-  font-weight: normal;
-}
-
 .new-note {
   #content {
     margin: 0;
@@ -83,33 +75,8 @@ html {
   }
 }
 
-.rendered-markdown {
-  ul {
-    margin: 5px 0 1em;
-    list-style: disc;
-    padding-left: 15px;
-
-    li {
-      margin-left: 10px;
-    }
-  }
-  strong {
-    font-weight: bold;
-  }
-}
-
 .form {
   @extend %contain-floats;
-}
-
-.small-text,
-.small-link {
-  font-size: 16px;
-}
-
-.small-text {
-  color: $secondary-text-colour;
-  font-weight: normal;
 }
 
 .secondary_btn,
@@ -143,23 +110,6 @@ a.secondary_btn {
 
 .js-enabled .add-staff-member-form {
   display: none;
-}
-
-// An inline definition list - name:value pairs for example
-/* dl */.definition-inline {
-  @extend %contain-floats;
-  dt {
-    float: left;
-    margin-right: 5px;
-    &:after {
-      content: ':';
-    }
-  }
-  dd {
-    float: left;
-    font-weight: bold;
-    margin-right: $gutter-half;
-  }
 }
 
 .objective_container {
