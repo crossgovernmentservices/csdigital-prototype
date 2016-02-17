@@ -1,0 +1,44 @@
+{
+  "journey_name": "3. CSD Performance management journeys",
+  "last_updated": "16th Feb 2016",
+  "userjourneys": [
+    {
+      "title": "Competency framework checker",
+      "path": [{
+        "caption": "Competency overview",
+        "imgref": "empty_comp_overview_page.png"
+      },{
+        "caption": "Competency, behaviours",
+        "imgref": "competency_behaviours_page_grey_nav.png"
+      },{
+        "caption": "Competency overview - latest",
+        "imgref": "competency_overview_page_accordions.png"
+      },{
+        "caption": "Competency, behaviours - latest",
+        "imgref": "competency_with_behaviours_page.png"
+      }]
+    },
+    {
+      "title": "Your objectives",
+      "path": [{
+        "caption": "Objective overview",
+        "imgref": "empty_obj_overview_page.png"
+      },{
+        "caption": "Objective",
+        "imgref": "obj_page_with_links_and_grey_nav.png"
+      },{
+        "caption": "Edit objective",
+        "imgref": "edit_obj_grey_nav.png"
+      },{
+        "caption": "Objective overview - latest",
+        "imgref": "obj_overview_page.png"
+      },{
+        "caption": "Objective - latest",
+        "imgref": "obj_cleaner_page.png"
+      },{
+          "caption": "Edit objective - latest",
+          "imgref": "edit_obj_clean_nav.png"
+      }]
+    }
+    ]
+}
