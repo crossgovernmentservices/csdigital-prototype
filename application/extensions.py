@@ -1,3 +1,6 @@
+from flask.ext.mail import Mail, email_dispatched
+from flask.ext.security import MongoEngineUserDatastore
+
 from application.models import (
     db,
     User,
@@ -5,9 +8,12 @@ from application.models import (
 )
 
 
-from flask.ext.security import MongoEngineUserDatastore
 user_datastore = MongoEngineUserDatastore(db, User, Role)
 
-
-from flask.ext.mail import Mail
 mail = Mail()
+
+
+def log_message(message, app):
+    app.logger.debug(message.as_string())
+
+email_dispatched.connect(log_message)

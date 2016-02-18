@@ -1,26 +1,26 @@
 from flask import (
     Blueprint,
-    render_template,
+    abort,
     current_app,
     flash,
+    redirect,
+    render_template,
     request,
-    url_for,
-    redirect
+    url_for
 )
-
-from flask.ext.security import login_required
 from flask.ext.login import current_user
-
 from flask.ext.mail import Message
+from flask.ext.security import login_required
 
 from application.extensions import mail
 from application.feedback.forms import FeedbackForm
-
 from application.models import (
     User,
     LogEntry,
-    Entry
+    create_log_entry
 )
+from application.utils import get_or_404
+
 
 feedback = Blueprint('feedback', __name__, template_folder='templates')
 
@@ -28,36 +28,38 @@ feedback = Blueprint('feedback', __name__, template_folder='templates')
 @feedback.route('/get-feedback', methods=['GET', 'POST'])
 @login_required
 def get_feedback():
+
     if request.method == 'POST':
-        recipients = request.form.getlist('email')
-        share = request.form.get('share-objectives')
-        share_objectives = share == 'share-objectives'
+        recipients = User.objects.filter(
+            email__in=request.form.getlist('q'))
+        share = bool(request.form.get('share-objectives'))
+        user = current_user._get_current_object()
 
-        for recipient in recipients:
-            user = current_user._get_current_object()
-            other_user = User.objects.filter(email=recipient).first()
+        if recipients:
+            for recipient in recipients:
 
-            entry = Entry()
-            entry.requested_by = user.email
-            entry.requested_from = other_user.email
-            entry.requested_by_name = user.full_name
-            entry.requested_from_name = other_user.full_name
-            entry.template = request.form.get('feedback-template')
-            entry.share_objectives = share_objectives
-            if share_objectives:
-                # get and attach objectives
-                pass
-            entry.save()
+                feedback = create_log_entry(
+                    'feedback',
+                    requested_by=user.email,
+                    requested_from=recipient.email,
+                    requested_by_name=user.full_name,
+                    requested_from_name=recipient.full_name,
+                    template=request.form.get('feedback-template'),
+                    share_objectives=share)
 
-            log_entry = LogEntry()
-            log_entry.entry_type = 'feedback'
-            log_entry.owner = user
-            log_entry.entry = entry
-            log_entry.save()
-            log_entry.add_tag('Feedback')
+                if share:
+                    for objective in user.objectives:
+                        feedback.link(objective)
 
-            _send_feedback_email(log_entry, user, other_user)
-        flash('Submitted request')
+                feedback.add_tag('Feedback')
+
+                _send_feedback_email(feedback, user, recipient)
+
+            flash('Submitted request')
+
+            return redirect(url_for('.requested_feedback'))
+
+        flash('Failed submitting request(s)', 'error')
 
     return render_template('feedback/get-feedback.html')
 
@@ -66,31 +68,31 @@ def get_feedback():
 @login_required
 def give_feedback():
     user = current_user._get_current_object()
-    entries = Entry.objects.filter(requested_from=user.email)
-    feedback = LogEntry.objects.filter(entry_type='feedback',
-                                       entry__in=entries).all()
+    feedback = user.feedback
 
-    return render_template('feedback/feedback-for-others.html',
-                           feedback_requests=feedback)
+    return render_template(
+        'feedback/feedback-for-others.html',
+        feedback_requests=feedback)
 
 
 @feedback.route('/give-feedback/<id>', methods=['GET', 'POST'])
 @login_required
 def reply_to_feedback(id):
     form = FeedbackForm()
-    feedback_request = LogEntry.objects(id=id).get()
+    feedback_request = get_or_404(LogEntry, id=id)
 
     if form.validate_on_submit():
-        feedback_request.entry.replied = True
-        feedback_request.entry.details = form.feedback.data
-        feedback_request.entry.save()
+        feedback_request.entry.update(
+            replied=True,
+            details=form.feedback.data)
         flash("Saved feedback")
 
         return redirect(url_for('feedback.give_feedback'))
-    else:
-        return render_template('feedback/give-feedback.html',
-                               form=form,
-                               feedback_request=feedback_request)
+
+    return render_template(
+        'feedback/give-feedback.html',
+        form=form,
+        feedback_request=feedback_request)
 
 
 # your requests for feedback from other people
@@ -98,40 +100,40 @@ def reply_to_feedback(id):
 @login_required
 def requested_feedback():
     user = current_user._get_current_object()
-    entries = Entry.objects.filter(requested_by=user.email)
-    feedback = LogEntry.objects.filter(entry_type='feedback',
-                                       entry__in=entries).all()
 
-    return render_template('feedback/feedback-for-me.html',
-                           feedback_requests=feedback)
+    return render_template(
+        'feedback/feedback-for-me.html',
+        feedback_requests=user.feedback_requests)
 
 
 @feedback.route('/feedback/<id>')
 @login_required
 def view_requested_feedback(id):
-    feedback_request = LogEntry.objects(id=id, entry_type='feedback').get()
-    return render_template('feedback/view-feedback.html',
-                           feedback_request=feedback_request)
+    feedback_request = get_or_404(LogEntry, id=id, entry_type='feedback')
+
+    return render_template(
+        'feedback/view-feedback.html',
+        feedback_request=feedback_request)
 
 
 def _send_feedback_email(feedback, request_by, request_from):
-    host = current_app.config['HOST']
-    if 'localhost' in host:
-        host = "%s:8000" % host
-    url = "http://%s/give-feedback/%s" % (host, feedback.id)
-    html = render_template('feedback/email/feedback-request.html',
-                           request_by=request_by,
-                           request_from=request_from,
-                           url=url)
-    msg = Message(html=html,
-                  subject="Feedback request from test",
-                  sender="noreply@csdigital.notrealgov.uk",
-                  recipients=[feedback.entry.requested_from])
+
+    msg = Message(
+        html=render_template(
+            'feedback/email/feedback-request.html',
+            sender=request_by,
+            recipient=request_from,
+            url=url_for('.reply_to_feedback', id=feedback.id, _external=True)),
+        subject="Feedback request from {name}".format(
+            name=request_by.full_name),
+        sender="noreply@civilservice.digital",
+        recipients=[feedback.entry.requested_from])
+
     try:
         mail.send(msg)
-        feedback.entry.sent = True
-        feedback.entry.save()
-        feedback.save()
-    except Exception as ex:
-        current_app.logger.error("failed to send email", ex)
-        return 'Internal Server Error', 500
+
+    except Exception as e:
+        current_app.logger.error("failed to send email", e)
+        abort(500)
+
+    feedback.entry.update(sent=True)

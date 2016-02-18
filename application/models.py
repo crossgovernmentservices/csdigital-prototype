@@ -118,7 +118,13 @@ class User(db.Document, UserMixin, Linkable):
 
     @property
     def feedback(self):
-        return LogEntry.objects.filter(owner=self, entry_type='feedback')
+        entries = Entry.objects.filter(requested_by=self.email)
+        return LogEntry.objects.filter(entry__in=entries)
+
+    @property
+    def feedback_requests(self):
+        entries = Entry.objects.filter(requested_from=self.email)
+        return LogEntry.objects.filter(entry__in=entries)
 
     @property
     def tags(self):

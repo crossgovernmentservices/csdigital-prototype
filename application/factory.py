@@ -83,8 +83,7 @@ def register_extensions(app):
     env.init_app(app)
 
     from flask.ext.mongoengine import MongoEngine
-    db = MongoEngine()
-    db.init_app(app)
+    MongoEngine().init_app(app)
 
     # flask security setup
     from application.extensions import user_datastore
@@ -94,7 +93,6 @@ def register_extensions(app):
     from flaskext.markdown import Markdown
     Markdown(app)
 
-    # flask mail
     from application.extensions import mail
     mail.init_app(app)
 
