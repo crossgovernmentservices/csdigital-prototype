@@ -62,6 +62,8 @@ class DevelopmentConfig(Config):
         'flask.ext.mongoengine.panels.MongoDebugPanel']
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
+    MAIL_DEBUG = True
+    MAIL_SUPPRESS_SEND = True
 
 
 class DockerConfig(DevelopmentConfig):
