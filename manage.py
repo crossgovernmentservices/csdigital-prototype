@@ -4,6 +4,7 @@ import csv
 import os
 
 from flask import current_app
+from flask.ext.assets import ManageAssets
 from flask.ext.script import (
     Manager,
     Server,
@@ -15,6 +16,13 @@ from flask.ext.security.utils import (
     encrypt_password
 )
 
+from application.competency.models import (
+    Behaviour,
+    Competency,
+    CompetencyCluster,
+    Level
+)
+from application.extensions import user_datastore
 from application.factory import create_app
 from application.models import (
     Entry,
@@ -24,17 +32,11 @@ from application.models import (
     Tag,
     User
 )
-from application.competency.models import (
-    Behaviour,
-    Competency,
-    CompetencyCluster,
-    Level
-)
-from application.extensions import user_datastore
 
 
 manager = Manager(create_app)
 manager.add_option('-c', '--config', dest='config', required=False)
+manager.add_command('assets', ManageAssets())
 manager.add_command('runserver', Server(
     host='0.0.0.0',
     port=int(os.environ.get('PORT', '8000'))))
