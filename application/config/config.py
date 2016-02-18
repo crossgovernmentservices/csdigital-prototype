@@ -5,7 +5,7 @@ import os
 class Config(object):
     DEBUG = False
     ASSETS_DEBUG = False
-    ASSETS_AUTO_BUILD = False
+    ASSETS_AUTO_BUILD = True
     APP_ROOT = os.path.abspath(os.path.dirname(__file__))
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, os.pardir))
     WTF_CSRF_ENABLED = True
