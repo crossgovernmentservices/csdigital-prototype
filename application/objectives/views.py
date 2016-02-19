@@ -136,6 +136,15 @@ def edit(id=None):
     if objective:
         form.what.data = objective.entry.what
         form.how.data = objective.entry.how
+        if 'measures' in objective.entry:
+            form.measures.data = objective.entry.measures
+
+        if 'outcomes' in objective.entry:
+            form.outcomes.data = objective.entry.outcomes
+
+        if 'deliverables' in objective.entry:
+            form.deliverables.data = objective.entry.deliverables
+
         if 'progress' in objective.entry:
             form.progress.data = objective.entry.progress
 

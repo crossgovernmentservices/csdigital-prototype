@@ -191,6 +191,9 @@ schemas = {
     'objective': (
         'how',
         'what',
+        'measures',
+        'outcomes',
+        'deliverables',
         'started_on',
         'due_by',
         'title',
