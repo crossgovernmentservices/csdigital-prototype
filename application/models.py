@@ -1,5 +1,4 @@
 import datetime
-import logging
 
 from flask import current_app
 from flask.ext.security import (
@@ -161,11 +160,12 @@ class User(db.Document, UserMixin, Linkable):
                 user.update(manager=self)
 
             else:
-                logging.warn("can't add ADMIN {.full_name} as staff".format(
-                    user))
+                current_app.logger.warn(
+                    "can't add ADMIN {.full_name} as staff".format(user))
 
         else:
-            logging.warn("{.full_name} already has a manager".format(user))
+            current_app.logger.warn(
+                "{.full_name} already has a manager".format(user))
 
     def to_json(self):
         return {
