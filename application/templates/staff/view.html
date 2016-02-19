@@ -6,6 +6,26 @@
 <!-- internal interface stylesheet -->
 {% assets "css_internal_interface" %}
   <link rel="stylesheet" href="{{ ASSET_URL }}">
+  <style>
+.incremental-search-results {
+  position: absolute;
+  width: 300px;
+  z-index: 9999;
+  background: white;
+}
+
+.incremental-search-results li {
+  display: block;
+  border: 1px solid #ccc;
+  padding: 5px 3px;
+  cursor: pointer;
+}
+
+.incremental-search-results li:hover {
+  background: #004;
+  color: #fff;
+}
+  </style>
 {% endassets %}
 
 {% endblock %}
@@ -16,12 +36,15 @@
     <h1 class="heading-large">Your staff</h1>
 
     <div class="staff_admin">
-      <a class="secondary_btn" href="{{ url_for('staff.add') }}">+ add staff</a>
+      <a class="secondary_btn incremental-search"
+        data-search-url="{{ url_for('staff.search') }}"
+        data-submit-url="{{ url_for('staff.add') }}"
+        href="{{ url_for('staff.add') }}">+ add staff</a>
     </div>
 
     <ul>
       {% for person in current_user.staff %}
-      <li class="staff-member">
+      <li class="staff-member" data-id="{{ person.id }}">
         {% if person.image %}
         <img class="staff-image" src="" width="120" height="120" alt="{{ person.full_name }}">
         {% else %}
@@ -42,4 +65,8 @@
       {% endfor %}
     </ul>
 
+{% endblock %}
+
+{% block body_end %}
+  <script src="{{ asset_path }}javascripts/incremental-search.js"></script>
 {% endblock %}
