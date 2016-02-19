@@ -77,6 +77,9 @@ def register_blueprints(app):
     from application.staff.views import staff
     app.register_blueprint(staff)
 
+    from application.hr.views import hr
+    app.register_blueprint(hr)
+
 
 def register_extensions(app):
     from application.assets import env
