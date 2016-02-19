@@ -63,9 +63,13 @@ def unlink(id, other_id):
 
 
 @competency.route('/competency', methods=['GET', 'POST'])
+@login_required
 def view_all():
-    not_linked = Competency.objects.filter(id__nin=[c.id for c in current_user.competencies])
-    return render_template('competency/view_all.html', comps_not_linked=not_linked)
+    not_linked = Competency.objects.filter(
+        id__nin=[c.id for c in current_user.competencies])
+    return render_template(
+        'competency/view_all.html',
+        comps_not_linked=not_linked)
 
 
 @competency.route('/competency/<id>/level/<level_id>.json')
@@ -101,7 +105,8 @@ def view(id=None, level_id=None):
             flash('Successfully updated profile')
             return redirect(url_for('.view', id=id))
 
-    not_linked = Competency.objects.filter(id__nin=[c.id for c in current_user.competencies])
+    not_linked = Competency.objects.filter(
+        id__nin=[c.id for c in current_user.competencies])
 
     return render_template(
         'competency/view.html',
