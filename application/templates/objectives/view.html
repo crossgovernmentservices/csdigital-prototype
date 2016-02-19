@@ -39,6 +39,12 @@
       <h3 class="heading-small">How</h3>
       <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
 
+      <h3 class="heading-small">Measures</h3>
+      <div class="rendered-markdown">{{ objective.entry.measures|default('')|markdown }}</div>
+      <h3 class="heading-small">Outcomes</h3>
+      <div class="rendered-markdown">{{ objective.entry.outcomes|default('')|markdown }}</div>
+      <h3 class="heading-small">Deliverables</h3>
+      <div class="rendered-markdown">{{ objective.entry.deliverables|default('')|markdown }}</div>
       <h3 class="heading-small">Progress</h3>
       <div class="rendered-markdown">{{ objective.entry.progress|default('')|markdown }}</div>
     </section>
