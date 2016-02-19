@@ -85,11 +85,8 @@
 
               {% for link in objective.notes %}
                 <li class="linked-item">
-                  <a class="linked-item__add-evidence" href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">
-                    <img src="/static/images/paper_clip.svg" alt="attach as evidence" />
-                  </a>
                   <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
-                  <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+                  <span class="remove-link"><a href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">upgrade to evidence</a></span>
                 </li>
               {% endfor %}
 
