@@ -4,6 +4,10 @@
   overflow-y: auto;
   z-index: 1;
   top: 0;
+}
+
+.browse-pane,
+.nav-pane {
   padding-top: $gutter;
   box-sizing: border-box;
 

@@ -1,13 +1,42 @@
 {% extends "base.html" %}
 
+{% block endhead %}
+
+<!-- internal interface patterns -->
+{% assets "css_internal_interface" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+
+<!-- hr specifics -->
+{% assets "css_hr" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+
+{% endblock %}
+
 {% block body_content %}
 
 {% include "_logout.html" %}
 
-{% block nav %}
-<nav>The nav</nav>
-{% endblock %}
+<div class="grid-row">
+  <div class="column-quarter">
+    {% block nav %}
+    <nav class="nav-pane">
+      <ul class="">
+        <li><a href="">Capability</a></li>
+        <li><a href="">Competency</a></li>
+        <li><a href="">Profession</a></li>
+        <li><a href="">Performance</a></li>
+      </ul>
+    </nav>
+    {% endblock %}
+  </div>
+  <div class="column-three-quarters">
+    {% block page_content %}{% endblock %}
+  </div>
+</div>
 
-{% block page_content %}{% endblock %}
+
+
 
 {% endblock %}
