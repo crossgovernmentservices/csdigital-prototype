@@ -11,4 +11,158 @@
 
 <img src="/static/images/profession_department_breakdown.png" alt="" />
 
+
+<h2 class="heading-medium">Professions in numbers</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Profession</th>
+      <th class="numeric" scope="col">Members</th>
+      <th scope="col">Growth</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Government Communication Service</td>
+      <td>3820</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Economic Service</td>
+      <td>900</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Finance Profession</td>
+      <td>12000</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <td>Government IT Profession</td>
+      <td>9940</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Knowledge and Information Management Profession</td>
+      <td>2030</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <td>Government Legal Service</td>
+      <td>8090</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <td>Government Occupational Psychology Profession</td>
+      <td>1120</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Operational Research Service</td>
+      <td>620</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <td>Government Planning Profession</td>
+      <td>1090</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Property Profession</td>
+      <td>3170</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Security Profession</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Government Science and Engineering Profession</td>
+      <td>18150</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Social Research Profession</td>
+      <td>540</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Government Statistical Service Profession</td>
+      <td>1580</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <td>Government Tax Profession</td>
+      <td>25200</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Government Veterinary Profession</td>
+      <td>310</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Human Resources Profession</td>
+      <td>8260</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Internal Audit Profession</td>
+      <td>850</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Medical Profession</td>
+      <td>1570</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Operational Delivery Profession</td>
+      <td>226150</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Policy Profession</td>
+      <td>19540</td>
+      <td>Up</td>
+    </tr>
+    <tr>
+      <td>Procurement Profession</td>
+      <td>5490</td>
+      <td>Down</td>
+    </tr>
+    <tr>
+      <td>Project Delivery Profession</td>
+      <td>8430</td>
+      <td>Up</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block body_end %}
+<script type="text/javascript">
+  (function($, window){
+
+    $(function() {
+      $(".capability-btns").on('click', 'a', function() {
+        var for_selector = $(this).parents(".capability-btns").data('svg-for');
+        var svg = $( "." + for_selector );
+        console.log($(this).data('class-to-add'));
+        svg.attr( "class", for_selector + " " + $(this).data('class-to-add') );
+        $(this)
+          .parents(".capability-btns")
+            .find("a")
+              .removeClass("active")
+            .end()
+          .end()
+        .addClass("active");
+
+        return false;
+      });
+    });
+  }).call(this, jQuery, window);
+</script>
 {% endblock %}
