@@ -14,3 +14,7 @@ hr = Blueprint('hr', __name__, template_folder='templates')
 @hr.route('/hr')
 def index():
     return render_template('hr/capability.html')
+
+@hr.route('/hr/professions')
+def professions():
+    return render_template('hr/professions.html')
