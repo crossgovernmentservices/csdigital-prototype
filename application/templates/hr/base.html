@@ -23,10 +23,10 @@
     {% block nav %}
     <nav class="nav-pane">
       <ul class="">
-        <li><a href="">Capability</a></li>
-        <li><a href="">Competency</a></li>
-        <li><a href="">Profession</a></li>
-        <li><a href="">Performance</a></li>
+        <li><a class="{% if current == 'capability' %}current{% endif %}" href="">Capability</a></li>
+        <li><a class="{% if current == 'competency' %}current{% endif %}" href="">Competency</a></li>
+        <li><a class="{% if current == 'professions' %}current{% endif %}" href="">Professions</a></li>
+        <li><a class="{% if current == 'performance' %}current{% endif %}" href="">Performance</a></li>
       </ul>
     </nav>
     {% endblock %}

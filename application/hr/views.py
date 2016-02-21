@@ -17,4 +17,4 @@ def index():
 
 @hr.route('/hr/professions')
 def professions():
-    return render_template('hr/professions.html')
+    return render_template('hr/professions.html', current="professions")
