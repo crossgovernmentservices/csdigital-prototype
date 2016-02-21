@@ -6,11 +6,47 @@
 </h1>
 
 <section class="dashboard-section">
+  <h2 class="heading-medium">Leading and managing change capability gap</h2>
+
+  {% include 'hr/charts/manage_gap.html' %}
+
+  <ul data-svg-for="managing-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
   <h2 class="heading-medium">Digital capability gap</h2>
 
   {% include 'hr/charts/digital_gap.html' %}
 
   <ul data-svg-for="digital-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Commercial capability gap</h2>
+
+  {% include 'hr/charts/commercial_gap.html' %}
+
+  <ul data-svg-for="commercial-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Project delivery capability gap</h2>
+
+  {% include 'hr/charts/project_gap.html' %}
+
+  <ul data-svg-for="project-cap" class="capability-btns">
     <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
     <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
     <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
