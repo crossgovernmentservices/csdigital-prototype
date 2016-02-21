@@ -11,9 +11,10 @@ from flask.ext.security import login_required
 hr = Blueprint('hr', __name__, template_folder='templates')
 
 
+@hr.route('/hr/capability')
 @hr.route('/hr')
 def index():
-    return render_template('hr/capability.html')
+    return render_template('hr/capability.html', current="capability")
 
 @hr.route('/hr/professions')
 def professions():
