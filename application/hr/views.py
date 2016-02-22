@@ -27,3 +27,7 @@ def competency():
 @hr.route('/hr/performance')
 def performance():
     return render_template('hr/performance.html', current="performance")
+
+@hr.route('/hr/workforce')
+def workforce():
+    return render_template('hr/workforce.html', current="workforce")
