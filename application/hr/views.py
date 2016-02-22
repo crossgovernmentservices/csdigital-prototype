@@ -23,3 +23,7 @@ def professions():
 @hr.route('/hr/competency')
 def competency():
     return render_template('hr/competency.html', current="competency")
+
+@hr.route('/hr/performance')
+def performance():
+    return render_template('hr/performance.html', current="performance")

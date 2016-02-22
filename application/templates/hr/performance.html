@@ -1,0 +1,52 @@
+{% extends "hr/base.html" %}
+
+{% block endhead %}
+{{ super() }}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+          // Create the data table.
+          var data = google.visualization.arrayToDataTable([
+                  ['Capability', 'Open', 'Completed', 'Closed', { role: 'annotation' } ],
+                  ['Leading and managing change', 10060, 2340, 300, ''],
+                  ['Digital', 70890, 50500, 2000, ''],
+                  ['Commercial', 35000, 22000, 1400, ''],
+                  ['Project delivery', 40000, 82000, 5000, '']
+                ]);
+
+
+          // Set chart options
+          var options = {
+                  width: 700,
+                  height: 400,
+                  legend: { position: 'top', maxLines: 3 },
+                  bar: { groupWidth: '100%' },
+                  isStacked: true,
+                  series: {
+                    0: {color: '#005EA5'},
+                    1: {color: '#00823B'},
+                    2: {color: '#4C2C92'}
+                  }
+                };
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.BarChart(document.getElementById("chart_div"));
+          chart.draw(data, options);
+        }
+</script>
+
+{% endblock %}
+
+{% block page_content %}
+<h1 class="heading-large">
+  Performance dashboard
+</h1>
+
+<h2 class="heading-medium">Development objectives by capability</h2>
+<div id="chart_div"></div>
+
+{% endblock %}
