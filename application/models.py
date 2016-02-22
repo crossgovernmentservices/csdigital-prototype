@@ -6,14 +6,11 @@ from flask.ext.security import (
     RoleMixin
 )
 from flask.ext.login import current_user
-from flask.ext.mongoengine import MongoEngine
+import mongoengine as db
 from mongoengine.queryset import queryset_manager
 from mongoengine.errors import ValidationError
 
 from application.utils import get_or_404
-
-
-db = MongoEngine()
 
 
 class Link(db.Document):
@@ -38,7 +35,16 @@ class Linkable(object):
             return Link.objects.create(documents=[self, other])
 
     def unlink(self, other):
-        self.links.filter(documents=other).delete()
+
+        if isinstance(other, str):
+            unlinked = False
+            for linked in self.linked:
+                if str(getattr(linked, 'id', '')) == other:
+                    self.unlink(linked)
+                    unlinked = True
+            return unlinked
+
+        return self.links.filter(documents=other).delete()
 
     def remove_link(self, link_id):
         self.links.filter(id=link_id).delete()
@@ -111,7 +117,13 @@ class User(db.Document, UserMixin, Linkable):
 
     @property
     def feedback(self):
-        return LogEntry.objects.filter(owner=self, entry_type='feedback')
+        entries = Entry.objects.filter(requested_by=self.email)
+        return LogEntry.objects.filter(entry__in=entries)
+
+    @property
+    def feedback_requests(self):
+        entries = Entry.objects.filter(requested_from=self.email)
+        return LogEntry.objects.filter(entry__in=entries)
 
     @property
     def tags(self):
@@ -140,12 +152,28 @@ class User(db.Document, UserMixin, Linkable):
             user.update(manager=None)
 
     def add_staff(self, user):
-        if user not in self.staff and not user.manager:
+        if not user.manager:
 
             admin_role = Role.objects.get(name='ADMIN')
             if admin_role not in user.roles:
                 self.update(add_to_set__staff=user)
                 user.update(manager=self)
+
+            else:
+                current_app.logger.warn(
+                    "can't add ADMIN {.full_name} as staff".format(user))
+
+        else:
+            current_app.logger.warn(
+                "{.full_name} already has a manager".format(user))
+
+    def to_json(self):
+        return {
+            'id': str(self.id),
+            'full_name': self.full_name,
+            'email': self.email,
+            'grade': self.grade,
+            'profession': self.profession}
 
 
 def make_inbox_email(email):
@@ -163,6 +191,9 @@ schemas = {
     'objective': (
         'how',
         'what',
+        'measures',
+        'outcomes',
+        'deliverables',
         'started_on',
         'due_by',
         'title',
@@ -203,6 +234,11 @@ class Entry(db.DynamicDocument):
             data = self.details
         return data
 
+    def to_json(self):
+        return dict(
+            id=str(self.id),
+            **dict((k, getattr(self, k)) for k in self if k not in ['id']))
+
 
 class LogEntry(db.Document, Linkable):
     created_date = db.DateTimeField(default=datetime.datetime.utcnow)
@@ -212,6 +248,14 @@ class LogEntry(db.Document, Linkable):
     editable = db.BooleanField(default=True)
     entry_type = db.StringField(required=True)
     entry = db.ReferenceField(Entry, required=True)
+
+    def to_json(self):
+        return {
+            'id': str(self.id),
+            'entry_type': self.entry_type,
+            'entry': self.entry.to_json(),
+            'created_date': self.created_date,
+            'tags': [tag.name for tag in self.tags]}
 
     def add_tag(self, name):
         name = name.strip()
@@ -225,6 +269,13 @@ class LogEntry(db.Document, Linkable):
                 tag = Tag.objects.create(name=name, owner=self.owner)
 
             self.update(add_to_set__tags=tag)
+
+    def add_tags(self, tags):
+        tags = filter(None, map(lambda s: s.strip(), tags))
+
+        if tags:
+            tags = Tag.objects.filter(name__in=tags, owner=self.owner)
+            self.update(add_to_set__tags=list(tags))
 
     def has_tag(self, name):
         name = name.strip().lower()
@@ -273,6 +324,9 @@ class LogEntry(db.Document, Linkable):
     @property
     def notes(self):
         return self._linked_log_entries('log')
+
+    def objectives(self, *args):
+        return self._linked_log_entries('objective')
 
     @property
     def evidence(self):
@@ -344,10 +398,21 @@ def create_log_entry(_type, **kwargs):
 
     entry = Entry.objects.create(**data)
 
+    data = {}
+    _kwargs = dict(kwargs)
+    for key, val in _kwargs.items():
+        if key in ['owner', 'entry_from', 'tags']:
+            data[key] = kwargs.pop(key)
+
     owner = kwargs.pop('owner', current_user._get_current_object())
 
     return LogEntry.objects.create(
         entry_type=_type,
         entry=entry,
         owner=owner,
-        **kwargs)
+        **data)
+
+
+def entry_from_json(entry_type, json):
+    schema = schemas[entry_type]
+    return {k: json[k] for k in schema if k in json}

@@ -12,12 +12,18 @@ class ObjectiveForm(Form):
     title = StringField('Title', validators=[Required()])
     what = TextAreaField('What is your objective?', validators=[Required()])
     how = TextAreaField('How will you achieve this?', validators=[Required()])
+    measures = TextAreaField('How will you measure your progress?')
+    outcomes = TextAreaField('What will the outcomes be?')
+    deliverables = TextAreaField('What are the deliverables?')
     progress = TextAreaField('What progress have you made?')
 
     def update(self, objective):
         objective.entry.update(
             title=self.title.data,
             what=self.what.data,
+            measures=self.measures.data,
+            outcomes=self.outcomes.data,
+            deliverables=self.deliverables.data,
             progress=self.progress.data,
             how=self.how.data)
 
@@ -27,6 +33,9 @@ class ObjectiveForm(Form):
             title=self.title.data,
             what=self.what.data,
             how=self.how.data,
+            measures=self.measures.data,
+            outcomes=self.outcomes.data,
+            deliverables=self.deliverables.data,
             progress=self.progress.data,
             started_on=datetime.datetime.utcnow(),
             due_by=a_year_from_now())
@@ -38,4 +47,4 @@ class ObjectiveForm(Form):
 
 class EvidenceForm(Form):
     title = StringField('Title', validators=[DataRequired()])
-    evidence_content = TextAreaField('Content')
+    content = TextAreaField('Content')

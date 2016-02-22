@@ -2,6 +2,7 @@ from flask import (
     Blueprint,
     abort,
     flash,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -9,9 +10,13 @@ from flask import (
 from flask.ext.login import current_user
 from flask.ext.security import login_required
 
-from application.competency.forms import make_link_form
 from application.competency.models import Competency
-from application.models import LogEntry, User, create_log_entry
+from application.models import (
+    Link,
+    LogEntry,
+    User,
+    create_log_entry,
+    entry_from_json)
 from application.objectives.forms import EvidenceForm, ObjectiveForm
 from application.utils import get_or_404
 
@@ -29,28 +34,64 @@ def write_performance_review():
     return render_template('objectives/performance-review.html')
 
 
+def get_link_target(data):
+    _type = None
+    target = None
+
+    if 'competencies' in data:
+        _type = 'Competency'
+        target = get_or_404(Competency, id=data['competencies'])
+
+    elif 'notes' in data:
+        _type = 'Note'
+        target = get_or_404(current_user.notes, id=data['notes'])
+
+    return _type, target
+
+
+@objectives.route('/objective/<id>/links.json', methods=['GET', 'POST'])
+@login_required
+def links(id):
+    objective = get_objective_or_404(id=id)
+
+    if request.method == 'POST':
+        _, target = get_link_target(request.get_json())
+
+        if target:
+            objective.link(target)
+            objective.reload()
+
+        else:
+            return jsonify({'error': 'Linking failed'})
+
+    return jsonify({'linked': [l.to_json() for l in objective.linked]})
+
+
+@objectives.route('/objective/<id>/links/<link_id>', methods=['GET', 'DELETE'])
+@login_required
+def link(id, link_id):
+    objective = get_objective_or_404(id)
+    get_or_404(Link, id=link_id)
+
+    if request.method == 'DELETE':
+        objective.remove_link(link_id)
+        return jsonify({})
+
+    return jsonify({})
+
+
 @objectives.route('/objective/<id>/link', methods=['POST'])
 @login_required
-def link(id):
+def make_link(id):
     objective = get_objective_or_404(id=id)
-    form = make_link_form(competencies=True, notes=True)
+    _type, target = get_link_target(request.form)
 
-    if form.is_submitted():
-        if 'competencies' in request.form:
-            competency = Competency.objects.get(
-                id=request.form['competencies'])
-            objective.link(competency)
-            flash('Competency successfully linked to objective')
-
-        elif 'notes' in request.form:
-            note = LogEntry.objects.get(
-                id=request.form['notes'],
-                entry_type='log')
-            objective.link(note)
-            flash('Note successfully linked to objective')
+    if target:
+        objective.link(target)
+        flash('{} successfully linked to objective'.format(_type))
 
     else:
-        flash('Linking to competency failed', 'error')
+        flash('Linking failed', 'error')
 
     return redirect(url_for('.view', id=id))
 
@@ -95,6 +136,15 @@ def edit(id=None):
     if objective:
         form.what.data = objective.entry.what
         form.how.data = objective.entry.how
+        if 'measures' in objective.entry:
+            form.measures.data = objective.entry.measures
+
+        if 'outcomes' in objective.entry:
+            form.outcomes.data = objective.entry.outcomes
+
+        if 'deliverables' in objective.entry:
+            form.deliverables.data = objective.entry.deliverables
+
         if 'progress' in objective.entry:
             form.progress.data = objective.entry.progress
 
@@ -102,6 +152,19 @@ def edit(id=None):
         'objectives/edit.html',
         form=form,
         objective=objective)
+
+
+@objectives.route('/objective/<id>.json', methods=['GET', 'PATCH', 'PUT'])
+@login_required
+def objective_json(id):
+    objective = get_objective_or_404(id=id)
+
+    if request.method in ['PATCH', 'PUT']:
+        objective.entry.update(**entry_from_json('objective', request.json))
+        objective.add_tags(request.json.get('tags', []))
+        objective.reload()
+
+    return jsonify(objective.to_json())
 
 
 @objectives.route('/objective/<id>')
@@ -116,7 +179,20 @@ def view(id):
 @objectives.route('/objective')
 @login_required
 def view_all():
-    return render_template('objectives/view_all.html')
+
+    def created_date(obj):
+        return obj.created_date
+
+    reverse = request.args.get('sort', 'oldest-first') == 'newest-first'
+
+    objectives = sorted(
+        current_user.objectives,
+        key=created_date,
+        reverse=reverse)
+
+    return render_template(
+        'objectives/view_all.html',
+        objectives=objectives)
 
 
 @objectives.route('/objective/staff/<user_id>/<id>')
@@ -146,6 +222,22 @@ def view_all_for_user(user_id):
     return render_template('objectives/view_all.html', user=user)
 
 
+@objectives.route('/objective/<id>/comments.json', methods=['GET', 'POST'])
+@login_required
+def comments(id):
+    objective = get_objective_or_404(id=id)
+
+    if request.method == 'POST':
+
+        if objective.owner not in current_user.staff:
+            abort(403)
+
+        objective.add_comment(request.get_json()['content'])
+        objective.reload()
+
+    return jsonify({'comments': [c.to_json() for c in objective.comments]})
+
+
 @objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
 @login_required
 def comment(user_id, id):
@@ -161,6 +253,19 @@ def comment(user_id, id):
     return redirect(url_for('.view_for_user', user_id=user_id, id=id))
 
 
+@objectives.route('/objective/<id>/evidence.json', methods=['GET', 'POST'])
+@login_required
+def evidence(id):
+    objective = get_objective_or_404(id=id)
+
+    if request.method == 'POST':
+        create_log_entry('evidence', **request.get_json())
+        objective.link(evidence)
+        objective.reload()
+
+    return jsonify({'evidence': [e.to_json() for e in objective.evidence]})
+
+
 @objectives.route('/objective/<id>/evidence/add', methods=['GET', 'POST'])
 @login_required
 def add_evidence(id):
@@ -168,11 +273,7 @@ def add_evidence(id):
     form = EvidenceForm()
 
     if form.validate_on_submit():
-        evidence = create_log_entry(
-            'evidence',
-            title=form.title.data,
-            content=form.evidence_content.data)
-
+        evidence = create_log_entry('evidence', **request.form)
         objective.link(evidence)
 
         flash('Evidence added')

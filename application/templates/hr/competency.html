@@ -1,0 +1,73 @@
+{% extends "hr/base.html" %}
+
+{% block endhead %}
+{{ super() }}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+          // Create the data table.
+          var data = google.visualization.arrayToDataTable([
+            ['Competency', 'SCS', 'Grade 6 & 7', 'SEO/HEO', 'EO',
+             'AO', { role: 'annotation' } ],
+            ['Delivering at pace', 4850, 17780, 110060, 145600, 148920, ''],
+            ['Delivering Value for Money', 8850, 41780, 110060, 116600, 10920, ''],
+            ['Collaborating and Partnering', 5850, 47780, 109060, 100500, 32500, ''],
+            ['Seeing the Big Picture', 4850, 38780, 60000, 80000, 2000, ''],
+            ['Making Effective Decisions', 5000, 30780, 104060, 60500, 30000, ''],
+            ['Achieving Commercial Outcomes', 5850, 25000, 35060, 125600, 1200, ''],
+            ['Managing a Quality Service', 4850, 37780, 100060, 115600, 178920, ''],
+            ['Changing and Improving', 5850, 57780, 113060, 115600, 34000, ''],
+            ['Leading and Communicating', 4850, 45780, 92060, 13000, 4000, ''],
+            ['Building Capability for All', 3850, 58780, 30000, 2000, 250, '']
+          ]);
+
+          var data_assessment = google.visualization.arrayToDataTable([
+            ['Competency', 'SCS', 'Grade 6 & 7', 'SEO/HEO', 'EO',
+             'AO', { role: 'annotation' } ],
+            ['Delivering at pace', 4850, 17780, 110060, 145600, 148920, ''],
+            ['Delivering Value for Money', 8850, 41780, 120060, 130000, 35000, ''],
+            ['Collaborating and Partnering', 5850, 47780, 109060, 100500, 32500, ''],
+            ['Seeing the Big Picture', 4850, 38780, 105060, 119600, 2000, ''],
+            ['Making Effective Decisions', 2000, 30780, 104060, 60500, 30000, ''],
+            ['Achieving Commercial Outcomes', 5850, 28000, 35060, 24000, 5000, ''],
+            ['Managing a Quality Service', 4850, 37780, 100060, 115600, 178920, ''],
+            ['Changing and Improving', 5850, 57780, 113060, 115600, 34000, ''],
+            ['Leading and Communicating', 4850, 60000, 110060, 36000, 4000, ''],
+            ['Building Capability for All', 3850, 58780, 41000, 8000, 5000, '']
+          ]);
+
+          // Set chart options
+          var options = {
+                  width: 700,
+                  height: 400,
+                  legend: { position: 'top', maxLines: 3 },
+                  bar: { groupWidth: '100%' },
+                  isStacked: true
+                };
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.BarChart(document.getElementById("chart_div"));
+          chart.draw(data, options);
+          var chart2 = new google.visualization.BarChart(document.getElementById("assessed_chart"));
+          chart2.draw(data_assessment, options);
+        }
+</script>
+
+{% endblock %}
+
+{% block dashboard_title %}Competency{% endblock %}
+
+{% block page_content %}
+
+<h2 class="heading-medium">Role-based competency level</h2>
+<p class="text">This graph shows the competency level and focus of the civil service, based on their current grade and objectives.</p>
+<div id="chart_div"></div>
+<h2 class="heading-medium">Assessed competency level</h2>
+<p class="text">This graph shows the number of Civil Servants and their assessed competency level.</p>
+<div id="assessed_chart"></div>
+
+{% endblock %}

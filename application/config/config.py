@@ -3,6 +3,9 @@ import os
 
 
 class Config(object):
+    DEBUG = False
+    ASSETS_DEBUG = False
+    ASSETS_AUTO_BUILD = True
     APP_ROOT = os.path.abspath(os.path.dirname(__file__))
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, os.pardir))
     WTF_CSRF_ENABLED = True
@@ -49,6 +52,23 @@ class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'local-dev-not-secret')
+    DEBUG_TB_PANELS = [
+        'flask_debugtoolbar.panels.versions.VersionDebugPanel',
+        'flask_debugtoolbar.panels.timer.TimerDebugPanel',
+        'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
+        'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
+        'flask_debugtoolbar.panels.config_vars.ConfigVarsDebugPanel',
+        'flask_debugtoolbar.panels.template.TemplateDebugPanel',
+        'flask_debugtoolbar.panels.logger.LoggingPanel',
+        'flask_debugtoolbar.panels.route_list.RouteListDebugPanel',
+        'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
+        'flask.ext.mongoengine.panels.MongoDebugPanel']
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
+    DEBUG_TB_PROFILER_ENABLED = True
+    MAIL_DEBUG = True
+    MAIL_SUPPRESS_SEND = True
+    ASSETS_DEBUG = True
+    ASSETS_AUTO_BUILD = True
 
 
 class DockerConfig(DevelopmentConfig):

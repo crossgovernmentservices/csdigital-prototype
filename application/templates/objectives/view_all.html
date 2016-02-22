@@ -1,6 +1,6 @@
 {% extends "objectives/base.html" %}
 
-{% block content %}
+{% block main_content %}
 
   <h1 class="heading-large">
     {%- if not user -%}
@@ -13,9 +13,10 @@
   <p class="lede">Select an objective from the list</p>
 
   <ul>
-  {% for obj in current_user.objectives|sort(attribute='created_date', reverse=(request.args.get('sort', 'oldest-first') == 'newest-first')) %}
-    <li><h3 class="heading-small"><a href="{{ url_for('objectives.view', id=obj.id) }}">{{ obj.entry.title|default('Objective #' + loop.index|string)|truncate(40) }}</a></h3></li>
-  {% endfor %}
+    {% from 'objectives/partials/_objective-summary.html' import render_obj_summary %}
+    {% for obj in objectives %}
+      {{ render_obj_summary( obj, loop.index|string ) }}
+    {% endfor %}
   </ul>
 
 {% endblock %}
@@ -26,11 +27,11 @@
     <h2>Useful resources</h2>
     <nav>
       <ul>
-        <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/resources/cscf_fulla4potrait_2013-2017_v2e.pdf">Competency framework</a></li>
-        <li><a href="https://civilservicelearning.civilservice.gov.uk/competency-framework/how-use-competency-framework">How to use the competency framework</a></li>
+        <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/performance-management-e-learning">Performance management (e-learning)</a></li>
+        <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/howtosetsmartobjectivescfindicatorstr230513fvissue3.doc">How to set SMART objectives</a></li>
         <li><a href="https://civilservicelearning.civilservice.gov.uk/competency-framework/case-study-1">A case study</a></li>
         <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/performance-objectives-and-competency-e-learning">Competency and objective training</a></li>
-        <li><a href="https://civilservicelearning.civilservice.gov.uk/sites/default/files/howtosetsmartobjectivescfindicatorstr230513fvissue3.doc">How to set SMART objectives</a></li>
+        <li><a href="https://civilservicelearning.civilservice.gov.uk/learning-opportunities/facetoface/managing-people-regular-performance-discussions-0">Regular performance discussions</a></li>
       </ul>
     </nav>
   </section>

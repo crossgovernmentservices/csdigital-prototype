@@ -1,9 +1,6 @@
-from flask.ext.mongoengine import MongoEngine
+import mongoengine as db
 
 from application.models import Linkable
-
-
-db = MongoEngine()
 
 
 class Level(db.Document):
@@ -12,15 +9,13 @@ class Level(db.Document):
 
     @property
     def prev(self):
-        if '_prev' not in self and self.level_id > 1:
-            self._prev = Level.objects.get(level_id=self.level_id - 1)
-        return self._prev
+        if self.level_id > 1:
+            return Level.objects.get(level_id=self.level_id - 1)
 
     @property
     def next(self):
-        if '_next' not in self and self.level_id < 6:
-            self._next = Level.objects.get(level_id=self.level_id + 1)
-        return self._next
+        if self.level_id < 6:
+            return Level.objects.get(level_id=self.level_id + 1)
 
 
 class CompetencyCluster(db.Document):

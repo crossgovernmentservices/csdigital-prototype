@@ -1,12 +1,15 @@
 .browse-pane {
-  position: fixed;
+  float: left;
   width: 300px; /* subject to change */
-  height: 100%;
   overflow-y: auto;
   z-index: 1;
   top: 0;
-  padding-top: 50px;
-  border-right: 1px solid #ccc;
+}
+
+.browse-pane,
+.nav-pane {
+  padding-top: $gutter;
+  box-sizing: border-box;
 
   ul {
     list-style: none;
@@ -67,10 +70,10 @@
   }
 }
 
-.browse-pane__subsection {
-  margin: 0;
+.nav-pane {
+  padding-top: 50px;
 }
 
-.browse-pane__content {
-  margin-top: 45px;
+.browse-pane__subsection {
+  margin: 0;
 }

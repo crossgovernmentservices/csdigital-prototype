@@ -1,0 +1,29 @@
+// used on the overview pages
+.ov-subsection-titles {
+  @extend .heading-small;
+  margin-top: 0;
+  font-weight: normal;
+}
+
+.list-dashed {
+  & > li:before {
+    content: "-";
+    padding-right: 5px;
+  }
+}
+
+.ov-linked-list {
+  @extend .list-dashed;
+  font-size: 16px;
+
+  li a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.ov-date {
+  font-size: 16px;
+}

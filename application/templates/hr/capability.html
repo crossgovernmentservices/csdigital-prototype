@@ -1,0 +1,118 @@
+{% extends "hr/base.html" %}
+
+{% block dashboard_title %}Capability{% endblock %}
+
+{% block page_content %}
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Leading and managing change capability gap</h2>
+  <p class="text">This shows the size of the current capability gap at the 4 specified levels. Use the links below to compare with last year.</p>
+
+  {% include 'hr/charts/manage_gap.html' %}
+
+  <ul data-svg-for="managing-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Digital capability gap</h2>
+  <p class="text">This shows the size of the current capability gap at the 4 specified levels. Use the links below to compare with last year.</p>
+
+  {% include 'hr/charts/digital_gap.html' %}
+
+  <ul data-svg-for="digital-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Commercial capability gap</h2>
+  <p class="text">This shows the size of the current capability gap at the 4 specified levels. Use the links below to compare with last year.</p>
+
+  {% include 'hr/charts/commercial_gap.html' %}
+
+  <ul data-svg-for="commercial-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Project delivery capability gap</h2>
+  <p class="text">This shows the size of the current capability gap at the 4 specified levels. Use the links below to compare with last year.</p>
+
+  {% include 'hr/charts/project_gap.html' %}
+
+  <ul data-svg-for="project-cap" class="capability-btns">
+    <li><a href="" class="lastyear capability-btn" data-class-to-add="lastyear">last year</a></li>
+    <li><a href="" class="active thisyear capability-btn" data-class-to-add="thisyear">this year</a></li>
+    <li><a href="" class="capability-btn" data-class-to-add="both">both</a></li>
+  </ul>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Digital capability over time</h2>
+  <p class="text">This graph shows how the level of digital capability has grown within the Civil Service since the implementation of the capability plan.</p>
+  <canvas id="capChart" width="700" height="250"></canvas>
+  <ul class="cap-labels">
+    <li class="awareness">Awareness</li>
+    <li class="working">Working</li>
+    <li class="practitioner">Practitioner</li>
+    <li class="expert">Expert</li>
+  </ul>
+  <a href="">see the data</a>
+</section>
+
+<section class="dashboard-section">
+  <h2 class="heading-medium">Skills and expertise by department</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Department</th>
+        <th>Top</th>
+        <th>Gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Department for International Development</td>
+        <td>Project Management, Humanitarian response</td>
+        <td>Diplomacy</td>
+      </tr>
+      <tr>
+        <td>Office for National Statistics</td>
+        <td>Data analysis, Data standards</td>
+        <td>Digital</td>
+      </tr>
+      <tr>
+        <td>Ministry of Justice</td>
+        <td>Innovation, Legal</td>
+        <td>Resourcing</td>
+      </tr>
+      <tr>
+        <td>Government Digital Service</td>
+        <td>Agile, Digital</td>
+        <td>Decision making</td>
+      </tr>
+      <tr>
+        <td>Foreign and Commonwealth Office</td>
+        <td>Diplomacy, Communications</td>
+        <td>Long term strategic planning</td>
+      </tr>
+    </tbody>
+  </table>
+  <a href="/" class="small-link">see more</a>
+</section>
+
+{% endblock %}
+
+{% block body_end %}
+<script type="text/javascript" src="/static/javascripts/vendor/Chart.min.js"></script>
+<script type="text/javascript" src="/static/javascripts/capability.js"></script>
+{% endblock %}

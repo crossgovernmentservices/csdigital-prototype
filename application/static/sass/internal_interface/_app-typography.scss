@@ -1,0 +1,59 @@
+// An inline definition list - name:value pairs for example
+/* dl */.definition-inline {
+  @extend %contain-floats;
+  dt {
+    float: left;
+    margin-right: 5px;
+    &:after {
+      content: ':';
+    }
+  }
+  dd {
+    float: left;
+    font-weight: bold;
+    margin-right: $gutter-half;
+  }
+}
+
+.small-text {
+  font-weight: normal;
+}
+
+// Typography colours
+// ==========================================================================
+.small-text,
+.secondary-link a,
+.remove-link a {
+  color: $secondary-text-colour;
+}
+
+// Links
+// ==========================================================================
+.secondary-link a,
+.remove-link a {
+  font-size: 16px;
+  padding: 0 10px;
+  font-weight: normal;
+}
+
+.small-text,
+.small-link {
+  font-size: 16px;
+}
+
+// Markdown
+// ==========================================================================
+.rendered-markdown {
+  ul {
+    margin: 5px 0 1em;
+    list-style: disc;
+    padding-left: 15px;
+
+    li {
+      margin-left: 10px;
+    }
+  }
+  strong {
+    font-weight: bold;
+  }
+}

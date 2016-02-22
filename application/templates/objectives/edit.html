@@ -2,21 +2,40 @@
 
 {% from "_macros.html" import render_field, render_field_inset_help, render_hidden %}
 
-{% block content %}
+{% block main_content %}
+
+  <h1 class="heading-large">
+    <span class="heading-secondary">Performance management</span>
+    {%- if objective -%}
+      Edit your objective
+    {%- else -%}
+      Write a new objective
+    {%- endif -%}
+  </h1>
 
   <form action="" method="post" class="form add-objective">
     {{ render_hidden(form) }}
 
-    <input class="heading-large" name="title" id="title" value="{%- if objective -%}
-      {{ objective.entry.title|default("Give your objective a title") }}
-    {%- else -%}
-      Give your objective a title
-    {%- endif -%}">
+    <div class="form-group">
+      <label for="title" type="text" class="form-label">
+        Title
+        <span class="form-hint">It'll help you remember what it is about</span>
+      </label>
+      <input class="form-control" name="title" id="title" {%- if objective -%}
+        value="{{ objective.entry.title|default("Give your objective a title") }}"
+      {%- else -%}
+        placeholder="Give your objective a title"
+      {%- endif -%}
+      >
+    </div>
 
     {{ render_field_inset_help(form.what, "Good things to put in the What section", "What are you to achieve, by when, and how will it be measured?", rows=6) }}
 
     {{ render_field_inset_help(form.how, "Good things to put in the How section", "What behaviours and values will you need to use to do this well? Which competencies are important? What skills, experience and knowledge will be needed? Are there any important milestones or tasks?", rows=6) }}
 
+    {{ render_field_inset_help(form.measures, "Good things to put in the Measures section", "How will you measure your progress?", rows=6) }}
+    {{ render_field_inset_help(form.outcomes, "Good things to put in the Outcomes section", "What will the outcomes be?", rows=6) }}
+    {{ render_field_inset_help(form.deliverables, "Good things to put in the Deliverables section", "What will the deliverables be?", rows=6) }}
     {{ render_field_inset_help(form.progress, "Good things to put in the Progress section", "What progress have you made towards achieving this objective?", rows=6) }}
 
     <div class="form-group">

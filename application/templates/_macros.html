@@ -82,22 +82,24 @@
     {% if item.competencies %}
     <ul class="linked-list">
 
-      {% for link in item.competencies %}
-      <li class="linked-item">
-        <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
-        <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
-      </li>
+      {% for link in item.linked %}
+        {%- if link.__class__.__name__ == 'Competency' -%}
+        <li class="linked-item">
+          <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
+          <span class="remove-link"><a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a></span>
+        </li>
+        {%- endif -%}
       {% endfor %}
 
     </ul>
     {% endif %}
 
-    <a href="" class="add-link-btn" data-link-form="competency">+ add competency</a>
+    <a href="" class="add-link-btn" data-link-form="competency">+ link competency</a>
 
     {% if link_to == "note" %}
     <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
     {% else %}
-    <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('objectives.link', id=item.id) }}">
+    <form data-linking-type="competency" class="form add-link-form" method="post" action="{{ url_for('objectives.make_link', id=item.id) }}">
     {% endif %}
       <div class="form-group">
         <!--<label class="form-label">Competencies</label>-->
@@ -122,7 +124,7 @@
   <!-- section for linking objectives -->
   <section class="linking_container">
     <h4 class="link_section_heading">Objectives</h4>
-    {% if type == "competencies" and item.objectives(current_user) %}
+    {% if type in ["competencies", "note"] and item.objectives(current_user) %}
     <ul class="linked-list">
 
     {% for link in item.objectives(current_user) %}
@@ -135,7 +137,7 @@
     </ul>
     {% endif %}
 
-    <a href="" class="add-link-btn" data-link-form="objectives">+ add objective</a>
+    <a href="" class="add-link-btn" data-link-form="objectives">+ link objective</a>
     {% if type == "note" %}
     <form data-linking-type="objectives" class="form add-link-form" method="post" action="{{ url_for('notes.link', id=item.id) }}">
     {% else %}

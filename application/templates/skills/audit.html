@@ -36,13 +36,13 @@
   </div>
 </details>
 
-  <form class="form skills-audit-form" action="">
+  <form class="form skills-audit-form" action="" method="post">
 
     <!-- COMMERCIAL -->
     <div class="form-group form-range-group">
       <label for="commercial" class="form-label">Commercial</label>
       <p class="text">The government spends £45 billion each year on goods and services. Obtaining better value requires all civil servants to demonstrate sound financial and commercial understanding.</p>
-      <input type="range" id="commercial" min="0" max="100" step="1" value="1" class="form-control" />
+      {{ form.commercial(class_='form-control') }}
 
       <ul class="capability-labels">
         <li class="na selected">N/A</li>
@@ -89,7 +89,7 @@
     <div class="form-group form-range-group">
       <label for="digital" class="form-label">Digital</label>
       <p class="text">We live in a digital world and need to understand how to tap into that world, from using social media to delivering straightforward and convenient information and services for citizens online.</p>
-      <input type="range" id="digtial" min="0" max="100" step="1" value="1" class="form-control" />
+      {{ form.digital(class_='form-control') }}
 
       <ul class="capability-labels">
         <li class="na selected">N/A</li>
@@ -136,7 +136,7 @@
     <div class="form-group form-range-group">
       <label for="projectdel" class="form-label">Project delivery</label>
       <p class="text">Everyone needs to be skilled in project management to ensure work is delivered on time, to budget and is properly managed.</p>
-      <input type="range" id="projectdel" min="0" max="100" step="1" value="1" class="form-control" />
+      {{ form.delivery(class_="form-control") }}
 
       <ul class="capability-labels">
         <li class="na selected">N/A</li>
@@ -183,7 +183,7 @@
     <div class="form-group form-range-group">
       <label for="leadmanaging" class="form-label">Change leadership</label>
       <p class="text">Leaders at all levels are role models, leading change and communicating with staff. Change will always be part of the day job.</p>
-      <input type="range" id="leadmanaging" min="0" max="100" step="1" value="1" class="form-control" />
+      {{ form.leadership(class_='form-control') }}
 
       <ul class="capability-labels">
         <li class="na selected">N/A</li>
@@ -224,6 +224,10 @@
         </div>
       </details>
 
+    </div>
+
+    <div>
+      <button class="button">Submit</button>
     </div>
 
   </form>

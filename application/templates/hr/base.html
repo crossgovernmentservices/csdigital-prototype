@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block endhead %}
+
+<!-- internal interface patterns -->
+{% assets "css_internal_interface" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+
+<!-- hr specifics -->
+{% assets "css_hr" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}">
+{% endassets %}
+
+{% endblock %}
+
+{% block body_content %}
+
+{% include "_logout.html" %}
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <div id="global-breadcrumb" class="header-context">
+      <ol role="breadcrumbs" class="group">
+        <li><a href="/">Home</a></li>
+        <li>HR dashboard</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-quarter">
+    {% block nav %}
+    <nav class="nav-pane">
+      <ul class="">
+        <li><a class="{% if current == 'capability' %}current{% endif %}" href="/hr/capability">Capability</a></li>
+        <li><a class="{% if current == 'competency' %}current{% endif %}" href="/hr/competency">Competency</a></li>
+        <li><a class="{% if current == 'professions' %}current{% endif %}" href="/hr/professions">Professions</a></li>
+        <li><a class="{% if current == 'performance' %}current{% endif %}" href="/hr/performance">Performance</a></li>
+        <li><a class="{% if current == 'workforce' %}current{% endif %}" href="/hr/workforce">Workforce</a></li>
+      </ul>
+    </nav>
+    {% endblock %}
+  </div>
+  <div class="column-three-quarters">
+    <h1 class="heading-large">
+      <span class="heading-secondary">HR dashboard</span>
+      {% block dashboard_title %}{% endblock %}
+    </h1>
+    {% block page_content %}{% endblock %}
+  </div>
+</div>
+
+
+
+
+{% endblock %}
