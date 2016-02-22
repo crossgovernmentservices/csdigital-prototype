@@ -18,6 +18,15 @@
                   ['Project delivery', 40000, 82000, 5000, '']
                 ]);
 
+          var data_objs = google.visualization.arrayToDataTable([
+                    ['No of objectives', 'People'],
+                    ['None set',     25000],
+                    ['1',     20000],
+                    ['2-3',  100000],
+                    ['4-5', 230000],
+                    ['6+',    35000]
+                  ]);
+
 
           // Set chart options
           var options = {
@@ -32,10 +41,17 @@
                     2: {color: '#4C2C92'}
                   }
                 };
+          
+          var options_objs = {
+                    title: 'No. of objectives',
+                    pieHole: 0.4,
+                  };
 
           // Instantiate and draw our chart, passing in some options.
           var chart = new google.visualization.BarChart(document.getElementById("chart_div"));
           chart.draw(data, options);
+          var piechart = new google.visualization.PieChart(document.getElementById('obj_chart'));
+          piechart.draw(data_objs, options_objs);
         }
 </script>
 
@@ -48,5 +64,9 @@
 
 <h2 class="heading-medium">Development objectives by capability</h2>
 <div id="chart_div"></div>
+
+<h2 class="heading-medium">Avg no. of objectives</h2>
+<div id="obj_chart" style="width: 700px; height: 400px;"></div>
+<a href="" class="small-link">see breakdown by department</a>
 
 {% endblock %}
