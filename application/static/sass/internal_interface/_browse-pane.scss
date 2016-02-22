@@ -4,6 +4,10 @@
   overflow-y: auto;
   z-index: 1;
   top: 0;
+}
+
+.browse-pane,
+.nav-pane {
   padding-top: $gutter;
   box-sizing: border-box;
 
@@ -64,6 +68,10 @@
       margin-left: $gutter-half;
     }
   }
+}
+
+.nav-pane {
+  padding-top: 50px;
 }
 
 .browse-pane__subsection {

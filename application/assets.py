@@ -48,8 +48,17 @@ css_journeys = Bundle(
     output='stylesheets/journeys.css',
     depends=['/static/sass/journeys/**/*.scss'])
 
+css_hr = Bundle(
+    'sass/hr.scss',
+    filters=scss,
+    output='stylesheets/hr.css',
+    depends=[
+        '/static/sass/hr/**/*.scss',
+        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss'])
+
 env = Environment()
 env.register('css_govuk_elements', css_govuk_elements)
 env.register('css_main', css_main)
 env.register('css_internal_interface', css_internal_interface)
 env.register('css_journeys', css_journeys)
+env.register('css_hr', css_hr)

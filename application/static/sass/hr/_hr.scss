@@ -1,0 +1,101 @@
+.column-three-quarters {
+  @include grid-column(3/4);
+}
+
+.level-labels text,
+.level-label {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 14px;
+}
+
+.value-label {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 10px;
+  opacity: 0.75;
+
+}
+
+svg {
+  &.thisyear {
+    .last_year {
+      display: none;
+    }
+  }
+  &.lastyear {
+    .this_year {
+      display: none;
+    }
+  }
+  &.both {
+    .year-set {
+      opacity: 0.8;
+    }
+    .value-label {
+      display: none;
+    }
+  }
+}
+
+.capability-btns {
+  text-align: center;
+  margin-top: $gutter-half;
+
+  li {
+    display: inline-block;
+  }
+
+  a {
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 30px;
+
+    &.active {
+      text-decoration: underline;
+      font-size: 19px;
+    }
+
+    &.thisyear {
+      color: $link-colour;
+    }
+
+    &.lastyear {
+      color: $discovery-colour;
+    }
+  }
+}
+
+.dashboard-section {
+  margin-bottom: 90px;
+}
+
+.cap-labels {
+  
+
+  li {
+    padding: 5px 15px 5px 30px;
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      background: black;
+    }
+    &.awareness:after {
+      background: $discovery-colour;
+    }
+    &.working:after {
+      background: $alpha-colour;
+    }
+    &.practitioner:after {
+      background: $beta-colour;
+    }
+    &.expert:after {
+      background: $live-colour;
+    }
+  }
+}

@@ -49,6 +49,7 @@ main.css
 govuk_elements.css
 journeys.css
 internal_interface.css
+hr.css
 
 environment-private.sh
 
