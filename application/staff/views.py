@@ -28,9 +28,13 @@ def view():
     return render_template('staff/view.html')
 
 
-@staff.route('/staff.json')
+@staff.route('/staff.json', methods=['GET', 'POST'])
 @login_required
 def staff_json():
+
+    if request.method == 'POST':
+        add_staff(**request.json)
+
     return jsonify({'staff': [u.to_json() for u in current_user.staff]})
 
 
@@ -51,13 +55,7 @@ def allowed_staff(manager):
 def add():
 
     if request.method == 'POST':
-        if request.is_xhr:
-            add_staff(**request.json)
-            return view()
-
-        else:
-            add_staff(**request.form.to_dict())
-
+        add_staff(**request.form.to_dict())
         return redirect(url_for('.view'))
 
     users = allowed_staff(current_user)

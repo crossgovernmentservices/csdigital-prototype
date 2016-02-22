@@ -1,6 +1,6 @@
 import datetime
 
-from flask import current_app
+from flask import current_app, url_for
 from flask.ext.security import (
     UserMixin,
     RoleMixin
@@ -143,6 +143,10 @@ class User(db.Document, UserMixin, Linkable):
         return self.linked
 
     @property
+    def num_manager_notes(self):
+        return len(self.manager_notes)
+
+    @property
     def is_manager(self):
         return bool(self.staff)
 
@@ -167,13 +171,29 @@ class User(db.Document, UserMixin, Linkable):
             current_app.logger.warn(
                 "{.full_name} already has a manager".format(user))
 
+    @property
+    def url(self):
+        return url_for('staff.member', id=self.id)
+
+    @property
+    def objectives_url(self):
+        return url_for('objectives.view_all_for_user', user_id=self.id)
+
+    @property
+    def initials(self):
+        return ''.join(s[0].upper() for s in self.full_name.split())
+
     def to_json(self):
         return {
             'id': str(self.id),
             'full_name': self.full_name,
+            'initials': self.initials,
+            'num_manager_notes': self.num_manager_notes,
             'email': self.email,
             'grade': self.grade,
-            'profession': self.profession}
+            'profession': self.profession,
+            'url': self.url,
+            'objectives_url': self.objectives_url}
 
 
 def make_inbox_email(email):

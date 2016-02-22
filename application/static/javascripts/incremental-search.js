@@ -4,6 +4,7 @@ $(function () {
   function enableIncrementalSearch() {
     var searchUrl = $(this).data('search-url');
     var submitUrl = $(this).data('submit-url');
+    var onSubmit = $(this).data('on-submit');
     var submitMethod = $(this).data('submit-method') || 'POST';
     var field = $('<input type="hidden" id="id" name="id">');
     var form = $(
@@ -40,6 +41,10 @@ $(function () {
       }
       return false;
     });
+
+    if (typeof window[onSubmit] === 'function') {
+      form.on('submit', window[onSubmit]);
+    }
   }
 
   function search(url, term, callback) {
