@@ -1,0 +1,72 @@
+{% extends "hr/base.html" %}
+
+{% block endhead %}
+{{ super() }}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+
+          // Create the data table.
+          var data = google.visualization.arrayToDataTable([
+                  ['Competency', 'SCS', 'Grade 6 & 7', 'SEO/HEO', 'EO',
+                   'AO', { role: 'annotation' } ],
+                  ['Delivering at pace', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Delivering Value for Money', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Collaborating and Partnering', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Seeing the Big Picture', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Making Effective Decisions', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Achieving Commercial Outcomes', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Managing a Quality Service', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Changing and Improving', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Leading and Communicating', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Building Capability for All', 4850, 37780, 100060, 115600, 178920, '']
+                ]);
+
+          var data_assessment = google.visualization.arrayToDataTable([
+                  ['Competency', 'SCS', 'Grade 6 & 7', 'SEO/HEO', 'EO',
+                   'AO', { role: 'annotation' } ],
+                  ['Delivering at pace', 4850, 27780, 110060, 145600, 148920, ''],
+                  ['Delivering Value for Money', 7850, 41780, 110060, 116600, 160920, ''],
+                  ['Collaborating and Partnering', 5850, 47780, 109060, 125600, 148920, ''],
+                  ['Seeing the Big Picture', 4850, 38780, 105060, 119600, 169920, ''],
+                  ['Making Effective Decisions', 2850, 30780, 104060, 119600, 179920, ''],
+                  ['Achieving Commercial Outcomes', 5850, 45780, 111060, 125600, 148920, ''],
+                  ['Managing a Quality Service', 4850, 37780, 100060, 115600, 178920, ''],
+                  ['Changing and Improving', 5850, 57780, 113060, 115600, 144920, ''],
+                  ['Leading and Communicating', 4850, 45780, 92060, 145600, 138920, ''],
+                  ['Building Capability for All', 3850, 58780, 100060, 115600, 158920, '']
+                ]);
+
+          // Set chart options
+          var options = {
+                  width: 700,
+                  height: 400,
+                  legend: { position: 'top', maxLines: 3 },
+                  bar: { groupWidth: '100%' },
+                  isStacked: true
+                };
+
+          // Instantiate and draw our chart, passing in some options.
+          var chart = new google.visualization.BarChart(document.getElementById("chart_div"));
+          chart.draw(data, options);
+          var chart2 = new google.visualization.BarChart(document.getElementById("assessed_chart"));
+          chart2.draw(data_assessment, options);
+        }
+</script>
+
+{% endblock %}
+
+{% block page_content %}
+<h1 class="heading-large">
+  Performance dashboard
+</h1>
+
+<h2 class="heading-medium">Expected competency level</h2>
+<div id="chart_div"></div>
+<h2 class="heading-medium">Assessed competency level</h2>
+<div id="assessed_chart"></div>
+
+{% endblock %}
