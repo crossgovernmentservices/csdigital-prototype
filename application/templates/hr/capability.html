@@ -53,29 +53,21 @@
   </ul>
 </section>
 
+<section class="dashboard-section">
+  <h2 class="heading-medium">Digital capability over time</h2>
+  <canvas id="capChart" width="700" height="250"></canvas>
+  <ul class="cap-labels">
+    <li class="awareness">Awareness</li>
+    <li class="working">Working</li>
+    <li class="practitioner">Practitioner</li>
+    <li class="expert">Expert</li>
+  </ul>
+  <a href="">see the data</a>
+</section>
+
 {% endblock %}
 
 {% block body_end %}
-<script type="text/javascript">
-  (function($, window){
-
-    $(function() {
-      $(".capability-btns").on('click', 'a', function() {
-        var for_selector = $(this).parents(".capability-btns").data('svg-for');
-        var svg = $( "." + for_selector );
-        console.log($(this).data('class-to-add'));
-        svg.attr( "class", for_selector + " " + $(this).data('class-to-add') );
-        $(this)
-          .parents(".capability-btns")
-            .find("a")
-              .removeClass("active")
-            .end()
-          .end()
-        .addClass("active");
-
-        return false;
-      });
-    });
-  }).call(this, jQuery, window);
-</script>
+<script type="text/javascript" src="/static/javascripts/vendor/Chart.min.js"></script>
+<script type="text/javascript" src="/static/javascripts/capability.js"></script>
 {% endblock %}

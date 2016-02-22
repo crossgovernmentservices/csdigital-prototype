@@ -67,3 +67,35 @@ svg {
 .dashboard-section {
   margin-bottom: 90px;
 }
+
+.cap-labels {
+  
+
+  li {
+    padding: 5px 15px 5px 30px;
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      background: black;
+    }
+    &.awareness:after {
+      background: $discovery-colour;
+    }
+    &.working:after {
+      background: $alpha-colour;
+    }
+    &.practitioner:after {
+      background: $beta-colour;
+    }
+    &.expert:after {
+      background: $live-colour;
+    }
+  }
+}
