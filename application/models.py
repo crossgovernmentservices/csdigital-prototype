@@ -408,6 +408,21 @@ class LogEntry(db.Document, Linkable):
     def __unicode__(self):
         return 'type={0.entry_type}, entry={0.entry}'.format(self)
 
+    @property
+    def author(self):
+        if self.entry_type == 'comment':
+            return self.owner.full_name
+
+    @property
+    def created(self):
+        if self.entry_type == 'comment':
+            return '{:%Y-%m-%d %H:%M:%S}'.format(self.created_date)
+
+    @property
+    def content(self):
+        if self.entry_type == 'comment':
+            return self.entry.content
+
 
 def create_log_entry(_type, **kwargs):
     data = {}
