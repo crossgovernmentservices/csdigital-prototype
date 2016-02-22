@@ -273,7 +273,7 @@ def add_evidence(id):
     form = EvidenceForm()
 
     if form.validate_on_submit():
-        evidence = create_log_entry('evidence', **request.form)
+        evidence = create_log_entry('evidence', **request.form.to_dict())
         objective.link(evidence)
 
         flash('Evidence added')
