@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "compiling SCSS files into CSS"
+python manage.py asset build
