@@ -343,7 +343,17 @@ class LogEntry(db.Document, Linkable):
 
     @property
     def notes(self):
-        return self._linked_log_entries('log')
+        notes = self._linked_log_entries('log')
+        if self.entry_type == 'objective':
+            notes = [self.make_promotable(note) for note in notes]
+        return notes
+
+    def make_promotable(self, note):
+        note.promote_url = url_for(
+            'objectives.promote_note',
+            id=self.id,
+            note_id=note.id)
+        return note
 
     def objectives(self, *args):
         return self._linked_log_entries('objective')
@@ -422,6 +432,16 @@ class LogEntry(db.Document, Linkable):
     def content(self):
         if self.entry_type == 'comment':
             return self.entry.content
+
+    @property
+    def url(self):
+        if self.entry_type == 'log':
+            return url_for('notes.view', id=self.id)
+
+    @property
+    def title(self):
+        if 'title' in self.entry:
+            return self.entry.title
 
 
 def create_log_entry(_type, **kwargs):

@@ -55,7 +55,7 @@ def links(id):
     objective = get_objective_or_404(id=id)
 
     if request.method == 'POST':
-        _, target = get_link_target(request.get_json())
+        _, target = get_link_target(request.json)
 
         if target:
             objective.link(target)
@@ -64,7 +64,12 @@ def links(id):
         else:
             return jsonify({'error': 'Linking failed'})
 
-    return jsonify({'linked': [l.to_json() for l in objective.linked]})
+    return jsonify({'linked': [
+        dict(
+            l.to_json(),
+            url=url_for('notes.view', id=l.id),
+            promote_url=url_for('.promote_note', id=objective.id, note_id=l.id))
+        for l in objective.linked]})
 
 
 @objectives.route('/objective/<id>/links/<link_id>', methods=['GET', 'DELETE'])
