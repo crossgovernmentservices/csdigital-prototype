@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
+echo "installing SASS"
+export PATH=/app/.gem/ruby/1.9.1/bin:$PATH
+gem install --user-install sass -v 3.4.19
+
 echo "compiling SCSS files into CSS"
 python manage.py asset build
