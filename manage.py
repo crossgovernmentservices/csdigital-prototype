@@ -9,6 +9,7 @@ from flask.ext.script import (
     Manager,
     Server,
     Command,
+    Shell,
     prompt,
     prompt_pass
 )
@@ -40,6 +41,19 @@ manager.add_command('assets', ManageAssets())
 manager.add_command('runserver', Server(
     host='0.0.0.0',
     port=int(os.environ.get('PORT', '8000'))))
+
+
+def _make_context():
+    return dict(
+        app=current_app,
+        Entry=Entry,
+        Link=Link,
+        LogEntry=LogEntry,
+        Role=Role,
+        Tag=Tag,
+        User=User)
+
+manager.add_command('shell', Shell(make_context=_make_context))
 
 
 class CreateUser(Command):

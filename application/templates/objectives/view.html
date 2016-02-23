@@ -76,7 +76,7 @@
 {% endblock %}
 
 {% block body_end %}
-  <script src="{{ asset_path }}javascripts/vendor/jinja-to-js-runtime.js"></script>
+  {{ super() }}
   <script src="{{ asset_path }}javascripts/templates/comment.js"></script>
   <script>
 
@@ -103,5 +103,6 @@ function updateComments(data) {
     commentsList.append(templateObjectivesComment({'comment': data.comments[i]}));
   }
 }
+
   </script>
 {% endblock %}
