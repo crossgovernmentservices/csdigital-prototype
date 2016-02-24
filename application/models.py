@@ -270,12 +270,18 @@ class LogEntry(db.Document, Linkable):
     entry = db.ReferenceField(Entry, required=True)
 
     def to_json(self):
-        return {
+        out = {
             'id': str(self.id),
             'entry_type': self.entry_type,
             'entry': self.entry.to_json(),
             'created_date': self.created_date,
             'tags': [tag.name for tag in self.tags]}
+
+        if self.entry_type == 'log':
+            out.update({
+                'url': url_for('notes.view', id=self.id)})
+
+        return out
 
     def add_tag(self, name):
         name = name.strip()

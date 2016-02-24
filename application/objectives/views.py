@@ -64,12 +64,15 @@ def links(id):
         else:
             return jsonify({'error': 'Linking failed'})
 
-    return jsonify({'linked': [
-        dict(
-            l.to_json(),
-            url=url_for('notes.view', id=l.id),
-            promote_url=url_for('.promote_note', id=objective.id, note_id=l.id))
-        for l in objective.linked]})
+    linked = [l.to_json() for l in objective.linked]
+    for l in linked:
+        if l.get('entry_type') == 'log':
+            l.update(promote_url=url_for(
+                '.promote_note',
+                id=objective.id,
+                note_id=l.get('id')))
+
+    return jsonify({'linked': linked})
 
 
 @objectives.route('/objective/<id>/links/<link_id>', methods=['GET', 'DELETE'])
