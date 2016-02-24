@@ -7,16 +7,34 @@
 {% from "_macros.html" import render_field, render_hidden %}
 
 {% block content %}
+
+  <h1 class="heading-large">
+    <span class="heading-secondary">Performance</span>
+    {%- if note -%}
+      Edit your note
+    {%- else -%}
+      Write a new note
+    {%- endif -%}
+  </h1>
+
   <form action="" method="POST" class="new-note">
     {{ render_hidden(form) }}
 
-    <input class="heading-large" placeholder="Give Your Note a Title" name="title" id="title" value="{% if note %}{{ note.entry.title|default("") }}{% endif %}">
+    <div class="form-group">
+      <label class="form-label" for="title">
+        Title
+        <span class="form-hint">Give your note a title</span>
+      </label>
+      <input class="form-control" placeholder="Give Your Note a Title" name="title" id="title" value="{% if note %}{{ note.entry.title|default("") }}{% endif %}">
+    </div>
 
     {{ render_field(form.content, rows=10) }}
 
     <div class="form-group">
-      <label class="form-label" for="tags">Tags</label>
-      {{ form.tags.data }}
+      <label class="form-label" for="tags">
+        Custom Labels
+        <span class="form-hint">If you need extra ways to organise lots of notes, e.g. project phases or a particular measure, then create and add labels to your notes here.</span>
+      </label>
       {{ form.tags(class_="demo-default selectized input-tags") }}
     </div>
 

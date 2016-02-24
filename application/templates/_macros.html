@@ -20,10 +20,7 @@
 {% macro render_field_inset_help(field, help_label, help_info) %}
     <div class="form-group">
         {{ field.label(class_="form-label") }}
-        <details class="form-inset-help">
-          <summary>{{ help_label }}</summary>
-          <div class="help_content panel-indent">{{ help_info }}</div>
-        </details>
+        <span class="form-hint text">{{ help_label }}</span>
         {% if not kwargs['class_'] %}
           {{ field(class_="form-control", **kwargs)|safe }}
         {% else %}
