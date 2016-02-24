@@ -98,3 +98,20 @@ a.add-link-btn {
   .add-link-form { display: none; }
   .add-link-btn { display: block; }
 }
+
+.linking-list_heading {
+  background: #dee0e2;
+  padding: 5px 8px;
+  font-weight: bold;
+}
+
+.linking-list-container {
+  border: 5px solid #dee0e2;
+}
+
+.linking-checkbox {
+  display: block;
+  padding: 5px 15px 5px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #bfc1c3;
+}
