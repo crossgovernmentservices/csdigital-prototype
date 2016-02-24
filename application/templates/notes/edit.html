@@ -46,6 +46,18 @@
   </div>
 </section>
 
+<section class="linking-list-container">
+  <h4 class="linking-list_heading">Your objectives</h4>
+  <div class="linking-list-container">
+    {% for obj in current_user.objectives|sort(attribute='created_date') %}
+    <label class="linking-checkbox" for="{{obj.id}}_id">
+      <input id="{{obj.id}}_id" type="checkbox" value="{{obj.id}}" />
+      {{ obj.title }}
+    </label>
+    {% endfor %}
+  </div>
+</section>
+
 {% endblock %}
 
 {% block body_end %}
