@@ -36,7 +36,7 @@
 
 {% macro link_checkbox(item, title) %}
 <label class="linking-checkbox" for="{{item.id}}_id">
-  <input id="{{item.id}}_id" type="checkbox" value="{{item.id}}" />
+  <input id="{{item.id}}_id" type="checkbox" value="{{item.id}}" {%- if note and note.has_link(item)-%}checked="checked"{%- endif -%} />
   {{ title }}
 </label>
 {% endmacro %}
