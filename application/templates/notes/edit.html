@@ -34,9 +34,13 @@
 
 <h2 class="heading-medium">Link your note</h2>
 
-{% macro link_checkbox(item, title) %}
+<form method="post" action="{{ url_for('notes.link', id=note.id|default("add")) }}">
+
+{% macro link_checkbox(item, title, field_name) %}
 <label class="linking-checkbox" for="{{item.id}}_id">
-  <input id="{{item.id}}_id" type="checkbox" value="{{item.id}}" {%- if note and note.has_link(item)-%}checked="checked"{%- endif -%} />
+  {# NB: using the ~ string concatenation operator here to force item.id to a
+  string, because it's actually an ObjectId object #}
+  <input id="{{item.id}}_id" name="{{ field_name }}" type="checkbox" value="{{item.id}}" {%- if (note and note.has_link(item)) or (item.id ~ "" in session["links"][field_name]) -%}checked="checked"{%- endif -%} />
   {{ title }}
 </label>
 {% endmacro %}
@@ -45,7 +49,7 @@
   <h4 class="linking-list_heading">Competencies</h4>
   <div class="linking-list-container">
     {% for comp in competencies %}
-      {{ link_checkbox(comp, comp.name) }}
+      {{ link_checkbox(comp, comp.name, "competencies") }}
     {% endfor %}
   </div>
 </section>
@@ -54,10 +58,13 @@
   <h4 class="linking-list_heading">Your objectives</h4>
   <div class="linking-list-container">
     {% for obj in current_user.objectives|sort(attribute='created_date') %}
-      {{ link_checkbox(obj, obj.title) }}
+      {{ link_checkbox(obj, obj.title, "objectives") }}
     {% endfor %}
   </div>
 </section>
+
+<button class="button">Update links</button>
+</form>
 
 {% endblock %}
 
