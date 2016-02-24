@@ -34,14 +34,18 @@
 
 <h2 class="heading-medium">Link your note</h2>
 
+{% macro link_checkbox(item, title) %}
+<label class="linking-checkbox" for="{{item.id}}_id">
+  <input id="{{item.id}}_id" type="checkbox" value="{{item.id}}" />
+  {{ title }}
+</label>
+{% endmacro %}
+
 <section class="linking-list-container">
   <h4 class="linking-list_heading">Competencies</h4>
   <div class="linking-list-container">
     {% for comp in competencies %}
-    <label class="linking-checkbox" for="{{comp.id}}_id">
-      <input id="{{comp.id}}_id" type="checkbox" value="{{comp.id}}" />
-      {{ comp.name }}
-    </label>
+      {{ link_checkbox(comp, comp.name) }}
     {% endfor %}
   </div>
 </section>
@@ -50,10 +54,7 @@
   <h4 class="linking-list_heading">Your objectives</h4>
   <div class="linking-list-container">
     {% for obj in current_user.objectives|sort(attribute='created_date') %}
-    <label class="linking-checkbox" for="{{obj.id}}_id">
-      <input id="{{obj.id}}_id" type="checkbox" value="{{obj.id}}" />
-      {{ obj.title }}
-    </label>
+      {{ link_checkbox(obj, obj.title) }}
     {% endfor %}
   </div>
 </section>
