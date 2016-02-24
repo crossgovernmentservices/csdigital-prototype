@@ -10,7 +10,7 @@ from application.models import create_log_entry
 class NoteForm(Form):
     title = StringField('Title')
     tags = StringField('tags')
-    content = TextAreaField('Content', validators=[Required()])
+    content = TextAreaField('Details', validators=[Required()])
 
     def update(self, note):
         note.entry.update(
