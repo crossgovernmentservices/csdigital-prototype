@@ -7,6 +7,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    session,
     url_for)
 from flask.ext.login import current_user
 from flask.ext.security import login_required
@@ -21,25 +22,47 @@ from application.utils import get_or_404
 notes = Blueprint('notes', __name__, template_folder='templates')
 
 
+def _link(note, data):
+    linked = False
+
+    for competency_id in data.get('competencies', []):
+        competency = Competency.objects.get(id=competency_id)
+        note.link(competency)
+        linked = True
+
+    for objective_id in data.get('objectives', []):
+        objective = LogEntry.objects.get(
+            id=objective_id,
+            entry_type='objective')
+        note.link(objective)
+        linked = True
+
+    return linked
+
+
 @notes.route('/notes/<id>/link', methods=['POST'])
 @login_required
 def link(id):
-    note = get_or_404(LogEntry, entry_type='log', id=id)
+    queue_links = False
+
+    if id == 'add':
+        queue_links = True
+
+    else:
+        note = get_or_404(LogEntry, entry_type='log', id=id)
+
     form = make_link_form(competencies=True, objectives=True)
 
     if form.is_submitted():
-        if 'competencies' in request.form:
-            competency = Competency.objects.get(
-                id=request.form['competencies'])
-            note.link(competency)
-            flash('Competency successfully linked to note')
 
-        elif 'objectives' in request.form:
-            objective = LogEntry.objects.get(
-                id=request.form['objectives'],
-                entry_type='objective')
-            note.link(objective)
-            flash('Objective successfully linked to note')
+        if queue_links:
+            links = session.get('links', {})
+            for key, values in list(request.form.lists()):
+                links[key] = values
+            session['links'] = links
+
+        elif _link(note, dict(request.form.lists())):
+            flash('Link successful')
 
     return redirect(url_for('.view', id=id))
 
@@ -65,7 +88,8 @@ def edit(id=None):
     link_form = None
     if id:
         note = get_or_404(LogEntry, entry_type='log', id=id)
-        link_form = make_link_form(competencies=True, objectives=True)
+
+    link_form = make_link_form(competencies=True, objectives=True)
 
     form = NoteForm()
 
@@ -77,6 +101,8 @@ def edit(id=None):
 
         else:
             note = form.create()
+            _link(note, session.get('links', {}))
+            del session['links']
             flash('Added note')
 
         return redirect(url_for('.view', id=note.id))
