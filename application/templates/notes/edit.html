@@ -40,7 +40,7 @@
 <label class="linking-checkbox" for="{{item.id}}_id">
   {# NB: using the ~ string concatenation operator here to force item.id to a
   string, because it's actually an ObjectId object #}
-  <input id="{{item.id}}_id" name="{{ field_name }}" type="checkbox" value="{{item.id}}" {%- if (note and note.has_link(item)) or (item.id ~ "" in session["links"][field_name]) -%}checked="checked"{%- endif -%} />
+  <input id="{{item.id}}_id" name="{{ field_name }}" type="checkbox" value="{{item.id}}" {%- if (note and note.has_link(item)) or (item.id ~ "" in session.get("links", {}).get(field_name, [])) -%}checked="checked"{%- endif -%} />
   {{ title }}
 </label>
 {% endmacro %}
