@@ -30,6 +30,24 @@
   </div>
 {% endblock %}
 
+{% block content_links %}
+
+<h2 class="heading-medium">Link your note</h2>
+
+<section class="linking-list-container">
+  <h4 class="linking-list_heading">Competencies</h4>
+  <div class="linking-list-container">
+    {% for comp in competencies %}
+    <label class="linking-checkbox" for="{{comp.id}}_id">
+      <input id="{{comp.id}}_id" type="checkbox" value="{{comp.id}}" />
+      {{ comp.name }}
+    </label>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}
+
 {% block body_end %}
   <script type="text/javascript" src="/static/javascripts/vendor/selectize.min.js">
   </script>
