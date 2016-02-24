@@ -138,6 +138,7 @@
   <script src="{{ asset_path }}javascripts/internal_interface.js"></script>
   <script src="{{ asset_path }}javascripts/vendor/jinja-to-js-runtime.js"></script>
   <script src="{{ asset_path }}javascripts/templates/linked_note.js"></script>
+  {% if objective %}
   <script>
 
 $('.add-link-form[data-linking-type="notes"]').on('submit', addLink);
@@ -166,4 +167,5 @@ function updateLinks(data) {
   }
 }
   </script>
+  {% endif %}
 {% endblock %}
