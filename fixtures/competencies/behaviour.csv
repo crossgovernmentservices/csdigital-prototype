@@ -1,4 +1,4 @@
-pair_id,level_id,competency_id,effective_behaviour,ineffective_behaviour
+behaviour_id,level_id,competency_id,effective,ineffective
 1,6,1,"Develop an in-depth insight into the dynamics and issues surrounding the Department and Government, including political, economic, social, environmental and technological impacts ","Focus on short term concerns, neglect long-term thinking about evolving and future issues and considerations for the Civil Service and Department "
 3,6,1,Clarify and shape the Department‟s role and purpose in delivering Civil Service priorities for the public and economic good ,Show limited insight into Government expectations of the Department in generating value and growth in the UK 
 5,6,1,Understand where the Department sits within and aligns across the Civil Service ,Focus on own immediate area of concern and not see interconnections across Civil Service 

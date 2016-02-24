@@ -61,22 +61,39 @@ class CreateUser(Command):
     Creates a user for this app
     """
 
+    def create_auth0_user(self, name, email, pwd):
+        return requests.post(
+            AUTH0_API_URL,
+            headers={
+                'Authorization': 'Bearer {token}'.format(AUTH0_CREATE_USER_JWT),
+                'Content-Type': 'application/json'},
+            json={
+                'username': name,
+                'email': email,
+                'password': pwd})
+
+    def create_app_user(self, name, email):
+        return User.objects.create(
+            full_name=name,
+            email=email)
+
     def run(self):
-        from flask_security.utils import encrypt_password
         email = prompt('email')
         full_name = prompt('full name')
         password = prompt_pass('password')
-        if not User.objects.filter(email=email).first():
-            user = user_datastore.create_user(
-                email=email,
-                password=encrypt_password(password),
-                full_name=full_name)
+
+        if not User.objects.filter(email=email):
+            self.create_auth0_user(full_name, email, password)
+            user = self.create_app_user(full_name, email)
+
             user_role = user_datastore.find_or_create_role('USER')
             user_datastore.add_role_to_user(user, user_role)
-            email_domain = current_app.config.get('EMAIL_DOMAIN')
-            user_name = email.split('@')[0]
-            user.inbox_email = "%s@%s" % (user_name, email_domain)
-            user.save()
+
+            user.update(
+                inbox_email="{username}@{domain}".format(
+                    username=email.split('@')[0],
+                    domain=current_app.config.get('EMAIL_DOMAIN')))
+
         else:
             print("User with email:", email, "already exists")
 
@@ -156,77 +173,39 @@ class LoadCompetencyData(Command):
         self.load_competencies()
         self.load_behaviours()
 
-    def load_model_fixtures(self, csvfile, model_exists, create_model):
+    def load_model_fixtures(self, csvfile, Model, fn=None):
         with open('./fixtures/competencies/{}'.format(csvfile)) as f:
             for row in csv.DictReader(f):
-                if not model_exists(row):
-                    create_model(row)
+                if fn:
+                    row = fn(row)
+                if not Model.objects.filter(**row):
+                    Model.objects.create(**row)
 
     def load_levels(self):
-
-        def exists(data):
-            return Level.objects.filter(level_id=data['level_id']).count() > 0
-
-        def create(data):
-            level = Level()
-            level.description = data['level_description']
-            level.level_id = data['level_id']
-            level.save()
-
-        self.load_model_fixtures('level.csv', exists, create)
+        self.load_model_fixtures('level.csv', Level)
 
     def load_competency_clusters(self):
-
-        def exists(data):
-            return CompetencyCluster.objects.filter(
-                cluster_id=data['competency_cluster_id']).count() > 0
-
-        def create(data):
-            cluster = CompetencyCluster()
-            cluster.name = data['competency_cluster_name']
-            cluster.goal = data['competency_cluster_goal']
-            cluster.cluster_id = data['competency_cluster_id']
-            cluster.save()
-
-        self.load_model_fixtures('competency_cluster.csv', exists, create)
+        self.load_model_fixtures('competency_cluster.csv', CompetencyCluster)
 
     def load_competencies(self):
 
-        def exists(data):
-            return Competency.objects.filter(
-                competency_id=data['competency_id']).count() > 0
+        def add_refs(data):
+            data['cluster'] = CompetencyCluster.objects.get(
+                cluster_id=data.pop('cluster_id'))
+            return data
 
-        def create(data):
-            competency = Competency()
-            competency.competency_id = data['competency_id']
-            competency.name = data['competency_name']
-            competency.overview = data['competency_overview_text']
-            competency.cluster = CompetencyCluster.objects.filter(
-                cluster_id=data['competency_cluster_id']).first()
-            competency.save()
-
-        self.load_model_fixtures('competency.csv', exists, create)
+        self.load_model_fixtures('competency.csv', Competency, add_refs)
 
     def load_behaviours(self):
 
-        def exists(data):
-            return Behaviour.objects.filter(
-                behaviour_id=data['pair_id']).count() > 0
+        def add_refs(data):
+            data['competency'] = Competency.objects.get(
+                competency_id=data.pop('competency_id'))
+            data['level'] = Level.objects.get(
+                level_id=data.pop('level_id'))
+            return data
 
-        def create(data):
-            behaviour = Behaviour()
-            behaviour.effective = data['effective_behaviour']
-            behaviour.ineffective = data['ineffective_behaviour']
-            behaviour.competency = Competency.objects.filter(
-                competency_id=data['competency_id']).first()
-            behaviour.level = Level.objects.filter(
-                level_id=data['level_id']).first()
-            behaviour.behaviour_id = data['pair_id']
-            behaviour.save()
-
-        self.load_model_fixtures('behaviour.csv', exists, create)
-
-
+        self.load_model_fixtures('behaviour.csv', Behaviour, add_refs)
 
 
 manager.add_command('create-user', CreateUser())
