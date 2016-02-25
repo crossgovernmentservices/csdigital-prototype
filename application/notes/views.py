@@ -101,8 +101,9 @@ def edit(id=None):
 
         else:
             note = form.create()
-            _link(note, session.get('links', {}))
-            del session['links']
+            if 'links' in session:
+                _link(note, session['links'])
+                del session['links']
             flash('Added note')
 
         return redirect(url_for('.view', id=note.id))
