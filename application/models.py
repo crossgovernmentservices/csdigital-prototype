@@ -465,7 +465,7 @@ def create_log_entry(_type, **kwargs):
         if key in ['owner', 'entry_from', 'tags']:
             data[key] = kwargs.pop(key)
 
-    owner = kwargs.pop('owner', current_user._get_current_object())
+    owner = data.pop('owner', current_user._get_current_object())
 
     return LogEntry.objects.create(
         entry_type=_type,
