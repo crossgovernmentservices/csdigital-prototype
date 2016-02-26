@@ -5,7 +5,7 @@ import os
 class Config(object):
     DEBUG = False
     ASSETS_DEBUG = False
-    ASSETS_AUTO_BUILD = True
+    ASSETS_AUTO_BUILD = False
     APP_ROOT = os.path.abspath(os.path.dirname(__file__))
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_ROOT, os.pardir))
     WTF_CSRF_ENABLED = True
@@ -50,6 +50,8 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    ASSETS_DEBUG = False
+    ASSETS_AUTO_BUILD = True
     WTF_CSRF_ENABLED = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'local-dev-not-secret')
     DEBUG_TB_PANELS = [
@@ -67,8 +69,6 @@ class DevelopmentConfig(Config):
     DEBUG_TB_PROFILER_ENABLED = True
     MAIL_DEBUG = True
     MAIL_SUPPRESS_SEND = True
-    ASSETS_DEBUG = True
-    ASSETS_AUTO_BUILD = True
 
 
 class DockerConfig(DevelopmentConfig):

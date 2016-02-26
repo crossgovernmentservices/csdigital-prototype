@@ -19,7 +19,7 @@
     <div class="form-group">
       <label for="title" type="text" class="form-label">
         Title
-        <span class="form-hint">It'll help you remember what it is about</span>
+        <span class="form-hint">This short name will appear in menus</span>
       </label>
       <input class="form-control" name="title" id="title" {%- if objective -%}
         value="{{ objective.entry.title|default("Give your objective a title") }}"
@@ -29,14 +29,14 @@
       >
     </div>
 
-    {{ render_field_inset_help(form.what, "Good things to put in the What section", "What are you to achieve, by when, and how will it be measured?", rows=6) }}
+    {{ render_field_inset_help(form.what, "What are you trying to achieve? You can add competencies and measures elsewhere.", "What are you to achieve, by when, and how will it be measured?", rows=6) }}
 
-    {{ render_field_inset_help(form.how, "Good things to put in the How section", "What behaviours and values will you need to use to do this well? Which competencies are important? What skills, experience and knowledge will be needed? Are there any important milestones or tasks?", rows=6) }}
+    {{ render_field_inset_help(form.how, "What actions or tasks will you be taking?", "What behaviours and values will you need to use to do this well? Which competencies are important? What skills, experience and knowledge will be needed? Are there any important milestones or tasks?", rows=6) }}
 
-    {{ render_field_inset_help(form.measures, "Good things to put in the Measures section", "How will you measure your progress?", rows=6) }}
-    {{ render_field_inset_help(form.outcomes, "Good things to put in the Outcomes section", "What will the outcomes be?", rows=6) }}
-    {{ render_field_inset_help(form.deliverables, "Good things to put in the Deliverables section", "What will the deliverables be?", rows=6) }}
-    {{ render_field_inset_help(form.progress, "Good things to put in the Progress section", "What progress have you made towards achieving this objective?", rows=6) }}
+    {{ render_field_inset_help(form.measures, "How will you measure progress? What are key dates or KPIs?", "How will you measure your progress?", rows=6) }}
+    {{ render_field_inset_help(form.outcomes, "How will the public know it's succeeded? For example, a project can deliver to time and budget but not release anticipated benefits.", "What will the outcomes be?", rows=6) }}
+    {{ render_field_inset_help(form.deliverables, "What will the organisation get to see as a result of this objective?", "What will the deliverables be?", rows=6) }}
+    {{ render_field_inset_help(form.progress, "Keep this section updated as you work through the project. Remember to revisit this with your manager regularly.", "What progress have you made towards achieving this objective?", rows=6) }}
 
     <div class="form-group">
       <button class="button">

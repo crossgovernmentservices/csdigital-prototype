@@ -81,13 +81,10 @@
             <section class="linking_container">
               <h4 class="link_section_heading">Your notes</h4>
               {% if objective.notes %}
-              <ul class="linked-list">
+              <ul class="notes linked-list">
 
-              {% for link in objective.notes %}
-                <li class="linked-item">
-                  <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
-                  <span class="remove-link"><a href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">upgrade to evidence</a></span>
-                </li>
+              {% for note in objective.notes %}
+                {% include "objectives/linked_note.jinja" %}
               {% endfor %}
 
               </ul>
@@ -136,8 +133,39 @@
 {% endblock %}
 
 {% block body_end %}
-  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  <script src="{{ asset_path }}javascripts/vendor/jquery/jquery.min.js"></script>
+  <script src="{{ asset_path }}javascripts/app.js"></script>
+  <script src="{{ asset_path }}javascripts/internal_interface.js"></script>
+  <script src="{{ asset_path }}javascripts/vendor/jinja-to-js-runtime.js"></script>
+  <script src="{{ asset_path }}javascripts/templates/linked_note.js"></script>
+  {% if objective %}
+  <script>
+
+$('.add-link-form[data-linking-type="notes"]').on('submit', addLink);
+
+function addLink(event) {
+  event.preventDefault();
+  var notes = $(event.target).find('#notes').val();
+
+  $.ajax({
+    url: "{{ url_for('objectives.links', id=objective.id) }}",
+    method: 'POST',
+    contentType: 'application/json',
+    data: '{"notes": "' + notes + '"}',
+    success: updateLinks
+  });
+}
+
+function updateLinks(data) {
+  var linksList = $('.notes.linked-list');
+  linksList.empty();
+
+  for (var i in data.linked) {
+    if (data.linked[i].entry_type === 'log') {
+      linksList.append(templateObjectivesLinkedNote({'note': data.linked[i]}));
+    }
+  }
+}
   </script>
-  <script type="text/javascript" src="/static/javascripts/app.js"></script>
-  <script src="/static/javascripts/internal_interface.js"></script>
+  {% endif %}
 {% endblock %}

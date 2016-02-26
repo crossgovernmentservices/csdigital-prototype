@@ -1,10 +1,33 @@
 import os
 
-from flask_assets import Bundle, Environment
-from webassets.filter import get_filter
+from flask.ext.assets import Bundle, Environment
+import sass
+from webassets.filter import Filter
 
 
-scss = get_filter('scss', as_output=True)
+class LibSass(Filter):
+    name = 'libsass-output'
+    options = {
+        'output_style': 'SASS_OUTPUT_STYLE'
+    }
+
+    def __init__(self, include_paths=[], *args, **kwargs):
+        super(LibSass, self).__init__(*args, **kwargs)
+        self.include_paths = include_paths
+
+    def _apply_sass(self, src):
+        return sass.compile(
+            string=src,
+            output_style='expanded',
+            include_paths=getattr(self, 'include_paths', []))
+
+    def output(self, _in, out, **kwargs):
+        out.write(self._apply_sass(_in.read()))
+
+    def input(self, _in, out, **kwargs):
+        out.write(_in.read())
+
+
 cwd = os.path.dirname(__file__)
 
 
@@ -12,53 +35,53 @@ def static(*path):
     return os.path.join(cwd, 'static', *path)
 
 
-scss.load_paths = [
+libsass_output = LibSass(include_paths=[
     static('sass'),
-    static('govuk_frontend_toolkit/stylesheets'),
-    static('govuk_elements/public/sass/elements')]
+    static('govuk_frontend_toolkit', 'stylesheets'),
+    static('govuk_elements', 'public', 'sass', 'elements')])
 
 
-css_govuk_elements = Bundle(
+env = Environment()
+
+
+env.register('css_govuk_elements', Bundle(
     'sass/govuk_elements.scss',
-    filters=scss,
+    filters=(libsass_output,),
     output='stylesheets/govuk_elements.css',
     depends=[
         '/static/govuk_elements/public/sass/**/*.scss',
-        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss'])
+        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']))
 
-css_internal_interface = Bundle(
-    'sass/internal_interface.scss',
-    filters=scss,
-    output='stylesheets/internal_interface.css',
-    depends=[
-        '/static/sass/internal_interface/**/*.scss',
-        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss'])
 
-css_main = Bundle(
+env.register('css_main', Bundle(
     'sass/main.scss',
-    filters=scss,
+    filters=(libsass_output,),
     output='stylesheets/main.css',
     depends=[
         '/static/sass/main/**/*.scss',
-        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss'])
+        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']))
 
-css_journeys = Bundle(
+
+env.register('css_internal_interface', Bundle(
+    'sass/internal_interface.scss',
+    filters=(libsass_output,),
+    output='stylesheets/internal_interface.css',
+    depends=[
+        '/static/sass/internal_interface/**/*.scss',
+        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']))
+
+
+env.register('css_journeys', Bundle(
     'sass/journeys.scss',
-    filters=scss,
+    filters=(libsass_output,),
     output='stylesheets/journeys.css',
-    depends=['/static/sass/journeys/**/*.scss'])
+    depends=['/static/sass/journeys/**/*.scss']))
 
-css_hr = Bundle(
+
+env.register('css_hr', Bundle(
     'sass/hr.scss',
-    filters=scss,
+    filters=(libsass_output,),
     output='stylesheets/hr.css',
     depends=[
         '/static/sass/hr/**/*.scss',
-        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss'])
-
-env = Environment()
-env.register('css_govuk_elements', css_govuk_elements)
-env.register('css_main', css_main)
-env.register('css_internal_interface', css_internal_interface)
-env.register('css_journeys', css_journeys)
-env.register('css_hr', css_hr)
+        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']))

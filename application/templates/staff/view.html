@@ -39,34 +39,43 @@
       <a class="secondary_btn incremental-search"
         data-search-url="{{ url_for('staff.search') }}"
         data-submit-url="{{ url_for('staff.add') }}"
+        data-on-submit="addStaff"
         href="{{ url_for('staff.add') }}">+ add staff</a>
     </div>
 
-    <ul>
+    <ul id="staff_list">
       {% for person in current_user.staff %}
-      <li class="staff-member" data-id="{{ person.id }}">
-        {% if person.image %}
-        <img class="staff-image" src="" width="120" height="120" alt="{{ person.full_name }}">
-        {% else %}
-        <div class="staff-initials">{{ person.full_name|initials }}</div>
-        {% endif %}
-        <div class="staff-listing">
-          <div class="staff-listing_actions secondary-link"><a href="">transfer</a></div>
-          <div class="staff-details">
-            <h3 class="staff_name heading-medium">{{ person.full_name }}</h3>
-            <div class="staff_profession">{% if person.profession %}{{ person.profession }}{% else %}profession not set{% endif %}</div>
-          </div>
-          <ul class="staff-listing_links">
-            <li><a href="{{ url_for('staff.member', id=person.id) }}">{{ person.manager_notes|length }} notes</a></li>
-            <li><a href="{{ url_for('objectives.view_all_for_user', user_id=person.id) }}">View objectives</a></li>
-          </ul>
-        </div>
-      </li>
+        {% include "staff/member.jinja" %}
       {% endfor %}
     </ul>
 
 {% endblock %}
 
 {% block body_end %}
+  <script src="{{ asset_path }}javascripts/vendor/jinja-to-js-runtime.js"></script>
+  <script src="{{ asset_path }}javascripts/templates/member.js"></script>
   <script src="{{ asset_path }}javascripts/incremental-search.js"></script>
+  <script>
+function addStaff(event) {
+  event.preventDefault();
+  var id = $(event.target).find('#id').val();
+
+  $.ajax({
+    url: "{{ url_for('staff.staff_json') }}",
+    method: 'POST',
+    contentType: 'application/json',
+    data: '{"id": "' + id + '"}',
+    success: updateStaff
+  });
+}
+
+function updateStaff(data) {
+  var staffList = $('#staff_list');
+  staffList.empty();
+
+  for (var i in data.staff) {
+    staffList.append(templateStaffMember({"person": data.staff[i]}));
+  }
+}
+  </script>
 {% endblock %}

@@ -1,6 +1,6 @@
 import datetime
 
-from flask import current_app
+from flask import current_app, url_for
 from flask.ext.security import (
     UserMixin,
     RoleMixin
@@ -143,6 +143,10 @@ class User(db.Document, UserMixin, Linkable):
         return self.linked
 
     @property
+    def num_manager_notes(self):
+        return len(self.manager_notes)
+
+    @property
     def is_manager(self):
         return bool(self.staff)
 
@@ -167,13 +171,29 @@ class User(db.Document, UserMixin, Linkable):
             current_app.logger.warn(
                 "{.full_name} already has a manager".format(user))
 
+    @property
+    def url(self):
+        return url_for('staff.member', id=self.id)
+
+    @property
+    def objectives_url(self):
+        return url_for('objectives.view_all_for_user', user_id=self.id)
+
+    @property
+    def initials(self):
+        return ''.join(s[0].upper() for s in self.full_name.split())
+
     def to_json(self):
         return {
             'id': str(self.id),
             'full_name': self.full_name,
+            'initials': self.initials,
+            'num_manager_notes': self.num_manager_notes,
             'email': self.email,
             'grade': self.grade,
-            'profession': self.profession}
+            'profession': self.profession,
+            'url': self.url,
+            'objectives_url': self.objectives_url}
 
 
 def make_inbox_email(email):
@@ -250,12 +270,18 @@ class LogEntry(db.Document, Linkable):
     entry = db.ReferenceField(Entry, required=True)
 
     def to_json(self):
-        return {
+        out = {
             'id': str(self.id),
             'entry_type': self.entry_type,
             'entry': self.entry.to_json(),
             'created_date': self.created_date,
             'tags': [tag.name for tag in self.tags]}
+
+        if self.entry_type == 'log':
+            out.update({
+                'url': url_for('notes.view', id=self.id)})
+
+        return out
 
     def add_tag(self, name):
         name = name.strip()
@@ -323,7 +349,17 @@ class LogEntry(db.Document, Linkable):
 
     @property
     def notes(self):
-        return self._linked_log_entries('log')
+        notes = self._linked_log_entries('log')
+        if self.entry_type == 'objective':
+            notes = [self.make_promotable(note) for note in notes]
+        return notes
+
+    def make_promotable(self, note):
+        note.promote_url = url_for(
+            'objectives.promote_note',
+            id=self.id,
+            note_id=note.id)
+        return note
 
     def objectives(self, *args):
         return self._linked_log_entries('objective')
@@ -388,6 +424,31 @@ class LogEntry(db.Document, Linkable):
     def __unicode__(self):
         return 'type={0.entry_type}, entry={0.entry}'.format(self)
 
+    @property
+    def author(self):
+        if self.entry_type == 'comment':
+            return self.owner.full_name
+
+    @property
+    def created(self):
+        if self.entry_type == 'comment':
+            return '{:%Y-%m-%d %H:%M:%S}'.format(self.created_date)
+
+    @property
+    def content(self):
+        if self.entry_type == 'comment':
+            return self.entry.content
+
+    @property
+    def url(self):
+        if self.entry_type == 'log':
+            return url_for('notes.view', id=self.id)
+
+    @property
+    def title(self):
+        if 'title' in self.entry:
+            return self.entry.title
+
 
 def create_log_entry(_type, **kwargs):
     data = {}
@@ -404,7 +465,7 @@ def create_log_entry(_type, **kwargs):
         if key in ['owner', 'entry_from', 'tags']:
             data[key] = kwargs.pop(key)
 
-    owner = kwargs.pop('owner', current_user._get_current_object())
+    owner = data.pop('owner', current_user._get_current_object())
 
     return LogEntry.objects.create(
         entry_type=_type,
