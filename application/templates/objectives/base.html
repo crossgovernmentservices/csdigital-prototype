@@ -90,8 +90,13 @@
               </ul>
               {% endif %}
 
-              <a href="" class="add-link-btn" data-link-form="notes">+ link note</a>
-              <form data-linking-type="notes" class="form add-link-form" class="form" method="post" action="{{ url_for('objectives.make_link', id=objective.id) }}">
+              <a href=""
+                 class="add-link-btn incremental-search"
+                 data-search-url="{{ url_for('notes.search') }}"
+                 data-submit-url="{{ url_for('objectives.make_link', id=objective.id) }}"
+                 data-on-submit="linkNote"
+                 data-link-form="notes">+ link note</a>
+              <form data-linking-type="notes" class="form add-link-form" method="post" action="{{ url_for('objectives.make_link', id=objective.id) }}">
                 <div class="form-group">
                   <select name="notes" id="notes" class="form-control">
                     {% for note in current_user.notes %}
@@ -136,9 +141,10 @@
   <script src="{{ asset_path }}javascripts/vendor/jquery/jquery.min.js"></script>
   <script src="{{ asset_path }}javascripts/app.js"></script>
   <script src="{{ asset_path }}javascripts/internal_interface.js"></script>
+  {% if objective %}
   <script src="{{ asset_path }}javascripts/vendor/jinja-to-js-runtime.js"></script>
   <script src="{{ asset_path }}javascripts/templates/linked_note.js"></script>
-  {% if objective %}
+  <script src="{{ asset_path }}javascripts/incremental-search.js"></script>
   <script>
 
 $('.add-link-form[data-linking-type="notes"]').on('submit', addLink);
@@ -146,6 +152,9 @@ $('.add-link-form[data-linking-type="notes"]').on('submit', addLink);
 function addLink(event) {
   event.preventDefault();
   var notes = $(event.target).find('#notes').val();
+  if (!notes) {
+    notes = $(event.target).find('#id').val();
+  }
 
   $.ajax({
     url: "{{ url_for('objectives.links', id=objective.id) }}",
