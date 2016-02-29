@@ -171,10 +171,39 @@ function updateLinks(data) {
 
   for (var i in data.linked) {
     if (data.linked[i].entry_type === 'log') {
-      linksList.append(templateObjectivesLinkedNote({'note': data.linked[i]}));
+      var note = $(templateObjectivesLinkedNote({'note': data.linked[i]}));
+      linksList.append(expandable(note));
     }
   }
 }
+
+function expandable(note) {
+  $(note).children('a').on('click', function (event) {
+    event.preventDefault();
+    var content = $(note).find('.content');
+    if (!content.length) {
+      $.ajax({
+        'method': 'GET',
+        'url': $(this).prop('href') + '.json',
+        'success': function (data) {
+          var content = $('<div class="content"/>');
+          content.text(data.entry.content);
+          $(note).append(content);
+          $(note).toggleClass('expanded');
+        }
+      });
+    } else {
+      $(note).toggleClass('expanded');
+    }
+  });
+  return note;
+}
+
+$(function () {
+  $('.notes .linked-item').each(function () {
+    expandable(this);
+  });
+});
   </script>
   {% endif %}
 {% endblock %}
