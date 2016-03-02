@@ -6,6 +6,12 @@
 
 {% from "_macros.html" import render_field, render_hidden %}
 
+{% block content_pane %}
+<form method="POST">
+  {{ super() }}
+</form>
+{% endblock %}
+
 {% block content %}
 
   <h1 class="heading-large">
@@ -17,7 +23,7 @@
     {%- endif -%}
   </h1>
 
-  <form action="" method="POST" class="new-note">
+  <div class="new-note">
     {{ render_hidden(form) }}
 
     <div class="form-group">
@@ -41,7 +47,7 @@
     <div class="form-group">
       <input class="button"  type="submit" value="Save">
     </div>
-  </form>
+  </div>
 
   <div class="panel-indent">
     <p>Don't forget you can also email notes to: <strong class="bold-small"><a href="mailto:{{current_user.inbox_email}}" target="_blank">{{current_user.inbox_email}}</a></strong></p>
@@ -51,8 +57,6 @@
 {% block content_links %}
 
 <h2 class="heading-medium">Link your note</h2>
-
-<form method="post" action="{{ url_for('notes.link', id=note.id|default("add")) }}">
 
 {% macro link_checkbox(item, title, field_name) %}
 <label class="linking-checkbox" for="{{item.id}}_id">
@@ -80,9 +84,6 @@
     {% endfor %}
   </div>
 </section>
-
-<button class="button">Update links</button>
-</form>
 
 {% endblock %}
 

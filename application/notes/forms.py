@@ -17,8 +17,7 @@ class NoteForm(Form):
             title=self.title.data,
             content=self.content.data)
 
-        for tag in self.tags.data.split(','):
-            note.add_tag(tag)
+        self.add_tags(note, self.tags.data)
 
     def create(self):
         note = create_log_entry(
@@ -26,7 +25,10 @@ class NoteForm(Form):
             title=self.title.data,
             content=self.content.data)
 
-        for tag in self.tags.data.split(','):
-            note.add_tag(tag)
+        self.add_tags(note, self.tags.data)
 
         return note
+
+    def add_tags(self, note, tags):
+        for tag in self.tags.data.split(','):
+            note.add_tag(tag)
