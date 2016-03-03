@@ -13,7 +13,7 @@
   {% block content_nav %}
   <nav class="browse-pane">
     <ul class="browse-pane__content">
-      <li>
+      <li class="browse-pane__subsection--open">
         <a href="/competency" class="browse-pane__subsection-heading--open">Competencies</a>
         <ul>
           {% for comp in current_user.competencies %}
@@ -26,6 +26,8 @@
           {% endfor %}
         </ul>
       </li>
+      <li><a href="/objective" class="browse-pane__subsection-heading">Your objectives</a></li>
+      <li><a href="" class="browse-pane__subsection-heading">Development goals</a></li>
     </ul>
   </nav>
 
