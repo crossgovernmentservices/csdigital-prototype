@@ -39,14 +39,26 @@
       <h3 class="heading-small">How</h3>
       <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
 
+      {% if objective.entry.measures|length != 0 %}
       <h3 class="heading-small">Measures</h3>
       <div class="rendered-markdown">{{ objective.entry.measures|default('')|markdown }}</div>
+      {% endif %}
+
+      {% if objective.entry.outcomes|length != 0 %}
       <h3 class="heading-small">Outcomes</h3>
       <div class="rendered-markdown">{{ objective.entry.outcomes|default('')|markdown }}</div>
+      {% endif %}
+
+      {% if objective.entry.deliverables|length != 0 %}
       <h3 class="heading-small">Deliverables</h3>
       <div class="rendered-markdown">{{ objective.entry.deliverables|default('')|markdown }}</div>
+      {% endif %}
+
+      {% if objective.entry.progress|length != 0 %}
       <h3 class="heading-small">Progress</h3>
       <div class="rendered-markdown">{{ objective.entry.progress|default('')|markdown }}</div>
+      {% endif %}
+
     </section>
 
     {% include 'objectives/partials/_evidence.html' %}
