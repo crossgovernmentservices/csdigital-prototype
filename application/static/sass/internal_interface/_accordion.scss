@@ -137,6 +137,10 @@
 
 .accordion-title {
   color: $text-colour;
+  a,
+  a:visited {
+    color: $link-colour;
+  }
 }
 .accordion-meta {
   font-size: 16px;
