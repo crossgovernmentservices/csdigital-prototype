@@ -21,12 +21,7 @@
         Title
         <span class="form-hint">This short name will appear in menus</span>
       </label>
-      <input class="form-control" name="title" id="title" {%- if objective -%}
-        value="{{ objective.entry.title|default("Give your objective a title") }}"
-      {%- else -%}
-        placeholder="Give your objective a title"
-      {%- endif -%}
-      >
+      {{ form.title(class="form-control", placeholder="Give your objective a title") }}
     </div>
 
     {{ render_field_inset_help(form.what, "What are you trying to achieve? You can add competencies and measures elsewhere.", "What are you to achieve, by when, and how will it be measured?", rows=6) }}
