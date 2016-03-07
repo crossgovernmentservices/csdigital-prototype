@@ -5,7 +5,12 @@
         <div class="grid-row">
           <div class="column-two-thirds">
             <h3 class="accordion-title">
-              <a href="{{ url_for('objectives.view', id=obj.id) }}">{{ obj.entry.title|default('Objective #' + ind)|truncate(40) }}</a>
+              <a href="
+                {%- if not user -%}
+                  {{ url_for('objectives.view', id=obj.id) }}
+                {%- else -%}
+                  {{ url_for('objectives.view_for_user', user_id=user.id, id=obj.id) }}
+                {%- endif -%}">{{ obj.entry.title|default('Objective #' + ind)|truncate(40) }}</a>
             </h3>
           </div>
           <!--

@@ -13,7 +13,7 @@
   <p class="lede">Below is a summary of your {{ objectives|length }} objectives.</p>
 
   <ul>
-    {% from 'objectives/partials/_objective-summary.html' import render_obj_summary %}
+    {% from 'objectives/partials/_objective-summary.html' import render_obj_summary with context %}
     {% for obj in objectives|reverse %}
       {{ render_obj_summary( obj, loop.index|string ) }}
     {% endfor %}
