@@ -188,7 +188,7 @@ function expandable(note) {
         'success': function (data) {
           var content = $('<div class="content"/>');
           content.text(data.entry.content);
-          var $link = $('<a/>').attr('href', '/notes/' + data.entry.id + '/edit')
+          var $link = $('<a/>').attr('href', '/notes/' + data.id + '/edit')
                         .text('edit note')
                         .addClass('note-edit');
           content.append( $link );
