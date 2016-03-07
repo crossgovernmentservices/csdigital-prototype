@@ -13,7 +13,7 @@ $(function () {
     if (linkForm) {
       form = $('form[data-linking-type="' + linkForm + '"]');
       form.empty();
-      submitButton = $('<button class="button">' + $(this).text() + '</button>');
+      submitButton = $('<button>' + $(this).text() + '</button>');
       form.append(submitButton);
     } else {
       form = $('<form action="' + submitUrl + '" method="' + submitMethod + '"/>').insertBefore(this);

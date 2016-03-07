@@ -1,6 +1,5 @@
 {% extends "base--small-bar.html" %}
-
-{% from "_macros.html" import linked_with, competency_links %}
+{% from "_links.html" import links with context %}
 
 {%- if user %}
   {% set objectives = user.objectives %}
@@ -75,59 +74,14 @@
             {% if not user %}
             <h2 class="heading-medium">Link your objective</h2>
 
-            {{ competency_links(objective, "objective", competencies) }}
+            {{ links('competencies', existing=objective.competencies, choices=competencies) }}
 
-            <!-- section for linking notes -->
-            <section class="linking_container">
-              <h4 class="link_section_heading">Your notes</h4>
-              {% if objective.notes %}
-              <ul class="notes linked-list">
-
-              {% for note in objective.notes %}
-                {% include "objectives/linked_note.jinja" %}
-              {% endfor %}
-
-              </ul>
-              {% endif %}
-
-              <a href=""
-                 class="add-link-btn incremental-search"
-                 data-search-url="{{ url_for('notes.search') }}"
-                 data-submit-url="{{ url_for('objectives.make_link', id=objective.id) }}"
-                 data-on-submit="linkNote"
-                 data-link-form="notes">+ link note</a>
-              <form data-linking-type="notes" class="form add-link-form" method="post" action="{{ url_for('objectives.make_link', id=objective.id) }}">
-                <div class="form-group">
-                  <select name="notes" id="notes" class="form-control">
-                    {% for note in current_user.notes %}
-                    <option value="{{ note.id }}">{{ note.entry.title|default(note.entry.content)|truncate(40) }}</option>
-                    {% endfor %}
-                  </select>
-                  <button>add</button>
-                </div>
-              </form>
-            </section>
-            <!-- end linking notes -->
+            {{ links('notes', existing=objective.notes, choices=current_user.notes, search_url=url_for('notes.search')) }}
 
             {% else %}
             <h2 class="heading-medium">Objective linked to</h2>
 
-            <section class="linking_container">
-              <h4 class="link_section_heading">Competencies</h4>
-              {% if objective.links %}
-              <ul class="linked-list">
-
-              {% for link in objective.links %}
-                {%- if link.__class__.__name__ == 'Competency' -%}
-                <li class="linked-item">
-                  <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
-                </li>
-                {%- endif -%}
-              {% endfor %}
-
-              </ul>
-              {% endif %}
-            </section>
+            {{ links('competencies', existing=objective.competencies, readonly=True) }}
             {% endif %}
           {% endif %}
 
@@ -171,7 +125,13 @@ function updateLinks(data) {
 
   for (var i in data.linked) {
     if (data.linked[i].entry_type === 'log') {
-      var note = $(templateObjectivesLinkedNote({'note': data.linked[i]}));
+      var note = $(
+        '<li class="linked-item">' +
+        templateLinkedNote({'note': data.linked[i]}) +
+        '<span class="remove-link">' +
+        '<a href="{{ request.path|replace('/edit', '') }}/unlink/' + data.linked[i]['id'] + '">remove</a>' + 
+        '</span>' +
+        '</li>');
       linksList.append(expandable(note));
     }
   }
