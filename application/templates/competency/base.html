@@ -1,5 +1,5 @@
 {% extends "base--small-bar.html" %}
-{% from "_macros.html" import objectives_links %}
+{% from "_links.html" import links with context %}
 
 {% block head %}
   <!-- internal interface stylesheet -->
@@ -41,7 +41,9 @@
           {% if competency %}
           <h2 class="heading-medium">Link competency with</h2>
 
-          {{ objectives_links(competency, "competencies", current_user) }}
+          {{ links('objectives', existing=competency.objectives(current_user), choices=current_user.objectives) }}
+
+          {{ links('notes', existing=competency.notes(current_user), choices=current_user.notes) }}
 
           {% endif %}
         {% endblock %}

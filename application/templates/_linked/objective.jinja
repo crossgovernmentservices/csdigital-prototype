@@ -1,0 +1,1 @@
+<a href="{{ url_for('objectives.view', id=objective.id) }}">{{ objective.entry.title|default(objective.entry.what|markdown|striptags)|truncate(40) }}</a>
