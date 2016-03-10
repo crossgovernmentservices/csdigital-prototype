@@ -4,14 +4,23 @@
       <summary class="accordion-head">
         <div class="grid-row">
           <div class="column-two-thirds">
-            <h3 class="accordion-title">{{ obj.entry.title|default('Objective #' + ind)|truncate(40) }}</h3>
+            <h3 class="accordion-title">
+              <a href="
+                {%- if not user -%}
+                  {{ url_for('objectives.view', id=obj.id) }}
+                {%- else -%}
+                  {{ url_for('objectives.view_for_user', user_id=user.id, id=obj.id) }}
+                {%- endif -%}">{{ obj.entry.title|default('Objective #' + ind)|truncate(40) }}</a>
+            </h3>
           </div>
+          <!--
           <div class="column-third">
             <span class="more-group">
               <button class="btn-more">Show information <img alt="" src="/static/images/circle-plus@2x.png" width="16px"></button>
               <button class="btn-less">Hide information <img alt="" src="/static/images/circle-minus@2x.png" width="16px"></button>
             </span>
           </div>
+          -->
         </div>
       </summary>
       <div class="accordion-content">
@@ -41,7 +50,6 @@
             {% endif %}
           </div>
         </div>
-        <div class="accordion-content__subsection"><a class="small-link" href="{{ url_for('objectives.view', id=obj.id) }}">view objective</a></div>
       </div>
     </details>
   </li>

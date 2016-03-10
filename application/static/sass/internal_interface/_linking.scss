@@ -56,6 +56,23 @@
       vertical-align: middle;
     }
   }
+
+  .content {
+    display: none;
+    font-size: 16px;
+    padding: 10px 10px 0;
+  }
+
+  &.expanded {
+
+    & > a {
+      font-weight: bold;
+    }
+
+    .content {
+      display: block;
+    }
+  }
 }
 
 .linked-item:last-of-type {

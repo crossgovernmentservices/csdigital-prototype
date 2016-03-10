@@ -11,6 +11,7 @@ from flask import (
     url_for)
 from flask.ext.login import current_user
 from flask.ext.security import login_required
+from mongoengine import Q
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
@@ -38,6 +39,17 @@ def _link(note, data):
         linked = True
 
     return linked
+
+
+def remove_broken_links(note, links):
+    existing = note.linked
+    to_remove = [l for l in existing if str(l.id) not in links]
+    query = Q(id__in=[])
+
+    for linked in to_remove:
+        query = query | Q(documents=linked)
+
+    note.links.filter(query).delete()
 
 
 @notes.route('/notes/<id>/link', methods=['POST'])
@@ -85,13 +97,10 @@ def unlink(id, link_id):
 def edit(id=None):
 
     note = None
-    link_form = None
     if id:
         note = get_or_404(LogEntry, entry_type='log', id=id)
 
-    link_form = make_link_form(competencies=True, objectives=True)
-
-    form = NoteForm()
+    form = make_link_form(form=NoteForm, competencies=True, objectives=True)
 
     if form.validate_on_submit():
 
@@ -101,10 +110,11 @@ def edit(id=None):
 
         else:
             note = form.create()
-            if 'links' in session:
-                _link(note, session['links'])
-                del session['links']
             flash('Added note')
+
+        remove_broken_links(note, form.competencies.data)
+        remove_broken_links(note, form.objectives.data)
+        _link(note, dict(request.form.lists()))
 
         return redirect(url_for('.view', id=note.id))
 
@@ -115,7 +125,6 @@ def edit(id=None):
     return render_template(
         'notes/edit.html',
         form=form,
-        link_form=link_form,
         note=note)
 
 

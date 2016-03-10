@@ -1,5 +1,5 @@
 {% extends "base--small-bar.html" %}
-{% from "_macros.html" import objectives_links %}
+{% from "_links.html" import links with context %}
 
 {% block head %}
   <!-- internal interface stylesheet -->
@@ -13,7 +13,7 @@
   {% block content_nav %}
   <nav class="browse-pane">
     <ul class="browse-pane__content">
-      <li>
+      <li class="browse-pane__subsection--open">
         <a href="/competency" class="browse-pane__subsection-heading--open">Competencies</a>
         <ul>
           {% for comp in current_user.competencies %}
@@ -26,6 +26,8 @@
           {% endfor %}
         </ul>
       </li>
+      <li><a href="/objective" class="browse-pane__subsection-heading">Your objectives</a></li>
+      <li><a href="" class="browse-pane__subsection-heading">Development goals</a></li>
     </ul>
   </nav>
 
@@ -39,7 +41,9 @@
           {% if competency %}
           <h2 class="heading-medium">Link competency with</h2>
 
-          {{ objectives_links(competency, "competencies", current_user) }}
+          {{ links('objectives', existing=competency.objectives(current_user), choices=current_user.objectives) }}
+
+          {{ links('notes', existing=competency.notes(current_user), choices=current_user.notes) }}
 
           {% endif %}
         {% endblock %}

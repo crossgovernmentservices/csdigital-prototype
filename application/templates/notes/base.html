@@ -1,6 +1,5 @@
 {% extends '3colbase.html' %}
-
-{% from "_macros.html" import competency_links, objectives_links %}
+{% from "_links.html" import links with context %}
 
 {% block content_nav %}
   <div>
@@ -37,9 +36,9 @@
   {% if note %}
   <h2 class="heading-medium">Link your note</h2>
 
-  {{ competency_links(note, "note", competencies) }}
+  {{ links('competencies', existing=note.competencies, choices=competencies) }}
 
-  {{ objectives_links(note, "note", current_user) }}
+  {{ links('objectives', existing=note.objectives(), choices=current_user.objectives) }}
 
   {% endif %}
 {% endblock %}

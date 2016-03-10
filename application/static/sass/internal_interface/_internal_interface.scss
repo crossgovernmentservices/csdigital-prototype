@@ -131,7 +131,6 @@ a.secondary_btn {
 
 .competency-list--not-linked {
   border-top: 1px dashed $grey-3;
-  border-bottom: 1px dashed $grey-3;
   a {
     color: $secondary-text-colour;
   }
@@ -154,4 +153,8 @@ a.secondary_btn {
 */
 .add-objective .form-control {
   width: 75%;
+}
+
+.note-edit {
+  display: block;
 }
