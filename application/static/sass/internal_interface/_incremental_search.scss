@@ -1,0 +1,18 @@
+.incremental-search-results {
+  position: absolute;
+  width: 300px;
+  z-index: 9999;
+  background: white;
+
+  li {
+    display: block;
+    border: 1px solid #ccc;
+    padding: 5px 3px;
+    cursor: pointer;
+
+    &:hover {
+      background: #004;
+      color: #fff;
+    }
+  }
+}

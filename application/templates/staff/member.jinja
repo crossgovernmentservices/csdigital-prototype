@@ -1,0 +1,18 @@
+<li class="staff-member" data-id="{{ person.id }}">
+  {% if person.image %}
+  <img class="staff-image" src="" width="120" height="120" alt="{{ person.full_name }}">
+  {% else %}
+  <div class="staff-initials">{{ person.initials }}</div>
+  {% endif %}
+  <div class="staff-listing">
+    <div class="staff-listing_actions secondary-link"><a href="">transfer</a></div>
+    <div class="staff-details">
+      <h3 class="staff_name heading-medium">{{ person.full_name }}</h3>
+      <div class="staff_profession">{% if person.profession %}{{ person.profession }}{% else %}profession not set{% endif %}</div>
+    </div>
+    <ul class="staff-listing_links">
+      <li><a href="{{ person.url }}">{{ person.num_manager_notes }} notes</a></li>
+      <li><a href="{{ person.objectives_url }}">View objectives</a></li>
+    </ul>
+  </div>
+</li>

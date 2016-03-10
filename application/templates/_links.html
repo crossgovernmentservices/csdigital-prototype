@@ -1,0 +1,114 @@
+{% macro _competency_item(competency) %}
+  {% include "_linked/competency.jinja" with context %}
+{% endmacro %}
+
+
+{% macro _note_item(note) %}
+  {% include "_linked/note.jinja" with context %}
+{% endmacro %}
+
+
+{% macro _objective_item(objective) %}
+  {% include "_linked/objective.jinja" with context %}
+{% endmacro %}
+
+
+{% macro links_list(type, links, readonly=False) %}
+  {% if links %}
+  <ul class="{{ type }} linked-list">
+
+    {% for link in links %}
+    <li class="linked-item">
+
+      {%- if type == 'competencies' -%}
+        {{ _competency_item(link) }}
+
+      {%- elif type == 'notes' -%}
+        {{ _note_item(link) }}
+
+      {%- elif type == 'objectives' -%}
+        {{ _objective_item(link) }}
+
+      {%- endif -%}
+
+      {% if not readonly %}
+      <span class="remove-link">
+        <a href="{{ request.path|replace('/edit', '') }}/unlink/{{ link.id }}">remove</a>
+      </span>
+      {% endif %}
+    </li>
+    {% endfor %}
+
+  </ul>
+  {% endif %}
+{% endmacro %}
+
+
+{% macro _competency_choices(competencies) %}
+  {% for cluster in competencies|groupby('cluster.name') %}
+  <optgroup label="{{ cluster.grouper }}">
+    {% for competency in cluster.list %}
+    <option value="{{ competency.id }}">{{ competency.name }}</option>
+    {% endfor %}
+  </optgroup>
+  {% endfor %}
+{% endmacro %}
+
+
+{% macro _objective_choices(objectives) %}
+  {% for objective in objectives %}
+  <option value="{{ objective.id }}">{{ objective.entry.title|default(objective.entry.what|markdown|striptags)|truncate(40) }}</option>
+  {% endfor %}
+{% endmacro %}
+
+
+{% macro _note_choices(notes) %}
+  {% for note in notes %}
+  <option value="{{ note.id }}">{{ note.entry.title|default(note.entry.content|markdown|striptags)|truncate(40) }}</option>
+  {% endfor %}
+{% endmacro %}
+
+
+{% macro add_link_form(type, items) %}
+  <form data-linking-type="{{ type }}" class="form add-link-form" method="post" action="{{ request.path }}/link">
+    <div class="form-group">
+      <select id="{{ type }}" name="{{ type }}" class="form-control">
+        {% if type == 'competencies' -%}
+          {{ _competency_choices(items) }}
+
+        {%- elif type == 'objectives' -%}
+          {{ _objective_choices(items) }}
+
+        {%- elif type == 'notes' -%}
+          {{ _note_choices(items) }}
+
+        {%- endif %}
+      </select>
+      <button>add</button>
+    </div>
+  </form>
+{% endmacro %}
+
+
+{% macro links(type, existing=[], choices=[], readonly=False) %}
+  {% set search_url = kwargs.get('search_url') %}
+  {% set on_submit = kwargs.get('on_submit') %}
+
+  <section class="linking_container">
+    <h4 class="link_section_heading">{{ type|capitalize }}</h4>
+
+    {{ links_list(type, existing, readonly=readonly) }}
+
+    {% if not readonly %}
+    {% set singular = 'competency' if type == 'competencies' else type[:-1] %}
+    <a href=""
+      class="add-link-btn
+      {%- if search_url %} incremental-search{% endif -%}"
+      data-link-form="{{ type }}"
+      {%- if search_url %} data-search-url="{{ search_url }}"{% endif -%}
+      {%- if on_submit %} data-on-submit="{{ on_submit }}"{% endif -%}
+      >+ link {{ singular }}</a>
+    {{ add_link_form(type, choices) }}
+    {% endif %}
+  </section>
+{% endmacro %}

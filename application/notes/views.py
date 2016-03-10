@@ -7,9 +7,11 @@ from flask import (
     redirect,
     render_template,
     request,
+    session,
     url_for)
 from flask.ext.login import current_user
 from flask.ext.security import login_required
+from mongoengine import Q
 
 from application.competency.forms import make_link_form
 from application.competency.models import Competency
@@ -21,25 +23,58 @@ from application.utils import get_or_404
 notes = Blueprint('notes', __name__, template_folder='templates')
 
 
+def _link(note, data):
+    linked = False
+
+    for competency_id in data.get('competencies', []):
+        competency = Competency.objects.get(id=competency_id)
+        note.link(competency)
+        linked = True
+
+    for objective_id in data.get('objectives', []):
+        objective = LogEntry.objects.get(
+            id=objective_id,
+            entry_type='objective')
+        note.link(objective)
+        linked = True
+
+    return linked
+
+
+def remove_broken_links(note, links):
+    existing = note.linked
+    to_remove = [l for l in existing if str(l.id) not in links]
+    query = Q(id__in=[])
+
+    for linked in to_remove:
+        query = query | Q(documents=linked)
+
+    note.links.filter(query).delete()
+
+
 @notes.route('/notes/<id>/link', methods=['POST'])
 @login_required
 def link(id):
-    note = get_or_404(LogEntry, entry_type='log', id=id)
+    queue_links = False
+
+    if id == 'add':
+        queue_links = True
+
+    else:
+        note = get_or_404(LogEntry, entry_type='log', id=id)
+
     form = make_link_form(competencies=True, objectives=True)
 
     if form.is_submitted():
-        if 'competencies' in request.form:
-            competency = Competency.objects.get(
-                id=request.form['competencies'])
-            note.link(competency)
-            flash('Competency successfully linked to note')
 
-        elif 'objectives' in request.form:
-            objective = LogEntry.objects.get(
-                id=request.form['objectives'],
-                entry_type='objective')
-            note.link(objective)
-            flash('Objective successfully linked to note')
+        if queue_links:
+            links = session.get('links', {})
+            for key, values in list(request.form.lists()):
+                links[key] = values
+            session['links'] = links
+
+        elif _link(note, dict(request.form.lists())):
+            flash('Link successful')
 
     return redirect(url_for('.view', id=id))
 
@@ -62,12 +97,10 @@ def unlink(id, link_id):
 def edit(id=None):
 
     note = None
-    link_form = None
     if id:
         note = get_or_404(LogEntry, entry_type='log', id=id)
-        link_form = make_link_form(competencies=True, objectives=True)
 
-    form = NoteForm()
+    form = make_link_form(form=NoteForm, competencies=True, objectives=True)
 
     if form.validate_on_submit():
 
@@ -79,6 +112,10 @@ def edit(id=None):
             note = form.create()
             flash('Added note')
 
+        remove_broken_links(note, form.competencies.data)
+        remove_broken_links(note, form.objectives.data)
+        _link(note, dict(request.form.lists()))
+
         return redirect(url_for('.view', id=note.id))
 
     if note:
@@ -88,7 +125,6 @@ def edit(id=None):
     return render_template(
         'notes/edit.html',
         form=form,
-        link_form=link_form,
         note=note)
 
 

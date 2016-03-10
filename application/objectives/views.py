@@ -55,7 +55,7 @@ def links(id):
     objective = get_objective_or_404(id=id)
 
     if request.method == 'POST':
-        _, target = get_link_target(request.get_json())
+        _, target = get_link_target(request.json)
 
         if target:
             objective.link(target)
@@ -64,7 +64,15 @@ def links(id):
         else:
             return jsonify({'error': 'Linking failed'})
 
-    return jsonify({'linked': [l.to_json() for l in objective.linked]})
+    linked = [l.to_json() for l in objective.linked]
+    for l in linked:
+        if l.get('entry_type') == 'log':
+            l.update(promote_url=url_for(
+                '.promote_note',
+                id=objective.id,
+                note_id=l.get('id')))
+
+    return jsonify({'linked': linked})
 
 
 @objectives.route('/objective/<id>/links/<link_id>', methods=['GET', 'DELETE'])
@@ -235,7 +243,12 @@ def comments(id):
         objective.add_comment(request.get_json()['content'])
         objective.reload()
 
-    return jsonify({'comments': [c.to_json() for c in objective.comments]})
+    return jsonify({'comments': [
+        {
+            'author': c.owner.full_name,
+            'created': '{:%Y-%m-%d %H:%M:%S}'.format(c.created_date),
+            'content': c.entry.content}
+        for c in objective.comments]})
 
 
 @objectives.route('/objective/staff/<user_id>/<id>/comment', methods=['POST'])
@@ -273,7 +286,7 @@ def add_evidence(id):
     form = EvidenceForm()
 
     if form.validate_on_submit():
-        evidence = create_log_entry('evidence', **request.form)
+        evidence = create_log_entry('evidence', **request.form.to_dict())
         objective.link(evidence)
 
         flash('Evidence added')

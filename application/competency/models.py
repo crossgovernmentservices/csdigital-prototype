@@ -39,6 +39,19 @@ class Competency(db.Document, Linkable):
             for objective in self.linked
             if objective.entry_type == 'objective' and objective.owner == user]
 
+    def notes(self, user):
+        return [
+            note
+            for note in self.linked
+            if note.entry_type == 'log' and note.owner == user]
+
+    def to_json(self):
+        return {
+            'id': str(self.id),
+            'name': self.name,
+            'overview': self.overview,
+            'cluster': self.cluster.name}
+
 
 class Behaviour(db.Document):
     effective = db.StringField()

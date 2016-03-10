@@ -12,10 +12,10 @@ class ObjectiveForm(Form):
     title = StringField('Title', validators=[Required()])
     what = TextAreaField('What is your objective?', validators=[Required()])
     how = TextAreaField('How will you achieve this?', validators=[Required()])
-    measures = TextAreaField('How will you measure your progress?')
-    outcomes = TextAreaField('What will the outcomes be?')
-    deliverables = TextAreaField('What are the deliverables?')
-    progress = TextAreaField('What progress have you made?')
+    measures = TextAreaField('Measurements')
+    outcomes = TextAreaField('Outcomes (optional)')
+    deliverables = TextAreaField('Deliverables (optional)')
+    progress = TextAreaField('What progress have you made? (optional - for project work only)')
 
     def update(self, objective):
         objective.entry.update(

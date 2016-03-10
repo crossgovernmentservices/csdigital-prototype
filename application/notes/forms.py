@@ -1,40 +1,34 @@
-from flask.ext.login import current_user
 from flask.ext.wtf import Form
 from wtforms.fields import (
     StringField,
     TextAreaField)
 from wtforms.validators import Required
 
-from application.models import Entry, LogEntry
+from application.models import create_log_entry
 
 
 class NoteForm(Form):
     title = StringField('Title')
     tags = StringField('tags')
-    content = TextAreaField('Content', validators=[Required()])
+    content = TextAreaField('Details', validators=[Required()])
 
     def update(self, note):
         note.entry.update(
             title=self.title.data,
             content=self.content.data)
-        note.entry.save()
 
-        for tag in self.tags.data.split(','):
-            note.add_tag(tag)
+        self.add_tags(note, self.tags.data)
 
     def create(self):
-        entry = Entry(
+        note = create_log_entry(
+            'log',
             title=self.title.data,
             content=self.content.data)
-        entry.save()
 
-        note = LogEntry(
-            entry_type='log',
-            owner=current_user._get_current_object(),
-            entry=entry)
-        note.save()
-
-        for tag in self.tags.data.split(','):
-            note.add_tag(tag)
+        self.add_tags(note, self.tags.data)
 
         return note
+
+    def add_tags(self, note, tags):
+        for tag in self.tags.data.split(','):
+            note.add_tag(tag)

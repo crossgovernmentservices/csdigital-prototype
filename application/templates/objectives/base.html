@@ -1,6 +1,5 @@
 {% extends "base--small-bar.html" %}
-
-{% from "_macros.html" import linked_with, competency_links %}
+{% from "_links.html" import links with context %}
 
 {%- if user %}
   {% set objectives = user.objectives %}
@@ -21,7 +20,7 @@
     <nav class="browse-pane">
       <ul class="browse-pane__content">
         <li><a href="/competency" class="browse-pane__subsection-heading">Competencies</a></li>
-        <li>
+        <li class="browse-pane__subsection--open">
           <a href="/objective" class="browse-pane__subsection-heading--open">
             {% if not user -%}
               Your objectives
@@ -75,57 +74,14 @@
             {% if not user %}
             <h2 class="heading-medium">Link your objective</h2>
 
-            {{ competency_links(objective, "objective", competencies) }}
+            {{ links('competencies', existing=objective.competencies, choices=competencies) }}
 
-            <!-- section for linking notes -->
-            <section class="linking_container">
-              <h4 class="link_section_heading">Your notes</h4>
-              {% if objective.notes %}
-              <ul class="linked-list">
-
-              {% for link in objective.notes %}
-                <li class="linked-item">
-                  <a href="{{ url_for('notes.view', id=link.id) }}">{{ link.entry.title|default(link.entry.content)|truncate(40) }}</a>
-                  <span class="remove-link"><a href="{{ url_for('objectives.promote_note', id=objective.id, note_id=link.id) }}" title="add as evidence">upgrade to evidence</a></span>
-                </li>
-              {% endfor %}
-
-              </ul>
-              {% endif %}
-
-              <a href="" class="add-link-btn" data-link-form="notes">+ link note</a>
-              <form data-linking-type="notes" class="form add-link-form" class="form" method="post" action="{{ url_for('objectives.make_link', id=objective.id) }}">
-                <div class="form-group">
-                  <select name="notes" id="notes" class="form-control">
-                    {% for note in current_user.notes %}
-                    <option value="{{ note.id }}">{{ note.entry.title|default(note.entry.content)|truncate(40) }}</option>
-                    {% endfor %}
-                  </select>
-                  <button>add</button>
-                </div>
-              </form>
-            </section>
-            <!-- end linking notes -->
+            {{ links('notes', existing=objective.notes, choices=current_user.notes, search_url=url_for('notes.search')) }}
 
             {% else %}
             <h2 class="heading-medium">Objective linked to</h2>
 
-            <section class="linking_container">
-              <h4 class="link_section_heading">Competencies</h4>
-              {% if objective.links %}
-              <ul class="linked-list">
-
-              {% for link in objective.links %}
-                {%- if link.__class__.__name__ == 'Competency' -%}
-                <li class="linked-item">
-                  <a href="{{ url_for('competency.view', id=link.id) }}">{{ link.name }}</a>
-                </li>
-                {%- endif -%}
-              {% endfor %}
-
-              </ul>
-              {% endif %}
-            </section>
+            {{ links('competencies', existing=objective.competencies, readonly=True) }}
             {% endif %}
           {% endif %}
 
@@ -136,8 +92,82 @@
 {% endblock %}
 
 {% block body_end %}
-  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  <script src="{{ asset_path }}javascripts/vendor/jquery/jquery.min.js"></script>
+  <script src="{{ asset_path }}javascripts/app.js"></script>
+  <script src="{{ asset_path }}javascripts/internal_interface.js"></script>
+  {% if objective %}
+  <script src="{{ asset_path }}javascripts/vendor/jinja-to-js-runtime.js"></script>
+  <script src="{{ asset_path }}javascripts/templates/linked_note.js"></script>
+  <script src="{{ asset_path }}javascripts/incremental-search.js"></script>
+  <script>
+
+$('.add-link-form[data-linking-type="notes"]').on('submit', addLink);
+
+function addLink(event) {
+  event.preventDefault();
+  var notes = $(event.target).find('#notes').val();
+  if (!notes) {
+    notes = $(event.target).find('#id').val();
+  }
+
+  $.ajax({
+    url: "{{ url_for('objectives.links', id=objective.id) }}",
+    method: 'POST',
+    contentType: 'application/json',
+    data: '{"notes": "' + notes + '"}',
+    success: updateLinks
+  });
+}
+
+function updateLinks(data) {
+  var linksList = $('.notes.linked-list');
+  linksList.empty();
+
+  for (var i in data.linked) {
+    if (data.linked[i].entry_type === 'log') {
+      var note = $(
+        '<li class="linked-item">' +
+        templateLinkedNote({'note': data.linked[i]}) +
+        '<span class="remove-link">' +
+        '<a href="{{ request.path|replace('/edit', '') }}/unlink/' + data.linked[i]['id'] + '">remove</a>' + 
+        '</span>' +
+        '</li>');
+      linksList.append(expandable(note));
+    }
+  }
+}
+
+function expandable(note) {
+  $(note).children('a').on('click', function (event) {
+    event.preventDefault();
+    var content = $(note).find('.content');
+    if (!content.length) {
+      $.ajax({
+        'method': 'GET',
+        'url': $(this).prop('href') + '.json',
+        'success': function (data) {
+          var content = $('<div class="content"/>');
+          content.text(data.entry.content);
+          var $link = $('<a/>').attr('href', '/notes/' + data.id + '/edit')
+                        .text('edit note')
+                        .addClass('note-edit');
+          content.append( $link );
+          $(note).append(content);
+          $(note).toggleClass('expanded');
+        }
+      });
+    } else {
+      $(note).toggleClass('expanded');
+    }
+  });
+  return note;
+}
+
+$(function () {
+  $('.notes .linked-item').each(function () {
+    expandable(this);
+  });
+});
   </script>
-  <script type="text/javascript" src="/static/javascripts/app.js"></script>
-  <script src="/static/javascripts/internal_interface.js"></script>
+  {% endif %}
 {% endblock %}

@@ -4,13 +4,29 @@ $(function () {
   function enableIncrementalSearch() {
     var searchUrl = $(this).data('search-url');
     var submitUrl = $(this).data('submit-url');
+    var onSubmit = $(this).data('on-submit');
     var submitMethod = $(this).data('submit-method') || 'POST';
+    var linkForm = $(this).data('link-form') || null;
+
+    var form;
+    var submitButton;
+    if (linkForm) {
+      form = $('form[data-linking-type="' + linkForm + '"]');
+      form.empty();
+      submitButton = $('<button>' + $(this).text() + '</button>');
+      form.append(submitButton);
+    } else {
+      form = $('<form action="' + submitUrl + '" method="' + submitMethod + '"/>').insertBefore(this);
+      submitButton = $(this);
+    }
+
     var field = $('<input type="hidden" id="id" name="id">');
-    var form = $(
-      '<form action="' + submitUrl + '" method="' + submitMethod + '"/>').insertBefore(this);
     form.append(field);
-    var searchBox = $('<input class="incremental-search-box"/>').insertBefore(this);
-    var resultList = $('<ol class="incremental-search-results"/>').insertBefore(this);
+    var resultList = $('<ol class="incremental-search-results"/>');
+    form.prepend(resultList);
+    var searchBox = $('<input class="incremental-search-box form-control"/>');
+    form.prepend(searchBox);
+
     var delayTimer = null;
     var delay = 200;
 
@@ -32,7 +48,7 @@ $(function () {
       }, delay);
     });
 
-    $(this).on('click', function (event) {
+    submitButton.on('click', function (event) {
       event.preventDefault();
       event.stopPropagation();
       if (field.val()) {
@@ -40,6 +56,10 @@ $(function () {
       }
       return false;
     });
+
+    if (typeof window[onSubmit] === 'function') {
+      form.on('submit', window[onSubmit]);
+    }
   }
 
   function search(url, term, callback) {

@@ -31,18 +31,33 @@ def grade_form():
     return dict(grade_form=update_details_form())
 
 
+def get_link_target(data):
+    _type = None
+    target = None
+
+    if 'objectives' in data:
+        _type = 'Objective'
+        target = get_or_404(current_user.objectives, id=data['objectives'])
+
+    elif 'notes' in data:
+        _type = 'Note'
+        target = get_or_404(current_user.notes, id=data['notes'])
+
+    return _type, target
+
+
 @competency.route('/competency/<id>/link', methods=['POST'])
 @login_required
 def link(id):
     competency = get_or_404(Competency, id=id)
-    form = make_link_form(objectives=True, notes=True)
+    _type, target = get_link_target(request.form)
 
-    if form.validate_on_submit():
-        objective = LogEntry.objects.get(
-            id=request.form['objectives'],
-            entry_type='objective')
-        objective.link(competency)
-        flash('Competency linked to selected objective')
+    if target:
+        competency.link(target)
+        flash('{} successfully linked to competency'.format(_type))
+
+    else:
+        flash('Linking failed', 'error')
 
     return redirect(url_for('.view', id=id))
 

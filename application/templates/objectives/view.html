@@ -34,19 +34,31 @@
 
     <section class="item-view_body">
       <h3 class="heading-small">What</h3>
-      <div>{{ objective.entry.what|markdown }}</div>
+      <div class="rendered-markdown">{{ objective.entry.what|markdown }}</div>
 
       <h3 class="heading-small">How</h3>
       <div class="rendered-markdown">{{ objective.entry.how|markdown }}</div>
 
+      {% if objective.entry.measures|length != 0 %}
       <h3 class="heading-small">Measures</h3>
       <div class="rendered-markdown">{{ objective.entry.measures|default('')|markdown }}</div>
+      {% endif %}
+
+      {% if objective.entry.outcomes|length != 0 %}
       <h3 class="heading-small">Outcomes</h3>
       <div class="rendered-markdown">{{ objective.entry.outcomes|default('')|markdown }}</div>
+      {% endif %}
+
+      {% if objective.entry.deliverables|length != 0 %}
       <h3 class="heading-small">Deliverables</h3>
       <div class="rendered-markdown">{{ objective.entry.deliverables|default('')|markdown }}</div>
+      {% endif %}
+
+      {% if objective.entry.progress|length != 0 %}
       <h3 class="heading-small">Progress</h3>
       <div class="rendered-markdown">{{ objective.entry.progress|default('')|markdown }}</div>
+      {% endif %}
+
     </section>
 
     {% include 'objectives/partials/_evidence.html' %}
@@ -55,28 +67,54 @@
 
   <section class="obj_comments">
     <h3 class="heading-medium">Comments</h3>
+    <ul id="comments_list">
     {% if objective.comments|length > 0 %}
       {% for comment in objective.comments|sort(true,attribute='created_date') %}
-      <div class="comment">
-        <dl class="comment__metadata definition-inline">
-          <dt class="visuallyhidden">From</dt><dd>{{ comment.owner.full_name }}</dd>
-          <dt>Date</dt><dd>{{ '{:%Y-%m-%d %H:%M:%S}'.format(comment.created_date) }}</dd>
-        </dl>
-        <div class="comment__content">
-          {{ comment.entry.content }}
-        </div>
-      </div>
+        {% include "objectives/comment.jinja" %}
       {% endfor %}
     {% else %}
-    <p class="comment__none">No comments yet</p>
+    <li><p class="comment__none">No comments yet</p></li>
     {% endif %}
+    </ul>
 
     {%- if user -%}
     <form class="comment_form" method="post" action="{{ request.path }}/comment">
       <textarea placeholder="enter comment here" class="form-control comment_content_entry" name="content"></textarea>
-      <button class="comment_button">Comment</button>
+      <button class="button">Comment</button>
     </form>
     {% endif %}
   </section>
 
+{% endblock %}
+
+{% block body_end %}
+  {{ super() }}
+  <script src="{{ asset_path }}javascripts/templates/comment.js"></script>
+  <script>
+
+$('.comment_form').on('submit', addComment);
+
+function addComment(event) {
+  event.preventDefault();
+  var content = $(event.target).find('[name="content"]').val();
+
+  $.ajax({
+    url: "{{ url_for('objectives.comments', id=objective.id) }}",
+    method: 'POST',
+    contentType: 'application/json',
+    data: '{"content": "' + content + '"}',
+    success: updateComments
+  });
+}
+
+function updateComments(data) {
+  var commentsList = $('#comments_list');
+  commentsList.empty();
+
+  for (var i in data.comments) {
+    commentsList.append(templateObjectivesComment({'comment': data.comments[i]}));
+  }
+}
+
+  </script>
 {% endblock %}
