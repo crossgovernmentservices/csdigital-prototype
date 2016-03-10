@@ -13,11 +13,12 @@ region = metadata['placement']['availability-zone'][:-1]
 conn = ec2.connect_to_region(region)
 reservations = conn.get_all_instances(instance_ids=[instance_id])
 env = reservations[0].instances[0].tags['Environment']
+version = reservations[0].instances[0].tags['ConfigVersion']
 
 
 def get_cred(name):
     table = "{}-credentials".format(env)
-    return credstash.getSecret(name, '', region=region, table=table)
+    return credstash.getSecret(name, version, region=region, table=table)
 
 
 class AWSConfig(Config):
