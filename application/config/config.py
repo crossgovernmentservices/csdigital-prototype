@@ -34,14 +34,35 @@ class Config(object):
                     # 'http://localhost:8000/login/callback')
             # }
         # },
-        'auth0': {
-            'domain': 'xgs.eu.auth0.com',
+        # 'auth0': {
+            # 'name': 'Auth0',
+            # 'domain': 'xgs.eu.auth0.com',
+            # 'client': {
+                # 'client_id': os.environ.get('AUTH0_CLIENT_ID'),
+                # 'client_secret': os.environ.get('AUTH0_CLIENT_SECRET'),
+                # 'redirect_uri': os.environ.get(
+                    # 'AUTH0_CALLBACK_URL',
+                    # 'http://localhost:8000/login/callback')
+            # }
+        # },
+        'DWP': {
+            'name': 'DWP',
+            'scheme': 'http',
+            'domain': 'localhost:8080/openid',
             'client': {
-                'client_id': os.environ.get('AUTH0_CLIENT_ID'),
-                'client_secret': os.environ.get('AUTH0_CLIENT_SECRET'),
-                'redirect_uri': os.environ.get(
-                    'AUTH0_CALLBACK_URL',
-                    'http://localhost:8000/login/callback')
+                'client_id': '331914',
+                'client_secret': '2c4cf7b04f4227cae9cb1efd06438e60',
+                'redirect_uri': 'http://localhost:8000/login/callback'
+            }
+        },
+        'Cabinet Office': {
+            'name': 'Cabinet Office',
+            'scheme': 'http',
+            'domain': 'localhost:8088/openid',
+            'client': {
+                'client_id': '719821',
+                'client_secret': '6e062ee9c4c94a757aca32a1a4742a94',
+                'redirect_uri': 'http://localhost:8000/login/callback'
             }
         }
     }

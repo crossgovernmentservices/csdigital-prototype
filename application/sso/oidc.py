@@ -31,7 +31,8 @@ class OIDC(object):
         """
 
         return requests.get(
-            'https://{domain}/.well-known/openid-configuration'.format(
+            '{scheme}://{domain}/.well-known/openid-configuration'.format(
+                scheme=self.providers[provider].get('scheme', 'https'),
                 domain=self.providers[provider]['domain'])).json()
 
     def login(self, provider):

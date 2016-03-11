@@ -15,16 +15,10 @@ from flask.ext.security.utils import login_user, logout_user
 from application.extensions import user_datastore
 from application.frontend.forms import LoginForm
 from application.models import make_inbox_email
-from application.queues import EventExchange
+from application.queues import publish_login
 
 
 sso = Blueprint('sso', __name__, url_prefix='/login')
-
-event_queue = EventExchange(
-    broker_uri=os.environ.get('BROKER_URI',
-                              'amqp://guest:guest@localhost:5672//'),
-    exchange_name=os.environ.get('EVENTS_EXCHANGE_NAME', 'events')
-)
 
 
 @sso.context_processor
@@ -34,10 +28,12 @@ def sso_providers():
 
 @sso.app_context_processor
 def auth0_logout():
+    url = url_for('sso.logout')
 
-    url = 'https://{host}/v2/logout?returnTo={returnTo}'.format(
-        host=current_app.config['OIDC']['auth0']['domain'],
-        returnTo=url_for('sso.logout', _external=True))
+    if 'auth0' in current_app.config['OIDC']:
+        url = 'https://{host}/v2/logout?returnTo={returnTo}'.format(
+            host=current_app.config['OIDC']['auth0']['domain'],
+            returnTo=url_for('sso.logout', _external=True))
 
     return dict(logout_url=url)
 
@@ -60,8 +56,7 @@ def login():
 
         login_user(user)
 
-        # send login action to event queue
-        event_queue.send('USER', 'LOGIN', email)
+        publish_login(user)
 
         # TODO check next is valid
         return redirect(form.next.data)
@@ -106,7 +101,7 @@ def oidc_callback():
 
     login_user(user)
 
-    event_queue.send('USER', 'LOGIN', user_info['email'])
+    publish_login(user)
 
     if 'next' in request.args:
         return redirect(request.args['next'])
