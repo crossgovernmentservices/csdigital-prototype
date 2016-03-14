@@ -41,3 +41,4 @@ kombu==3.0.32
 amqp==1.4.8
 boto3==1.2.3
 moto==0.4.19
+django-oidc-provider==0.3.0
