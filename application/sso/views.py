@@ -1,5 +1,3 @@
-import os
-
 from flask import (
     Blueprint,
     current_app,
@@ -11,6 +9,7 @@ from flask import (
     url_for
 )
 from flask.ext.security.utils import login_user, logout_user
+import requests
 
 from application.extensions import user_datastore
 from application.frontend.forms import LoginForm
@@ -76,6 +75,13 @@ def login_provider(provider):
     return redirect(current_app.oidc_client.login(provider))
 
 
+def mapped_ids(user_id):
+    id_mapper_url = 'http://localhost:5000/links/{}.json'.format(user_id)
+    return requests.get(
+        id_mapper_url,
+        headers={'X-Requested-With': 'XMLHTTPRequest'}).json()
+
+
 @sso.route('/callback')
 def oidc_callback():
     auth_code = request.args.get('code')
@@ -90,14 +96,22 @@ def oidc_callback():
     user = user_datastore.get_user(user_info['email'])
 
     if not user:
-        # user has successfully logged in or registered on IdP
-        # so create an account
-        user = user_datastore.create_user(
-            email=user_info['email'],
-            inbox_email=make_inbox_email(user_info['email']),
-            full_name=user_info.get('nickname', user_info.get('name')))
-        user_role = user_datastore.find_or_create_role('USER')
-        user_datastore.add_role_to_user(user, user_role)
+        # query identity mapping service for linked identities that may already
+        # have an account
+        for uid in mapped_ids(user_info['email'])['ids']:
+            user = user_datastore.get_user(uid)
+            if user:
+                break
+
+        if not user:
+            # user has successfully logged in or registered on IdP
+            # so create an account
+            user = user_datastore.create_user(
+                email=user_info['email'],
+                inbox_email=make_inbox_email(user_info['email']),
+                full_name=user_info.get('nickname', user_info.get('name')))
+            user_role = user_datastore.find_or_create_role('USER')
+            user_datastore.add_role_to_user(user, user_role)
 
     login_user(user)
 

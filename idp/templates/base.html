@@ -1,0 +1,64 @@
+{% load i18n %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>{{ settings.APP_NAME|default:"OIDC Provider Example" }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/govuk-template.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/govuk-elements.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+
+</head>
+<body>
+    <header role="banner" id="global-header">
+      <div class="header-wrapper">
+        <div class="header-global">
+          <div class="header-logo">
+            <a id="logo" href="{% url 'home' %}" class="content">
+              <img src="{% static '/images/gov.uk_logotype_crown_invert_trans.png' %}" width="35" height="31">
+              GOV.UK
+            </a>
+          </div>
+          <div class="site-search">
+            <div class="content">
+            {% if user.is_authenticated %}
+            <a href="#" class="item">{{ user.email }}</a>
+            {% if user.is_superuser %}
+            <a href="{% url 'admin:index' %}" class="item">Admin</a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="item"><i class="remove icon"></i></a>
+            {% else %}
+            <a href="{% url 'login' %}" class="item">Login</a>
+            {% endif %}
+          </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div id="global-header-bar"></div>
+    <main id="wrapper" role="main">
+    <div id="content">
+
+        <div class="row">
+            <div class="column">
+                <img width="208" src="{{ settings.APP_IMAGE|default:'' }}">
+            </div>
+        </div>
+
+    {% block content %}{% endblock %}
+    </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.js"></script>
+
+</body>
+</html>
