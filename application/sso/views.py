@@ -1,5 +1,3 @@
-import os
-
 from flask import (
     Blueprint,
     current_app,
@@ -11,20 +9,15 @@ from flask import (
     url_for
 )
 from flask.ext.security.utils import login_user, logout_user
+import requests
 
 from application.extensions import user_datastore
 from application.frontend.forms import LoginForm
 from application.models import make_inbox_email
-from application.queues import EventExchange
+from application.queues import publish_login
 
 
 sso = Blueprint('sso', __name__, url_prefix='/login')
-
-event_queue = EventExchange(
-    broker_uri=os.environ.get('BROKER_URI',
-                              'amqp://guest:guest@localhost:5672//'),
-    exchange_name=os.environ.get('EVENTS_EXCHANGE_NAME', 'events')
-)
 
 
 @sso.context_processor
@@ -34,10 +27,12 @@ def sso_providers():
 
 @sso.app_context_processor
 def auth0_logout():
+    url = url_for('sso.logout')
 
-    url = 'https://{host}/v2/logout?returnTo={returnTo}'.format(
-        host=current_app.config['OIDC']['auth0']['domain'],
-        returnTo=url_for('sso.logout', _external=True))
+    if 'auth0' in current_app.config['OIDC']:
+        url = 'https://{host}/v2/logout?returnTo={returnTo}'.format(
+            host=current_app.config['OIDC']['auth0']['domain'],
+            returnTo=url_for('sso.logout', _external=True))
 
     return dict(logout_url=url)
 
@@ -60,8 +55,7 @@ def login():
 
         login_user(user)
 
-        # send login action to event queue
-        event_queue.send('USER', 'LOGIN', email)
+        publish_login(user)
 
         # TODO check next is valid
         return redirect(form.next.data)
@@ -78,7 +72,16 @@ def logout():
 @sso.route('/<provider>')
 def login_provider(provider):
     session['provider'] = provider
-    return redirect(current_app.oidc_client.login(provider))
+    return redirect(current_app.oidc_client.login(
+        provider,
+        url_for('.oidc_callback', _external=True)))
+
+
+def mapped_ids(user_id):
+    id_mapper_url = 'http://localhost:5000/links/{}.json'.format(user_id)
+    return requests.get(
+        id_mapper_url,
+        headers={'X-Requested-With': 'XMLHTTPRequest'}).json()
 
 
 @sso.route('/callback')
@@ -87,26 +90,38 @@ def oidc_callback():
     provider = session['provider']
 
     try:
-        user_info = current_app.oidc_client.authenticate(provider, auth_code)
+        user_info = current_app.oidc_client.authenticate(
+            provider,
+            auth_code,
+            url_for('.oidc_callback', _external=True))
 
-    except:
+    except Exception as e:
+        flash('Login failed: {}: {}'.format(e.__class__.__name__, e), 'error')
         return redirect(url_for('frontend.index'))
 
     user = user_datastore.get_user(user_info['email'])
 
     if not user:
-        # user has successfully logged in or registered on IdP
-        # so create an account
-        user = user_datastore.create_user(
-            email=user_info['email'],
-            inbox_email=make_inbox_email(user_info['email']),
-            full_name=user_info.get('nickname', user_info.get('name')))
-        user_role = user_datastore.find_or_create_role('USER')
-        user_datastore.add_role_to_user(user, user_role)
+        # query identity mapping service for linked identities that may already
+        # have an account
+        for uid in mapped_ids(user_info['email'])['ids']:
+            user = user_datastore.get_user(uid)
+            if user:
+                break
+
+        if not user:
+            # user has successfully logged in or registered on IdP
+            # so create an account
+            user = user_datastore.create_user(
+                email=user_info['email'],
+                inbox_email=make_inbox_email(user_info['email']),
+                full_name=user_info.get('nickname', user_info.get('name')))
+            user_role = user_datastore.find_or_create_role('USER')
+            user_datastore.add_role_to_user(user, user_role)
 
     login_user(user)
 
-    event_queue.send('USER', 'LOGIN', user_info['email'])
+    publish_login(user)
 
     if 'next' in request.args:
         return redirect(request.args['next'])

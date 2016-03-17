@@ -16,7 +16,7 @@
 
   <div id="sso-providers">
     {% for provider in sso_providers %}
-    <p><a class="button" href="{{url_for('sso.login_provider', provider=provider)}}">Sign in</a></p>
+    <p><a class="button" href="{{url_for('sso.login_provider', provider=provider)}}">Sign in with {{ provider }}</a></p>
     {% endfor %}
   </div
 {% endblock %}

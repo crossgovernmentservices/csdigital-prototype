@@ -1,3 +1,4 @@
+from flask import url_for
 import requests
 
 
@@ -17,38 +18,30 @@ class OIDC(object):
         if provider in self.providers:
             return OIDCProvider(self.config(provider))
 
-    def provider_from_host(self, host):
-
-        matches = [
-            provider for provider, config in self.providers.items()
-            if host in config['domain']]
-
-        return OIDCProvider(self.config(matches[0]))
-
     def config(self, provider):
         """
         Retrieve the OpenID configuration of the specified provider
         """
 
         return requests.get(
-            'https://{domain}/.well-known/openid-configuration'.format(
-                domain=self.providers[provider]['domain'])).json()
+            '{base_url}/.well-known/openid-configuration'.format(
+                base_url=self.providers[provider].get('base_url'))).json()
 
-    def login(self, provider):
+    def login(self, provider, callback_url):
         """
         Convenience method to return an authentication URL for a provider
         """
 
-        client = OIDCClient(self.providers[provider]['client'])
+        client = OIDCClient(self.providers[provider]['client'], callback_url)
         provider = self.provider(provider)
         return client.authentication_url(provider)
 
-    def authenticate(self, provider, auth_code):
+    def authenticate(self, provider, auth_code, callback_url):
         """
         Convenience method to authenticate a user and retrieve their userinfo
         """
 
-        client = OIDCClient(self.providers[provider]['client'])
+        client = OIDCClient(self.providers[provider]['client'], callback_url)
         provider = self.provider(provider)
         token_response = client.token_request(provider, auth_code)
         access_token = token_response['access_token']
@@ -92,8 +85,9 @@ class OIDCClient(object):
     Enables authentication against an OpenID Connect Provider
     """
 
-    def __init__(self, config):
+    def __init__(self, config, callback_url):
         self.config = config
+        self.callback_url = callback_url
 
     def register(self, provider):
         """
@@ -124,8 +118,8 @@ class OIDCClient(object):
             'client_id={client_id}&'
             'redirect_uri={redirect_uri}').format(
                 endpoint=provider.authentication_endpoint,
-                client_id=self.config['client_id'],
-                redirect_uri=self.config['redirect_uri'])
+                client_id=self.config['id'],
+                redirect_uri=self.callback_url)
 
     @property
     def metadata(self):
@@ -144,9 +138,9 @@ class OIDCClient(object):
         """
 
         payload = {
-            'client_id': self.config['client_id'],
-            'client_secret': self.config['client_secret'],
-            'redirect_uri': self.config['redirect_uri'],
+            'client_id': self.config['id'],
+            'client_secret': self.config['secret'],
+            'redirect_uri': self.callback_url,
             'code': auth_code,
             'grant_type': 'authorization_code'}
 

@@ -9,6 +9,7 @@ from flask.ext.script import (
     Manager,
     Server,
     Command,
+    Option,
     Shell,
     prompt,
     prompt_pass
@@ -208,12 +209,43 @@ class LoadCompetencyData(Command):
         self.load_model_fixtures('behaviour.csv', Behaviour, add_refs)
 
 
+class FakeIdp(Command):
+    """
+    Run a Django OIDC IdP server application
+    """
+
+    option_list = (
+        Option('--port', '-p', dest='port', required=True),
+        Option('--name', '-n', dest='name', required=True),
+    )
+
+    def run(self, port, name):
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'idp.settings')
+        os.environ['PORT'] = port
+        os.environ['APP_NAME'] = name
+        from django.utils.text import slugify
+        slug = slugify(os.environ['APP_NAME'])
+        os.environ['DATABASE'] = slug
+        os.environ['APP_IMAGE'] = '/static/images/{}.png'.format(slug)
+        import django
+        django.setup()
+        from django.core.management import call_command
+        call_command('migrate')
+        from django.contrib.auth.models import User
+        if len(User.objects.filter(is_superuser=True)) < 1:
+            call_command('createsuperuser')
+            call_command('creatersakey')
+        call_command('runserver', os.environ['PORT'])
+
+
 manager.add_command('create-user', CreateUser())
 manager.add_command('make-user-admin', MakeUserAdminCommand())
 manager.add_command('create-xgs-users', CreateXgsUsersCommand())
 
 manager.add_command('load-competency-data', LoadCompetencyData())
 manager.add_command('erase-db', EraseDatabase())
+
+manager.add_command('fake-idp', FakeIdp())
 
 if __name__ == '__main__':
     manager.run()

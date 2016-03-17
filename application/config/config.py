@@ -24,24 +24,40 @@ class Config(object):
     EMAIL_DOMAIN = os.environ.get('EMAIL_DOMAIN', 'mylog.civilservice.digital')
 
     OIDC = {
-        # 'google': {
-            # 'domain': 'accounts.google.com',
+        # 'Google': {
+            # 'base_url': 'https://accounts.google.com',
             # 'client': {
-                # 'client_id': os.environ.get('GOOG_CLIENT_ID'),
-                # 'client_secret': os.environ.get('GOOG_CLIENT_SECRET'),
-                # 'redirect_uri': os.environ.get(
-                    # 'GOOG_OIDC_CALLBACK_URL',
-                    # 'http://localhost:8000/login/callback')
+                # 'id': os.environ.get('GOOG_CLIENT_ID'),
+                # 'secret': os.environ.get('GOOG_CLIENT_SECRET'),
             # }
         # },
-        'auth0': {
-            'domain': 'xgs.eu.auth0.com',
+        # 'Auth0': {
+            # 'base_url': 'https://xgs.eu.auth0.com',
+            # 'client': {
+                # 'id': os.environ.get('AUTH0_CLIENT_ID'),
+                # 'secret': os.environ.get('AUTH0_CLIENT_SECRET'),
+            # }
+        # },
+        'DWP': {
+            'base_url': os.environ.get(
+                'DWP_IDP_BASE_URL',
+                'http://localhost:8088/openid'),
             'client': {
-                'client_id': os.environ.get('AUTH0_CLIENT_ID'),
-                'client_secret': os.environ.get('AUTH0_CLIENT_SECRET'),
-                'redirect_uri': os.environ.get(
-                    'AUTH0_CALLBACK_URL',
-                    'http://localhost:8000/login/callback')
+                'id': os.environ.get('DWP_IDP_CLIENT_ID', '205505'),
+                'secret': os.environ.get(
+                    'DWP_IDP_CLIENT_SECRET',
+                    '3506f092536941242518f0e7525aacd6')
+            }
+        },
+        'Cabinet Office': {
+            'base_url': os.environ.get(
+                'CO_IDP_BASE_URL',
+                'http://localhost:8080/openid'),
+            'client': {
+                'id': os.environ.get('CO_IDP_CLIENT_ID', '837420'),
+                'secret': os.environ.get(
+                    'CO_IDP_CLIENT_SECRET',
+                    'ca78387f6a78498ca1ea4ea353897a45'),
             }
         }
     }
