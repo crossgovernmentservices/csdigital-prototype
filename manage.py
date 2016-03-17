@@ -234,6 +234,7 @@ class FakeIdp(Command):
         from django.contrib.auth.models import User
         if len(User.objects.filter(is_superuser=True)) < 1:
             call_command('createsuperuser')
+            call_command('creatersakey')
         call_command('runserver', os.environ['PORT'])
 
 

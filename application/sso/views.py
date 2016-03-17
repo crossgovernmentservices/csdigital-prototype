@@ -72,7 +72,9 @@ def logout():
 @sso.route('/<provider>')
 def login_provider(provider):
     session['provider'] = provider
-    return redirect(current_app.oidc_client.login(provider))
+    return redirect(current_app.oidc_client.login(
+        provider,
+        url_for('.oidc_callback', _external=True)))
 
 
 def mapped_ids(user_id):
@@ -88,9 +90,13 @@ def oidc_callback():
     provider = session['provider']
 
     try:
-        user_info = current_app.oidc_client.authenticate(provider, auth_code)
+        user_info = current_app.oidc_client.authenticate(
+            provider,
+            auth_code,
+            url_for('.oidc_callback', _external=True))
 
-    except:
+    except Exception as e:
+        flash('Login failed: {}: {}'.format(e.__class__.__name__, e), 'error')
         return redirect(url_for('frontend.index'))
 
     user = user_datastore.get_user(user_info['email'])
