@@ -38,6 +38,47 @@ Start mongo:
 mongod
 ```
 
+Fake IdPs
+---------
+
+1. To fire up the fake DWP and Cabinet Office IdPs, run the following commands
+   in a new terminal:
+
+    ```
+    python manage.py fake-idp -p 8080 -n "Cabinet Office"
+    ```
+
+    You will be prompted for an admin username, email and password.
+
+2. Browse to [http://localhost:8080/admin/oidc_provider/client/add/]() and login with
+the username and password you just supplied.
+
+    Enter a Name and choose `code (Authorization Code Flow)` for `Response type`.
+    Enter `http://localhost:8000/login/callback` in the `Redirect URI` field.
+
+    Click `Save and continue editing` and make a note of the `Client id` and `Client
+secret` field values.
+
+3. Return to the prototype terminal and enter the following:
+
+    ```
+    export CO_IDP_CLIENT_ID=<Client id value>
+           CO_IDP_CLIENT_SECRET=<Client secret value>
+    ```
+
+Repeat this process with the following changes for the DWP IDP:
+
+1. In a new terminal, run the IdP app: `python manage.py fake-idp -p 8088 -n "DWP"`
+
+2. Add a client: [http://localhost:8088/admin/oidc_provider/client/add/]()
+
+3. Set the environment variables in the prototype terminal:
+
+    ```
+    export DWP_IDP_CLIENT_ID=<Client id value>
+           DWP_IDP_CLIENT_SECRET=<Client secret value>
+    ```
+
 Then run app
 ```
 ./run.sh
