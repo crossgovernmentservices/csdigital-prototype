@@ -1,4 +1,5 @@
 import re
+import json
 
 from flask import (
     Blueprint,
@@ -17,4 +18,6 @@ notesapp = Blueprint('notesapp', __name__, template_folder='templates')
 @notesapp.route('/notesapp')
 @login_required
 def view():
-    return render_template('notesapp/view.html')
+  with open('application/data/notes.json') as data_file:
+    notes = json.load( data_file )
+  return render_template('notesapp/view.html', notes=notes)

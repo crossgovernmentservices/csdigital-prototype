@@ -1,1 +1,14 @@
-test
+{% extends "base.html" %}
+
+
+{%block body_content %}
+
+{% include "_logout.html" %}
+
+{% for note in notes %}
+
+  {{ note.content|markdown }}
+
+{% endfor %}
+
+{% endblock %}
