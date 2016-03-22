@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{%block body_content %}
+
+<div class="sign-out">
+
+{% if current_user.is_authenticated %}
+
+  <span class="user-name">{{current_user.full_name}}</span>
+  <span class="user-name"><a href="{{url_for('notesapp.profile')}}">Settings</a></span>
+  <a href="{{ logout_url }}">Sign out</a>
+
+{% else %}
+  <!-- this isn't rendering -->
+  <a href="{{url_for('sso.login')}}">Sign in</a>
+{% endif %}
+</div>
+
+<div class="test">
+  <h1 class="heading-large">Notes</h1>
+
+  <div class="message-box">
+    <h3 class="heading-small">You can also email notes in to the service</h3>
+    <p>Use <a href="">{{current_user.inbox_email}}</a>. Check your settings for more details.</p>
+    <span class="dismiss">Dismiss</span>
+  </div>
+
+</div>
+
+<form action="" class="form note-form add-note-form">
+  <textarea name="" id="" rows="1" placeholder="Write a note..."></textarea>
+  <button class="button">Save</button>
+</form>
+
+<ul class="notes-list">
+{% for note in notes %}
+
+  <li class="note">
+    <section class="text rendered-markdown rendered-note">
+      {{ note.content|truncate(250)|markdown }}
+    </section>
+    <section>
+      <form action="" class="form note-form">
+        <textarea name="" id="" rows="1" placeholder="Write a note...">{{ note.content }}</textarea>
+        <button class="button">Save</button>
+      </form>
+    </section>
+    <span class="note-date">{{ note.pretty_date }}</span>
+    <span class="undo-link">Just updated (<a href="">undo</a>)</span>
+    {% if note.emailed %}
+    <div class="email-flag">Email</div>
+    {% endif %}
+  </li>
+
+{% endfor %}
+</ul>
+
+<div class="test">
+  <a class="more-link" href="">load more</a>
+</div>
+
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/notesapp.js"></script>
+{% endblock %}

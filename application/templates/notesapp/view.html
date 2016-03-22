@@ -1,14 +1,34 @@
 {% extends "base.html" %}
 
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
 
 {%block body_content %}
 
 {% include "_logout.html" %}
 
+<div class="message-box">
+  <h3 class="heading-small">You can also email notes in to the service</h3>
+  <p>Use <a href="">{{current_user.inbox_email}}</a>. Check your settings for more details.</p>
+</div>
+
+<ul class="notes-list">
 {% for note in notes %}
 
-  {{ note.content|markdown }}
+  <li class="note">
+    <section class="text rendered-markdown">
+      {{ note.content|truncate(250)|markdown }}
+    </section>
+    {% if note.emailed %}
+    <div class="email-flag">Email</div>
+    {% endif %}
+  </li>
 
 {% endfor %}
+</ul>
 
 {% endblock %}
