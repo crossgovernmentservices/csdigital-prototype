@@ -61,7 +61,8 @@
   }
 
   function createNote( content ) {
-    var $note = $(".note:first-of-type").clone();
+    var $note = $(".note:first-of-type").clone(),
+        trunc_content = content.substring(0, 249) + "…";
 
     $note
       .find('.email-flag')
@@ -72,7 +73,7 @@
       .end()
       .find('.rendered-note')
         .empty()
-        .append( render_markdown(content) )
+        .append( render_markdown(trunc_content) )
       .end()
       .find('.note-form textarea')
         .val( content )
