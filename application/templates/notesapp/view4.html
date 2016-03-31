@@ -35,7 +35,7 @@
 </div>
 
 <form action="" class="form note-form add-note-form">
-  <textarea name="" id="" rows="1" placeholder="Write a note..."></textarea>
+  <textarea name="new_note_content" id="new_note_content" rows="1" placeholder="Write a note..."></textarea>
   <button class="button">Save</button>
 </form>
 
@@ -70,5 +70,6 @@
 
 {% block body_end %}
 <script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
 <script src="/static/javascripts/notesapp.js"></script>
 {% endblock %}
