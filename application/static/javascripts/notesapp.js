@@ -29,7 +29,12 @@
         .addClass("edit-mode")
         .find('textarea')
           .focus();
-    })
+    });
+
+    // dismiss box event
+    $('.dismiss').on('click', function() {
+      $(this).parent('.message-box').hide();
+    });
   });
 
   function clearActive() {
