@@ -50,6 +50,7 @@ govuk_elements.css
 journeys.css
 internal_interface.css
 hr.css
+application/static/stylesheets/*.css
 
 environment-private.sh
 
