@@ -85,3 +85,11 @@ env.register('css_hr', Bundle(
     depends=[
         '/static/sass/hr/**/*.scss',
         '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']))
+
+env.register('css_notes', Bundle(
+    'sass/notes.scss',
+    filters=(libsass_output,),
+    output='stylesheets/notes.css',
+    depends=[
+        '/static/sass/notes/**/*.scss',
+        '/static/govuk_frontend_toolkit/stylesheets/**/*.scss']))

@@ -80,6 +80,9 @@ def register_blueprints(app):
     from application.hr.views import hr
     app.register_blueprint(hr)
 
+    from application.notesapp.views import notesapp
+    app.register_blueprint(notesapp)
+
 
 def register_extensions(app):
     from application.assets import env
