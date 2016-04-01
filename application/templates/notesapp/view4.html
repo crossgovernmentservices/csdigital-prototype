@@ -47,6 +47,7 @@
 {% for note in notes %}
 
   <li class="note">
+    <button class="close-btn">close</button>
     <section class="text rendered-markdown rendered-note">
       {{ note.content|truncate(250)|markdown }}
     </section>

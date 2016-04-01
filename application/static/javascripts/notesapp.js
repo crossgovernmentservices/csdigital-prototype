@@ -45,6 +45,10 @@
       .on('click', '.note-form button', function() {
         saveNote( $(this).parents(".note") );
         return false;
+      })
+      .on('click', '.close-btn', function() {
+        clearActive();
+        return false;
       });
 
     // dismiss box event
