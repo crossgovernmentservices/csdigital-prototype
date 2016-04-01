@@ -29,9 +29,9 @@ def sso_providers():
 def auth0_logout():
     url = url_for('sso.logout')
 
-    if 'auth0' in current_app.config['OIDC']:
-        url = 'https://{host}/v2/logout?returnTo={returnTo}'.format(
-            host=current_app.config['OIDC']['auth0']['domain'],
+    if 'Auth0' in current_app.config['OIDC']:
+        url = '{host}/v2/logout?returnTo={returnTo}'.format(
+            host=current_app.config['OIDC']['Auth0']['base_url'],
             returnTo=url_for('sso.logout', _external=True))
 
     return dict(logout_url=url)

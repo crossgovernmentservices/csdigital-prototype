@@ -1,4 +1,5 @@
 import os
+from socket import error as socket_error
 from time import time
 
 from kombu import Connection, Exchange, Queue
@@ -17,5 +18,9 @@ def publish_login(user):
         'user_id': user.email,
         'timestamp': time()}
 
-    with producers[conn].acquire(block=True) as producer:
-        producer.publish(payload, exchange=exchange)
+    try:
+        with producers[conn].acquire(block=True) as producer:
+            producer.publish(payload, exchange=exchange)
+
+    except socket_error:
+        pass
