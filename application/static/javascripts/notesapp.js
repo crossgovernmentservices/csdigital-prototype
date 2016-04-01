@@ -1,4 +1,5 @@
 (function($, window) {
+  var URL = window.URL || window.webkitURL;
 
   // textarea handler
   function growTextarea(e) {
@@ -7,6 +8,7 @@
   }
 
   $(function() {
+    var takePic = document.querySelector("#take-picture");
     var $addnoteform = $('.add-note-form');
 
     $addnoteform.find('textarea').focus();
@@ -60,6 +62,21 @@
         .focus();
       return false;
     });
+
+    // for uploading an image
+    if( takePic ) {
+      // change event
+      takePic.onchange = function(ev) {
+        // reference to taken pic or chosen file
+        var files = ev.target.files,
+            file;
+        if( files && files.length > 0 ) {
+          file = files[0];
+          var imgURL = URL.createObjectURL(file);
+          createImgNote(imgURL);
+        }
+      };
+    }
   });
 
   function clearActive() {
@@ -108,6 +125,27 @@
       .find('.note-form textarea')
         .val( content )
         .on('input focus', growTextarea)
+      .end()
+      .prependTo(".notes-list");
+  }
+
+  function createImgNote( imgURL ) {
+    var $note = $(".note:first-of-type").clone();
+
+    var $img = $("<img />").attr("width", "100%").attr("src", imgURL).on('load', function() {
+        URL.revokeObjectURL(imgURL);
+    });
+
+    $note
+      .find('.email-flag')
+        .remove()
+      .end()
+      .find('.note-date')
+        .text("now")
+      .end()
+      .find('.rendered-note')
+        .empty()
+        .append( $img )
       .end()
       .prependTo(".notes-list");
   }
