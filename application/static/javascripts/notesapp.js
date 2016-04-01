@@ -69,7 +69,7 @@
 
   function render_markdown(content, trunc) {
     var trunc = trunc || 249,
-        trunc_content = content.substring(0, trunc) + "…";
+        trunc_content = (content.length > 249) ? content.substring(0, trunc) + "…" : content;
     return markdown.toHTML( trunc_content );
   }
 
