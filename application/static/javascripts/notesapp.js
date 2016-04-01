@@ -26,13 +26,24 @@
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
     }).on('input focus', growTextarea);
 
-    $('.notes-list').on('click', '.note', function() {
-      clearActive();
-      $(this)
-        .addClass("edit-mode")
-        .find('textarea')
-          .focus();
-    });
+    $('.notes-list')
+      .on('click', '.note', function() {
+        // TO FIX:
+        // this will cause a problem if user clicks to different section
+        // of the note they are already editing
+        saveNote( $('.edit-mode') );
+
+        clearActive();
+        $(this)
+          .addClass("edit-mode")
+          .find('textarea')
+            .data( "original_content", $(this).find('textarea').val() )
+            .focus();
+      })
+      .on('click', '.note-form button', function() {
+        saveNote( $(this).parents(".note") );
+        return false;
+      });
 
     // dismiss box event
     $('.dismiss').on('click', function() {
@@ -56,13 +67,32 @@
     $('.add-note-form').removeClass("active");
   }
 
-  function render_markdown(content) {
-    return markdown.toHTML( content );
+  function render_markdown(content, trunc) {
+    var trunc = trunc || 249,
+        trunc_content = content.substring(0, trunc) + "…";
+    return markdown.toHTML( trunc_content );
+  }
+
+  function saveNote( $note ) {
+    var $textarea = $note.find('textarea');
+    if ( $textarea.val() !== $textarea.data("original_content") ) {
+      var content = $textarea.val();
+      // only need to replace the visible rendered bit
+      $note
+        .find('.rendered-note')
+          .empty()
+          .append( render_markdown(content) )
+        .end()
+        .removeClass('edit-mode')
+        .addClass('undo-mode');
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function createNote( content ) {
-    var $note = $(".note:first-of-type").clone(),
-        trunc_content = content.substring(0, 249) + "…";
+    var $note = $(".note:first-of-type").clone();
 
     $note
       .find('.email-flag')
@@ -73,7 +103,7 @@
       .end()
       .find('.rendered-note')
         .empty()
-        .append( render_markdown(trunc_content) )
+        .append( render_markdown(content) )
       .end()
       .find('.note-form textarea')
         .val( content )
