@@ -78,10 +78,12 @@ def login_provider(provider):
 
 
 def mapped_ids(user_id):
-    id_mapper_url = 'http://localhost:5000/links/{}.json'.format(user_id)
-    return requests.get(
-        id_mapper_url,
-        headers={'X-Requested-With': 'XMLHTTPRequest'}).json()
+    return None  # XXX temporarily disabled mapped identity checking
+
+    # id_mapper_url = 'http://localhost:5000/links/{}.json'.format(user_id)
+    # return requests.get(
+        # id_mapper_url,
+        # headers={'X-Requested-With': 'XMLHTTPRequest'}).json()
 
 
 @sso.route('/callback')
