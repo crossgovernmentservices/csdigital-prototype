@@ -21,7 +21,6 @@
       <div class="text">
         <h2 class="heading-small">My notes</h2>
         <ul>
-          <li><a href="{{ url_for('notesapp.view4') }}">Note taking service</a></li>
           <li><a href="{{ url_for('notes.edit') }}">Add a note</a></li>
           <li><a href="{{ url_for('notes.view_all') }}">View recent notes</a></li>
         </ul>
@@ -73,6 +72,12 @@
       <h2 class="heading-small">HR</h2>
       <ul>
         <li><a href="{{ url_for('hr.index') }}">HR Dashboard</a></li>
+      </ul>
+    </div>
+    <div class="column-half">
+      <h2 class="heading-small">Beta MVP designs</h2>
+      <ul>
+        <li><a href="{{ url_for('notesapp.view4') }}">Note taking service</a></li>
       </ul>
     </div>
   </div>
