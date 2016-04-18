@@ -1,0 +1,41 @@
+{
+  "journey_name": "3. CSL Alpha experiments",
+  "last_updated": "18th April 2016",
+  "userjourneys": [
+    {
+      "title": "CSL Learning record",
+      "path": [{
+        "caption": "Learning record",
+        "imgref": "csl_alpha/8.Learner_record.png"
+      }]
+    },
+    {
+      "title": "CSL experiments",
+      "path": [{
+        "caption": "Single learning plan",
+        "imgref": "csl_alpha/2.learning_plan.png"
+      },{
+        "caption": "User details",
+        "imgref": "csl_alpha/1.profile.png"
+      },{
+        "caption": "Suggestions",
+        "imgref": "csl_alpha/3.Suggestions.png"
+      }]
+    },
+    {
+      "title": "CSL diagnostic",
+      "path": [{
+        "caption": "PM diagnostic start",
+        "imgref": "csl_alpha/4.PM_diagnostic_start.png"
+      },{
+        "caption": "Digital diagnostic start",
+        "imgref": "csl_alpha/5.Digital_diagnostic_start.png"
+      },{
+        "caption": "Diagnostic quiz page",
+        "imgref": "csl_alpha/6.Digital_diagnostic_quiz.png"
+      },{
+        "caption": "Diagnostic result page",
+        "imgref": "csl_alpha/7.Digital_diagnostic_result.png"
+      }]
+    }]
+}
