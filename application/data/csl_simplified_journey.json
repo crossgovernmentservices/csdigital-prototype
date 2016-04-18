@@ -1,0 +1,30 @@
+{
+  "journey_name": "4. CSL Simplified journey",
+  "last_updated": "4th Jan 2016",
+  "userjourneys": [
+    {
+      "title": "Version 1",
+      "path": [{
+        "caption": "Course not logged in",
+        "imgref": "1st_with_preq_NOT_logged_in.png"
+      },{
+        "caption": "Course with preq",
+        "imgref": "1st_with_preq_logged_in.png"
+      },{
+        "caption": "Preq",
+        "imgref": "2nd_preq_logged_in.png"
+      },{
+        "caption": "Preq done",
+        "imgref": "3rd_preq_done.png"
+      },{
+        "caption": "Course, preq done",
+        "imgref": "4th_with_preq_done_logged_in.png"
+      },{
+        "caption": "Done, main",
+        "imgref": "5th_main_done_with_preq_done_logged_in.png"
+      },{
+        "caption": "Description and done - all",
+        "imgref": "6th_all_completed.png"
+      }]
+    }]
+}
