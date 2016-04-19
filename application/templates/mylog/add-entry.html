@@ -25,7 +25,7 @@
   <div class="grid-row">
 
     <div class="column-one-quarter">
-      <h1 class="heading">Recent Notes</h1>
+      <h1 class="heading">Recent notes</h1>
       <p><a href="">+ create note</a></p>
       <ul>
         {% for note in ['note1', 'note2'] %}
@@ -36,7 +36,7 @@
     </div>
 
     <div class="column-one-half">
-      <h1 class="heading-large">Give Your Note a Title</h1>
+      <h1 class="heading-large">Give your note a title</h1>
       <form action="{{url_for('mylog.add_log_entry')}}" method="POST">
          <div class="form-group">
           <label class="form-label" for="tags">Tags</label>
