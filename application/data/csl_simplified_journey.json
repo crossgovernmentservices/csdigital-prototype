@@ -1,6 +1,6 @@
 {
   "journey_name": "4. CSL Simplified journey",
-  "last_updated": "4th Jan 2016",
+  "last_updated": "18th April 2016",
   "userjourneys": [
     {
       "title": "Version 1",
@@ -25,6 +25,27 @@
       },{
         "caption": "Description and done - all",
         "imgref": "6th_all_completed.png"
+      }]
+    },{
+      "title": "Version 2",
+      "path": [{
+        "caption": "Email, trigger",
+        "imgref": "latest/1.email.png"
+      },{
+        "caption": "Course ",
+        "imgref": "latest/2.course_description.png"
+      },{
+        "caption": "Sign in",
+        "imgref": "latest/3.sign_in.png"
+      },{
+        "caption": "Content",
+        "imgref": "latest/4.info1.png"
+      },{
+        "caption": "Quiz",
+        "imgref": "latest/9.q1.png"
+      },{
+        "caption": "Results",
+        "imgref": "latest/results_page.JPG"
       }]
     }]
 }
