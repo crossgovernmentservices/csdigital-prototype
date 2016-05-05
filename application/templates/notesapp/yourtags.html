@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{%block body_content %}
+
+{% include "notesapp/common/_account-nav.html" %}
+
+<div class="test">
+
+  <a href="" class="link-back">Back to all notes</a>
+  <h1 class="heading-large">Manage your tags</h1>
+
+  <p class="lede">Use this page to manage the tags you use to organise your notes</p>
+
+</div>
+
+<!--<form action="" class="form note-form add-note-form">
+  <div class="image-upload">
+    <img src="/static/images/camera_icon.svg" alt="" />
+    <input class="image-upload--input" type="file" id="take-picture" accept="image/*">
+  </div>
+  <textarea name="new_note_content" id="new_note_content" rows="1" placeholder="Write a note..."></textarea>
+  <button class="button">Save</button>
+</form>-->
+
+<section class="notes-section">
+
+  <h2 class="heading-medium">Your tags</h2>
+  <ul class="tag-list-block">
+    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Presentations">Presentations</a><span class="tag-quantity">5</span></li>
+    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Digital">Digital</a><span class="tag-quantity">7</span></li>
+    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Obj 1">Obj 1</a><span class="tag-quantity">1</span></li>
+    <li class="note-tag">Obj 2</li>
+    <li class="note-tag">Corporate Obj</li>
+  </ul>
+
+  <div class="section">
+    <a href="">Create new tags</a>
+  </div>
+
+  <h2 class="heading-medium">Default tags</h2>
+
+  <ul class="tag-list-block">
+    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Delivering Value for Money">Delivering Value for Money</a><span class="tag-quantity">2</span></li>
+    <li class="note-tag">Seeing the Big Picture</li>
+    <li class="note-tag">Changing and Improving</li>
+    <li class="note-tag">Making Effective Decisions</li>
+    <li class="note-tag">Leading and Communicating</li>
+    <li class="note-tag">Collaborating and Partnering</li>
+    <li class="note-tag">Building Capability for All</li>
+    <li class="note-tag">Achieving Commercial Outcomes</li>
+    <li class="note-tag">Managing a Quality Service</li>
+    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Delivering at Pace">Delivering at Pace</a><span class="tag-quantity">3</span></li>
+    <li class="note-tag">Development</li>
+    <li class="note-tag">Email</li>
+    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Feedback">Feedback</a><span class="tag-quantity">3</span></li>
+  </ul>
+
+</section>
+
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
+<script src="/static/javascripts/vendor/jquery-ui.min.js"></script>
+<script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
+
+<script src="/static/javascripts/notesapp.js"></script>
+{% endblock %}

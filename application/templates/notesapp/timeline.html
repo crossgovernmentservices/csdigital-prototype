@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{%block body_content %}
+
+{% include "notesapp/common/_account-nav.html" %}
+
+<div class="test">
+
+  <a href="" class="link-back">Back to all notes</a>
+  <h1 class="heading-large">Timeline</h1>
+
+  <div class="panel-indent">
+      <p>Sorry this page doesn't work exist yet.</p>
+      <p>Comeback soon though, we are working on it.</p>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
+<script src="/static/javascripts/vendor/jquery-ui.min.js"></script>
+<script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
+
+<script src="/static/javascripts/notesapp.js"></script>
+{% endblock %}

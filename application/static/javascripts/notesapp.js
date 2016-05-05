@@ -1,6 +1,34 @@
 (function($, window) {
   var URL = window.URL || window.webkitURL;
 
+  // the tags available to the autocomplete
+  var availableTags = [
+    "Delivering Value for Money",
+    "Seeing the Big Picture",
+    "Changing and Improving", 
+    "Making Effective Decisions",
+    "Leading and Communicating",
+    "Collaborating and Partnering",
+    "Building Capability for All",
+    "Achieving Commercial Outcomes",
+    "Managing a Quality Service", 
+    "Delivering at Pace",
+    "Development",
+    "Email",
+    "Feedback",
+    "Obj 1",
+    "Corporate Obj"
+  ];
+
+  var aliases = [
+    "DaP",
+    "dap",
+    "Deliver Pace",
+    "Delivery at Pace",
+    "delivery at pace",
+    "pacey delivery"
+  ];
+
   // textarea handler
   function growTextarea(e) {
     e.currentTarget.style.height = 'auto';
@@ -10,6 +38,7 @@
   $(function() {
     var takePic = document.querySelector("#take-picture");
     var $addnoteform = $('.add-note-form');
+    var $tag_inputs = $(".tag-input");
 
     $addnoteform.find('textarea').focus();
 
@@ -22,11 +51,25 @@
       $addnoteform.addClass('active');
     });
 
+    // add handlers to the note entry textarea
     // taken from 
     // http://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
     $('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
-    }).on('input focus', growTextarea);
+    })
+    .on('input focus', growTextarea)
+    .on('keydown', function(evt) {
+      var $target = $( evt.currentTarget );
+      // split on space
+      if (evt.keyCode == 32 || evt.keyCode == 13) {
+        var hashtags = $target.val().split(/\s+/).filter(function(token) {
+          return token.charAt(0) === "#" && token.length > 1;
+        })
+        if (hashtags.length !== 0) {
+          addTags( hashtags, $target.parents('.note').find('.tag-list ul') );
+        }
+      }
+    });
 
     $('.notes-list')
       .on('click', '.note', function() {
@@ -49,6 +92,10 @@
       .on('click', '.close-btn', function() {
         clearActive();
         return false;
+      })
+      .on('click', '.tag-input', function(evt) {
+        // do something
+        evt.stopPropagation();
       });
 
     // dismiss box event
@@ -67,6 +114,11 @@
       return false;
     });
 
+    // adding tags to a note
+    $tag_inputs
+      .autocomplete({ source: availableTags })
+      .on('keydown', addTagHandler);
+
     // for uploading an image
     if( takePic ) {
       // change event
@@ -82,6 +134,58 @@
       };
     }
   });
+
+  function addTagHandler(evt) {
+    // add a tag on return
+    if(evt.keyCode == 13) {
+      var $target = $(evt.currentTarget);
+      var $tagList = $target.parents('.note').find('.tag-list ul');
+      var tagToAdd = $target.val();
+
+      // smoke and mirrors
+      // notice similar tags
+      console.log($.inArray( tagToAdd, aliases));
+      if( $.inArray( $target.val(), aliases) >= 0 ) {
+        $target
+          .parents(".note")
+            .find(".tag_suggestions")
+              .show(400)
+              .find('button')
+                .on('click', function(evt) {
+                  var $button = $(evt.currentTarget);
+                  if( $button.text() === "Yes" ) {
+                    appendTag( "Delivering at Pace", $tagList );
+                  } else {
+                    appendTag( tagToAdd, $tagList );
+                  }
+                  $target.val('').focus();
+                  $button.parents(".tag_suggestions").hide(400);
+                  evt.stopPropagation();
+                });
+      } else {
+        appendTag( tagToAdd, $tagList );
+        $target.val('');
+      }
+      return false;
+    }
+  }
+
+  var addTags = function( hashtags, $el ) {
+    var currentTags = $el.data('tags') || [];
+    // won't work if hashtags are removed
+    // should compare arrays?
+    hashtags.forEach(function(item, index, array) {
+      console.log(item);
+      if(currentTags.length > 0 && $.inArray( item.substring(1), currentTags ) >= 0 ) {
+        console.log( "already exists" );
+      } else {
+        currentTags.push( item.substring(1) );
+        var $tag = $("<li>").text( item.substring(1) ).addClass("note-tag");
+        $el.append( $tag );
+      }
+    });
+    $el.data('tags', currentTags);
+  };
 
   function clearActive() {
     $('.note').removeClass("edit-mode");
@@ -115,12 +219,16 @@
   function createNote( content ) {
     var $note = $(".note:first-of-type").clone();
 
+    // do I need to add the handler each time?
     $note
       .find('.email-flag')
         .remove()
       .end()
       .find('.note-date')
         .text("now")
+      .end()
+      .find('.tag-list ul')
+        .empty()
       .end()
       .find('.rendered-note')
         .empty()
@@ -130,8 +238,18 @@
         .val( content )
         .on('input focus', growTextarea)
       .end()
+      .find('.tag-input')
+        .autocomplete({ source: availableTags })
+        .on('keydown', addTagHandler)
+      .end()
       .prependTo(".notes-list");
+
   }
+
+  var appendTag = function( tag, $parent ) {
+    var $tag = $("<li>").text( tag ).addClass("note-tag");
+    $parent.append( $tag );
+  };
 
   function createImgNote( imgURL ) {
     var $note = $(".note:first-of-type").clone();

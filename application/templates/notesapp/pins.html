@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{%block body_content %}
+
+<div class="sign-out">
+
+{% if current_user.is_authenticated %}
+
+  <span class="user-name">{{current_user.full_name}}</span>
+  <span class="user-name"><a href="{{url_for('notesapp.profile')}}">Pinned</a></span>
+  <span class="user-name"><a href="{{url_for('notesapp.profile')}}">Settings</a></span>
+  <a href="{{ logout_url }}">Sign out</a>
+
+{% else %}
+  <!-- this isn't rendering -->
+  <a href="{{url_for('sso.login')}}">Sign in</a>
+{% endif %}
+</div>
+
+<div class="test">
+  <a href="" class="link-back">Back to all notes</a>
+  <h1 class="heading-large"><span class="bold-xxlarge">5</span> pinned notes</h1>
+
+</div>
+
+<!--<form action="" class="form note-form add-note-form">
+  <div class="image-upload">
+    <img src="/static/images/camera_icon.svg" alt="" />
+    <input class="image-upload--input" type="file" id="take-picture" accept="image/*">
+  </div>
+  <textarea name="new_note_content" id="new_note_content" rows="1" placeholder="Write a note..."></textarea>
+  <button class="button">Save</button>
+</form>-->
+
+<section class="notes-main"></section>
+
+<ul class="notes-list">
+{% for note in notes %}
+
+  <li class="note">
+    <button class="close-btn">close</button>
+    <section class="text rendered-markdown rendered-note">
+      {{ note.content|truncate(250)|markdown }}
+    </section>
+    <section>
+      <form action="" class="form note-form">
+        <textarea name="" id="" rows="1" placeholder="Write a note...">{{ note.content }}</textarea>
+        <button class="button">Save</button>
+      </form>
+    </section>
+    <span class="note-date">{{ note.pretty_date }}</span>
+    <span class="undo-link">Just updated (<a href="">undo</a>)</span>
+    {% if note.emailed %}
+    <div class="email-flag">Email</div>
+    {% endif %}
+  </li>
+
+{% endfor %}
+</ul>
+
+<div class="test">
+  <a class="more-link" href="">load more</a>
+</div>
+
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
+<script src="/static/javascripts/notesapp.js"></script>
+{% endblock %}
