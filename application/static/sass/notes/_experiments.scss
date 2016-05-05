@@ -1,0 +1,52 @@
+.tag_suggestions {
+  background: $panel-colour;
+  padding: 10px;
+  margin: 10px 0;
+
+  .tag-list {
+    text-align: left;
+    .note-tag {
+      margin-left: 0;
+      margin-right: 5px;
+    }
+  }
+
+  h4 {
+    margin-top: 0;
+  }
+}
+
+.tag-list {
+  margin-bottom: 5px;
+}
+
+.help-link {
+  font-size: 14px;
+}
+
+.alias-section {
+  padding: 10px 5px 5px;
+}
+
+.alias-list {
+  margin: 5px 0;
+
+  .alias-add-link {
+    font-weight: normal;
+    float: right;
+    font-size: 16px;
+    line-height: 25px;
+    margin-right: 0;
+  }
+}
+
+.alias-heading {
+  margin: 0;
+  font-size: 19px;
+  line-height: 25px;
+  font-weight: bold;
+}
+
+.section {
+  padding: $gutter 0 $gutter-half;
+}

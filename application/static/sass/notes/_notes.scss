@@ -1,12 +1,25 @@
 // Global stuff
 // ==========================================================================
+.account-bar {
+  @extend %contain-floats;
+  padding: 10px 0;
+}
+
+.feature-nav,
+.sign-out {
+  float: left;
+  width: 50%;
+  font-size: 16px;
+
+  .nav-item {
+    margin-right: 10px;
+  }
+}
 
 .sign-out {
   text-align: right;
-  margin: 10px 0;
-  font-size: 16px;
 
-  .user-name {
+  .nav-item {
     margin-right: 10px;
   }
 }
@@ -86,6 +99,18 @@
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.empty-state {
+  color: $border-colour;
+}
+
+.empty-state-large {
+  @extend .empty-state;
+  font-weight: bold;
+  font-size: 80px;
+  color: $panel-colour;
+  text-align: center;
 }
 
 // Notes
@@ -232,13 +257,24 @@
 
 .note {
   position: relative;
-  .note-form {
+  .note-form,
+  .note-edit-controls {
     margin-bottom: 15px;
     display: none;
   }
   .undo-flag,
   .undo-link {
     display: none;
+  }
+}
+
+.note-meta,
+.note .tag-list {
+  text-align: right;
+
+  .note-tag {
+    margin-right: 0;
+    margin-left: 5px;
   }
 }
 
@@ -262,10 +298,12 @@
 .js-enabled {
   .note.edit-mode {
     border: 4px solid $focus-colour;
-    .note-form {
+    .note-form,
+    .note-edit-controls {
       display: block;
     }
-    .rendered-note {
+    .rendered-note,
+    .note-date {
       display: none;
     }
     .close-btn {
@@ -283,6 +321,22 @@
       display: block;
     }
   }
+}
+
+// Tagging in edit mode
+// =======================
+.tag-input {
+  border: none;
+  border-bottom: 1px solid $panel-colour;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid $border-colour;
+  }
+}
+
+.note .tag_suggestions {
+  display: none;
 }
 
 // Image upload
@@ -315,3 +369,76 @@
   }
 }
 
+// spacing between entry and notes
+// ==========================================================================
+.notes-main {
+  margin: 0 auto $gutter;
+  max-width: 30em;
+  border-top: 1px solid $grey-3;
+  //padding-bottom: $gutter;
+}
+
+.notes-section {
+  margin: 0 auto;
+  max-width: 30em;
+  border-top: 1px solid $grey-3;
+}
+
+// Search results
+// ==========================================================================
+.result-info {
+  strong {
+    font-weight: bold;
+  }
+  margin-bottom: 0;
+}
+
+.result-count {
+  font-weight: bold;
+  font-size: 48px;
+}
+
+.search-term {
+  background: $focus-colour;
+  font-weight: 600;
+}
+
+// Tags
+// ==========================================================================
+.note-tag {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: 2px solid $text-colour;
+  padding: 3px 3px 0;
+  margin-right: 5px;
+  margin-bottom: 3px;
+
+  a {
+    color: $text-colour;
+    text-decoration: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .tag-quantity {
+    position: absolute;
+    display: inline-block;
+    background: $text-colour;
+    color: $page-colour;
+    padding: 0 3px 0 5px;
+    height: 23px;
+    line-height: 23px;
+    right: 0;
+    top: 0;
+  }
+}
+
+.note-tag--count {
+  padding-right: 19px;
+}
