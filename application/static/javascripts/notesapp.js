@@ -247,7 +247,8 @@
   }
 
   var appendTag = function( tag, $parent ) {
-    var $tag = $("<li>").text( tag ).addClass("note-tag");
+    var $link = $("<a>").attr("href", "/notesapp/tag/" + tag).text( tag );
+    var $tag = $("<li>").addClass("note-tag").append( $link );
     $parent.append( $tag );
   };
 
