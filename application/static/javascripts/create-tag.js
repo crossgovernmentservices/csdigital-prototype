@@ -26,7 +26,8 @@ Storage.prototype.getObject = function(key) {
   };
 
   var addTag = function( tag, $list ) {
-    var $tag = $("<li>").text( tag ).addClass("note-tag");
+    var $link = $("<a>").attr("href", "/notesapp/tag/" + tag).text( tag );
+    var $tag = $("<li>").addClass("note-tag").append( $link );
     $list.append( $tag );
   };
 
