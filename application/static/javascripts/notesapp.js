@@ -85,8 +85,14 @@
             .data( "original_content", $(this).find('textarea').val() )
             .focus();
       })
-      .on('click', '.note-form button', function() {
-        saveNote( $(this).parents(".note") );
+      .on('click', '.note-form button', function(evt) {
+        var $target = $( evt.currentTarget );
+        var $note = $target.parents(".note");
+        saveNote( $note );
+        if( $note.find(".add-tags-form input").val().length > 0 ) {
+          appendTag( $note.find(".add-tags-form input").val(), $note.find( ".tag-list ul" ) );
+          $note.find(".add-tags-form input").val("");
+        }
         return false;
       })
       .on('click', '.close-btn', function() {
