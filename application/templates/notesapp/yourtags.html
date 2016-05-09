@@ -32,17 +32,29 @@
 <section class="notes-section">
 
   <h2 class="heading-medium">Your tags</h2>
-  <ul class="tag-list-block">
-    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Presentations">Presentations</a><span class="tag-quantity">5</span></li>
-    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Digital">Digital</a><span class="tag-quantity">7</span></li>
-    <li class="note-tag note-tag--count"><a href="/notesapp/tag/Obj 1">Obj 1</a><span class="tag-quantity">1</span></li>
-    <li class="note-tag">Obj 2</li>
-    <li class="note-tag">Corporate Obj</li>
+  <ul class="tag-list-block tag-list-user">
+    <li data-tag-name="Presentations" data-tag-count="5" class="note-tag note-tag--count"><a href="/notesapp/tag/Presentations">Presentations</a><span class="tag-quantity">5</span></li>
+    <li data-tag-name="Digital" data-tag-count="7" class="note-tag note-tag--count"><a href="/notesapp/tag/Digital">Digital</a><span class="tag-quantity">7</span></li>
+    <li data-tag-name="Obj 1" data-tag-count="1" class="note-tag note-tag--count"><a href="/notesapp/tag/Obj 1">Obj 1</a><span class="tag-quantity">1</span></li>
+    <li data-tag-name="Obj 2" data-tag-count="0" class="note-tag">Obj 2</li>
+    <li data-tag-name="Corporate Obj" data-tag-count="0" class="note-tag">Corporate Obj</li>
   </ul>
 
-  <div class="section">
-    <a href="">Create new tags</a>
-  </div>
+  <details class="section">
+    <summary >Create new tags</summary>
+    <form action="" class="form panel-indent">
+      <div class="form-group">
+        <label for="create-tag" class="form-label">
+          Tag
+          <span class="form-hint">You could create tags for your objectives or projects</span>
+        </label>
+        <input name="create-tag" type="text" class="form-control create-tag-input" />
+      </div>
+      <div class="form-group">
+        <button class="button">Create</button>
+      </div>
+    </form>
+  </details>
 
   <h2 class="heading-medium">Default tags</h2>
 
@@ -73,4 +85,5 @@
 <script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
 
 <script src="/static/javascripts/notesapp.js"></script>
+<script src="/static/javascripts/create-tag.js"></script>
 {% endblock %}
