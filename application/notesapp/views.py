@@ -102,6 +102,16 @@ def tags2():
     tags = json.load( data_file )
   return render_template('notesapp/structuredtags.html', tags=tags)
 
+
+# Deleting note example
+# ==============================================================
+@notesapp.route('/notesapp/deletenote')
+@login_required
+def delete_note():
+  with open('application/data/selectednotes.json') as data_file:
+    notes = json.load( data_file )
+  return render_template('notesapp/deletenote.html', notes=notes)
+
 # Timeline idea
 # ==============================================================
 @notesapp.route('/notesapp/timeline')
