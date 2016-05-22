@@ -70,6 +70,15 @@ def view6():
   return render_template('notesapp/view6.html', notes=notes)
 
 
+# Search banner design
+# ==============================================================
+@notesapp.route('/notesapp/searchbanner')
+@login_required
+def search_banner():
+  with open('application/data/taggednotes.json') as data_file:
+    notes = json.load( data_file )
+  return render_template('notesapp/searchbanner.html', notes=notes)
+
 # Tagging experiment pages
 # ==============================================================
 

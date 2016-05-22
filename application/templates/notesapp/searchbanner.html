@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{%block body_content %}
+
+{% include "notesapp/common/_account-nav.html" %}
+
+<div class="test">
+  <h1 class="heading-large">Keep notes on my performance</h1>
+
+</div>
+
+<form action="" class="form note-form add-note-form">
+  <div class="image-upload">
+    <img src="/static/images/camera_icon.svg" alt="" />
+    <input class="image-upload--input" type="file" id="take-picture" accept="image/*">
+  </div>
+  <textarea name="new_note_content" id="new_note_content" rows="1" placeholder="Write a note..."></textarea>
+  <button class="button">Save</button>
+</form>
+
+<section class="notes-main"></section>
+
+<ul class="notes-list">
+{% for note in notes %}
+
+  <li class="note">
+    <button class="close-btn">close</button>
+    <section class="text rendered-markdown rendered-note">
+      {{ note.content|truncate(250)|markdown }}
+    </section>
+    <section class="note-edit-controls">
+      <form action="" class="form note-form">
+        <textarea name="" id="" rows="1" placeholder="Write a note...">{{ note.content }}</textarea>
+        <button class="button">Save</button>
+      </form>
+      <form class="add-tags-form" action="">
+        <input type="" class="tag-input" placeholder="add extra tags..." />
+      </form>
+    </section>
+    <section class="note-meta">
+      <span class="note-date">{{ note.pretty_date }}</span>
+      <span class="undo-link">Just updated (<a href="">undo</a>)</span>
+    </section>
+    <div class="tag_suggestions">
+      <h4 class="heading-small">Is this similar or the the same as this tag?</h4>
+      <ul class="tag-list">
+        <li class="note-tag">Delivering at Pace</li>
+      </ul>
+      <button>Yes</button>
+      <button>No</button>
+      <details>
+        <summary class="help-link">
+          Why are we asking this?
+        </summary>
+      </details>
+    </div>
+    <section class="tag-list">
+      <ul>
+        {% for tag in note.tags %}
+        <li class="note-tag"><a href="/notesapp/tag/{{ tag }}">{{ tag }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </li>
+
+{% endfor %}
+</ul>
+
+<div class="test">
+  <a class="more-link" href="">load more</a>
+</div>
+
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
+
+<script src="/static/javascripts/vendor/jquery-ui.min.js"></script>
+<script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
+
+<script src="/static/javascripts/notesapp.js"></script>
+{% endblock %}
