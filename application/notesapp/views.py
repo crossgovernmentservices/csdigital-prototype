@@ -95,6 +95,13 @@ def tags():
     notes = json.load( data_file )
   return render_template('notesapp/yourtags.html', notes=notes)
 
+@notesapp.route('/notesapp/structuredtags')
+@login_required
+def tags2():
+  with open('application/data/tags.json') as data_file:
+    tags = json.load( data_file )
+  return render_template('notesapp/structuredtags.html', tags=tags)
+
 # Timeline idea
 # ==============================================================
 @notesapp.route('/notesapp/timeline')

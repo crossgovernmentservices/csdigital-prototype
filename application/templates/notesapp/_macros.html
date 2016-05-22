@@ -1,0 +1,8 @@
+{% macro render_tag(name, count=0, withCount=false) -%}
+    <li data-tag-name="{{ name }}" data-tag-count="{{count}}" class="note-tag{% if withCount %} note-tag--count{% endif %}">
+      <a href="/notesapp/tag/{{ name }}">{{ name }}</a>
+      {% if withCount %}
+      <span class="tag-quantity">{{ count }}</span>
+      {% endif %}
+    </li>
+{%- endmacro %}

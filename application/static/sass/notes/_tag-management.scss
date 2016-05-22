@@ -1,0 +1,22 @@
+// Tag management page styles
+// ==========================================================================
+.tag-type-section {
+  margin-bottom: 2*$gutter;
+  .edit-link {
+    position: absolute;
+    right: 0;
+    font-size: 19px;
+    line-height: 30px;
+  }
+}
+
+.tag-type-title {
+  position: relative;
+  border-bottom: 1px solid $border-colour;
+  padding-bottom: 5px;
+}
+
+.tag-list-block {
+  margin-bottom: $gutter-half;
+}
+
