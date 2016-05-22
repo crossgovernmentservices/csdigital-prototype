@@ -69,6 +69,27 @@ def view6():
     notes = json.load( data_file )
   return render_template('notesapp/view6.html', notes=notes)
 
+# Onboarding journey
+# ==============================================================
+@notesapp.route('/notesapp/onboarding/1')
+@login_required
+def onboarding1():
+  return render_template('notesapp/onboarding/page1.html')
+
+@notesapp.route('/notesapp/onboarding/2')
+@login_required
+def onboarding2():
+  return render_template('notesapp/onboarding/page2.html')
+
+@notesapp.route('/notesapp/onboarding/3')
+@login_required
+def onboarding3():
+  return render_template('notesapp/onboarding/page3.html')
+
+@notesapp.route('/notesapp/onboarding/4')
+@login_required
+def onboarding4():
+  return render_template('notesapp/onboarding/page4.html')
 
 # Search banner design
 # ==============================================================
