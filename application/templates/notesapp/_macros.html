@@ -6,3 +6,13 @@
       {% endif %}
     </li>
 {%- endmacro %}
+
+{% macro render_tag_input(tag) %}
+  <form action="" class="form tag-edit">
+    <div class="form-group">
+      <input type="text" value="{{ tag }}" data-original-value="{{ tag }}" class="form-control" />
+      <button class="button button-secondary">Save</button>
+      <button class="button secondary-btn">Delete</button>
+    </div>
+  </form>
+{% endmacro %}

@@ -11,7 +11,7 @@
 
 {% include "notesapp/common/_account-nav.html" %}
 
-{% from "notesapp/_macros.html" import render_tag %}
+{% from "notesapp/_macros.html" import render_tag, render_tag_input %}
 
 <div class="test">
 
@@ -49,6 +49,10 @@
         {% endif %}
       {% endfor %}
     </ul>
+
+    {{ render_tag_input( "My development" ) }}
+
+    <button class="button secondary-btn">Create new tag</button>
 
   </section>
 
