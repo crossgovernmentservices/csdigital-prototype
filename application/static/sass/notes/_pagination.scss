@@ -1,6 +1,12 @@
 // Pagintation
 // ==========================================================================
 
+// Mixin for producing left and right arrows of pagination component
+// Example usage:
+
+// &.previous {
+//  @include pagination-arrow("left");
+// }
 @mixin pagination-arrow($direction) {
   @if $direction == "right" {
     float: right;
@@ -40,9 +46,11 @@
     padding: 0;
     position: relative;
     width: 49%;
+    @include opacity(0.8);
 
     &:hover {
       background: darken($link-colour, 2.5%);
+      @include opacity(1);
     }
 
     &.previous {
@@ -56,17 +64,17 @@
     }
 
     a {
+      @include link-colours($link-colour, $link-hover-colour);
       display: block;
-      // only for in message box
-      color: $highlight-colour;
       text-decoration: none;
-      &:hover {
-        color: $page-colour;
-      }
     }
 
     .pagination-label {
       text-decoration: none;
     }
   }
+}
+
+.msg-box .pagination a {
+  @include link-colours($highlight-colour, $page-colour);
 }

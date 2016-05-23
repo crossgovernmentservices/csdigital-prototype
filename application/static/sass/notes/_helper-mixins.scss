@@ -1,0 +1,29 @@
+// Helper mixins
+// ==========================================================================
+
+// Example usage:
+// a {
+//  @include link-colours($link-colour, $link-hover-colour);
+// }
+@mixin link-colours($link, $hover: $link, $visit: $link, $active: $link) {
+    color: $link;
+    &:visited {
+      color: $visit;
+    }
+    &:hover {
+      color: $hover;   
+    }
+    &:active {
+      color: $active;
+    }
+}
+
+// Example usage:
+// div {
+//  @include opacity( 0.8 );
+// }
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
