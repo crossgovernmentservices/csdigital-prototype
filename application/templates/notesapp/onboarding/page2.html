@@ -1,13 +1,21 @@
 {% extends "notesapp/onboarding/onboarding-base.html" %}
 
+{% from "notesapp/_macros.html" import render_tag_input, render_new_tag_input %}
+
 {% block msg_box_content %}
   <div class="grid-row">
     <div class="column-one-third">This is an image</div>
     <div class="column-two-thirds">
-      <h1 class="heading-large">Onboarding 2</h1>
       <p>Create some tags for your objectives now.</p>
 
-      <a href="{{ url_for('notesapp.onboarding3') }}" class="msg-box-btn">Next</a>
+      <form action="" class="form">
+        {{ render_new_tag_input() }}
+        {{ render_new_tag_input() }}
+        {{ render_new_tag_input() }}
+        <button class="button msg-box-btn">Add another objective tag</button>
+      </form>
+
+      <a href="{{ url_for('notesapp.onboarding3') }}" class="button msg-box-btn">Next</a>
     </div>
   </div>
 {% endblock %}
