@@ -49,7 +49,7 @@
     @include opacity(0.8);
 
     &:hover {
-      background: darken($link-colour, 2.5%);
+      background: $link-hover-colour;
       @include opacity(1);
     }
 
