@@ -1,5 +1,7 @@
 {% extends "notesapp/onboarding/onboarding-base.html" %}
 
+{% from "notesapp/_macros.html" import render_pagination %}
+
 {% block msg_box_content %}
   <div class="grid-row">
     <div class="column-one-third">This is an image</div>
@@ -7,8 +9,10 @@
       <h1 class="heading-large">Onboarding 1</h1>
       <p>Collect and organise your performance notes.</p>
 
-      <a href="{{ url_for('notesapp.onboarding2') }}" class="button msg-box-btn">Next</a>
     </div>
   </div>
+
+  {{ render_pagination( url_for('notesapp.onboarding2') ) }}
+
 {% endblock %}
 

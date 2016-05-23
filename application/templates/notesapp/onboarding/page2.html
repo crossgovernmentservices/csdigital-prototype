@@ -1,6 +1,6 @@
 {% extends "notesapp/onboarding/onboarding-base.html" %}
 
-{% from "notesapp/_macros.html" import render_tag_input, render_new_tag_input %}
+{% from "notesapp/_macros.html" import render_tag_input, render_new_tag_input, render_pagination %}
 
 {% block msg_box_content %}
   <div class="grid-row">
@@ -15,7 +15,7 @@
         <button class="button msg-box-btn">Add another objective tag</button>
       </form>
 
-      <a href="{{ url_for('notesapp.onboarding3') }}" class="button msg-box-btn">Next</a>
     </div>
   </div>
+  {{ render_pagination( url_for('notesapp.onboarding3'), url_for('notesapp.onboarding1') ) }}
 {% endblock %}

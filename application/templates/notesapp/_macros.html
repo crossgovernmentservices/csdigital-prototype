@@ -24,3 +24,23 @@
   <button class="button msg-box-btn msg-box-btn--del">Delete</button>
 </div>
 {% endmacro %}
+
+{% macro render_pagination( next_url, previous_url ) %}
+<nav class="pagination">
+  <ul class="group">
+    {% if previous_url %}
+    <li class="previous">
+      <a href="">
+        <span class="pagination-label">Previous</span>
+        <span class="pagination-title"></span>
+      </a>
+    </li>
+    {% endif %}
+    <li class="next">
+      <a href="{{ next_url }}">
+        <span class="pagination-label">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endmacro %}
