@@ -1,17 +1,6 @@
-{% extends "base.html" %}
+{% extends "notesapp/onboarding/onboarding-base.html" %}
 
-{% block head %}
-  {% assets "css_notes" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}">
-  {% endassets %}
-{% endblock %}
-
-
-{% block body_content %}
-
-{% include "notesapp/common/_account-nav.html" %}
-
-<div class="msg-box">
+{% block msg_box_content %}
   <div class="grid-row">
     <div class="column-one-third">This is an image</div>
     <div class="column-two-thirds">
@@ -21,17 +10,5 @@
       <a href="{{ url_for('notesapp.onboarding2') }}" class="msg-box-btn">Next</a>
     </div>
   </div>
-  
-</div>
 {% endblock %}
 
-
-{% block body_end %}
-<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
-<script src="/static/javascripts/vendor/markdown.min.js"></script>
-
-<script src="/static/javascripts/vendor/jquery-ui.min.js"></script>
-<script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
-
-<script src="/static/javascripts/notesapp.js"></script>
-{% endblock %}

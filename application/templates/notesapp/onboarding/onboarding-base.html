@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{% block body_content %}
+
+{% include "notesapp/common/_account-nav.html" %}
+
+<div class="msg-box">
+{% block msg_box_content %}{% endblock %}
+</div>
+{% endblock %}
+
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
+
+<script src="/static/javascripts/vendor/jquery-ui.min.js"></script>
+<script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
+
+<script src="/static/javascripts/notesapp.js"></script>
+{% endblock %}
