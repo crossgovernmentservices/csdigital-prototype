@@ -11,10 +11,17 @@
 
 {% include "notesapp/common/_account-nav.html" %}
 
-<div class="test">
-  <h1 class="heading-large">Onboarding 1</h1>
+<div class="msg-box">
+  <div class="grid-row">
+    <div class="column-one-third">This is an image</div>
+    <div class="column-two-thirds">
+      <h1 class="heading-large">Onboarding 1</h1>
+      <p>Collect and organise your performance notes.</p>
 
-  <a href="{{ url_for('notesapp.onboarding2') }}">Next</a>
+      <a href="{{ url_for('notesapp.onboarding2') }}" class="msg-box-btn">Next</a>
+    </div>
+  </div>
+  
 </div>
 {% endblock %}
 
