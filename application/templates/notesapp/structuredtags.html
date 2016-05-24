@@ -50,9 +50,17 @@
       {% endfor %}
     </ul>
 
-    {{ render_tag_input( "My development" ) }}
-
-    <button class="button secondary-btn">Create new tag</button>
+    <section class="tag-list-edit">
+      <label for="" class="form-label">Edit your tags</label>
+      {% for tag in tags.users %}
+        {{ render_tag_input( tag.tag ) }}
+      {% endfor %}
+      <button class="button secondary-btn tag-list-add-btn">Add a new tag</button>
+      <div class="form-group save-cancel-group">
+        <button class="button">Save all</button>
+        <a class="cancel-link" href="/cancel">Cancel</a>
+      </div>
+    </section>
 
   </section>
 
@@ -119,5 +127,5 @@
 <script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
 
 <script src="/static/javascripts/notesapp.js"></script>
-<script src="/static/javascripts/create-tag.js"></script>
+<script src="/static/javascripts/manage-tags.js"></script>
 {% endblock %}
