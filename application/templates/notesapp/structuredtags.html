@@ -62,7 +62,7 @@
       </div>
     </section>
 
-  </section>
+  </section><!-- end tag type section -->
 
   <section class="tag-type-section">
 
@@ -81,7 +81,19 @@
       {% endfor %}
     </ul>
 
-  </section>
+    <section class="tag-list-edit">
+      <label for="" class="form-label">Edit your tags</label>
+      {% for tag in tags.objective %}
+        {{ render_tag_input( tag.tag ) }}
+      {% endfor %}
+      <button class="button secondary-btn tag-list-add-btn">Add a new tag</button>
+      <div class="form-group save-cancel-group">
+        <button class="button">Save all</button>
+        <a class="cancel-link" href="/cancel">Cancel</a>
+      </div>
+    </section>
+
+  </section><!-- end tag type section -->
 
   <section class="tag-type-section">
     <h2 class="heading-medium tag-type-title">Competency tags</h2>
@@ -95,7 +107,12 @@
         {% endif %}
       {% endfor %}
     </ul>
-  </section>
+
+    <details>
+      <summary class="help-text">Why can't I edit these tags?</summary>
+    </details>
+
+  </section><!-- end tag type section -->
 
   <section class="tag-type-section">
     <h2 class="heading-medium tag-type-title">System tags</h2>
@@ -114,7 +131,7 @@
       <summary class="help-text">How are these generated?</summary>
     </details>
 
-  </section>
+  </section><!-- end tag type section -->
 
 </section>
 

@@ -1,5 +1,33 @@
 // Global stuff
 // ==========================================================================
+
+// Full width blue header
+.full-width-conatiner {
+  background: $govuk-blue;
+  padding: 45px 0;
+  margin-bottom: 45px;
+  max-width: 100%;
+
+  .grid-row {
+    max-width: $site-width + $gutter;
+    margin: auto;
+  }
+
+  h1 {
+    color: $page-colour;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 40px;
+  }
+}
+
+.full-width {
+  // Hide standard blue strip
+  #global-header-bar {
+    display: none;
+  }
+}
+
 .account-bar {
   @extend %contain-floats;
   padding: 10px 0;
