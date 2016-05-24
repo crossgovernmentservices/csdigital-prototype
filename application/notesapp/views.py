@@ -91,6 +91,11 @@ def onboarding3():
 def onboarding4():
   return render_template('notesapp/onboarding/page4.html')
 
+@notesapp.route('/notesapp/onboarding/5')
+@login_required
+def onboarding5():
+  return render_template('notesapp/onboarding/page5.html')
+
 # Search banner design
 # ==============================================================
 @notesapp.route('/notesapp/searchbanner')

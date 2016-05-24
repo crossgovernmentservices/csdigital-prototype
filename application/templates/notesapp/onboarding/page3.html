@@ -4,11 +4,17 @@
 
 {% block msg_box_content %}
   <div class="grid-row">
-    <div class="column-one-third">This is an image</div>
+    <div class="column-one-third">Here be an image</div>
     <div class="column-two-thirds">
-      <p>You can access your notes wherever and whenever you like.</p>
-      <p>Your account moves with you when you change roles.</p>
-      <p>Save and access everywhere.</p>
+      <p>You can also create notes without even coming to the service.</p>
+      <p>Emails sent from your registered address will appear automatically, ready for you to organise when you have time.</p>
+      <div class="copy-paste-panel">
+        <input type="text" value="mynotes@notes.civilservice.digital" />
+      </div>
+      <p>
+        We can send an email to your registered address so you can add this to your contacts.
+      </p>
+      <button class="button msg-box-btn">Send me an email</button>
     </div>
   </div>
   {{ render_pagination( url_for('notesapp.onboarding4'), url_for('notesapp.onboarding2') ) }}

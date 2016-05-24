@@ -4,10 +4,9 @@
 
 {% block msg_box_content %}
   <div class="grid-row">
-    <div class="column-one-third">This is an image</div>
+    <div class="column-one-third">Here be an image</div>
     <div class="column-two-thirds">
-      <p>You can use tags to organise your notes.</p>
-      <p>We've already created some competency tags for you to use. Why don't you create some tags for your objectives now.</p>
+      <p>Why don't you create some labels for your objectives now:</p>
 
       <form action="" class="form">
         {{ render_new_tag_input() }}
@@ -15,6 +14,8 @@
         {{ render_new_tag_input() }}
         <button class="button msg-box-btn">Add another objective tag</button>
       </form>
+
+      <p>You might want to add other labels later - you can add them in the <span class="bold-text">manage labels</span> screen.</p>
 
     </div>
   </div>

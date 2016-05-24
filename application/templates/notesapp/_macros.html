@@ -25,7 +25,7 @@
 </div>
 {% endmacro %}
 
-{% macro render_pagination( next_url, previous_url ) %}
+{% macro render_pagination( next_url, previous_url, end=false ) %}
 <nav class="pagination">
   <ul class="group">
     {% if previous_url %}
@@ -37,7 +37,7 @@
     {% endif %}
     <li class="next">
       <a href="{{ next_url }}">
-        <span class="pagination-label">Next</span>
+        <span class="pagination-label">{% if end %}Finish{% else %}Next{% endif %}</span>
       </a>
     </li>
   </ul>
