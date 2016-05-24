@@ -47,8 +47,11 @@
   -webkit-font-smoothing: antialiased;
   text-decoration: none;
 
-  &:hover {
+  &:hover,
+  &:visited,
+  &:focus {
     background: $panel-colour;
+    color: $link-colour;
   }
 }
 
