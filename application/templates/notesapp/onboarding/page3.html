@@ -9,13 +9,14 @@
       <p>You can also create notes without even coming to the service.</p>
       <p>Emails sent from your registered address will appear automatically, ready for you to organise when you have time.</p>
       <div class="copy-paste-panel">
-        <p>Copy the email to your clipboard</p>
+        <p>Copy and paste the email into your email client</p>
         <input type="text" value="mynotes@notes.civilservice.digital" />
       </div>
-      <p>
-        We can send an email to your registered address so you can add this to your contacts.
-        <button class="button msg-box-btn">Send me an email</button>
+      <p class="msg-box-subsection">
+        Or we can send an email to your registered address for you to add to your contacts.
+        
       </p>
+      <button class="button msg-box-btn">Send me an email</button>
     </div>
   </div>
   {{ render_pagination( url_for('notesapp.onboarding4'), url_for('notesapp.onboarding2') ) }}
