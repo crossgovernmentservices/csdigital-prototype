@@ -43,6 +43,7 @@
   border: none;
   color: $link-colour;
   font-weight: bold;
+  font-size: 0.8em;
   box-shadow: 0 2px 0 $text-colour;
   -webkit-font-smoothing: antialiased;
   text-decoration: none;
@@ -65,4 +66,23 @@
 
 .tag-entry-group {
   margin-bottom: 10px;
+}
+
+// ====================
+.copy-paste-panel {
+  background: $highlight-colour;
+  color: $link-colour;
+  padding: 5px;
+  margin-bottom: $gutter;
+  p {
+    font-size: 16px;
+    margin: 0;
+    border-bottom: 1px solid $link-colour;
+  }
+  input {
+    width: 100%;
+    margin-top: 5px;
+    box-sizing: border-box;
+    color: $link-colour;
+  }
 }
