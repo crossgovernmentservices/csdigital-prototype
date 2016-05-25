@@ -41,7 +41,10 @@
     padding-top: 10px;
     font-size: 19px;
   }
-  
+
+  a {
+    @include link-colours($page-colour, $highlight-colour);
+  }
 }
 
 .msg-box-btn {
