@@ -71,6 +71,30 @@
       }
     });
 
+    // listen out for clicks on delete links
+    $(".delete-note-link").on("click", function(evt) {
+      var $this = $(evt.currentTarget);
+      $this
+        .parents(".note")
+          .removeClass("edit-mode")
+          .addClass("delete-mode");
+      return false;
+    });
+
+    $(".delete-note-form").on("click", "button, a", function(evt) {
+      $this = $( evt.currentTarget );
+      $note = $this.parents(".note");
+
+      if( $this.is("button") ) {
+        $note.hide(400, function() {
+          $( this ).remove();
+        });
+      } else if ( $this.is("a") ) {
+        $note.removeClass("delete-mode");
+      }
+      return false;
+    });
+
     $('.notes-list')
       .on('click', '.note', function() {
         // TO FIX:

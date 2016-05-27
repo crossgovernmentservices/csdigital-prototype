@@ -156,6 +156,23 @@
       background: $grey-2;
     }
   }
+  &.delete-mode {
+    border: 4px solid $error-colour;
+  }
+}
+
+// Delete notes
+// ==========================================================================
+.delete-note-form {
+  @extend %contain-floats;
+
+  .save-cancel-group {
+    margin-top: 0;
+  }
+
+  .form-label {
+    margin-bottom: 10px;
+  }
 }
 
 // Notes list, central
@@ -279,11 +296,17 @@
   }
 
   button {
-    margin-top: 15px;
     margin-bottom: 0;
     box-shadow: none;
     padding: 8px 10px 5px;
     border-radius: 2px;
+  }
+}
+
+.save-controls {
+  margin-top: 15px;
+  .link-control {
+    line-height: 36px;
   }
 }
 
@@ -326,6 +349,9 @@
     text-decoration: underline;
   }
 }
+.delete-note-confirmation {
+  display: none;
+}
 
 .js-enabled {
   .note.edit-mode {
@@ -350,6 +376,15 @@
       display: inline-block;
     }
     .undo-flag {
+      display: block;
+    }
+  }
+  .note.delete-mode {
+    .rendered-note,
+    .note-meta {
+      display: none;
+    }
+    .delete-note-confirmation {
       display: block;
     }
   }
