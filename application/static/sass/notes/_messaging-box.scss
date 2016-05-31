@@ -98,3 +98,34 @@
   }
 }
 
+// ====================
+.new-emails {
+  border-top: 1px solid $page-colour;
+  margin-bottom: $gutter;
+  li {
+    @extend %contain-floats;
+    border-bottom: 1px solid $page-colour;
+    padding: 5px 0;
+  }
+  span {
+    float: right;
+    @include opacity(0.75);
+    &.primary {
+      font-weight: bold;
+    }
+    a:hover {
+      @include opacity(1);
+    }
+  }
+}
+
+.additional-email-form {
+  margin-bottom: 15px;
+  .form-control {
+    width: 75%;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+
