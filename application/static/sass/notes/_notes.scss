@@ -1,6 +1,10 @@
 // Global stuff
 // ==========================================================================
 
+#global-header.long-name .header-wrapper .header-global .header-logo {
+  width: 50%;
+}
+
 // Full width blue header
 .full-width-conatiner {
   background: $govuk-blue;
