@@ -21,6 +21,6 @@
   border-top: none;
 }
 .ui-autocomplete .ui-menu-item.ui-state-focus {
-  background-color: #D5E5F4;
-  color: #161A1C;
+  background-color: $link-colour;
+  color: $page-colour;
 }

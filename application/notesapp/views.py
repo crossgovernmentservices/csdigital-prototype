@@ -69,6 +69,41 @@ def view6():
     notes = json.load( data_file )
   return render_template('notesapp/view6.html', notes=notes)
 
+# Onboarding journey
+# ==============================================================
+@notesapp.route('/notesapp/onboarding/1')
+@login_required
+def onboarding1():
+  return render_template('notesapp/onboarding/page1.html')
+
+@notesapp.route('/notesapp/onboarding/2')
+@login_required
+def onboarding2():
+  return render_template('notesapp/onboarding/page2.html')
+
+@notesapp.route('/notesapp/onboarding/3')
+@login_required
+def onboarding3():
+  return render_template('notesapp/onboarding/page3.html')
+
+@notesapp.route('/notesapp/onboarding/4')
+@login_required
+def onboarding4():
+  return render_template('notesapp/onboarding/page4.html')
+
+@notesapp.route('/notesapp/onboarding/5')
+@login_required
+def onboarding5():
+  return render_template('notesapp/onboarding/page5.html')
+
+# Search banner design
+# ==============================================================
+@notesapp.route('/notesapp/searchbanner')
+@login_required
+def search_banner():
+  with open('application/data/taggednotes.json') as data_file:
+    notes = json.load( data_file )
+  return render_template('notesapp/searchbanner.html', notes=notes)
 
 # Tagging experiment pages
 # ==============================================================
@@ -94,6 +129,23 @@ def tags():
   with open('application/data/selectednotes.json') as data_file:
     notes = json.load( data_file )
   return render_template('notesapp/yourtags.html', notes=notes)
+
+@notesapp.route('/notesapp/structuredtags')
+@login_required
+def tags2():
+  with open('application/data/tags.json') as data_file:
+    tags = json.load( data_file )
+  return render_template('notesapp/structuredtags.html', tags=tags)
+
+
+# Deleting note example
+# ==============================================================
+@notesapp.route('/notesapp/deletenote')
+@login_required
+def delete_note():
+  with open('application/data/selectednotes.json') as data_file:
+    notes = json.load( data_file )
+  return render_template('notesapp/deletenote.html', notes=notes)
 
 # Timeline idea
 # ==============================================================

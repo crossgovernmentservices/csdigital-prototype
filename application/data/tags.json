@@ -1,0 +1,82 @@
+{
+  "users": [
+    {
+      "tag": "Presentations",
+      "count": 5
+    },
+    {
+      "tag": "Digital",
+      "count": 7
+    }
+  ],
+  "objective": [
+    {
+      "tag": "Obj 1",
+      "count": 1
+    },
+    {
+      "tag": "Obj 2",
+      "count": 0
+    },
+    {
+      "tag": "Corporate obj",
+      "count": 0
+    }
+  ],
+  "competencies": [
+    {
+      "tag": "Delivering Value for Money",
+      "count": 2
+    },
+    {
+      "tag": "Seeing the Big Picture",
+      "count": 0
+    },
+    {
+      "tag": "Changing and Improving",
+      "count": 0
+    },
+    {
+      "tag": "Making Effective Decisions",
+      "count": 0
+    },
+    {
+      "tag": "Leading and Communicating",
+      "count": 0
+    },
+    {
+      "tag": "Collaborating and Partnering",
+      "count": 0
+    },
+    {
+      "tag": "Building Capability for All",
+      "count": 0
+    },
+    {
+      "tag": "Achieving Commercial Outcomes",
+      "count": 0
+    },
+    {
+      "tag": "Managing a Quality Service",
+      "count": 0
+    },
+    {
+      "tag": "Delivering at Pace",
+      "count": 3
+    }
+  ],
+  "system": [
+    {
+      "tag": "Development",
+      "count": 0
+    },
+    {
+      "tag": "Email",
+      "count": 0
+    },
+    {
+      "tag": "Feedback",
+      "count": 3
+    }
+  ]
+}

@@ -4,6 +4,12 @@
 @import "internal_interface/app-typography.scss";
 @import "internal_interface/browse-pane.scss";
 
+@import "notes/helper-mixins.scss";
 @import "notes/notes.scss";
 @import "notes/select.scss";
-@import "notes/experiments.scss"
+@import "notes/search.scss";
+@import "notes/experiments.scss";
+@import "notes/tag-management.scss";
+@import "notes/buttons.scss";
+@import "notes/messaging-box.scss";
+@import "notes/pagination.scss";

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+
+{%block body_content %}
+
+{% include "notesapp/common/_account-nav.html" %}
+
+{% from "notesapp/_macros.html" import render_tag, render_tag_input %}
+
+<div class="test">
+
+  <a href="" class="link-back">Back to all notes</a>
+  <h1 class="heading-large">Manage your tags</h1>
+
+  <p class="lede">Use this page to manage the tags you use to organise your notes</p>
+
+</div>
+
+<!--<form action="" class="form note-form add-note-form">
+  <div class="image-upload">
+    <img src="/static/images/camera_icon.svg" alt="" />
+    <input class="image-upload--input" type="file" id="take-picture" accept="image/*">
+  </div>
+  <textarea name="new_note_content" id="new_note_content" rows="1" placeholder="Write a note..."></textarea>
+  <button class="button">Save</button>
+</form>-->
+
+<section class="test">
+
+  <section class="tag-type-section">
+
+    <h2 class="heading-medium tag-type-title">
+      Your tags
+      <a href="" class="edit-link">Edit</a>
+    </h2>
+
+    <ul class="tag-list-block tag-list-user">
+      {% for tag in tags.users %}
+        {% if tag.count > 0 %}
+          {{ render_tag(tag.tag, tag.count, true) }}
+        {% else %}
+          {{ render_tag(tag.tag) }}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    <section class="tag-list-edit">
+      <label for="" class="form-label">Edit your tags</label>
+      {% for tag in tags.users %}
+        {{ render_tag_input( tag.tag ) }}
+      {% endfor %}
+      <button class="button secondary-btn tag-list-add-btn">Add a new tag</button>
+      <div class="form-group save-cancel-group">
+        <button class="button">Save all</button>
+        <a class="cancel-link" href="/cancel">Cancel</a>
+      </div>
+    </section>
+
+  </section><!-- end tag type section -->
+
+  <section class="tag-type-section">
+
+    <h2 class="heading-medium tag-type-title">
+      Objective tags
+      <a href="" class="edit-link">Edit</a>
+    </h2>
+
+    <ul class="tag-list-block tag-list-user">
+      {% for tag in tags.objective %}
+        {% if tag.count > 0 %}
+          {{ render_tag(tag.tag, tag.count, true) }}
+        {% else %}
+          {{ render_tag(tag.tag) }}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    <section class="tag-list-edit">
+      <label for="" class="form-label">Edit your tags</label>
+      {% for tag in tags.objective %}
+        {{ render_tag_input( tag.tag ) }}
+      {% endfor %}
+      <button class="button secondary-btn tag-list-add-btn">Add a new tag</button>
+      <div class="form-group save-cancel-group">
+        <button class="button">Save all</button>
+        <a class="cancel-link" href="/cancel">Cancel</a>
+      </div>
+    </section>
+
+  </section><!-- end tag type section -->
+
+  <section class="tag-type-section">
+    <h2 class="heading-medium tag-type-title">Competency tags</h2>
+
+    <ul class="tag-list-block">
+      {% for tag in tags.competencies %}
+        {% if tag.count > 0 %}
+          {{ render_tag(tag.tag, tag.count, true) }}
+        {% else %}
+          {{ render_tag(tag.tag) }}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    <details>
+      <summary class="help-text">Why can't I edit these tags?</summary>
+    </details>
+
+  </section><!-- end tag type section -->
+
+  <section class="tag-type-section">
+    <h2 class="heading-medium tag-type-title">System tags</h2>
+
+    <ul class="tag-list-block">
+      {% for tag in tags.system %}
+        {% if tag.count > 0 %}
+          {{ render_tag(tag.tag, tag.count, true) }}
+        {% else %}
+          {{ render_tag(tag.tag) }}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    <details>
+      <summary class="help-text">How are these generated?</summary>
+    </details>
+
+  </section><!-- end tag type section -->
+
+</section>
+
+{% endblock %}
+
+{% block body_end %}
+<script src="/static/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/static/javascripts/vendor/markdown.min.js"></script>
+<script src="/static/javascripts/vendor/jquery-ui.min.js"></script>
+<script src="/static/javascripts/vendor/jquery.select-to-autocomplete.js"></script>
+
+<script src="/static/javascripts/notesapp.js"></script>
+<script src="/static/javascripts/manage-tags.js"></script>
+{% endblock %}

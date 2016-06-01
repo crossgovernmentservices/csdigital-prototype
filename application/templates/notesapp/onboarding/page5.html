@@ -1,0 +1,29 @@
+{% extends "notesapp/onboarding/onboarding-base.html" %}
+
+{% from "notesapp/_macros.html" import render_pagination %}
+
+{% block msg_box_content %}
+  <div class="grid-row">
+    <div class="column-one-third">Here be an image</div>
+    <div class="column-two-thirds">
+      <p>To help improve the service we'd like to know a little more about you.</p>
+      <form action="" class="form">
+        <div class="form-group">
+          <label for="" class="form-label">Which department do you work for?</label>
+          <input type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="" class="form-label">Which year did you start on the Fast Stream?</label>
+          <input type="text" class="form-control" />
+        </div>
+      </form>
+      <details>
+        <summary>How will this information be used?</summary>
+        <div class="panel-indent">Some text about what good webizens we are and why this info is so useful to us.</div>
+      </details>
+
+    </div>
+  </div>
+
+  {{ render_pagination( url_for('notesapp.search_banner'), url_for('notesapp.onboarding4'), true ) }}
+{% endblock %}

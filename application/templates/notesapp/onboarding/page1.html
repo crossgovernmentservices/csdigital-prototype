@@ -1,0 +1,22 @@
+{% extends "notesapp/onboarding/onboarding-base.html" %}
+
+{% from "notesapp/_macros.html" import render_pagination %}
+
+{% block msg_box_content %}
+  <div class="grid-row">
+    <div class="column-one-third">Here be an image</div>
+    <div class="column-two-thirds">
+      <p>This service helps you record your progress towards your objectives and competencies.</p>
+      <p>You can make notes quickly and organise them with labels.</p>
+      <p>There are ready to use labels for the standard competencies, like these:</p>
+      <ul>
+        <li class="note-tag">Delivering at pace</li>
+        <li class="note-tag">Seeing the big picture</li>
+      </ul>
+    </div>
+  </div>
+
+  {{ render_pagination( url_for('notesapp.onboarding2') ) }}
+
+{% endblock %}
+

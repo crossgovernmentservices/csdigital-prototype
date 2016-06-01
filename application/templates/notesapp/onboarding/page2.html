@@ -1,0 +1,23 @@
+{% extends "notesapp/onboarding/onboarding-base.html" %}
+
+{% from "notesapp/_macros.html" import render_tag_input, render_new_tag_input, render_pagination %}
+
+{% block msg_box_content %}
+  <div class="grid-row">
+    <div class="column-one-third">Here be an image</div>
+    <div class="column-two-thirds">
+      <p>You can create labels for your objectives:</p>
+
+      <form action="" class="objective-tags-form form">
+        <div class="objective-tags">
+        {{ render_new_tag_input() }}
+        </div>
+        <button class="button msg-box-btn add-tag-btn">Add another objective tag</button>
+      </form>
+
+      <p>You can keep adding labels whenever you need to.</p>
+
+    </div>
+  </div>
+  {{ render_pagination( url_for('notesapp.onboarding3'), url_for('notesapp.onboarding1') ) }}
+{% endblock %}

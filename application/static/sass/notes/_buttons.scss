@@ -1,0 +1,13 @@
+// Buttons
+// ==========================================================================
+.secondary-btn {
+  background: #dee0e2;
+  border: none;
+  color: $text-colour;
+  box-shadow: 0 2px 0 #b5babe;
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    background: #d0d3d6;
+    color: $text-colour;
+  }
+}

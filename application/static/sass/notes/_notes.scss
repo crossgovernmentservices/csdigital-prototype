@@ -1,5 +1,33 @@
 // Global stuff
 // ==========================================================================
+
+// Full width blue header
+.full-width-conatiner {
+  background: $govuk-blue;
+  padding: 45px 0;
+  margin-bottom: 45px;
+  max-width: 100%;
+
+  .grid-row {
+    max-width: $site-width + $gutter;
+    margin: auto;
+  }
+
+  h1 {
+    color: $page-colour;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 40px;
+  }
+}
+
+.full-width {
+  // Hide standard blue strip
+  #global-header-bar {
+    display: none;
+  }
+}
+
 .account-bar {
   @extend %contain-floats;
   padding: 10px 0;
@@ -113,6 +141,10 @@
   text-align: center;
 }
 
+.bold-text {
+  font-weight: bold;
+}
+
 // Notes
 // ==========================================================================
 .note {
@@ -123,6 +155,23 @@
       border-color: $grey-2;
       background: $grey-2;
     }
+  }
+  &.delete-mode {
+    border: 4px solid $error-colour;
+  }
+}
+
+// Delete notes
+// ==========================================================================
+.delete-note-form {
+  @extend %contain-floats;
+
+  .save-cancel-group {
+    margin-top: 0;
+  }
+
+  .form-label {
+    margin-bottom: 10px;
   }
 }
 
@@ -247,11 +296,17 @@
   }
 
   button {
-    margin-top: 15px;
     margin-bottom: 0;
     box-shadow: none;
     padding: 8px 10px 5px;
     border-radius: 2px;
+  }
+}
+
+.save-controls {
+  margin-top: 15px;
+  .link-control {
+    line-height: 36px;
   }
 }
 
@@ -294,6 +349,9 @@
     text-decoration: underline;
   }
 }
+.delete-note-confirmation {
+  display: none;
+}
 
 .js-enabled {
   .note.edit-mode {
@@ -318,6 +376,15 @@
       display: inline-block;
     }
     .undo-flag {
+      display: block;
+    }
+  }
+  .note.delete-mode {
+    .rendered-note,
+    .note-meta {
+      display: none;
+    }
+    .delete-note-confirmation {
       display: block;
     }
   }

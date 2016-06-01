@@ -1,0 +1,45 @@
+{% macro render_tag(name, count=0, withCount=false) -%}
+    <li data-tag-name="{{ name }}" data-tag-count="{{count}}" class="note-tag{% if withCount %} note-tag--count{% endif %}">
+      <a href="/notesapp/tag/{{ name }}">{{ name }}</a>
+      {% if withCount %}
+      <span class="tag-quantity">{{ count }}</span>
+      {% endif %}
+    </li>
+{%- endmacro %}
+
+{% macro render_tag_input(tag, type="edit") %}
+  <form action="" class="form tag-edit">
+    <div class="tag-entry-group">
+      <input type="text" value="{{ tag }}" data-original-value="{{ tag }}" class="form-control tag-entry-field" />
+      {% if type == "edit" %}<button class="button save-btn">Save</button>{% endif %}
+      <button class="button secondary-btn">Delete</button>
+    </div>
+  </form>
+{% endmacro %}
+
+{% macro render_new_tag_input() %}
+<div class="tag-entry-group">
+  <input type="text" class="form-control tag-entry-field" />
+  {% if type == "edit" %}<button class="button button-secondary">Save</button>{% endif %}
+  <button class="button msg-box-btn msg-box-btn--del">Delete</button>
+</div>
+{% endmacro %}
+
+{% macro render_pagination( next_url, previous_url, end=false ) %}
+<nav class="pagination">
+  <ul class="group">
+    {% if previous_url %}
+    <li class="previous">
+      <a href="{{ previous_url }}">
+        <span class="pagination-label">Previous</span>
+      </a>
+    </li>
+    {% endif %}
+    <li class="next">
+      <a href="{{ next_url }}">
+        <span class="pagination-label">{% if end %}Finish{% else %}Next{% endif %}</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endmacro %}

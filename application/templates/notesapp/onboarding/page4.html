@@ -1,0 +1,29 @@
+{% extends "notesapp/onboarding/onboarding-base.html" %}
+
+{% from "notesapp/_macros.html" import render_pagination %}
+
+{% block msg_box_content %}
+  <div class="grid-row">
+    <div class="column-one-third">Here be an image</div>
+    <div class="column-two-thirds">
+      <p>You can use more than one email address. This means that if you change roles your notes won't be lost.</p>
+      <p>Add any other email addresses here:</p>
+      <ul class="new-emails">
+        <li>primary@example.com<span class="primary">Primary</span></li>
+        <li>test@example.com<span><a href="">Remove</a></span></li>
+      </ul>
+      <form action="" class="form additional-email-form">
+        <div class="form-group">
+          <label for="" class="form-label">Email address</label>
+          <input type="text" class="form-control" />
+        </div>
+        <button class="button msg-box-btn">Add email</button>
+      </form>
+
+      <p>You can update these later on your account page.</p>
+
+    </div>
+  </div>
+
+  {{ render_pagination( url_for('notesapp.onboarding5'), url_for('notesapp.onboarding3') ) }}
+{% endblock %}

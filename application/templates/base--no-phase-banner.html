@@ -1,0 +1,50 @@
+
+{% extends "govuk_template/views/layouts/govuk_template.html" %}
+
+{% block head %}
+
+  <!-- gov uk elements stylesheet -->
+  {% assets "css_govuk_elements" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+  <!-- this application main stylesheet -->
+  {% assets "css_main" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+
+
+  <script type="text/javascript" src="/static/javascripts/vendor/jquery/jquery.min.js">
+  </script>
+  <script type="text/javascript" src="/static/javascripts/vendor/jsrender.min.js"></script>
+
+  {% block endhead %}
+  {% endblock %}
+
+{% endblock %}
+
+{% block body_classes %}full-width{% endblock %}
+
+{% block content %}
+  <div class="full-width-conatiner">
+    {% block top_banner %}{% endblock %}
+  </div>
+
+  <main id="wrapper" role="main">
+    <div id="content">
+
+      {% include "_messages.html" %}
+
+      {%block body_content %}
+      {% endblock %}
+
+      <div class="report-a-problem-toggle-wrapper js-footer feedback-footer">
+        <p class="report-a-problem-toggle"><a href="" class="js-report-a-problem-toggle">Is there anything wrong with this page?</a>
+        </p>
+      </div>
+
+    </div>
+  </main>
+{% endblock %}
+

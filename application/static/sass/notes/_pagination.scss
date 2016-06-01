@@ -1,0 +1,80 @@
+// Pagintation
+// ==========================================================================
+
+// Mixin for producing left and right arrows of pagination component
+// Example usage:
+
+// &.previous {
+//  @include pagination-arrow("left");
+// }
+@mixin pagination-arrow($direction) {
+  @if $direction == "right" {
+    float: right;
+    padding-right: $gutter;
+    text-align: right;
+    &:after {
+      content: '\232A';
+      right: -10px;
+    }
+  } @else {
+    float: left;
+    padding-left: $gutter;
+    &:after {
+      content: '\2329';
+      left: -10px;
+    }
+  }
+
+  &:after {
+    position: absolute;
+    top: 4px;
+    font-size: 40px;
+    font-weight: bold;
+  }
+}
+
+.pagination {
+  @extend %contain-floats;
+  margin: $gutter 0 0-($gutter);
+  ul {
+    list-style: none;
+  }
+  li {
+    box-sizing: border-box;
+    font-size: 27px;
+    line-height: 40px;
+    padding: 0;
+    position: relative;
+    width: 49%;
+    @include opacity(0.8);
+
+    &:hover {
+      background: $link-hover-colour;
+      @include opacity(1);
+    }
+
+    &.previous {
+      @include pagination-arrow("left");
+    }
+    &.next {
+      @include pagination-arrow("right");
+    }
+    span {
+      display: block;
+    }
+
+    a {
+      @include link-colours($link-colour, $link-hover-colour);
+      display: block;
+      text-decoration: none;
+    }
+
+    .pagination-label {
+      text-decoration: none;
+    }
+  }
+}
+
+.msg-box .pagination a {
+  @include link-colours($highlight-colour, $page-colour);
+}

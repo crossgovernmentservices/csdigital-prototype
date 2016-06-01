@@ -1,0 +1,131 @@
+// Messaging panel styles
+// ==========================================================================
+
+.msg-box {
+  background: $link-colour;
+  box-sizing: border-box;
+  color: $page-colour;
+  width: 100%;
+
+  padding: 75px 70px;
+
+  p {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+
+  .form-control {
+    border-color: $page-colour;
+    padding-bottom: 2px;
+  }
+
+  .note-tag {
+    border-color: $page-colour;
+    font-size: 19px;
+    padding: 4px 5px 0;
+  }
+
+  .form-label {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  details,
+  summary,
+  details summary:hover {
+    color: $page-colour;
+  }
+
+  .msg-box-subsection {
+    border-top: 1px solid $page-colour;
+    padding-top: 10px;
+    font-size: 19px;
+  }
+
+  a {
+    @include link-colours($page-colour, $highlight-colour);
+  }
+}
+
+.msg-box-btn {
+  background: $highlight-colour;
+  border: none;
+  color: $link-colour;
+  font-weight: bold;
+  font-size: 1em;
+  box-shadow: 0 2px 0 $text-colour;
+  -webkit-font-smoothing: antialiased;
+  text-decoration: none;
+
+  &:hover,
+  &:visited,
+  &:focus {
+    background: $panel-colour;
+    color: $link-colour;
+  }
+}
+
+.msg-box-btn--del {
+  margin: 0;
+  box-shadow: 0 2px 0 $panel-colour;
+  font-weight: normal;
+  padding: 7px 7px 0;
+  height: 33px;
+}
+
+.tag-entry-group {
+  margin-bottom: 10px;
+}
+
+// ====================
+.copy-paste-panel {
+  background: $highlight-colour;
+  color: $link-colour;
+  padding: 5px;
+  margin-bottom: $gutter;
+  p {
+    font-size: 16px;
+    margin: 0;
+    border-bottom: 1px solid $link-colour;
+    padding: 0 0 2px;
+  }
+  input {
+    width: 100%;
+    margin-top: 5px;
+    box-sizing: border-box;
+    color: $link-colour;
+    padding: 3px 5px 0px;
+  }
+}
+
+// ====================
+.new-emails {
+  border-top: 1px solid $page-colour;
+  margin-bottom: $gutter;
+  li {
+    @extend %contain-floats;
+    border-bottom: 1px solid $page-colour;
+    padding: 5px 0;
+  }
+  span {
+    float: right;
+    @include opacity(0.75);
+    &.primary {
+      font-weight: bold;
+    }
+    a:hover {
+      @include opacity(1);
+    }
+  }
+}
+
+.additional-email-form {
+  margin-bottom: 15px;
+  .form-control {
+    width: 75%;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+}
+

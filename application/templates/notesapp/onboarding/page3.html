@@ -1,0 +1,23 @@
+{% extends "notesapp/onboarding/onboarding-base.html" %}
+
+{% from "notesapp/_macros.html" import render_pagination %}
+
+{% block msg_box_content %}
+  <div class="grid-row">
+    <div class="column-one-third">Here be an image</div>
+    <div class="column-two-thirds">
+      <p>Email the service to create notes without logging in.</p>
+      <p>The emails you send will appear as notes, ready for you to organise.</p>
+      <div class="copy-paste-panel">
+        <p>This is the email address you'll need to use</p>
+        <input type="text" value="mynotes@notes.civilservice.digital" />
+      </div>
+      <p class="msg-box-subsection">
+        You can request an email to be sent to you so you can add it to your contacts.
+        
+      </p>
+      <button class="button msg-box-btn">Send me an email</button>
+    </div>
+  </div>
+  {{ render_pagination( url_for('notesapp.onboarding4'), url_for('notesapp.onboarding2') ) }}
+{% endblock %}

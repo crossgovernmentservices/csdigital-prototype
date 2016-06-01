@@ -1,0 +1,70 @@
+// Tag management page styles
+// ==========================================================================
+.tag-type-section {
+  margin-bottom: 2*$gutter;
+  .edit-link {
+    position: absolute;
+    right: 0;
+    font-size: 19px;
+    line-height: 30px;
+  }
+  &.edit-mode .edit-link {
+    display: none;
+  }
+}
+
+.tag-type-title {
+  position: relative;
+  border-bottom: 1px solid $border-colour;
+  padding-bottom: 5px;
+}
+
+.tag-list-block {
+  margin-bottom: $gutter-half;
+}
+
+.tag-edit {
+  input {
+    text-transform: uppercase;
+  }
+}
+
+.tag-entry-group {
+  .button {
+    margin: 0;
+    padding: 7px 7px 0;
+    height: 35px;
+  }
+  .form-control {
+    padding: 6px 8px 2px;
+  }
+}
+
+.tag-entry-group {
+  .save-btn {
+    display: none;
+  }
+  &.changed {
+    .save-btn {
+      display: inline-block;
+    }
+  }
+}
+
+.save-cancel-group {
+  margin: $gutter 0 $gutter*2;
+  a {
+    line-height: 45px;
+  }
+}
+
+.edit-mode .tag-list-block {
+  display: none;
+}
+.tag-list-edit {
+  display: none;
+  .edit-mode & {
+    display: block;
+  }
+}
+
