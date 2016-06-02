@@ -4,7 +4,9 @@
 
 {% block msg_box_content %}
   <div class="grid-row">
-    <div class="column-one-third">Here be an image</div>
+    <div class="column-one-third">
+      {% include "notesapp/onboarding/_contents-menu.html" %}
+    </div>
     <div class="column-two-thirds">
       <p>To help improve the service we'd like to know a little more about you.</p>
       <form action="" class="form">

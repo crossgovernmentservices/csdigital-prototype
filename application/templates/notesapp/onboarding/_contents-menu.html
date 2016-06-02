@@ -1,0 +1,10 @@
+<h3 class="heading-medium onboarding-heading">Keep notes on your <span>performance</span></h3>
+<nav class="onboarding-nav">
+  <ul>
+    <li><a {% if request.url_rule.endpoint == "notesapp.onboarding1" %}class="current"{% endif %} href="{{ url_for('notesapp.onboarding1') }}">- Organising</a></li>
+    <li><a {% if request.url_rule.endpoint == "notesapp.onboarding2" %}class="current"{% endif %} href="{{ url_for('notesapp.onboarding2') }}">- Competency labels</a></li>
+    <li><a {% if request.url_rule.endpoint == "notesapp.onboarding3" %}class="current"{% endif %} href="{{ url_for('notesapp.onboarding3') }}">- Email</a></li>
+    <li><a {% if request.url_rule.endpoint == "notesapp.onboarding4" %}class="current"{% endif %} href="{{ url_for('notesapp.onboarding4') }}">- Additional emails</a></li>
+    <li><a {% if request.url_rule.endpoint == "notesapp.onboarding5" %}class="current"{% endif %} href="{{ url_for('notesapp.onboarding5') }}">- Your details</a></li>
+  </ul>
+</nav>
