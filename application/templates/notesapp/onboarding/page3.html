@@ -4,7 +4,9 @@
 
 {% block msg_box_content %}
   <div class="grid-row">
-    <div class="column-one-third">Here be an image</div>
+    <div class="column-one-third">
+      {% include "notesapp/onboarding/_contents-menu.html" %}
+    </div>
     <div class="column-two-thirds">
       <p>Email the service to create notes without logging in.</p>
       <p>The emails you send will appear as notes, ready for you to organise.</p>

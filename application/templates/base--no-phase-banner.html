@@ -1,6 +1,8 @@
 
 {% extends "govuk_template/views/layouts/govuk_template.html" %}
 
+{% set global_header_text = 'Civil Service Digital' %}
+
 {% block head %}
 
   <!-- gov uk elements stylesheet -->
@@ -25,6 +27,8 @@
 {% endblock %}
 
 {% block body_classes %}full-width{% endblock %}
+
+{% block header_class %}long-name{% endblock %}
 
 {% block content %}
   <div class="full-width-conatiner">

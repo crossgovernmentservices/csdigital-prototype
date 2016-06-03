@@ -161,3 +161,8 @@ def timeline():
 @login_required
 def profile():
   return render_template('notesapp/profile.html')
+
+@notesapp.route('/notesapp/settings')
+@login_required
+def settings():
+  return render_template('notesapp/banner/settings.html')
