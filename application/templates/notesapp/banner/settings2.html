@@ -6,19 +6,10 @@
   {% endassets %}
 {% endblock %}
 
-{% block proposition_header %}
-<div class="header-proposition">
-  <div class="content">
-    <nav id="proposition-menu" class="header_menu">
-      <span class="header_menu_proposition-name">Civil Service Digital</span>
-      <ul id="proposition-links" class="header_menu_proposition-links">
-        <li><a href="{{ url_for('notesapp.view6') }}">Notes</a></li>
-        <li><a href="{{ url_for('notesapp.settings2') }}">Settings</a></li>
-        <li><a href="{{ logout_url }}">Sign out</a></li>
-      </ul>
-    </nav>
-  </div>
-</div>
+{% block proposition_links_list %}
+<li><a href="{{ url_for('notesapp.search_banner') }}">Notes</a></li>
+<li><a href="{{ url_for('notesapp.settings2') }}">Settings</a></li>
+<li><a href="{{ logout_url }}">Sign out</a></li>
 {% endblock %}
 
 {% block top_banner %}

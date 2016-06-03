@@ -29,6 +29,19 @@
 {% block body_classes %}full-width{% endblock %}
 {% block header_class %}with-proposition{% endblock %}
 
+{% block proposition_header %}
+<div class="header-proposition">
+  <div class="content">
+    <nav id="proposition-menu" class="header_menu">
+      <span class="header_menu_proposition-name">Civil Service Digital</span>
+      <ul id="proposition-links" class="header_menu_proposition-links">
+        {% block proposition_links_list %}{% endblock %}
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
+
 {% block content %}
   <div class="full-width-conatiner">
     {% block top_banner %}{% endblock %}

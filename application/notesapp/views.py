@@ -162,15 +162,20 @@ def timeline():
 def profile():
   return render_template('notesapp/profile.html')
 
-@notesapp.route('/notesapp/settings')
+@notesapp.route('/notesapp/settings/1')
 @login_required
 def settings():
   return render_template('notesapp/banner/settings.html')
 
-@notesapp.route('/notesapp/settings2')
+@notesapp.route('/notesapp/settings/2')
 @login_required
 def settings2():
   return render_template('notesapp/banner/settings2.html')
+
+@notesapp.route('/notesapp/settings/3')
+@login_required
+def settings3():
+  return render_template('notesapp/banner/settings3.html')
 
 @notesapp.route('/notesapp/email')
 @login_required
