@@ -5,8 +5,8 @@
         $first = $(".tag-entry-group").first();
 
     $(".add-tag-btn").on("click", function(evt) {
-      
-      $(".objective-tags").append( $first.clone(true) );
+      var $input = $first.clone(true).find(".tag-entry-field").val("").end();
+      $(".objective-tags").append( $input );
       evt.preventDefault();
       return false;
     });
