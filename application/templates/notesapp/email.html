@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang=""><![endif]-->
+<!--[if gt IE 8]><!--><html lang=""><!--<![endif]-->
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <title>GOV.UK - The best place to find government services and information</title>
+
+    {% assets "css_notes" %}
+      <link rel="stylesheet" href="{{ ASSET_URL }}">
+    {% endassets %}
+  </head>
+
+  <body>
+
+    <a href="/">&lt; back</a>
+
+    <div class="email">
+      <header class="email__meta">
+        <p class="email__meta__item"><span>To:</span>fast.streamer@digital.cabinet-office.gov.uk</p>
+        <p class="email__meta__item"><span>From:</span>team@civil-service-digital.gov.uk</p>
+        <p class="email__meta__item"><span>Subject</span>Beta Invitation</p>
+      </header>
+      <article class="email__content">
+        <p>Hi Fast streamer,</p>
+        
+        <p>Civil Service Digital has been looking at new online tools to help support the performance management process. These are being designed around the needs of users - some of you have already helped test early prototypes.</p>
+
+        <p>We want this tool to make it easier for you to be ready for one-to-ones, end of placement assessments, or even applying for your first role after the scheme.</p> 
+
+        <p>The Fast Stream are inviting you to take part in the private beta phase of this project. Private beta lets the project team test a service at an early stage with real data and scenarios - something lab testing can’t deliver.</p>
+
+        <p>The new software lets you take notes easily wherever and whenever you are. It isn’t complete yet, but with your help and participation we can prioritise, discover and shape the remaining ideas and features. Working with HR, this will help us build a better overall performance management process over time.</p>
+
+        <p><a href="{{ url_for('notesapp.onboarding1') }}">Take part in the private beta!</a></p>
+
+      </article>
+    </div>
+  </body>
+</html>
