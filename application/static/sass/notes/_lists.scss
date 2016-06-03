@@ -1,0 +1,24 @@
+// List styles
+// ==========================================================================
+
+// to use with lists of emails 
+.list-emails {
+  border-top: 1px solid $border-colour;
+  margin-bottom: $gutter;
+  li {
+    @extend %contain-floats;
+    border-bottom: 1px solid $border-colour;
+    padding: 5px 0;
+  }
+  span {
+    float: right;
+    @include opacity(0.75);
+    &.primary {
+      font-weight: bold;
+    }
+    a:hover {
+      @include opacity(1);
+    }
+  }
+}
+

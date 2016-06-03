@@ -45,6 +45,14 @@
   a {
     @include link-colours($page-colour, $highlight-colour);
   }
+
+  .list-emails {
+    border-color: $page-colour;
+    li {
+      border-color: $page-colour;
+    }
+  }
+
 }
 
 .msg-box-btn {
@@ -95,27 +103,6 @@
     box-sizing: border-box;
     color: $link-colour;
     padding: 3px 5px 0px;
-  }
-}
-
-// ====================
-.new-emails {
-  border-top: 1px solid $page-colour;
-  margin-bottom: $gutter;
-  li {
-    @extend %contain-floats;
-    border-bottom: 1px solid $page-colour;
-    padding: 5px 0;
-  }
-  span {
-    float: right;
-    @include opacity(0.75);
-    &.primary {
-      font-weight: bold;
-    }
-    a:hover {
-      @include opacity(1);
-    }
   }
 }
 
