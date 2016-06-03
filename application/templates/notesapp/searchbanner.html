@@ -6,6 +6,18 @@
   {% endassets %}
 {% endblock %}
 
+{% block proposition_header %}
+<div class="header-proposition">
+  <div class="content">
+    <nav id="proposition-menu" class="header_menu">
+      <span class="header_menu_proposition-name">Civil Service Digital</span>
+      <ul id="proposition-links" class="header_menu_proposition-links">
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
+
 {% block top_banner %}
   {% include "notesapp/common/_banner-with-search.html" %}
 {% endblock %}
@@ -13,11 +25,6 @@
 {%block body_content %}
 
 {% include "notesapp/common/_account-nav.html" %}
-
-<div class="test">
-  <h1 class="heading-large">Keep notes on my performance</h1>
-
-</div>
 
 <form action="" class="form note-form add-note-form">
   <div class="image-upload">
@@ -36,7 +43,7 @@
   <li class="note">
     <button class="close-btn">close</button>
     <section class="text rendered-markdown rendered-note">
-      {{ note.content|truncate(250)|markdown }}
+      {{ note.content|markdown }}
     </section>
     <section class="note-edit-controls">
       <form action="" class="form note-form">
