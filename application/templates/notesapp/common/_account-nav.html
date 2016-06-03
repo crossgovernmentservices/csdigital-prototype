@@ -1,6 +1,6 @@
 <nav class="account-bar">
   <div class="feature-nav">
-    <span class="nav-item"><a href="{{url_for('notesapp.view6')}}">Notes</a></span>
+    <span class="nav-item"><a href="{{url_for('notesapp.search_banner')}}">Notes</a></span>
     <span class="nav-item"><a href="{{url_for('notesapp.tags2')}}">Labels</a></span>
     <span class="nav-item"><a href="{{url_for('notesapp.timeline')}}">Timeline</a></span>
   </div>
@@ -9,7 +9,7 @@
   {% if current_user.is_authenticated %}
 
     <span class="nav-item">{{current_user.full_name}}</span>
-    <span class="nav-item"><a href="{{url_for('notesapp.settings2')}}">Settings</a></span>
+    <span class="nav-item"><a href="{{url_for('notesapp.settings3')}}">Settings</a></span>
     <a href="{{ logout_url }}">Sign out</a>
 
   {% else %}
