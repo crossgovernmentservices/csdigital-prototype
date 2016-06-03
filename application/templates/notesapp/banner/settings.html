@@ -12,50 +12,54 @@
 
 {% block body_content %}
 
-  {% include "_logout.html" %}
+  <!--{% include "_logout.html" %}
 
-  <a href="{{url_for('notesapp.view4')}}" class="link-back">back to notes</a>
+  <a href="{{url_for('notesapp.view4')}}" class="link-back">back to notes</a>-->
 
-  <header class="user-details">
-    <h1 class="heading-large">
-      <span class="heading-secondary">Signed in as:</span>
-      {{current_user.full_name}}
-    </h1>
-    {% if current_user.other_email %}
-      <h2 class="heading-small">Emails:</h2>
-      <ul class="user-email">
-        <li class="bold-small">{{current_user.email}}</li>
-        {% for email in current_user.other_email %}
-          <li>{{email}} <a href="{{url_for('profile.remove_email', email=email)}}" class="remove-email">Remove</a></li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>Email: {{current_user.email}}</p>
-    {% endif %}
-    <p><a href="{{url_for('profile.add_email')}}">Add another email</a></p>
-    <!-- Colm what is the disclosure-triangle class? -->
+  <h1 class="heading-xlarge">Your details</h1>
+
+  <section class="account-section">
+    <h2 class="heading-large">Account</h2>
+
+    <dl class="definition-inline">
+      <dt>Name</dt>
+      <dd>{{current_user.full_name}}</dd>
+      <dt>Account email</dt>
+      <dd>{{current_user.email}}</dd>
+    </dl>
+    <p><a href="{{url_for('profile.add_email')}}">Delete account</a></p>
+  </section>
+
+  <section class="account-section">
+    <h2 class="heading-large">Email settings</h2>
+    <p class="text">The ability to email notes to the service is currently turned on. <a href="">Switch off</a>.</p>
+    <div class="copy-paste-panel text">
+      <p>This is the email address you'll need to use</p>
+      <input type="text" value="mynotes@notes.civilservice.digital" />
+    </div>
+    <h4 class="heading-small">Email list</h4>
+    <ul class="new-emails">
+      <li>primary@example.com<span class="primary">Primary</span></li>
+      <li>test@example.com<span><a href="">Remove</a></span></li>
+    </ul>
+    <p><a href="{{url_for('profile.add_email')}}">Add email address</a></p>
     <details>
       <summary class="font-xsmall">Why do I need another email address?</summary>
       <p class="font-xsmall text">If you go on maternity leave, switch departments or go on a career break, your previous information can stay with you. You can have limited access to some services from a personal email address, even if your work address is shut down.</p>
     </details>
-  </header>
+  </section>
 
-  <div class="summary-section summary-section__editable">
-    <h2 class="heading-medium summary-section-heading">Note settings</h2>
-    <p class="text">You can email your notes to this email address:
-      <span class="bold-small">{{current_user.inbox_email}}</span>
-    </p>
-  </div>
 
-  <div class="summary-section summary-section__editable">
-    <h2 class="heading-medium summary-section-heading">Export your notes</h2>
-    <a href="">Export</a>
-  </div>
-
-  <div class="summary-section summary-section__editable">
-    <h2 class="heading-medium summary-section-heading">Delete your account</h2>
-    <a href="">Delete</a>
-  </div>
+  <section class="account-section">
+    <h2 class="heading-large">Additional information</h2>
+    <dl class="definition-inline">
+      <dt>Department</dt>
+      <dd>HMRC</dd>
+      <dt>Year started on fast stream</dt>
+      <dd>2014</dd>
+    </dl>
+    <p><a href="{{url_for('profile.add_email')}}">Edit</a></p>
+  </section>
 
 
 {% endblock %}

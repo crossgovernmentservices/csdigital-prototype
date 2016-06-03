@@ -1,0 +1,33 @@
+// Header
+// ==========================================================================
+#global-header.long-name .header-wrapper .header-global .header-logo {
+  width: 100%;
+}
+
+.long-name {
+  .header-global {
+    width: 50%;
+    float: left;
+  }
+  .header-proposition {
+    width: 50%;
+    float: right;
+  }
+}
+
+.header_menu {
+  @extend %contain-floats;
+}
+.header_menu_proposition-links {
+  float: right;
+  li {
+    line-height: 25px;
+  }
+}
+
+.header_menu_proposition-name {
+  font-size: 24px;
+  color: $page-colour;
+  font-weight: bold;
+  line-height: 1.25;
+}

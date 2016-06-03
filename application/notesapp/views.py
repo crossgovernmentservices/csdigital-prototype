@@ -166,3 +166,13 @@ def profile():
 @login_required
 def settings():
   return render_template('notesapp/banner/settings.html')
+
+@notesapp.route('/notesapp/settings2')
+@login_required
+def settings2():
+  return render_template('notesapp/banner/settings2.html')
+
+@notesapp.route('/notesapp/email')
+@login_required
+def email():
+  return render_template('notesapp/email.html')
