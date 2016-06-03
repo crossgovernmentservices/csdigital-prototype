@@ -5,6 +5,8 @@
 @import "internal_interface/browse-pane.scss";
 
 @import "notes/helper-mixins.scss";
+@import "notes/header.scss";
+@import "notes/lists.scss";
 @import "notes/notes.scss";
 @import "notes/select.scss";
 @import "notes/search.scss";
@@ -13,3 +15,5 @@
 @import "notes/buttons.scss";
 @import "notes/messaging-box.scss";
 @import "notes/pagination.scss";
+@import "notes/account.scss";
+@import "notes/email.scss";

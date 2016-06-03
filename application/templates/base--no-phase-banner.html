@@ -1,7 +1,7 @@
 
 {% extends "govuk_template/views/layouts/govuk_template.html" %}
 
-{% set global_header_text = 'Civil Service Digital' %}
+
 
 {% block head %}
 
@@ -27,8 +27,20 @@
 {% endblock %}
 
 {% block body_classes %}full-width{% endblock %}
+{% block header_class %}with-proposition{% endblock %}
 
-{% block header_class %}long-name{% endblock %}
+{% block proposition_header %}
+<div class="header-proposition">
+  <div class="content">
+    <nav id="proposition-menu" class="header_menu">
+      <span class="header_menu_proposition-name">Civil Service Digital</span>
+      <ul id="proposition-links" class="header_menu_proposition-links">
+        {% block proposition_links_list %}{% endblock %}
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
 
 {% block content %}
   <div class="full-width-conatiner">

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base--no-phase-banner.html" %}
 
 {% block head %}
   {% assets "css_notes" %}
@@ -6,6 +6,9 @@
   {% endassets %}
 {% endblock %}
 
+{% block top_banner %}
+  {% include "notesapp/common/_banner-with-search.html" %}
+{% endblock %}
 
 {%block body_content %}
 
@@ -15,9 +18,7 @@
 
 <div class="test">
 
-  <a href="" class="link-back">Back to all notes</a>
   <h1 class="heading-large">Manage your tags</h1>
-
   <p class="lede">Use this page to manage the tags you use to organise your notes</p>
 
 </div>

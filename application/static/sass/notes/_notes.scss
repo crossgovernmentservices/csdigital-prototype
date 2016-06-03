@@ -1,15 +1,10 @@
 // Global stuff
 // ==========================================================================
 
-#global-header.long-name .header-wrapper .header-global .header-logo {
-  width: 50%;
-}
-
 // Full width blue header
 .full-width-conatiner {
   background: $govuk-blue;
   padding: 45px 0;
-  margin-bottom: 45px;
   max-width: 100%;
 
   .grid-row {
@@ -25,6 +20,11 @@
   }
 }
 
+// uncomment when you want to hide the flask debug tool menu
+#flDebugToolbarHandle {
+  display: none !important;
+}
+
 .full-width {
   // Hide standard blue strip
   #global-header-bar {
@@ -35,11 +35,18 @@
 .account-bar {
   @extend %contain-floats;
   padding: 10px 0;
+  border-bottom: 1px solid $panel-colour;
+  margin-bottom: 60px;
+
+  & + .msg-box {
+    margin-top: -60px;
+  }
 }
 
+.feature-nav { float: left; }
+.sign-out { float: right; }
 .feature-nav,
 .sign-out {
-  float: left;
   width: 50%;
   font-size: 16px;
 
@@ -147,6 +154,28 @@
 
 .bold-text {
   font-weight: bold;
+}
+// definition lists
+// =========================================================================
+// An inline definition list - name:value pairs for example
+/* dl */.definition-inline {
+  @extend %contain-floats;
+  dt {
+    float: left;
+    margin-right: 5px;
+    clear: left;
+    width: 33%;
+    margin-bottom: 5px;
+    &:after {
+      content: ':';
+    }
+  }
+  dd {
+    float: left;
+    font-weight: bold;
+    margin-right: $gutter-half;
+    margin-bottom: 5px;
+  }
 }
 
 // Notes

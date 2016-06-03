@@ -1,0 +1,27 @@
+{% extends "base--no-phase-banner.html" %}
+
+{% block head %}
+  {% assets "css_notes" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+  {% endassets %}
+{% endblock %}
+
+{% block proposition_links_list %}
+<li><a href="{{ url_for('notesapp.search_banner') }}">Notes</a></li>
+<li><a href="{{ url_for('notesapp.settings2') }}">Settings</a></li>
+<li><a href="{{ logout_url }}">Sign out</a></li>
+{% endblock %}
+
+{% block top_banner %}
+  <div class="grid-row">
+    <div class="column-two-thirds">
+      <h1>Your details</h1>
+    </div>
+  </div>
+{% endblock %}
+
+{% block body_content %}
+
+  {% include "notesapp/banner/_settings-content.html" %}
+
+{% endblock %}

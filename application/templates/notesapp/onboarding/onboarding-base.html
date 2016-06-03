@@ -6,10 +6,37 @@
   {% endassets %}
 {% endblock %}
 
+{% block header_class %}with-proposition{% endblock %}
+
+{% block proposition_header %}
+<div class="header-proposition">
+  <div class="content">
+    <nav id="proposition-menu" class="header_menu">
+      <span class="header_menu_proposition-name">Civil Service Digital</span>
+      <ul id="proposition-links" class="header_menu_proposition-links">
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
 
 {% block body_content %}
 
-{% include "notesapp/common/_account-nav.html" %}
+<nav class="account-bar">
+  <div class="sign-out">
+
+  {% if current_user.is_authenticated %}
+
+    <span class="nav-item">{{current_user.full_name}}</span>
+    <span class="nav-item"><a href="{{url_for('notesapp.profile')}}">Settings</a></span>
+    <a href="{{ logout_url }}">Sign out</a>
+
+  {% else %}
+    <!-- this isn't rendering -->
+    <a href="{{url_for('sso.login')}}">Sign in</a>
+  {% endif %}
+  </div>
+</nav>
 
 <div class="msg-box">
 {% block msg_box_content %}{% endblock %}
