@@ -414,7 +414,8 @@
   }
   .note.delete-mode {
     .rendered-note,
-    .note-meta {
+    .note-meta,
+    .tag-list {
       display: none;
     }
     .delete-note-confirmation {

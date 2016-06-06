@@ -36,7 +36,10 @@
     <section class="note-edit-controls">
       <form action="" class="form note-form">
         <textarea name="" id="" rows="1" placeholder="Write a note...">{{ note.content }}</textarea>
-        <button class="button">Save</button>
+        <div class="save-controls">
+          <button class="button">Save</button>
+          <a href="/delete" class="link-control delete-note-link">Delete</a>
+        </div>
       </form>
       <form class="add-tags-form" action="">
         <input type="" class="tag-input" placeholder="add extra tags..." />
@@ -66,6 +69,22 @@
         {% endfor %}
       </ul>
     </section>
+
+    <!-- start delete confirmation -->
+    <section class="delete-note-confirmation">
+      <form action="" class="form delete-note-form">
+        <h3 class="heading-medium">Delete this note</h3>
+        <div class="panel-indent">
+          <p>Notes you delete will be gone forever.</p>
+        </div>
+        <div class="form-group save-cancel-group">
+          <label for="" class="form-label">Are you sure?</label>
+          <button class="button">Yes, delete note</button>
+          <a href="">No, cancel</a>
+        </div>
+      </form>
+    </section>
+
   </li>
 
 {% endfor %}
