@@ -236,7 +236,7 @@
       $note
         .find('.rendered-note')
           .empty()
-          .append( render_markdown(content) )
+          .append( markdown.toHTML( content ) )
         .end()
         .removeClass('edit-mode')
         .addClass('undo-mode');
@@ -262,7 +262,7 @@
       .end()
       .find('.rendered-note')
         .empty()
-        .append( render_markdown(content) )
+        .append( markdown.toHTML( content ) )
       .end()
       .find('.note-form textarea')
         .val( content )
