@@ -101,7 +101,7 @@ def onboarding5():
 @notesapp.route('/notesapp/searchbanner')
 @login_required
 def search_banner():
-  with open('application/data/taggednotes.json') as data_file:
+  with open('application/data/smallset.json') as data_file:
     notes = json.load( data_file )
   return render_template('notesapp/searchbanner.html', notes=notes)
 
