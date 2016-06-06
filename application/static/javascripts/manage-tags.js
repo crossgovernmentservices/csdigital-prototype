@@ -8,6 +8,11 @@
       return false;
     });
 
+    $(".tag-list-edit").on("click", ".save-btn", function(evt) {
+      evt.stopPropagation();
+      return false;
+    });
+
     $(".tag-list-edit .tag-list-add-btn").on("click", function(evt) {
       var $this = $(evt.currentTarget);
       var $lastTagInput = $this.parent(".tag-list-edit").find("form").last();
