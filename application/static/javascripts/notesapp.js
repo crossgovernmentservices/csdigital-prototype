@@ -137,10 +137,17 @@
     $addnoteform.on('click', "button", function(e) {
       var $textarea = $addnoteform.find('textarea');
       var note_content = $textarea.val();
-      createNote( note_content );
+      var $tag_list = $addnoteform.find(".tag-list ul");
+      var tags = [];
+
+      $tag_list.find("li").each(function(ind, el) {
+        tags.push( $(el).text() );
+      });
+      createNote( note_content, tags );
       $textarea
         .val("")
         .focus();
+      $tag_list.empty();
       return false;
     });
 
@@ -169,7 +176,7 @@
     // add a tag on return
     if(evt.keyCode == 13) {
       var $target = $(evt.currentTarget);
-      var $tagList = $target.parents('.note').find('.tag-list ul');
+      var $tagList = $target.parents('.note, .add-note-form').find('.tag-list ul');
       var tagToAdd = $target.val();
 
       // smoke and mirrors
@@ -246,7 +253,7 @@
     }
   }
 
-  function createNote( content ) {
+  function createNote( content, tags ) {
     var $note = $(".note:first-of-type").clone();
 
     // do I need to add the handler each time?
@@ -273,6 +280,10 @@
         .on('keydown', addTagHandler)
       .end()
       .prependTo(".notes-list");
+
+      tags.forEach(function(el,ind,arr) {
+        appendTag( el, $note.find('.tag-list ul') );
+      });
 
   }
 
